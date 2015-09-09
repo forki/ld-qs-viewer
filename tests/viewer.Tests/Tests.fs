@@ -1,4 +1,4 @@
-module viewer.Tests
+module Viewer.Tests
 
 open Suave
 open Suave.Http.Successful
@@ -8,12 +8,12 @@ open Suave.Types
 open Suave.Testing
 open Suave.Http.Applicatives
 open NUnit.Framework
-open viewer
+open Viewer.App
 
 [<Test>]
 let ``Should get Hello World`` () =
   let res =
-    runWith defaultConfig (app :?> WebPart)
+    runWith defaultConfig app 
     |> req HttpMethod.GET "/" None
-    
+
   Assert.AreEqual(res, "Hello World")

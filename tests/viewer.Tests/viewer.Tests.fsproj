@@ -4,8 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>7d07687e-835c-4f9d-ae76-9921d6dbad3b</ProjectGuid>
+    <ProjectGuid>{7D07687E-835C-4F9D-AE76-9921D6DBAD3B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>viewer.Tests</RootNamespace>
     <AssemblyName>viewer.Tests</AssemblyName>
@@ -17,7 +16,6 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
     <OutputPath>bin\Debug\</OutputPath>
@@ -36,6 +34,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -57,22 +56,16 @@
   <ItemGroup>
     <Compile Include="Tests.fs" />
     <None Include="paket.references" />
+    <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\viewer\viewer.fsproj">
-      <Name>viewer</Name>
-      <Project>{15d3e111-f657-4ff9-a895-bc1bd5d39fae}</Project>
+    <Reference Include="FSharp.Core">
       <Private>True</Private>
-    </ProjectReference>
+    </Reference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -132,14 +125,12 @@
   <ItemGroup>
     <Reference Include="Fuchu">
       <HintPath>..\..\packages\Fuchu\lib\Fuchu.dll</HintPath>
-      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit\lib\nunit.framework.dll</HintPath>
-      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>
@@ -174,4 +165,10 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\viewer\viewer.fsproj">
+      <Project>{15D3E111-F657-4FF9-A895-BC1BD5D39FAE}</Project>
+      <Name>viewer</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

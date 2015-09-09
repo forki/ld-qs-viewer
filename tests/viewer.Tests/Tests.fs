@@ -9,11 +9,21 @@ open Suave.Testing
 open Suave.Http.Applicatives
 open NUnit.Framework
 open Viewer.App
+open CsQuery
+
+let MakeRequest httpMethod route =
+  runWith defaultConfig app 
+    |> req httpMethod route None
+
+let ParseHtml (resp: string) = CQ.Create(resp)
 
 [<Test>]
-let ``Should get Hello World`` () =
-  let res =
-    runWith defaultConfig app
-    |> req HttpMethod.GET "/" None
+let ``Visiting the hompage should set the title`` () =
+
+  let title =
+    MakeRequest HttpMethod.GET "/"
+    |> ParseHtml
+    |> (fun x -> x.Select("title").Text())
+
+  //Assert.AreEqual("KB - Home", title)
   ()
-  //Assert.AreEqual(res, "")

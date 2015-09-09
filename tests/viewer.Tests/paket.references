@@ -5,3 +5,4 @@ Suave.Testing
 System.Net.Http
 Fuchu
 CsQuery
+Suave.DotLiquid

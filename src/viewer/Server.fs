@@ -7,7 +7,8 @@ open Viewer.App
 
 [<EntryPoint>]
 let main argv =
-  DotLiquid.setTemplatesDir(System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates"))
+  let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
+  setTemplatesDir templatePath
   //let defaultConfig = { defaultConfig with
   //                                      listenTimeout   = System.TimeSpan.FromMilliseconds 2000.
   //                                      bindings = [ HttpBinding.mk' HTTP "127.0.0.1" 8038 ]

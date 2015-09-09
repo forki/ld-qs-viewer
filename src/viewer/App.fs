@@ -5,6 +5,8 @@ open Suave.Http.Successful
 open Suave.Http
 open Suave.Http.Applicatives
 
+let setTemplatesDir path = 
+  DotLiquid.setTemplatesDir(path)
 
 let app =
   choose

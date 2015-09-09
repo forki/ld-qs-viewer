@@ -19,11 +19,11 @@ let ParseHtml (resp: string) = CQ.Create(resp)
 
 [<Test>]
 let ``Visiting the hompage should set the title`` () =
+  setTemplatesDir "templates/"
 
   let title =
     MakeRequest HttpMethod.GET "/"
     |> ParseHtml
     |> (fun x -> x.Select("title").Text())
 
-  //Assert.AreEqual("KB - Home", title)
-  ()
+  Assert.AreEqual("KB - Home", title)

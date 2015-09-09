@@ -3,6 +3,8 @@ open Suave.Http.Successful
 open Suave.Web
 open Suave.Http
 open Suave.Types
+open Viewer.App
+
 
 [<EntryPoint>]
 let main argv =
@@ -10,5 +12,5 @@ let main argv =
   //                                      listenTimeout   = System.TimeSpan.FromMilliseconds 2000.
   //                                      bindings = [ HttpBinding.mk' HTTP "127.0.0.1" 8038 ]
   //                    }
-  startWebServer defaultConfig (OK "Hello World")
+  startWebServer defaultConfig (app :?> WebPart)
   1  

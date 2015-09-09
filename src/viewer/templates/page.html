@@ -3,15 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  {% block head %}
-  {% endblock %}
 
   <!-- Standard scripts and stylesheet imports -->
-  <link rel="stylesheet" type="text/css" href="/content/style.css">
+  <link rel="stylesheet" type="text/css" href="/web/style.css">
+
+  {% block head %}
+  {% endblock %}
 
   <!-- Standard page design and scripts
   <link href="/favicon.ico" rel="icon" />-->
 </head>
 <body>
+    {% block content %}
+
+    {% endblock %}
 </body>
 </html>

@@ -75,6 +75,12 @@
   </Target>
   -->
   <Import Project="..\..\.paket\paket.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\viewer\viewer.fsproj">
+      <Project>{15D3E111-F657-4FF9-A895-BC1BD5D39FAE}</Project>
+      <Name>viewer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v3.5'">
       <ItemGroup>
@@ -125,12 +131,14 @@
   <ItemGroup>
     <Reference Include="Fuchu">
       <HintPath>..\..\packages\Fuchu\lib\Fuchu.dll</HintPath>
+      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>
@@ -165,10 +173,4 @@
       </ItemGroup>
     </When>
   </Choose>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\viewer\viewer.fsproj">
-      <Project>{15D3E111-F657-4FF9-A895-BC1BD5D39FAE}</Project>
-      <Name>viewer</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

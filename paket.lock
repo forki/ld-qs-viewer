@@ -1,6 +1,7 @@
 NUGET
   remote: https://nuget.org/api/v2
   specs:
+    DotLiquid (1.8.0)
     FAKE (4.3.7)
     FSharp.Compiler.Service (1.4.0.5)
     FSharp.Core (4.0.0.1)
@@ -28,6 +29,9 @@ NUGET
     Suave (0.31.2)
       FSharp.Core (>= 3.1.2.5)
       FsPickler (>= 1.2.5)
+    Suave.DotLiquid (0.31.2)
+      DotLiquid (>= 1.8.0)
+      Suave (>= 0.31.2)
     Suave.Testing (0.31.2)
       Fuchu (>= 0.6.0.0)
       Suave (>= 0.31.2)

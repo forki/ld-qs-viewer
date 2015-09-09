@@ -1,10 +1,13 @@
 source https://nuget.org/api/v2
 
 nuget FSharp.Formatting
+nuget Fuchu
 nuget NUnit 
 nuget NUnit.Runners
 nuget FAKE
 nuget SourceLink.Fake
 nuget Suave
+nuget Suave.Testing
+nuget System.Net.Http
 
 github fsharp/FAKE modules/Octokit/Octokit.fsx

@@ -11,11 +11,12 @@ open NUnit.Framework
 open Viewer.App
 open CsQuery
 
+let ParseHtml (resp: string) = CQ.Create(resp)
+
 let MakeRequest httpMethod route =
   runWith defaultConfig app 
     |> req httpMethod route None
-
-let ParseHtml (resp: string) = CQ.Create(resp)
+    |> ParseHtml
 
 [<SetUp>]
 let ``Run before tests`` () =
@@ -25,7 +26,6 @@ let ``Run before tests`` () =
 let ``Visiting the hompage should set the title`` () =
   let title =
     MakeRequest HttpMethod.GET "/"
-    |> ParseHtml
     |> (fun x -> x.Select("title").Text())
   Assert.AreEqual("KB - Home", title)
 
@@ -33,6 +33,12 @@ let ``Visiting the hompage should set the title`` () =
 let ``Visiting homepage show heading`` () =
   let header =
     MakeRequest HttpMethod.GET "/"
-    |> ParseHtml
     |> (fun x -> x.Select("main > h1").Text())
   Assert.AreEqual("NICE Quality Standards", header)
+
+[<Test>]
+let ``Visiting homepage should add form with search action`` () =
+  let form =
+    MakeRequest HttpMethod.GET "/"
+    |> (fun x -> x.Select("form"))
+  Assert.AreEqual("/search", form.Attr("action"))

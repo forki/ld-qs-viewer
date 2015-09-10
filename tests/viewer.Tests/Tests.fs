@@ -59,8 +59,14 @@ let ``Visiting homepage should present annotations`` () =
   Assert.AreEqual("Annotation Name", checkbox.Attr("name"))
   Assert.AreEqual("http://ld.nice.org.uk/ns/Annotation_Uri", checkbox.Attr("value"))
 
-//<form action="demo_form.asp" method="get">
-//<input type="checkbox" name="vehicle" value="Bike"> I have a bike<br>
-//<input type="checkbox" name="vehicle" value="Car" checked="checked"> I have a car<br>
-//<input type="submit" value="Submit">
-//</form>
+[<Test>]
+let ``Visiting homepage should present a list of annotations`` () =
+  let getAnnotations =
+    [("Annotation 1", "http://ld.nice.org.uk/ns/Annotation_Uri1");
+     ("Annotation 2", "http://ld.nice.org.uk/ns/Annotation_Uri2")]
+  
+  let checkboxes =
+    MakeRequest' HttpMethod.GET "/" getAnnotations
+    |> (fun x -> x.Select("input"))
+  
+  Assert.AreEqual(2, checkboxes.Length)

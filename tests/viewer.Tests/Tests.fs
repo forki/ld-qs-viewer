@@ -17,13 +17,22 @@ let MakeRequest httpMethod route =
 
 let ParseHtml (resp: string) = CQ.Create(resp)
 
-[<Test>]
-let ``Visiting the hompage should set the title`` () =
+[<SetUp>]
+let ``Run before tests`` () =
   setTemplatesDir "templates/"
 
+[<Test>]
+let ``Visiting the hompage should set the title`` () =
   let title =
     MakeRequest HttpMethod.GET "/"
     |> ParseHtml
     |> (fun x -> x.Select("title").Text())
-
   Assert.AreEqual("KB - Home", title)
+
+[<Test>]
+let ``Visiting homepage show heading`` () =
+  let header =
+    MakeRequest HttpMethod.GET "/"
+    |> ParseHtml
+    |> (fun x -> x.Select("main > h1").Text())
+  Assert.AreEqual("NICE Quality Standards", header)

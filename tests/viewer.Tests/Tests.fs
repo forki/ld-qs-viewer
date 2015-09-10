@@ -14,12 +14,15 @@ open CsQuery
 let ParseHtml (resp: string) = CQ.Create(resp)
 
 let MakeRequest httpMethod route =
-  runWith defaultConfig (createApp [("","")])
+  let getSettings = [("","")]
+  let getAgeGroups = [("","")]
+  runWith defaultConfig (createApp getSettings getAgeGroups )
     |> req httpMethod route None
     |> ParseHtml
 
-let MakeRequest' httpMethod route fAnnotations =
-  runWith defaultConfig (createApp fAnnotations)
+let MakeRequest' httpMethod route getSettings =
+  let getAgeGroups = [("","")]
+  runWith defaultConfig (createApp getSettings getAgeGroups)
     |> req httpMethod route None
     |> ParseHtml
 

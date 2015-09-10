@@ -22,12 +22,5 @@ open Viewer.Tests
 
 DotLiquid.setTemplatesDir("bin/Release/templates/")
 
-let getAnnotations =
-  [("Annotation 1", "http://ld.nice.org.uk/ns/Annotation_Uri1");
-   ("Annotation 2", "http://ld.nice.org.uk/ns/Annotation_Uri2")]
+MakeRequest HttpMethod.GET "/"
 
-let checkboxes =
-  MakeRequest' HttpMethod.GET "/" getAnnotations
-  |> (fun x -> x.Select("input"))
-
-Assert.AreEqual(2, checkboxes.Length)

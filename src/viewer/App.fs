@@ -10,18 +10,28 @@ type Annotation = {
   Uri : string
   }
 
-type List = {
-  Annotations : Annotation list
+type Annotations = {
+  Settings : Annotation list
+  AgeGroups : Annotation list
   }
 
 let setTemplatesDir path =
   DotLiquid.setTemplatesDir(path)
 
-let createApp fAnnotations =
-  let xsAnnotations =
-    fAnnotations
-    |> Seq.map(fun (name, uri) -> { Name = name; Uri=uri })
-    |> Seq.toList
+let createApp getSettings getAgeGroups =
+  //let xsSettings =
+  //  getSettings
+  //  |> Seq.map(fun (name, uri) -> { Name = name; Uri=uri })
+  //  |> Seq.toList
+
+  //let xsAgeGroups =
+  //  getSettings
+  //  |> Seq.map(fun (name, uri) -> { Name = name; Uri=uri })
+  //  |> Seq.toList
+
+  let model = {Settings = [{Name="1";Uri="1"}];AgeGroups = [{Name="2";Uri="2"}]}
+
   choose
     [ GET >>= choose
-          [path "/" >>= DotLiquid.page "home.html" ({Annotations = xsAnnotations})]]
+          //[path "/" >>= DotLiquid.page "home.html" ({Settings = xsSettings;AgeGroups = xsAgeGroups})]]
+          [path "/" >>= DotLiquid.page "home.html" (model)]]

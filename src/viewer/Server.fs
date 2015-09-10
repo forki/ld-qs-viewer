@@ -9,9 +9,6 @@ open Viewer.App
 let main argv =
   let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
   setTemplatesDir templatePath
-  //let defaultConfig = { defaultConfig with
-  //                                      listenTimeout   = System.TimeSpan.FromMilliseconds 2000.
-  //                                      bindings = [ HttpBinding.mk' HTTP "127.0.0.1" 8038 ]
-  //                    }
+  let defaultConfig = { defaultConfig with bindings = [ HttpBinding.mk' HTTP "0.0.0.0" 8083 ] }
   startWebServer defaultConfig app
   1

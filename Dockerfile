@@ -6,6 +6,6 @@ COPY . /etc/ld-viewer/
 
 RUN /etc/ld-viewer/build.sh
 
-CMD mono /etc/ld-viewer/bin/viewer/viewer.exe
+CMD cd /etc/ld-viewer/ && mono bin/viewer/viewer.exe
 
 EXPOSE 8083

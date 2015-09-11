@@ -12,7 +12,9 @@ open Suave.Http.Applicatives
 open Suave.Testing
 open Suave.Types
 
-DotLiquid.setTemplatesDir("bin/Release/templates/")
+System.Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
+
+DotLiquid.setTemplatesDir("./templates")
 
 type VocabularyTerm = {
   Name: string
@@ -20,13 +22,16 @@ type VocabularyTerm = {
   }
 
 type Home  = {
-  Settings: VocabularyTerm list 
-  AgeGroups: VocabularyTerm list 
+  Ages: VocabularyTerm list
+  Settings: VocabularyTerm list
   }
 
 let settings = [{Name = "Term1"; Uri = "Uri1"}]
 let ageGroups = [{Name = "Term2"; Uri = "Uri2"}]
 
-let model = {Settings = settings; AgeGroups = ageGroups}
+let model = {Settings = settings; Ages = ageGroups}
 
 let (Some html) = DotLiquid.page "home.html" (model) HttpContext.empty |> Async.RunSynchronously
+
+match html.response.content with
+  | Bytes(x) -> System.Text.UTF8Encoding.UTF8.GetString x

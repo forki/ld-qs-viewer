@@ -9,12 +9,12 @@ open Viewer.Types
 [<EntryPoint>]
 let main argv =
 
-  let vocabularies = {Vocabularies = [{Name = "Settings";
-                                       Terms = [{Name = "Care Home"; Uri = "http://ld.nice.org.uk/ns/Care_Home"};
-                                                {Name = "Hospital"; Uri = "http://ld.nice.org.uk/ns/Hospital"}]};
-                                      {Name = "Age Groups";
-                                       Terms = [{Name = "Older Adult"; Uri = "http://ld.nice.org.uk/ns/Hospital"}
-                                                {Name = "Adult less than 65"; Uri = "http://ld.nice.org.uk/ns/Hospital"}]}]};
+  let vocabularies = [{Name = "Settings";
+                       Terms = [{Name = "Care Home"; Uri = "http://ld.nice.org.uk/ns/Care_Home"};
+                                {Name = "Hospital"; Uri = "http://ld.nice.org.uk/ns/Hospital"}]};
+                      {Name = "Age Groups";
+                       Terms = [{Name = "Older Adult"; Uri = "http://ld.nice.org.uk/ns/Hospital"}
+                                {Name = "Adult less than 65"; Uri = "http://ld.nice.org.uk/ns/Hospital"}]}]
 
   let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
   setTemplatesDir templatePath

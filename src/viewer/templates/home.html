@@ -8,12 +8,12 @@
     <main id="content" role="main">
         <h1>NICE Quality Standards</h1>
         <form action="/search">
-            {% for item in model.Settings -%}
-            {% include "checkbox.html" item:item %}
-            {% endfor -%}
-
-            {% for item in model.Ages -%}
-            {% include "checkbox.html" item:item %}
+            {% for vocab in model.Vocabularies -%}
+              <div class="vocab">{{vocab.Name}}
+              {% for item in vocab.Terms -%}
+              {% include "checkbox.html" item:item %}
+              {% endfor -%}
+              </div>
             {% endfor -%}
         </form>
     </main>

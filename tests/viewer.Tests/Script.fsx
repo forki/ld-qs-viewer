@@ -23,15 +23,9 @@ open Suave.DotLiquid
 DotLiquid.setTemplatesDir("bin/Release/templates/")
 
 let html = CQ ("""
-               <div>Div1
-                 <div class="vocab">Vocab1
-                   <input/>
-                   <input/>
-                 </div
-                 <div class="vocab">Vocab2
-                   <input/>
-                 </div
-               </div>
+               <form>
+               <input type="submit"/>
+               </form>
                """)
 
 

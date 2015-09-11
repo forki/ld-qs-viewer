@@ -9,12 +9,14 @@
         <h1>NICE Quality Standards</h1>
         <form action="/search">
             {% for vocab in model.Vocabularies -%}
-              <div class="vocab">{{vocab.Name}}
+              <div class="vocab">{{vocab.Name}}<br>
               {% for item in vocab.Terms -%}
               {% include "checkbox.html" item:item %}
               {% endfor -%}
               </div>
+              <br>
             {% endfor -%}
+            <input type="submit" Value="Search">
         </form>
     </main>
 {% endblock %}

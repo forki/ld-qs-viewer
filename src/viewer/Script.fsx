@@ -1,10 +1,16 @@
-#I "bin/Release"
-#r "bin/Release/Suave.dll"
+#I "../../bin/viewer/"
+#r @"System.Net.Http"
+#r "../../bin/viewer/Suave.dll"
+#r "../../bin/viewer/DotLiquid.dll"
+#r "../../bin/viewer/Suave.DotLiquid.dll"
+#r "../../packages/Suave.Testing/lib/net40/Suave.Testing.dll"
 
 open Suave
 open Suave.Http.Successful
 open Suave.Http
 open Suave.Http.Applicatives
+open Suave.Testing
+open Suave.Types
 
 DotLiquid.setTemplatesDir("bin/Release/templates/")
 
@@ -23,9 +29,4 @@ let ageGroups = [{Name = "Term2"; Uri = "Uri2"}]
 
 let model = {Settings = settings; AgeGroups = ageGroups}
 
-let html = DotLiquid.page "home.html" (model)
-
-let HttpContext t = match html with
-  | Some x -> x
-  | None -> "none" 
-
+let (Some html) = DotLiquid.page "home.html" (model) HttpContext.empty |> Async.RunSynchronously

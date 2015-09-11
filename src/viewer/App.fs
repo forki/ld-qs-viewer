@@ -15,6 +15,10 @@ type Annotations = {
   AgeGroups : Annotation list
   }
 
+type Model = {
+  Annotations: Annotations
+  }
+
 let setTemplatesDir path =
   DotLiquid.setTemplatesDir(path)
 
@@ -29,7 +33,8 @@ let createApp getSettings getAgeGroups =
   //  |> Seq.map(fun (name, uri) -> { Name = name; Uri=uri })
   //  |> Seq.toList
 
-  let model = {Settings = [{Name="1";Uri="1"}];AgeGroups = [{Name="2";Uri="2"}]}
+  let annotations = {Settings = [{Name="1";Uri="1"}];AgeGroups = [{Name="2";Uri="2"}]}
+  let model = {Annotations = annotations}
 
   choose
     [ GET >>= choose

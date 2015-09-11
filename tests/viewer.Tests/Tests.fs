@@ -62,14 +62,49 @@ let ``Visiting homepage should present annotations`` () =
   Assert.AreEqual("Annotation Name", checkbox.Attr("name"))
   Assert.AreEqual("http://ld.nice.org.uk/ns/Annotation_Uri", checkbox.Attr("value"))
 
+type VocabTerm = {
+                 Name: string
+                 Uri: string
+               }
+type Vocabulary = {
+                  Name: string
+                  Terms: VocabTerm list
+                }
+
+type Vocabularies = {
+    Vocabularies: Vocabulary list
+  }
+
 [<Test>]
-let ``Visiting homepage should present a list of annotations`` () =
-  let getAnnotations =
-    [("Annotation 1", "http://ld.nice.org.uk/ns/Annotation_Uri1");
-     ("Annotation 2", "http://ld.nice.org.uk/ns/Annotation_Uri2")]
-  
-  let checkboxes =
-    MakeRequest' HttpMethod.GET "/" getAnnotations
-    |> (fun x -> x.Select("input"))
-  
-  Assert.AreEqual(2, checkboxes.Length)
+let ``Visiting homepage should present the vocabulary terms`` () =
+
+  let vocabularies = {Vocabularies = [{Name = "Vocab1";
+                                       Terms = [{Name = "Term1"; Uri = "Uri1"};
+                                                {Name = "Term2"; Uri = "Uri2"}]};
+                                      {Name = "Vocab2";
+                                       Terms = [{Name = "Term3"; Uri = "Uri3"}]}]}
+  let html = MakeRequest' HttpMethod.GET "/" vocabularies
+
+  let vocab1 =
+    html
+    |> (fun x -> x.Select("#Vocab1"))
+
+  Assert.AreEqual("Vocab1", vocab1.Text())
+
+  let vocab1inputs = 
+    vocab1 
+    |> (fun x -> x.Select("#Vocab1 > input"))
+
+  Assert.AreEqual(2, vocab1inputs.Length)
+
+  let vocab2 = 
+    html
+    |> (fun x -> x.Select("#Vocab2"))
+
+  Assert.AreEqual("Vocab2", vocab2.Text())
+
+  let vocab2inputs = 
+    vocab2
+    |> (fun x -> x.Select("#Vocab2 > input"))
+
+  Assert.AreEqual(1, vocab1inputs.Length)

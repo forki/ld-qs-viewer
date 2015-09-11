@@ -9,20 +9,18 @@ open Suave.Testing
 open Suave.Http.Applicatives
 open NUnit.Framework
 open Viewer.App
+open Viewer.Types
 open CsQuery
 
 let ParseHtml (resp: string) = CQ.Create(resp)
 
 let MakeRequest httpMethod route =
-  let getSettings = [("","")]
-  let getAgeGroups = [("","")]
-  runWith defaultConfig (createApp getSettings getAgeGroups )
+  runWith defaultConfig (createApp {Vocabularies = []} )
     |> req httpMethod route None
     |> ParseHtml
 
-let MakeRequest' httpMethod route getSettings =
-  let getAgeGroups = [("","")]
-  runWith defaultConfig (createApp getSettings getAgeGroups)
+let MakeRequestWithVocabs httpMethod route vocabularies =
+  runWith defaultConfig (createApp vocabularies)
     |> req httpMethod route None
     |> ParseHtml
 
@@ -51,29 +49,17 @@ let ``Visiting homepage should add form with search action`` () =
     |> (fun x -> x.Select("form"))
   Assert.AreEqual("/search", form.Attr("action"))
 
-[<Test>]
-let ``Visiting homepage should present annotations`` () =
-  let getAnnotations =
-    [("Annotation Name", "http://ld.nice.org.uk/ns/Annotation_Uri")]
+//[<Test>]
+//let ``Visiting homepage should present annotations`` () =
+//  let getAnnotations =
+//    [("Annotation Name", "http://ld.nice.org.uk/ns/Annotation_Uri")]
+//
+//  let checkbox =
+//    MakeRequest' HttpMethod.GET "/" getAnnotations
+//    |> (fun x -> x.Select("input"))
+//  Assert.AreEqual("Annotation Name", checkbox.Attr("name"))
+//  Assert.AreEqual("http://ld.nice.org.uk/ns/Annotation_Uri", checkbox.Attr("value"))
 
-  let checkbox =
-    MakeRequest' HttpMethod.GET "/" getAnnotations
-    |> (fun x -> x.Select("input"))
-  Assert.AreEqual("Annotation Name", checkbox.Attr("name"))
-  Assert.AreEqual("http://ld.nice.org.uk/ns/Annotation_Uri", checkbox.Attr("value"))
-
-type VocabTerm = {
-                 Name: string
-                 Uri: string
-               }
-type Vocabulary = {
-                  Name: string
-                  Terms: VocabTerm list
-                }
-
-type Vocabularies = {
-    Vocabularies: Vocabulary list
-  }
 
 [<Test>]
 let ``Visiting homepage should present the vocabulary terms`` () =
@@ -83,7 +69,8 @@ let ``Visiting homepage should present the vocabulary terms`` () =
                                                 {Name = "Term2"; Uri = "Uri2"}]};
                                       {Name = "Vocab2";
                                        Terms = [{Name = "Term3"; Uri = "Uri3"}]}]}
-  let html = MakeRequest' HttpMethod.GET "/" vocabularies
+
+  let html = MakeRequestWithVocabs HttpMethod.GET "/" vocabularies
 
   let vocab1 =
     html

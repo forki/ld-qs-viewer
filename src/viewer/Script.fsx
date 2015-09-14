@@ -17,8 +17,9 @@ open Elasticsearch.Net.Connection
 open System
 
 let uri = new Uri("http://localhost:9200")
-let settings = new ConnectionConfiguration(uri).ExposeRawResponse()
-let client = new ElasticsearchClient(settings)
+let settings = new ConnectionConfiguration(uri) |> (fun x -> x.ExposeRawResponse())
+let client = new ElasticsearchClient(settings) 
 let index = "kb"
 let query = "{}"
 let resp = client.Search<string>(index, query)
+let raw = resp.Response

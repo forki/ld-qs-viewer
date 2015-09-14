@@ -55,7 +55,9 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
     <Folder Include="templates\" />
+    <Compile Include="Stubs.fs" />
     <Compile Include="HomePageTests.fs" />
+    <Compile Include="SearchPageTests.fs" />
     <None Include="paket.references" />
     <None Include="Script.fsx" />
   </ItemGroup>

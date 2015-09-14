@@ -1,4 +1,4 @@
-module Viewer.Tests
+module Viewer.Tests.HomePageTests
 
 open Suave
 open Suave.Http.Successful
@@ -15,12 +15,14 @@ open CsQuery
 let ParseHtml (resp: string) = CQ.Create(resp)
 
 let MakeRequest httpMethod route =
-  runWith defaultConfig (createApp [] )
+  let GetSearchResults () = "notused"
+  runWith defaultConfig (createApp [] GetSearchResults)
     |> req httpMethod route None
     |> ParseHtml
 
 let MakeRequestWithVocabs httpMethod route vocabularies =
-  runWith defaultConfig (createApp vocabularies)
+  let GetSearchResults () = "notused"
+  runWith defaultConfig (createApp vocabularies GetSearchResults)
     |> req httpMethod route None
     |> ParseHtml
 

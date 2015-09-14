@@ -30,7 +30,7 @@ let ``Should present zero results when no query string provided`` () =
 
 //[<Test>]
 //let ``Should present search results`` () =
-//  let GetSearchResults () = stubbedElasticResponse
+//  let GetSearchResults () = stubbedElasticResponseWithTwoResults
 //  let GetVocabularies = []
 //
 //  let results =
@@ -39,4 +39,4 @@ let ``Should present zero results when no query string provided`` () =
 //    |> ParseHtml
 //    |> (fun x -> x.Select(".result"))
 //
-//  Assert.AreEqual(2, results.Length)
+//  test <@ results.Length = 2 @>

@@ -56,6 +56,7 @@
   <ItemGroup>
     <Folder Include="templates\" />
     <Compile Include="Stubs.fs" />
+    <Compile Include="Utils.fs" />
     <Compile Include="HomePageTests.fs" />
     <Compile Include="SearchPageTests.fs" />
     <None Include="paket.references" />
@@ -78,6 +79,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\checkbox.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\search.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

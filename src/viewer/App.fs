@@ -13,8 +13,8 @@ type HomeModel =  {
    Vocabularies: Vocabulary list
  }
 
-let createApp vocabularies GetSearchResults =
+let createApp vocabularies getSearchResults =
   choose
     [ GET >>= choose
           [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
-           path "/search" >>= OK ""]]
+           path "/search" >>= DotLiquid.page "search.html" ()]]

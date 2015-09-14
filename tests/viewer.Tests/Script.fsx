@@ -8,6 +8,7 @@
 #r "bin/Release/Suave.DotLiquid.dll"
 #r "bin/Release/Suave.Testing.dll"
 #r "bin/Release/viewer.Tests.dll"
+#r "bin/Release/NEST.dll
 
 open Suave
 open Suave.Http.Successful
@@ -22,10 +23,5 @@ open Suave.DotLiquid
 
 DotLiquid.setTemplatesDir("bin/Release/templates/")
 
-let html = CQ ("""
-               <form>
-               <input type="submit"/>
-               </form>
-               """)
 
 

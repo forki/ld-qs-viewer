@@ -8,48 +8,41 @@ open Suave.Types
 open Suave.Testing
 open Suave.Http.Applicatives
 open NUnit.Framework
+open Swensen.Unquote
 open Viewer.App
 open Viewer.Types
-open CsQuery
-
-let ParseHtml (resp: string) = CQ.Create(resp)
-
-let MakeRequest httpMethod route =
-  let GetSearchResults () = "notused"
-  runWith defaultConfig (createApp [] GetSearchResults)
-    |> req httpMethod route None
-    |> ParseHtml
-
-let MakeRequestWithVocabs httpMethod route vocabularies =
-  let GetSearchResults () = "notused"
-  runWith defaultConfig (createApp vocabularies GetSearchResults)
-    |> req httpMethod route None
-    |> ParseHtml
+open Viewer.Tests.Utils
 
 [<SetUp>]
 let ``Run before tests`` () =
-    setTemplatesDir "templates/"
+  setTemplatesDir "templates/"
 
 [<Test>]
 let ``Should set the title`` () =
   let title =
-    MakeRequest HttpMethod.GET "/"
+    startServer ()
+    |> req HttpMethod.GET "/" None
+    |> ParseHtml
     |> (fun x -> x.Select("title").Text())
-  Assert.AreEqual("KB - Home", title)
+  test <@ title = "KB - Home" @>
 
 [<Test>]
 let ``Should show heading`` () =
   let header =
-    MakeRequest HttpMethod.GET "/"
+    startServer ()
+    |> req HttpMethod.GET "/" None
+    |> ParseHtml
     |> (fun x -> x.Select("main > h1").Text())
-  Assert.AreEqual("NICE Quality Standards", header)
+  test <@ header = "NICE Quality Standards" @>
 
 [<Test>]
 let ``Should add form with search action`` () =
   let form =
-    MakeRequest HttpMethod.GET "/"
+    startServer ()
+    |> req HttpMethod.GET "/" None
+    |> ParseHtml
     |> (fun x -> x.Select("form"))
-  Assert.AreEqual("/search", form.Attr("action"))
+  test <@  form.Attr("action") = "/search" @>
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =
@@ -60,20 +53,25 @@ let ``Should present the vocabulary terms in form`` () =
                       {Name = "Vocab 2";
                        Terms = [{Name = "Term3"; Uri = "Uri3"}]}]
 
-  let html = MakeRequestWithVocabs HttpMethod.GET "/" vocabularies
+  let html =
+    startServerWithData vocabularies ()
+    |> req HttpMethod.GET "/" None
+    |> ParseHtml
 
   let vocab1 = html.Select("form > .vocab").First()
-  Assert.True(vocab1.Text().StartsWith("Vocab 1"), "Got: " + vocab1.Text())
+  test <@ vocab1.Text().StartsWith("Vocab 1") @>
 
   let vocab2 = html.Select("form > .vocab").Last()
-  Assert.True(vocab2.Text().StartsWith("Vocab 2"), "Got: " + vocab2.Text())
+  test <@ vocab2.Text().StartsWith("Vocab 2") @>
 
   let terms = html.Select("form > .vocab > input")
-  Assert.AreEqual(3, terms.Length)
+  test <@ terms.Length = 3 @>
 
 [<Test>]
 let ``Should have search button`` () =
   let searchbutton =
-    MakeRequest HttpMethod.GET "/"
+    startServer ()
+    |> req HttpMethod.GET "/" None
+    |> ParseHtml
     |> (fun x -> x.Select(":submit"))
-  Assert.AreEqual("Search", searchbutton.Attr("Value"))
+  test <@ searchbutton.Attr("Value") = "Search" @>

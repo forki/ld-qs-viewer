@@ -9,6 +9,7 @@ open Suave.Testing
 open Suave.Http.Applicatives
 open Suave.DotLiquid
 open NUnit.Framework
+open Swensen.Unquote
 open Viewer.App
 open Viewer.Tests.Stubs
 open Viewer.Tests.Utils
@@ -25,7 +26,7 @@ let ``Should present zero results when no query string provided`` () =
    |> ParseHtml
    |> (fun x -> x.Select(".result"))
 
- Assert.AreEqual(0, results.Length)
+ test <@ results.Length = 0 @>
 
 //[<Test>]
 //let ``Should present search results`` () =

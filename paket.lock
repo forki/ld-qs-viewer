@@ -266,6 +266,7 @@ NUGET
       System.Threading (>= 4.0.10) - framework: dnxcore50
     System.Threading.Tasks (4.0.10) - framework: dnxcore50
       System.Runtime (>= 4.0.0)
+    Unquote (3.0.0)
 GITHUB
   remote: fsharp/FAKE
   specs:

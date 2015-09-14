@@ -13,5 +13,6 @@ nuget Suave
 nuget Suave.DotLiquid
 nuget Suave.Testing
 nuget System.Net.Http
+nuget Unquote
 
 github fsharp/FAKE modules/Octokit/Octokit.fsx

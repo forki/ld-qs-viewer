@@ -28,15 +28,15 @@ let ``Should present zero results when no query string provided`` () =
 
  test <@ results.Length = 0 @>
 
-//[<Test>]
-//let ``Should present search results`` () =
-//  let GetSearchResults () = stubbedElasticResponseWithTwoResults
-//  let GetVocabularies = []
-//
-//  let results =
-//    startServerWithData GetVocabularies GetSearchResults
-//    |> reqQuery HttpMethod.GET "/search" "q=1" 
-//    |> ParseHtml
-//    |> (fun x -> x.Select(".result"))
-//
-//  test <@ results.Length = 2 @>
+[<Test>]
+let ``Should present search results`` () =
+  let GetSearchResults () = stubbedElasticResponseWithTwoResults
+  let GetVocabularies = []
+
+  let results =
+    startServerWithData GetVocabularies GetSearchResults
+    |> reqQuery HttpMethod.GET "/search" "q=1" 
+    |> ParseHtml
+    |> (fun x -> x.Select(".result"))
+
+  test <@ results.Length = 2 @>

@@ -2,6 +2,7 @@ source https://nuget.org/api/v2
 
 nuget DotLiquid
 nuget CsQuery
+nuget FSharp.Data
 nuget FSharp.Formatting
 nuget Fuchu
 nuget NEST

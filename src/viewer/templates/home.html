@@ -11,7 +11,7 @@
             {% for vocab in model.Vocabularies -%}
               <div class="vocab">{{vocab.Name}}<br>
               {% for item in vocab.Terms -%}
-              {% include "checkbox.html" item:item %}
+              {% include "checkbox.html" item:item vocabName:vocab.Name %}
               {% endfor -%}
               </div>
               <br>

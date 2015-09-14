@@ -25,10 +25,30 @@ open Suave.DotLiquid
 open Viewer.Tests.Stubs
 open FSharp.Data
 
-DotLiquid.setTemplatesDir("bin/Release/templates/")
-
-type jp = JsonProvider<"../../elasticSchema.json">
-let json = jp.GetSample()
+type jp = JsonProvider<"../../src/viewer/elasticResponseSchema.json">
+let json = jp.Parse("""
+{
+  "hits":{
+    "hits":[
+      {
+        "_id":"qs1_st1",
+        "_source":{
+          "@id":"http://ld.nice.org.uk/prov/entity#f178fc5:qualitystandards/qs1/st1/Statement.md",
+          "abstract":"This is statement 1"
+        }
+      },
+      {
+        "_id":"qs1_st2",
+        "_source":{
+          "@id":"http://ld.nice.org.uk/prov/entity#f178fc5:qualitystandards/qs1/st2/Statement.md",
+          "abstract":"This is statement 2"
+        }
+      }
+    ]
+  }
+}
+                    """)
+json.Hits 
 
 
 

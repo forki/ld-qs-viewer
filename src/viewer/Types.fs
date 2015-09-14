@@ -8,3 +8,7 @@ type Vocabulary = {
                   Name: string
                   Terms: VocabularyTerm list
                 }
+
+type Result = {
+  Uri: string
+}

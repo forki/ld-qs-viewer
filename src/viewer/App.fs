@@ -10,6 +10,7 @@ open Suave.Types
 open Suave.Log
 open Suave.Utils
 open Viewer.Types
+open FSharp.Data
 
 let setTemplatesDir path =
   DotLiquid.setTemplatesDir(path)
@@ -18,8 +19,23 @@ type HomeModel =  {
    Vocabularies: Vocabulary list
  }
 
-let createApp vocabularies getSearchResults=
+type SearchModel = {
+  Results: Result list
+  }
+
+let GetResults performSearch =
+  let schema = JsonProvider<"elasticResponseSchema.json">
+  let json = schema.Parse(performQuery())
+
+  let results = json.Hits.Hits
+                  |> Seq.map (fun x -> {Uri = x.Source.Id})
+                  |> Seq.toList
+
+  {Results = results toList}
+
+let createApp vocabularies performSearch =
+
   choose
     [ GET >>= choose
         [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
-         path "/search" >>= request(fun r -> OK (r.query.ToString()))]]
+         path "/search" >>= DotLiquid.page "search.html" (GetResults performSearch)]]

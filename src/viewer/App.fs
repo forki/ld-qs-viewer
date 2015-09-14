@@ -1,9 +1,14 @@
 module Viewer.App
 
 open Suave
-open Suave.Http.Successful
+open Suave.Web
 open Suave.Http
 open Suave.Http.Applicatives
+open Suave.Http.Files
+open Suave.Http.Successful
+open Suave.Types
+open Suave.Log
+open Suave.Utils
 open Viewer.Types
 
 let setTemplatesDir path =
@@ -13,8 +18,8 @@ type HomeModel =  {
    Vocabularies: Vocabulary list
  }
 
-let createApp vocabularies getSearchResults =
+let createApp vocabularies getSearchResults=
   choose
     [ GET >>= choose
-          [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
-           path "/search" >>= DotLiquid.page "search.html" ()]]
+        [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
+         path "/search" >>= request(fun r -> OK (r.query.ToString()))]]

@@ -10,6 +10,7 @@ open Suave.Types
 open Suave.Log
 open Suave.Utils
 open Viewer.Types
+open Viewer.Elastic
 open FSharp.Data
 
 let setTemplatesDir path =
@@ -21,13 +22,23 @@ type HomeModel =  {
 
 type SearchModel = {
   Results: SearchResult list
+
   }
 
-let createApp vocabularies getSearchResultsFor =
-  let query = "{}"
+let buildQuery qs =
+  qs |> Seq.head
+  |> (fun a ->
+      match a with
+      | (k, Some(v)) -> (sprintf "http://192.168.59.103:9200/kb/qs/_search?q=%s:%s" k v))
 
+let createApp vocabularies getSearchResultsFor =
   choose
     [ GET >>= choose
         [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
-         path "/search" >>= DotLiquid.page "search.html" {Results = (getSearchResultsFor query)}
+         path "/search" >>= request(fun r ->
+                                    let query = buildQuery(r.query)
+                                    DotLiquid.page "search.html" {Results = (getSearchResultsFor query)})
+
          RequestErrors.NOT_FOUND "Found no handlers"]]
+
+

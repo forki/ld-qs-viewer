@@ -16,12 +16,9 @@ open Viewer.App
 open Viewer.Types
 open Viewer.Elastic
 
-let vocabularies = [{Name = "Settings";
-                     Terms = [{Name = "Care Home"; Uri = "http://ld.nice.org.uk/ns/Care_Home"};
-                              {Name = "Hospital"; Uri = "http://ld.nice.org.uk/ns/Hospital"}]};
-                    {Name = "Age Groups";
-                     Terms = [{Name = "Older Adult"; Uri = "http://ld.nice.org.uk/ns/Hospital"}
-                              {Name = "Adult less than 65"; Uri = "http://ld.nice.org.uk/ns/Hospital"}]}]
+let vocabularies = [{Name = "settings";
+                     Terms = [{Name = "Hospice"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Hospice"};
+                              {Name = "Community"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"}]};]
 
 let SearchFunc = GetSearchResults RunElasticQuery
 

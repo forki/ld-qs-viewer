@@ -12,7 +12,6 @@ open NUnit.Framework
 open Swensen.Unquote
 open Viewer.App
 open Viewer.Types
-open Viewer.Tests.Stubs
 open Viewer.Tests.Utils
 
 [<SetUp>]
@@ -31,8 +30,8 @@ let ``Should present zero results when no query string provided`` () =
 
 [<Test>]
 let ``Should present search results`` () =
-  let GetSearchResults () = [{Uri = "Result1"};
-                             {Uri = "Result2"}]
+  let GetSearchResults _ = [{Uri = "Result1"};
+                            {Uri = "Result2"}]
   let GetVocabularies = []
 
   let results =

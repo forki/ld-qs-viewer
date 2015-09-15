@@ -23,18 +23,10 @@ type SearchModel = {
   Results: SearchResult list
   }
 
-//let TransformResults queryResponse =
- // let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(queryResponse)
-
- // let results = (json.Hits.Hits)
- //   |> Seq.map (fun x -> {Uri = x.Source.Id})
- //   |> Seq.toList
-
-  //{Results = results}
-
-let createApp vocabularies getSearchResults =
+let createApp vocabularies getSearchResultsFor =
+  let query = "{}"
 
   choose
     [ GET >>= choose
         [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
-         path "/search" >>= DotLiquid.page "search.html" {Results = getSearchResults()}]]
+         path "/search" >>= DotLiquid.page "search.html" {Results = (getSearchResultsFor query)}]]

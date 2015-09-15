@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Types.fs" />
-    <Compile Include="Stubs.fs" />
+    <Compile Include="Elastic.fs" />
     <Compile Include="App.fs" />
     <None Include="Script.fsx" />
     <None Include="RunServer.fsx" />

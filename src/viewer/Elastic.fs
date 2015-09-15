@@ -16,9 +16,12 @@ let RunElasticQuery (query: string) =
 let GetSearchResults runSearchWith query =
 
   let queryResponse = runSearchWith query
-  let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(queryResponse)
+  try
+    let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(queryResponse)
+    let hits = json.Hits.Hits
+    hits
+      |> Seq.map(fun x -> {Uri = x.Source.Id})
+      |> Seq.toList
+  with
+    | _ -> []
 
-  let hits = json.Hits.Hits
-  hits
-  |> Seq.map(fun x -> {Uri = x.Source.Id})
-  |> Seq.toList

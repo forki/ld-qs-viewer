@@ -6,7 +6,17 @@ open Viewer.Elastic
 open Viewer.Types
 
 [<Test>]
-let ``Elastic query response should be mapped correctly`` () =
+let ``GetSearchResults should return an empty list on zero results`` () =
+  let StubbedQueryResponse _ = "{}"
+  let query = "{}"
+  let DoSearchWith = GetSearchResults StubbedQueryResponse 
+  let results = DoSearchWith query
+
+  test <@ results = [] @>
+
+
+[<Test>]
+let ``GetSearchResults should map results correctly`` () =
   
   let StubbedQueryResponse _ = 
     """

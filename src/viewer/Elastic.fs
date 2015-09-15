@@ -7,9 +7,9 @@ open System
 open FSharp.Data
 
 let RunElasticQuery (query: string) =
-  Http.RequestString(query)
-
-
+  let req = "http://localhost:9200/kb/qs/_search?" + query
+  printf "Sending request: %s" req
+  Http.RequestString(req)
 
 let GetSearchResults runSearchWith query =
   let queryResponse = runSearchWith query
@@ -20,4 +20,6 @@ let GetSearchResults runSearchWith query =
       |> Seq.map(fun x -> {Uri = x.Source.Id})
       |> Seq.toList
   with
-    | _ -> []
+    | ex ->
+      printf "%s" (ex.ToString())
+      []

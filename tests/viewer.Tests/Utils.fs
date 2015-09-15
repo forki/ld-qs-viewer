@@ -12,10 +12,12 @@ open CsQuery
 
 let ParseHtml (resp: string) = CQ.Create(resp)
 
+let NoSearchResults () = """{"hits":{"hits":[]}}"""
+
 let startServerWithData getVocabularies getSearchResults =
   runWith defaultConfig (createApp getVocabularies getSearchResults)
 
 let startServer () =
   let GetVocabularies = []
-  let GetSearchResults () = ""
-  startServerWithData GetVocabularies GetSearchResults
+  startServerWithData GetVocabularies NoSearchResults
+

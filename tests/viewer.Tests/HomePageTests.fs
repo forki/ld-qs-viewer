@@ -46,7 +46,6 @@ let ``Should add form with search action`` () =
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =
-
   let vocabularies = [{Name = "Vocab 1";
                        Terms = [{Name = "Term1"; Uri = "Uri1"};
                                 {Name = "Term2"; Uri = "Uri2"}]};
@@ -54,7 +53,7 @@ let ``Should present the vocabulary terms in form`` () =
                        Terms = [{Name = "Term3"; Uri = "Uri3"}]}]
 
   let html =
-    startServerWithData vocabularies ()
+    startServerWithData vocabularies NoSearchResults
     |> req HttpMethod.GET "/" None
     |> ParseHtml
 

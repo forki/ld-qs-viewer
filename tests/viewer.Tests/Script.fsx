@@ -50,9 +50,3 @@ let json = jp.Parse("""
                     """)
 json.Hits 
 
-
-
-
-
-
-

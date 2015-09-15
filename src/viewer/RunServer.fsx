@@ -24,7 +24,8 @@ let vocabularies = [{Name = "Settings";
                      Terms = [{Name = "Older Adult"; Uri = "http://ld.nice.org.uk/ns/Hospital"}
                               {Name = "Adult less than 65"; Uri = "http://ld.nice.org.uk/ns/Hospital"}]}]
 
-let GetSearchResults () = stubbedElasticResponse
+let GetSearchResults () = [{Uri = "Result1"};
+                           {Uri = "Result2"}]
 
 let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
 setTemplatesDir templatePath

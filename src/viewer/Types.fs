@@ -9,6 +9,6 @@ type Vocabulary = {
                   Terms: VocabularyTerm list
                 }
 
-type Result = {
+type SearchResult = {
   Uri: string
 }

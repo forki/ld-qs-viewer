@@ -27,5 +27,10 @@ let SearchFunc = GetSearchResults RunElasticQuery
 
 let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
 setTemplatesDir templatePath
-let defaultConfig = { defaultConfig with bindings = [ HttpBinding.mk' HTTP "0.0.0.0" 8083 ] }
+let defaultConfig = { defaultConfig with
+                                    bindings = [ HttpBinding.mk' HTTP "0.0.0.0" 8083 ]
+                                    homeFolder = Some (__SOURCE_DIRECTORY__ + "/web")
+                    }
+
+printf "Running with config:\n%A" defaultConfig
 startWebServer defaultConfig (createApp vocabularies SearchFunc)

@@ -30,4 +30,5 @@ let createApp vocabularies getSearchResultsFor =
     [ GET >>= choose
         [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
          path "/search" >>= DotLiquid.page "search.html" {Results = (getSearchResultsFor query)}
+         browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]

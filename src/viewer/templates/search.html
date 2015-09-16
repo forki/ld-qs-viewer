@@ -11,6 +11,7 @@
         {% endif %}
         {% for item in model.Results -%}
         <div class="result">
+            <span class="abstract">{{item.Abstract}}</span>
             <a href="{{item.Uri}}">{{item.Uri}}</a>
         </div>
         {% endfor -%}

@@ -16,7 +16,33 @@ let ``GetSearchResults should return an empty list on zero results`` () =
 
 
 [<Test>]
-let ``GetSearchResults should map results correctly`` () =
+let ``GetSearchResults should map a single result`` () =
+
+  let StubbedQueryResponse _ = 
+    """
+    {
+      "hits":{
+        "hits":[
+          {
+            "_id":"qs1_st1",
+            "_source":{
+              "@id":"This is the Uri",
+              "dcterms:abstract": "This is the abstract"
+            }
+          }
+        ]
+      }
+    }
+    """
+
+  let query = "{}"
+  let DoSearchWith = GetSearchResults StubbedQueryResponse 
+  let results = DoSearchWith query
+
+  test <@ results = [{Uri = "This is the Uri";Abstract = "This is the abstract"}] @>
+
+[<Test>]
+let ``GetSearchResults should map multiple results`` () =
   
   let StubbedQueryResponse _ = 
     """
@@ -26,13 +52,15 @@ let ``GetSearchResults should map results correctly`` () =
           {
             "_id":"qs1_st1",
             "_source":{
-              "@id":"Uri1"
+              "@id":"",
+              "dcterms:abstract": ""
             }
           },
           {
             "_id":"qs1_st2",
             "_source":{
-              "@id":"Uri2"
+              "@id":"",
+              "dcterms:abstract": ""
             }
           }
         ]
@@ -44,6 +72,5 @@ let ``GetSearchResults should map results correctly`` () =
   let DoSearchWith = GetSearchResults StubbedQueryResponse 
   let results = DoSearchWith query
   
-  test <@ results = [{Uri = "Uri1"};
-                     {Uri = "Uri2"}] @>
+  test <@ results.Length = 2 @>
 

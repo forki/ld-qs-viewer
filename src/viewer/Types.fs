@@ -11,4 +11,5 @@ type Vocabulary = {
 
 type SearchResult = {
   Uri: string
+  Abstract: string
 }

@@ -6,33 +6,29 @@ open Elasticsearch.Net.Connection
 open System
 open FSharp.Data
 
-let buildQuery qs =
+let BuildQuery qs =
   let query = 
     """
     {
        "query": {
             "term" : {
-                "%s" : "%s"
+                "qualitystandard:%s" : "%s"
             }
        }
     }"""
 
-  qs |> Seq.head
+  qs
+  |> Seq.head
   |> (fun a ->
       match a with
       | (k, Some(v)) -> (sprintf (Printf.StringFormat<string->string->string>(query)) k v))
 
 let RunElasticQuery (query: string) =
-  let req = "http://localhost:9200/kb/qs/_search?"
-  Http.RequestString(req,
-                     body = TextRequest query)
+  Http.RequestString("http://localhost:9200/kb/qs/_search?", body = TextRequest query)
 
-
-
-let GetSearchResults runSearchWith query =
-  let queryResponse = runSearchWith query
+let ParseResponse response = 
   try
-    let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(queryResponse)
+    let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(response)
     let hits = json.Hits.Hits
     hits
       |> Seq.map(fun x -> {Uri = x.Source.Id})
@@ -41,3 +37,6 @@ let GetSearchResults runSearchWith query =
     | ex ->
       printf "%s" (ex.ToString())
       []
+
+let GetSearchResults runSearch query =
+  query |> runSearch |> ParseResponse

@@ -16,7 +16,7 @@ open Viewer.App
 open Viewer.Types
 open Viewer.Elastic
 
-let vocabularies = [{Name = "settings";
+let vocabularies = [{Name = "setting";
                      Terms = [{Name = "Hospice"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Hospice"};
                               {Name = "Community"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"}]};]
 

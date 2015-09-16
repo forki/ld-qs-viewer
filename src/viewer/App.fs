@@ -25,17 +25,6 @@ type SearchModel = {
 
   }
 
-let escapeCharsInString str =
-  let chars = ["+";"-";"=";"&";"|";">";"<";"!";"(";")";"{";"}";"[";"]";"^";"\"";"~";"*";"?";":";"/"]
-  let esc = "\\"
-  Seq.fold (fun (acc:string) elem -> acc.Replace(elem, esc+elem)) str chars
-
-let buildQuery qs =
-  qs |> Seq.head
-  |> (fun a ->
-      match a with
-      | (k, Some(v)) -> (sprintf "q=%s:%s" (escapeCharsInString k) (escapeCharsInString v)))
-
 let createApp vocabularies getSearchResultsFor =
   choose
     [ GET >>= choose

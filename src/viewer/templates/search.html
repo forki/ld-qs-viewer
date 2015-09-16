@@ -6,6 +6,9 @@
 
 {% block content %}
     <div class="results">
+        {% if model.Results == empty %}
+        No results found
+        {% endif %}
         {% for item in model.Results -%}
         <div class="result">
             <a href="{{item.Uri}}">{{item.Uri}}</a>

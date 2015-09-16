@@ -32,7 +32,7 @@ let createApp vocabularies getSearchResultsFor =
          path "/search" >>= request(fun r ->
                                     let query = buildQuery(r.query)
                                     DotLiquid.page "search.html" {Results = (getSearchResultsFor query)})
-
+         browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]
 
 

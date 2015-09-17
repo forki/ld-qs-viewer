@@ -8,7 +8,7 @@ publish:
     password: $$DOCKERHUB_PASS
     email: $$DOCKERHUB_EMAIL
     registry_login: true
-    tag: latest
+    tags: [latest, test]
     docker_host: tcp://172.16.204.198:5555
 notify:
   webhook:

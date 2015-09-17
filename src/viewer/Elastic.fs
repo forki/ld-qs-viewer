@@ -24,7 +24,7 @@ let BuildQuery qs =
       | (k, Some(v)) -> (sprintf (Printf.StringFormat<string->string->string>(query)) k v))
 
 let RunElasticQuery (query: string) =
-  Http.RequestString("http://localhost:9200/kb/qs/_search?", body = TextRequest query)
+  Http.RequestString("http://elastic:9200/kb/qualitystandard/_search?", body = TextRequest query)
 
 let ParseResponse response = 
   try

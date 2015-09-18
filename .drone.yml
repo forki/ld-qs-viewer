@@ -8,7 +8,7 @@ publish:
     password: $$DOCKERHUB_PASS
     email: $$DOCKERHUB_EMAIL
     registry_login: true
-    tags: [latest, test]
+    tags: [latest, $DRONE_COMMIT]
     docker_host: tcp://172.16.204.198:5555
 notify:
   webhook:

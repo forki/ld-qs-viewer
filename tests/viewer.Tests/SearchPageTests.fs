@@ -22,11 +22,11 @@ let ``Run before tests`` () =
 let ``Should present zero results when no query string provided`` () =
  let results =
    startServer ()
-   |> req HttpMethod.GET "/search" None
-   |> ParseHtml
-   |> (fun x -> x.Select(".result"))
+   |> get "/"
+   |> CQ.select ".result"
+   |> CQ.length
 
- test <@ results.Length = 0 @>
+ test <@ results = 0 @>
 
 [<Test>]
 let ``Should present search results`` () =
@@ -36,11 +36,11 @@ let ``Should present search results`` () =
 
   let results =
     startServerWithData GetVocabularies GetSearchResults
-    |> reqQuery HttpMethod.GET "/search" "q=1" 
-    |> ParseHtml
-    |> (fun x -> x.Select(".results > .result"))
+    |> getQuery "/search" "notused=notused"
+    |> CQ.select ".results > .result"
+    |> CQ.length
 
-  test <@ results.Length = 2 @>
+  test <@ results = 2 @>
 
 [<Test>]
 let ``Should present abstract and link for each result`` () =
@@ -50,15 +50,19 @@ let ``Should present abstract and link for each result`` () =
 
   let dom =
     startServerWithData GetVocabularies GetSearchResults
-    |> reqQuery HttpMethod.GET "/search" "q=1" 
-    |> ParseHtml
+    |> getQuery "/search" "notused=notused"
 
-  let abstracts = dom.Select(".result > .abstract")
+  let abstracts = dom |> CQ.select ".result > .abstract"
 
-  test <@ abstracts.First().Text() = "Abstract1" @>
-  test <@ abstracts.Last().Text() = "Abstract2" @>
+  let abstract1 = abstracts |> CQ.first |> CQ.text
+  let abstract2 = abstracts |> CQ.last |> CQ.text
 
-  let links = dom.Select(".result > a")
+  test <@ abstract1 = "Abstract1" @>
+  test <@ abstract2 = "Abstract2" @>
 
-  test <@ links.First().Text() = "Uri1" @>
-  test <@ links.Last().Text() = "Uri2" @>
+  let links = dom |> CQ.select ".result > a"
+  let link1 = links |> CQ.first |> CQ.text
+  let link2 = links |> CQ.last |> CQ.text
+
+  test <@ link1 = "Uri1" @>
+  test <@ link2 = "Uri2" @>

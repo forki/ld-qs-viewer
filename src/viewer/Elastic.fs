@@ -10,6 +10,7 @@ let BuildQuery qs =
   let query = 
     """
     {
+       "from": 0, "size": 100,
        "query": {
             "term" : {
                 "qualitystandard:%s" : "%s"

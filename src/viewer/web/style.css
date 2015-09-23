@@ -29,6 +29,10 @@
     float: right;
 }
 
+.result {
+    padding-bottom: 20px;
+}
+
 @-ms-viewport {
   width: device-width;
 }

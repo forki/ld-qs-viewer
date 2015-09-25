@@ -21,28 +21,29 @@ let ``Run before tests`` () =
 let ``Should set the title`` () =
   let title =
     startServer ()
-    |> req HttpMethod.GET "/" None
-    |> ParseHtml
-    |> (fun x -> x.Select("title").Text())
+    |> get "/"
+    |> CQ.select "title"
+    |> CQ.text
+
   test <@ title = "KB - Home" @>
 
 [<Test>]
 let ``Should show heading`` () =
   let header =
     startServer ()
-    |> req HttpMethod.GET "/" None
-    |> ParseHtml
-    |> (fun x -> x.Select("main > h1").Text())
+    |> get "/"
+    |> CQ.select "main > h1"
+    |> CQ.text
   test <@ header = "NICE Quality Standards" @>
 
 [<Test>]
 let ``Should add form with search action`` () =
-  let form =
+  let action =
     startServer ()
-    |> req HttpMethod.GET "/" None
-    |> ParseHtml
-    |> (fun x -> x.Select("form"))
-  test <@  form.Attr("action") = "/search" @>
+    |> get "/"
+    |> CQ.select "form"
+    |> CQ.attr "action"
+  test <@ action = "/search" @>
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =
@@ -53,25 +54,24 @@ let ``Should present the vocabulary terms in form`` () =
                        Terms = [{Name = "Term3"; Uri = "Uri3"}]}]
   let GetSearchResults _ = []
 
-  let html =
-    startServerWithData vocabularies GetSearchResults
-    |> req HttpMethod.GET "/" None
-    |> ParseHtml
+  let html = startServerWithData vocabularies GetSearchResults |> get "/"
 
-  let vocab1 = html.Select("form > .vocab").First()
-  test <@ vocab1.Text().StartsWith("Vocab 1") @>
+  let vocabs = html |> CQ.select "form > .vocab"
 
-  let vocab2 = html.Select("form > .vocab").Last()
-  test <@ vocab2.Text().StartsWith("Vocab 2") @>
+  let vocab1text = vocabs |> CQ.first |> CQ.text
+  test <@ vocab1text.StartsWith("Vocab 1") @>
 
-  let terms = html.Select("form > .vocab > input")
-  test <@ terms.Length = 3 @>
+  let vocab2text = vocabs |> CQ.last |> CQ.text
+  test <@ vocab2text.StartsWith("Vocab 2") @>
+
+  let termCount = html |> CQ.select "form > .vocab > input" |> CQ.length
+  test <@ termCount = 3 @>
 
 [<Test>]
 let ``Should have search button`` () =
-  let searchbutton =
+  let searchButtonLabel =
     startServer ()
-    |> req HttpMethod.GET "/" None
-    |> ParseHtml
-    |> (fun x -> x.Select(":submit"))
-  test <@ searchbutton.Attr("Value") = "Search" @>
+    |> get "/"
+    |> CQ.select ":submit"
+    |> CQ.attr "Value"
+  test <@ searchButtonLabel = "Search" @>

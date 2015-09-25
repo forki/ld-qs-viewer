@@ -15,12 +15,22 @@ open Suave.Types
 open Viewer.App
 open Viewer.Types
 open Viewer.Elastic
+open Viewer.VocabGeneration
 
-let vocabularies = [{Name = "setting";
-                     Terms = [{Name = "Hospice"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Hospice"};
-                              {Name = "Community"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"}]};]
+let devMode = fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev"
 
-let SearchFunc = GetSearchResults RunElasticQuery
+let stubbedVocabularies = [{Name = "setting";
+                     Terms = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/setting.ttl"}]
+
+let getStubbedSearchResults _ = [{Uri = "http://localhost/resource/FHSJAJWHEHFK"; Abstract = "Unicorns under the age of 65..."};
+                                 {Uri = "http://localhost/resource/AWEKSJDJJJSEJ"; Abstract = "Goblins with arthritis..."}]
+
+let getSearchFunc () =
+  match devMode with
+    | true ->
+      printf "RUNNING DEV MODE: Using stubbed data\n"
+      getStubbedSearchResults
+    | false -> GetSearchResults RunElasticQuery
 
 let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
 setTemplatesDir templatePath
@@ -29,5 +39,5 @@ let defaultConfig = { defaultConfig with
                                     homeFolder = Some (__SOURCE_DIRECTORY__ + "/web")
                     }
 
-printf "Running with config:\n%A" defaultConfig
-startWebServer defaultConfig (createApp vocabularies SearchFunc)
+printf "Running with config:\n%A\n" defaultConfig
+startWebServer defaultConfig (createApp stubbedVocabularies (getSearchFunc()))

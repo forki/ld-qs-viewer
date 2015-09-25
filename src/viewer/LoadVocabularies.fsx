@@ -3,8 +3,11 @@
 #r "dotNetRDF.dll"
 #r "VDS.Common.dll"
 #r "Newtonsoft.Json.dll"
+#load "Types.fs"
 
 open FSharp.RDF
+open Viewer.Types
+
 type Term = {
   Uri : Uri
   Label : string
@@ -28,12 +31,15 @@ with static member from x =
   static member walk = function
     | {Uri = uri
        Parents = xs
-       Label = label} -> uri::List.collect Term.walk xs
+       Label = label} -> (label,uri)::List.collect Term.walk xs
 
 ///Load all resources from uri and make a map of rdfs:label -> resource uri
-let vocabLookup uri =
+let vocabLookup uri = 
   let gcd = Graph.loadFrom uri
   Resource.fromType (Uri.from "http://www.w3.org/2002/07/owl#Class") gcd
   |> List.map Term.from
-  |> List.map (Term.walk >> List.rev >> List.map string)
+  |> List.map (Term.walk >> List.rev)
   |> List.concat |> Seq.distinct |> Seq.toList
+  |> List.map(fun ls ->
+              match ls with
+              | lbl, uri -> { Name = lbl; Uri =  string uri })

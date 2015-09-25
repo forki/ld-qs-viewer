@@ -27,3 +27,13 @@ let raw = resp.Response
 
 type jp = JsonProvider<"../../src/viewer/elasticResponseSchema.json">
 let json = jp.Parse(raw)
+
+
+
+let url = "http://ld.nice.org.uk/prov/entity#98ead3d:qualitystandards/qs7/st2/Statement.md" 
+
+let parts = url.Split (':')
+let path = parts.[2]
+let id = path.Split('.')
+id.[0]
+

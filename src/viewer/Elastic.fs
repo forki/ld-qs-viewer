@@ -28,11 +28,22 @@ let RunElasticQuery (query: string) =
   Http.RequestString("http://elastic:9200/kb/qualitystatement/_search?", body = TextRequest query)
 
 let ParseResponse response = 
+
+  let rewriteUrl (url:string) =
+    try
+      //let url = "http://ld.nice.org.uk/prov/entity#98ead3d:qualitystandards/qs7/st2/Statement.md" 
+      let parts = url.Split (':')
+      let path = parts.[2]
+      let id = path.Split('.')
+      sprintf "/resource/%s.html" id.[0]
+    with
+      | ex -> url
+
   try
     let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(response)
     let hits = json.Hits.Hits
     hits
-      |> Seq.map(fun x -> {Uri = x.Source.Id;Abstract = x.Source.DctermsAbstract})
+      |> Seq.map(fun x -> {Uri = rewriteUrl x.Source.Id;Abstract = x.Source.DctermsAbstract})
       |> Seq.toList
   with
     | ex ->

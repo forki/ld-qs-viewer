@@ -29,9 +29,8 @@ let createApp vocabularies getSearchResultsFor =
   choose
     [ GET >>= choose
         [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
-         path "/search" >>= request(fun r ->
-                                    let query = BuildQuery(r.query)
-                                    DotLiquid.page "search.html" {Results = (getSearchResultsFor query)})
+         path "/search" >>= request(fun r -> search r.query getSearchResults)
+         pathScan "/resource/%s" (fun (filename) -> file (sprintf "/artifacts/published/%s" filename))
          browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]
 

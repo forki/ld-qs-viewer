@@ -19,14 +19,14 @@ let ``Run before tests`` () =
   setTemplatesDir "templates/"
 
 [<Test>]
-let ``Should present zero results when no query string provided`` () =
- let results =
+let ``Should show message when attempting to search with no filters`` () =
+ let message =
    startServer ()
-   |> get "/"
-   |> CQ.select ".result"
-   |> CQ.length
+   |> get "/search"
+   |> CQ.select ".results > .message"
+   |> CQ.text 
 
- test <@ results = 0 @>
+ test <@ message = "Please select one or more filters." @>
 
 [<Test>]
 let ``Should present search results`` () =

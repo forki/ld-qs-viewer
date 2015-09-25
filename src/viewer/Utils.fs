@@ -1,4 +1,4 @@
-module Viewer.Components.Search
+module Viewer.Utils
 
 let extractFilters qs =
   qs
@@ -7,3 +7,4 @@ let extractFilters qs =
                   | Some s -> s
                   | None -> "")
   |> Seq.toList
+

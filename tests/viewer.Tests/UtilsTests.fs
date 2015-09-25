@@ -1,6 +1,6 @@
-module Viewer.Tests.Components.Search
+module Viewer.Tests.UtilsTests
 
-open Viewer.Components.Search
+open Viewer.Utils
 open Swensen.Unquote
 open NUnit.Framework
 

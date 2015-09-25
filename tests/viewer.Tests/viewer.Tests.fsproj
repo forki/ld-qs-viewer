@@ -57,7 +57,7 @@
     <Folder Include="templates\" />
     <Compile Include="Utils.fs" />
     <Compile Include="ElasticTests.fs" />
-    <Compile Include="components\SearchTests.fs" />
+    <Compile Include="UtilsTests.fs" />
     <Compile Include="HomePageTests.fs" />
     <Compile Include="SearchPageTests.fs" />
     <None Include="paket.references" />

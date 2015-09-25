@@ -22,9 +22,8 @@ let stubbedVocabularies = [{Name = "setting";
                      Terms = [{Name = "Hospice"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Hospice"};
                               {Name = "Community"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"}]};]
 
-//let getStubbedSearchResults _ = [{Uri = "http://localhost/resource/FHSJAJWHEHFK"; Abstract = "Unicorns under the age of 65..."};
-//                                 {Uri = "http://localhost/resource/AWEKSJDJJJSEJ"; Abstract = "Goblins with arthritis..."}]
-let getStubbedSearchResults _ = []
+let getStubbedSearchResults _ = [{Uri = "http://localhost/resource/FHSJAJWHEHFK"; Abstract = "Unicorns under the age of 65..."};
+                                 {Uri = "http://localhost/resource/AWEKSJDJJJSEJ"; Abstract = "Goblins with arthritis..."}]
 
 let getSearchFunc () =
   match devMode with

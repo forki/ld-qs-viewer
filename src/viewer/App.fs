@@ -31,7 +31,6 @@ let createApp vocabularies getSearchResults =
     [ GET >>= choose
         [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
          path "/search" >>= request(fun r ->
-                                      printf "querystring: %A" r.query
                                       match r.query with
                                         | [("", _)] -> {Results = []; Filters = []}
                                         | _ -> {Results = (r.query |> BuildQuery |> getSearchResults); Filters = extractFilters r.query}

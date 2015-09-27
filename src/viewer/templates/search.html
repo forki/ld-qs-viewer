@@ -6,8 +6,8 @@
 
 {% block content %}
     <div class="results">
-        {% if model.Results == empty %}
-        No results found
+        {% if model.Filters == empty %}
+        <div class="message">Please select one or more filters.</div>
         {% endif %}
         {% for item in model.Results -%}
         <div class="result">

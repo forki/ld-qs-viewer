@@ -61,6 +61,7 @@
     <Compile Include="HomePageTests.fs" />
     <Compile Include="LoadVocabularyTests.fs" />
     <Compile Include="SearchPageTests.fs" />
+    <Compile Include="ArtifactPageTests.fs" />
     <None Include="paket.references" />
     <None Include="Script.fsx" />
   </ItemGroup>

@@ -20,11 +20,14 @@ type HomeModel =  {
    Vocabularies: Vocabulary list
 }
 
+let qualityStandardsDir = "/artifacts/published/"
+
 let createApp vocabularies getSearchResults =
   choose
     [ GET >>= choose
         [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
          path "/search" >>= request(fun r -> search r.query getSearchResults)
+         browse qualityStandardsDir
          browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]
 

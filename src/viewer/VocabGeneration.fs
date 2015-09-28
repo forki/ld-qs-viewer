@@ -50,3 +50,7 @@ let vocabGeneration ttl =
 
 let vocabLookup uri =
   vocabGeneration(Http.RequestString uri)
+
+let GetVocabs () =
+  [{Name = "setting"; Terms = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/setting.ttl"}]
+

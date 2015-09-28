@@ -25,7 +25,7 @@ let ``Should show message when attempting to search with no filters`` () =
 let ``Should present search results`` () =
   let GetSearchResults _ = [{Uri = "";Abstract = ""};
                             {Uri = "";Abstract = ""}]
-  let GetVocabularies = []
+  let GetVocabularies () = []
 
   let results =
     startServerWithData GetVocabularies GetSearchResults
@@ -39,7 +39,7 @@ let ``Should present search results`` () =
 let ``Should present abstract and link for each result`` () =
   let GetSearchResults _ = [{Uri = "Uri1"; Abstract = "Abstract1"};
                             {Uri = "Uri2"; Abstract = "Abstract2"}]
-  let GetVocabularies = []
+  let GetVocabularies () = []
 
   let dom =
     startServerWithData GetVocabularies GetSearchResults

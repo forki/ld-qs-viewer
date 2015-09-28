@@ -22,10 +22,10 @@ type HomeModel =  {
 
 let qualityStandardsDir = "/artifacts/published/"
 
-let createApp vocabularies getSearchResults =
+let createApp getVocabs getSearchResults =
   choose
     [ GET >>= choose
-        [path "/" >>= DotLiquid.page "home.html" {Vocabularies = vocabularies}
+        [path "/" >>= DotLiquid.page "home.html" {Vocabularies = getVocabs()}
          path "/search" >>= request(fun r -> search r.query getSearchResults)
          browse qualityStandardsDir
          browseHome

@@ -41,14 +41,14 @@ let ``Should add form with search action`` () =
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =
-  let vocabularies = [{Name = "Vocab 1";
+  let GetVocabs () = [{Name = "Vocab 1";
                        Terms = [{Name = "Term1"; Uri = "Uri1"};
                                 {Name = "Term2"; Uri = "Uri2"}]};
                       {Name = "Vocab 2";
                        Terms = [{Name = "Term3"; Uri = "Uri3"}]}]
   let GetSearchResults _ = []
 
-  let html = startServerWithData vocabularies GetSearchResults |> get "/"
+  let html = startServerWithData GetVocabs GetSearchResults |> get "/"
 
   let vocabs = html |> CQ.select "form > .vocab"
 

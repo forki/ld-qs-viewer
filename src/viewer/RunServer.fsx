@@ -19,11 +19,12 @@ open Viewer.VocabGeneration
 
 let devMode = fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev"
 
-let stubbedVocabularies = [{Name = "setting";
-                     Terms = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/setting.ttl"}]
+let getStubbedVocabs () = [{Name = "setting"; 
+                            Terms = [{Name = "Hospice"; Uri = "Uri"};
+                                     {Name = "Community"; Uri = "Uri"}]};]
 
-let getStubbedSearchResults _ = [{Uri = "http://localhost/resource/FHSJAJWHEHFK"; Abstract = "Unicorns under the age of 65..."};
-                                 {Uri = "http://localhost/resource/AWEKSJDJJJSEJ"; Abstract = "Goblins with arthritis..."}]
+let getStubbedSearchResults _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."};
+                                 {Uri = "Uri2"; Abstract = "Goblins with arthritis..."}]
 
 let getSearchFunc () =
   match devMode with
@@ -31,6 +32,13 @@ let getSearchFunc () =
       printf "RUNNING DEV MODE: Using stubbed data\n"
       getStubbedSearchResults
     | false -> GetSearchResults RunElasticQuery
+
+let getVocabFunc () =
+  match devMode with
+    | true ->
+      printf "RUNNING DEV MODE: Using stubbed data\n"
+      getStubbedVocabs
+    | false -> GetVocabs 
 
 let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
 setTemplatesDir templatePath
@@ -40,4 +48,4 @@ let defaultConfig = { defaultConfig with
                     }
 
 printf "Running with config:\n%A\n" defaultConfig
-startWebServer defaultConfig (createApp stubbedVocabularies (getSearchFunc()))
+startWebServer defaultConfig (createApp (getVocabFunc()) (getSearchFunc()))

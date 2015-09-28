@@ -25,7 +25,7 @@ let startServerWithData getVocabularies getSearchResults =
   runWith defaultConfig (createApp getVocabularies getSearchResults)
 
 let startServer () =
-  let GetVocabularies = []
+  let GetVocabularies () = []
   let GetSearchResults _ = []
 
   startServerWithData GetVocabularies GetSearchResults

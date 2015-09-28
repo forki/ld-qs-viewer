@@ -4,6 +4,7 @@ nuget DotLiquid
 nuget CsQuery
 nuget FSharp.Data
 nuget FSharp.Formatting
+nuget FSharp.RDF
 nuget Fuchu
 nuget NEST
 nuget NUnit 

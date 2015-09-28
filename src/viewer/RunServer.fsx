@@ -15,12 +15,12 @@ open Suave.Types
 open Viewer.App
 open Viewer.Types
 open Viewer.Elastic
+open Viewer.VocabGeneration
 
 let devMode = fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev"
 
 let stubbedVocabularies = [{Name = "setting";
-                     Terms = [{Name = "Hospice"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Hospice"};
-                              {Name = "Community"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"}]};]
+                     Terms = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/setting.ttl"}]
 
 let getStubbedSearchResults _ = [{Uri = "http://localhost/resource/FHSJAJWHEHFK"; Abstract = "Unicorns under the age of 65..."};
                                  {Uri = "http://localhost/resource/AWEKSJDJJJSEJ"; Abstract = "Goblins with arthritis..."}]

@@ -25,6 +25,10 @@
     overflow: auto;
 }
 
+.result{
+    padding-bottom: 20px;
+}
+
 .textright {
     float: right;
 }

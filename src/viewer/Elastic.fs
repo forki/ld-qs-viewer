@@ -29,9 +29,11 @@ let RunElasticQuery (query: string) =
 
 let ParseResponse response = 
 
-  let hackyRewriteUrl (url:string) =
+  let chopPath (url:string) =
     try
-      //let url = "http://ld.nice.org.uk/prov/entity#98ead3d:qualitystandards/qs7/st2/Statement.md" 
+      //this should probably be done elsewhere!
+      //converting from "http://ld.nice.org.uk/prov/entity#98ead3d:qualitystandards/qs7/st2/Statement.md" 
+      //to = "/qualitystandards/qs7/st2/Statement.html" 
       let parts = url.Split (':')
       let path = parts.[2]
       let id = path.Split('.')
@@ -43,7 +45,7 @@ let ParseResponse response =
     let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(response)
     let hits = json.Hits.Hits
     hits
-      |> Seq.map(fun x -> {Uri = hackyRewriteUrl x.Source.Id;Abstract = x.Source.DctermsAbstract})
+      |> Seq.map(fun hit -> {Uri = chopPath hit.Source.Id;Abstract = hit.Source.DctermsAbstract})
       |> Seq.toList
   with
     | ex ->

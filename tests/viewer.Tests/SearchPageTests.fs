@@ -1,16 +1,9 @@
 module Viewer.Tests.SearchPageTests
 
 open Suave
-open Suave.Http.Successful
-open Suave.Web
-open Suave.Http
-open Suave.Types
-open Suave.Testing
-open Suave.Http.Applicatives
 open Suave.DotLiquid
 open NUnit.Framework
 open Swensen.Unquote
-open Viewer.App
 open Viewer.Types
 open Viewer.Tests.Utils
 

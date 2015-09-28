@@ -58,6 +58,7 @@
     <Compile Include="Utils.fs" />
     <Compile Include="ElasticTests.fs" />
     <Compile Include="HomePageTests.fs" />
+    <Compile Include="LoadVocabularyTests.fs" />
     <Compile Include="SearchPageTests.fs" />
     <None Include="paket.references" />
     <None Include="Script.fsx" />

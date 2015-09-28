@@ -31,7 +31,7 @@ let ParseResponse response =
 
   let chopPath (url:string) =
     try
-      //this should probably be done elsewhere!
+      //This should probably be done elsewhere!
       //converting from "http://ld.nice.org.uk/prov/entity#98ead3d:qualitystandards/qs7/st2/Statement.md" 
       //to = "/qualitystandards/qs7/st2/Statement.html" 
       let parts = url.Split (':')

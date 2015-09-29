@@ -1,0 +1,20 @@
+<form action="/search" class="filters" id="filters">
+    <h3 class="filters-title">Filters</h3>
+    <div class="filter-group">
+        {% for vocab in model.Vocabularies -%}
+        <div class="vocab">
+            <h4 class="h4">{{vocab.Name}}</h4>
+            {% for item in vocab.Terms -%}
+                {% include "checkbox.html" item:item vocabName:vocab.Name %}
+            {% endfor -%}
+        </div>
+        {% endfor -%}
+    </div>
+
+    <div class="button-group">
+        <input type="reset" class="button" Value="Reset">
+        <input type="submit" class="button primary" Value="Search">
+    </div>
+
+</form>
+

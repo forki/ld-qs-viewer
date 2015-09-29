@@ -6,6 +6,26 @@ open Viewer.Elastic
 open Viewer.Types
 
 [<Test>]
+let ``Should build query correctly for a single term`` () =
+  let qs = [("key", Some("val"))]
+  let query = BuildQuery qs
+  let expectedQuery = """{
+"from": 0, "size": 100,
+"query": {
+  "filtered": {
+    "filter" : {
+      "bool" : {
+        "should" : [
+          {"term" : {"qualitystandard:key" : "val"}}
+        ]
+      }
+    }
+  }
+}
+}"""
+  test <@ query = expectedQuery @>
+
+[<Test>]
 let ``GetSearchResults should return an empty list on zero results`` () =
   let StubbedQueryResponse _ = "{}"
   let query = "{}"

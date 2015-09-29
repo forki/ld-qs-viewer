@@ -7,16 +7,20 @@ open System
 open FSharp.Data
 
 let BuildQuery qs =
-  let query = 
-    """
-    {
-       "from": 0, "size": 100,
-       "query": {
-            "term" : {
-                "qualitystandard:%s" : "%s"
-            }
-       }
-    }"""
+  let query = """{
+"from": 0, "size": 100,
+"query": {
+  "filtered": {
+    "filter" : {
+      "bool" : {
+        "should" : [
+          {"term" : {"qualitystandard:%s" : "%s"}}
+        ]
+      }
+    }
+  }
+}
+}"""
 
   qs
   |> Seq.head

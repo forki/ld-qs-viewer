@@ -45,7 +45,7 @@ let ``Should present abstract and link for each result`` () =
     startServerWithData GetVocabularies GetSearchResults
     |> getQuery "/search" "notused=notused"
 
-  let abstracts = dom |> CQ.select ".result > .abstract"
+  let abstracts = dom |> CQ.select ".abstract"
 
   let abstract1 = abstracts |> CQ.first |> CQ.text
   let abstract2 = abstracts |> CQ.last |> CQ.text
@@ -54,8 +54,8 @@ let ``Should present abstract and link for each result`` () =
   test <@ abstract2 = "Abstract2" @>
 
   let links = dom |> CQ.select ".result > a"
-  let link1 = links |> CQ.first |> CQ.text
-  let link2 = links |> CQ.last |> CQ.text
+  let link1 = links |> CQ.first |> CQ.attr "href"
+  let link2 = links |> CQ.last |> CQ.attr "href"
 
   test <@ link1 = "Uri1" @>
   test <@ link2 = "Uri2" @>

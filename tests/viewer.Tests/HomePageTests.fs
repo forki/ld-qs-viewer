@@ -22,15 +22,6 @@ let ``Should set the title`` () =
   test <@ title = "KB - Home" @>
 
 [<Test>]
-let ``Should show heading`` () =
-  let header =
-    startServer ()
-    |> get "/"
-    |> CQ.select "main > h1"
-    |> CQ.text
-  test <@ header = "NICE Quality Standards" @>
-
-[<Test>]
 let ``Should add form with search action`` () =
   let action =
     startServer ()
@@ -50,15 +41,15 @@ let ``Should present the vocabulary terms in form`` () =
 
   let html = startServerWithData GetVocabs GetSearchResults |> get "/"
 
-  let vocabs = html |> CQ.select "form > .vocab"
+  let vocabs = html |> CQ.select ".filter-group > .vocab"
 
   let vocab1text = vocabs |> CQ.first |> CQ.text
-  test <@ vocab1text.StartsWith("Vocab 1") @>
+  test <@ vocab1text.Contains("Vocab 1") @>
 
   let vocab2text = vocabs |> CQ.last |> CQ.text
-  test <@ vocab2text.StartsWith("Vocab 2") @>
+  test <@ vocab2text.Contains("Vocab 2") @>
 
-  let termCount = html |> CQ.select "form > .vocab > input" |> CQ.length
+  let termCount = html |> CQ.select "input[type='checkbox']" |> CQ.length
   test <@ termCount = 3 @>
 
 [<Test>]

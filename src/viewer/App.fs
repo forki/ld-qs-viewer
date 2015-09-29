@@ -26,7 +26,7 @@ let createApp getVocabs getSearchResults =
   choose
     [ GET >>= choose
         [path "/" >>= DotLiquid.page "home.html" {Vocabularies = getVocabs()}
-         path "/search" >>= request(fun r -> search r.query getSearchResults)
+         path "/search" >>= request(fun r -> search r.query getSearchResults getVocabs)
          browse qualityStandardsDir
          browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]

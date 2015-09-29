@@ -16,7 +16,7 @@ let ``Should show message when attempting to search with no filters`` () =
  let message =
    startServer ()
    |> get "/search"
-   |> CQ.select ".results > .message"
+   |> CQ.select ".message"
    |> CQ.text 
 
  test <@ message = "Please select one or more filters." @>

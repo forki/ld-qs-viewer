@@ -5,15 +5,19 @@
 {% endblock %}
 
 {% block content %}
-    <div class="results">
+    {% include "sidebar.html" model:model %}
+
+    <div class="card-list-wrapper">
         {% if model.Filters == empty %}
         <div class="message">Please select one or more filters.</div>
         {% endif %}
+        <div class="card-list results">
         {% for item in model.Results -%}
-        <div class="result">
-            <span class="abstract">{{item.Abstract}}</span>
+        <div class="card result">
+            <span class="card-excerpt abstract">{{item.Abstract}}</span>
             <a href="{{item.Uri}}">{{item.Uri}}</a>
         </div>
         {% endfor -%}
+        </div>
     </div>
 {% endblock %}

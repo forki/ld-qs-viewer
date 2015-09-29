@@ -9,10 +9,11 @@ open Viewer.Elastic
 type SearchModel = {
   Results: SearchResult list
   Filters: string list
+  Vocabularies: Vocabulary list
 }
 
-let search qs getSearchResults =
+let search qs getSearchResults vocab =
   match qs with
-    | [("", _)] -> {Results = []; Filters = []}
-    | _         -> {Results = (qs |> BuildQuery |> getSearchResults); Filters = extractFilters qs}
+    | [("", _)] -> {Results = []; Filters = []; Vocabularies = vocab}
+    | _         -> {Results = (qs |> BuildQuery |> getSearchResults); Filters = extractFilters qs; Vocabularies = vocab}
   |> DotLiquid.page "search.html"

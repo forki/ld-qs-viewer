@@ -26,6 +26,28 @@ let ``Should build query correctly for a single term`` () =
   test <@ query = expectedQuery @>
 
 [<Test>]
+let ``Should build query correctly for a multiple terms with same key`` () =
+  let qs = [("key", Some("val1"));
+            ("key", Some("val2"))]
+
+  let query = BuildQuery qs
+  let expectedQuery = """{
+"from": 0, "size": 100,
+"query": {
+  "filtered": {
+    "filter" : {
+      "bool" : {
+        "should" : [
+          {"term" : {"qualitystandard:key" : "val1"}},{"term" : {"qualitystandard:key" : "val2"}}
+        ]
+      }
+    }
+  }
+}
+}"""
+  test <@ query = expectedQuery @>
+
+[<Test>]
 let ``GetSearchResults should return an empty list on zero results`` () =
   let StubbedQueryResponse _ = "{}"
   let query = "{}"

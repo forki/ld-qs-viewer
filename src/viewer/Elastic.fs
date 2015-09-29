@@ -7,6 +7,29 @@ open System
 open FSharp.Data
 
 let BuildQuery qs =
+
+  let buildTermListFromQueryString qs =
+    
+    let buildTerm k v =
+      let termQuery = """{"term" : {"qualitystandard:%s" : "%s"}}"""
+      sprintf (Printf.StringFormat<string->string->string>(termQuery)) k v
+
+    qs
+    |> Seq.map (fun pair ->
+                match pair with
+                  | (k, Some(v)) -> buildTerm k v)
+    |> Seq.toList
+
+  let buildTermQueryFromTerms terms = 
+    terms
+    |> Seq.fold (fun acc term ->
+                 match acc with
+                   | "" -> term
+                   | _ -> acc + "," + term) ""
+
+  let insertIntoQuery query termQuery = 
+    sprintf (Printf.StringFormat<string->string>(query)) termQuery
+
   let query = """{
 "from": 0, "size": 100,
 "query": {
@@ -14,7 +37,7 @@ let BuildQuery qs =
     "filter" : {
       "bool" : {
         "should" : [
-          {"term" : {"qualitystandard:%s" : "%s"}}
+          %s
         ]
       }
     }
@@ -22,11 +45,13 @@ let BuildQuery qs =
 }
 }"""
 
-  qs
-  |> Seq.head
-  |> (fun a ->
-      match a with
-      | (k, Some(v)) -> (sprintf (Printf.StringFormat<string->string->string>(query)) k v))
+  let fullQuery = qs
+                |> buildTermListFromQueryString
+                |> buildTermQueryFromTerms
+                |> insertIntoQuery query
+
+  //printf "Running query: %s" fullQuery
+  fullQuery
 
 let RunElasticQuery (query: string) =
   Http.RequestString("http://elastic:9200/kb/qualitystatement/_search?", body = TextRequest query)

@@ -14,8 +14,9 @@
         <div class="card-list results">
         {% for item in model.Results -%}
         <div class="card result">
-            <span class="card-excerpt abstract">{{item.Abstract}}</span>
-            <a href="{{item.Uri}}">{{item.Uri}}</a>
+            <a class="card" href="{{item.Uri}}">
+                <div class="card-excerpt abstract">{{item.Abstract}}</div>
+            </a>
         </div>
         {% endfor -%}
         </div>

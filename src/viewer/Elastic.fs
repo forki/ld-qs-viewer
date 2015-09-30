@@ -1,72 +1,24 @@
 module Viewer.Elastic
 
+open Viewer.Utils
 open Viewer.Types
+open Viewer.Queries
 open Elasticsearch.Net
 open Elasticsearch.Net.Connection
 open System
 open FSharp.Data
 
-let aggregateQueryStringValues qs =
-  qs
-  |> Seq.groupBy (fun (k,_) -> k)
-  |> Seq.map (fun (k, vals) ->
-              (k, vals
-                  |> Seq.map (fun (_,p) ->
-                              match p with
-                              | Some s -> s)
-                  |> Seq.toList))
-  |> Seq.toList
+let BuildQuery qsPairs =
+  let aggregatedKeyValues = aggregateQueryStringValues qsPairs 
 
-let BuildQuery qs =
+  let shouldQuery = aggregatedKeyValues
+                    |> Seq.map (fun (k, vals) -> vals
+                                                 |> Seq.map (fun v -> insertItemsInto termQuery k v)
+                                                 |> concatToStringWithDelimiter ",")
+                    |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)
+                    |> concatToStringWithDelimiter ","
 
-  let buildTermListFromQueryString (k:string) vals =
-    
-    let buildTerm k v =
-      let termQuery = """{"term" : {"qualitystandard:%s" : "%s"}}"""
-      sprintf (Printf.StringFormat<string->string->string>(termQuery)) k v
-
-    vals
-    |> Seq.map (fun v -> buildTerm k v)
-
-  let buildQueryFromList terms = 
-    terms
-    |> Seq.fold (fun acc term ->
-                 match acc with
-                   | "" -> term
-                   | _ -> acc + "," + term) ""
-
-  let shouldQuery = """{"bool" : {
-            "should" : [
-              %s
-            ]
-          }}"""
-
-  let mustQuery = """{
-"from": 0, "size": 100,
-"query": {
-  "filtered": {
-    "filter" : {
-      "bool" : {
-        "must" : [
-          %s
-        ]
-      } 
-    }
-  }
-}
-}"""
-
-  let insertIntoShouldQuery (k:string) terms =
-    let termQuery = terms |> buildTermListFromQueryString k |> buildQueryFromList
-    sprintf (Printf.StringFormat<string->string>(shouldQuery)) termQuery
-
-  let insertIntoMustQuery queries = 
-    let shoulds = queries |> buildQueryFromList
-    sprintf (Printf.StringFormat<string->string>(mustQuery)) shoulds
-
-  let aggs = qs |> aggregateQueryStringValues
-  let shouldQueries = aggs |> Seq.map (fun (k, vals) -> insertIntoShouldQuery k vals)
-  let fullQuery = insertIntoMustQuery shouldQueries
+  let fullQuery = insertItemInto mustQuery shouldQuery
 
   printf "Running query: %s" fullQuery
   fullQuery

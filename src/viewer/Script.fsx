@@ -43,3 +43,5 @@ l
 |> Seq.groupBy (fun (k,v) -> k)
 |> Seq.map (fun (k, v) -> (k, Seq.map (fun (s,p) -> p) v) )
 
+
+let l = ["A";"B";"C"]

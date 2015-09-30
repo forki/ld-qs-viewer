@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Types.fs" />
     <Compile Include="Utils.fs" />
+    <Compile Include="Queries.fs" />
     <Compile Include="Elastic.fs" />
     <Compile Include="Search.fs" />
     <Compile Include="App.fs" />

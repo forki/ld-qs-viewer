@@ -6,16 +6,6 @@ open Viewer.Elastic
 open Viewer.Types
 
 [<Test>]
-let ``Aggregate querystring keys`` () =
-  let qs = [("key1", Some("val1"));
-            ("key1", Some("val2"));
-            ("key2", Some("val3"))]
-
-  let aggs = aggregateQueryStringValues qs
-  test <@ aggs = [("key1",["val1";"val2"]);
-                  ("key2",["val3"])] @>
-
-[<Test>]
 let ``Should build query correctly for a single term`` () =
   let qs = [("key", Some("val"))]
   let query = BuildQuery qs

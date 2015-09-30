@@ -6,6 +6,17 @@ open Elasticsearch.Net.Connection
 open System
 open FSharp.Data
 
+let aggregateQueryStringValues qs =
+  qs
+  |> Seq.groupBy (fun (k,_) -> k)
+  |> Seq.map (fun (k, vals) ->
+              (k, vals
+                  |> Seq.map (fun (_,p) ->
+                              match p with
+                              | Some s -> s)
+                  |> Seq.toList))
+  |> Seq.toList
+
 let BuildQuery qs =
 
   let buildTermListFromQueryString qs =

@@ -52,6 +52,7 @@ let vocabLookup uri =
   vocabGeneration(Http.RequestString uri)
 
 let GetVocabs () =
-  printf "REQUESTING VOCABS"
-  [{Name = "setting"; Terms = vocabLookup "http://schema/ns/qualitystandard/setting.ttl"}]
+  [{Name = "setting"; Terms = vocabLookup "http://schema/ns/qualitystandard/setting.ttl"};
+   {Name = "serviceArea"; Terms = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl"};
+   {Name = "targetPopulation"; Terms = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl"}]
 

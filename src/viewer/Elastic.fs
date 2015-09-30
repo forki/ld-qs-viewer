@@ -19,49 +19,56 @@ let aggregateQueryStringValues qs =
 
 let BuildQuery qs =
 
-  let buildTermListFromQueryString qs =
+  let buildTermListFromQueryString (k:string) vals =
     
     let buildTerm k v =
       let termQuery = """{"term" : {"qualitystandard:%s" : "%s"}}"""
       sprintf (Printf.StringFormat<string->string->string>(termQuery)) k v
 
-    qs
-    |> Seq.map (fun pair ->
-                match pair with
-                  | (k, Some(v)) -> buildTerm k v)
-    |> Seq.toList
+    vals
+    |> Seq.map (fun v -> buildTerm k v)
 
-  let buildTermQueryFromTerms terms = 
+  let buildQueryFromList terms = 
     terms
     |> Seq.fold (fun acc term ->
                  match acc with
                    | "" -> term
                    | _ -> acc + "," + term) ""
 
-  let insertIntoQuery query termQuery = 
-    sprintf (Printf.StringFormat<string->string>(query)) termQuery
+  let shouldQuery = """{"bool" : {
+            "should" : [
+              %s
+            ]
+          }}"""
 
-  let query = """{
+  let mustQuery = """{
 "from": 0, "size": 100,
 "query": {
   "filtered": {
     "filter" : {
       "bool" : {
-        "should" : [
+        "must" : [
           %s
         ]
-      }
+      } 
     }
   }
 }
 }"""
 
-  let fullQuery = qs
-                |> buildTermListFromQueryString
-                |> buildTermQueryFromTerms
-                |> insertIntoQuery query
+  let insertIntoShouldQuery (k:string) terms =
+    let termQuery = terms |> buildTermListFromQueryString k |> buildQueryFromList
+    sprintf (Printf.StringFormat<string->string>(shouldQuery)) termQuery
 
-  //printf "Running query: %s" fullQuery
+  let insertIntoMustQuery queries = 
+    let shoulds = queries |> buildQueryFromList
+    sprintf (Printf.StringFormat<string->string>(mustQuery)) shoulds
+
+  let aggs = qs |> aggregateQueryStringValues
+  let shouldQueries = aggs |> Seq.map (fun (k, vals) -> insertIntoShouldQuery k vals)
+  let fullQuery = insertIntoMustQuery shouldQueries
+
+  printf "Running query: %s" fullQuery
   fullQuery
 
 let RunElasticQuery (query: string) =

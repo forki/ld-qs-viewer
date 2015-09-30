@@ -25,10 +25,14 @@ let ``Should build query correctly for a single term`` () =
   "filtered": {
     "filter" : {
       "bool" : {
-        "should" : [
-          {"term" : {"qualitystandard:key" : "val"}}
+        "must" : [
+          {"bool" : {
+            "should" : [
+              {"term" : {"qualitystandard:key" : "val"}}
+            ]
+          }}
         ]
-      }
+      } 
     }
   }
 }
@@ -47,10 +51,14 @@ let ``Should build query correctly for a multiple terms with same key`` () =
   "filtered": {
     "filter" : {
       "bool" : {
-        "should" : [
-          {"term" : {"qualitystandard:key" : "val1"}},{"term" : {"qualitystandard:key" : "val2"}}
+        "must" : [
+          {"bool" : {
+            "should" : [
+              {"term" : {"qualitystandard:key" : "val1"}},{"term" : {"qualitystandard:key" : "val2"}}
+            ]
+          }}
         ]
-      }
+      } 
     }
   }
 }

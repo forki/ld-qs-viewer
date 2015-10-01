@@ -1,56 +1,26 @@
 module Viewer.Elastic
 
+open Viewer.Utils
 open Viewer.Types
+open Viewer.Queries
 open Elasticsearch.Net
 open Elasticsearch.Net.Connection
 open System
 open FSharp.Data
 
-let BuildQuery qs =
+let BuildQuery qsPairs =
+  let aggregatedKeyValues = aggregateQueryStringValues qsPairs 
 
-  let buildTermListFromQueryString qs =
-    
-    let buildTerm k v =
-      let termQuery = """{"term" : {"qualitystandard:%s" : "%s"}}"""
-      sprintf (Printf.StringFormat<string->string->string>(termQuery)) k v
+  let shouldQuery = aggregatedKeyValues
+                    |> Seq.map (fun (k, vals) -> vals
+                                                 |> Seq.map (fun v -> insertItemsInto termQuery k v)
+                                                 |> concatToStringWithDelimiter ",")
+                    |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)
+                    |> concatToStringWithDelimiter ","
 
-    qs
-    |> Seq.map (fun pair ->
-                match pair with
-                  | (k, Some(v)) -> buildTerm k v)
-    |> Seq.toList
+  let fullQuery = insertItemInto mustQuery shouldQuery
 
-  let buildTermQueryFromTerms terms = 
-    terms
-    |> Seq.fold (fun acc term ->
-                 match acc with
-                   | "" -> term
-                   | _ -> acc + "," + term) ""
-
-  let insertIntoQuery query termQuery = 
-    sprintf (Printf.StringFormat<string->string>(query)) termQuery
-
-  let query = """{
-"from": 0, "size": 100,
-"query": {
-  "filtered": {
-    "filter" : {
-      "bool" : {
-        "should" : [
-          %s
-        ]
-      }
-    }
-  }
-}
-}"""
-
-  let fullQuery = qs
-                |> buildTermListFromQueryString
-                |> buildTermQueryFromTerms
-                |> insertIntoQuery query
-
-  //printf "Running query: %s" fullQuery
+  printf "Running query: %s" fullQuery
   fullQuery
 
 let RunElasticQuery (query: string) =

@@ -12,6 +12,11 @@
         <div class="message">Please select one or more filters.</div>
         {% endif %}
         <div class="card-list results">
+        <div class="card-list-header">
+                <div id="toggle-filters" class="toggle-filters">Filters</div>
+                <div class="tags-list"></div>
+                <div class="counter">{{model.total_count}} filtered items</div>
+        </div>
         {% for item in model.Results -%}
         <div class="card result">
             <a class="card" href="{{item.Uri}}">

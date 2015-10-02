@@ -23,7 +23,7 @@ type Term =
                       (Uri.from "http://www.w3.org/2000/01/rdf-schema#label")
                       (xsd.string) x with
             | Some x -> x
-            | _ -> "????"
+            | None -> "" //Getting this when triple has no rdf:label i.e. top level class e.g. #ServiceArea
 
         {Uri = Resource.id x;
          Parents = parents x;

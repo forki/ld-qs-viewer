@@ -1,4 +1,3 @@
-
 module Viewer.Search
 
 open Suave
@@ -12,14 +11,18 @@ type SearchModel = {
   Results: SearchResult list
   Filters: string list
   Vocabularies: Vocabulary list
+  totalCount: int
 }
 
 let search (req:HttpRequest) getSearchResults getVocabs =
   let testing = req.cookies |> Map.containsKey "test"
 
   let qs = req.query
-  let vocab = getVocabs()
   match qs with
-    | [("", _)] -> {Results = []; Filters = []; Vocabularies = vocab}
-    | _         -> {Results = (qs |> BuildQuery |> getSearchResults testing); Filters = extractFilters qs; Vocabularies = vocab}
+    | [("", _)] ->
+      {Results = []; Filters = []; Vocabularies = getVocabs(); totalCount = 0}
+    | _         ->
+      let results = (qs |> BuildQuery |> getSearchResults testing)
+      {Results = results; Filters = extractFilters qs; Vocabularies = getVocabs(); totalCount = results.Length}
+
   |> DotLiquid.page "search.html"

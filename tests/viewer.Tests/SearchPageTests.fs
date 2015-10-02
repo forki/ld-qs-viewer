@@ -35,6 +35,20 @@ let ``Should present search results`` () =
 
   test <@ results = 2 @>
 
+
+[<Test>]
+let ``Should present a result count`` () =
+  let GetSearchResults _ _ = [{Uri = "";Abstract = ""};
+                              {Uri = "";Abstract = ""}]
+  let GetVocabularies () = []
+
+  let totalCount =
+    startServerWithData GetVocabularies GetSearchResults
+    |> getQuery "/search" "notused=notused"
+    |> CQ.select ".card-list-header > .counter"
+    |> CQ.text
+  test <@ totalCount = "2 filtered items" @>
+
 [<Test>]
 let ``Should present abstract and link for each result`` () =
   let GetSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"};

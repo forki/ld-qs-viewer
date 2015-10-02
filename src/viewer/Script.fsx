@@ -37,3 +37,11 @@ let path = parts.[2]
 let id = path.Split('.')
 id.[0]
 
+
+let l = [("A","B");("C","D");("A","E")]
+l
+|> Seq.groupBy (fun (k,v) -> k)
+|> Seq.map (fun (k, v) -> (k, Seq.map (fun (s,p) -> p) v) )
+
+
+let l = ["A";"B";"C"]

@@ -25,11 +25,6 @@ let createApp getVocabs getSearchResults =
     [ GET >>= choose
         [path "/" >>= request(fun req -> home req getVocabs)
          path "/search" >>= request(fun req -> search req getSearchResults getVocabs)
-         path "/testing" >>= request(fun req ->
-                                     printf "request: %A\n" req
-                                     printf "headers: %s\n" (req.headers.ToString())
-                                     printf "cookies: %s\n" (req.cookies.ToString())
-                                     OK "boo")
          browse qualityStandardsDir
          browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]

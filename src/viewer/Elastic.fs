@@ -23,8 +23,14 @@ let BuildQuery qsPairs =
   printf "Running query: %s" fullQuery
   fullQuery
 
-let RunElasticQuery (query: string) =
-  Http.RequestString("http://elastic:9200/kb/qualitystatement/_search?", body = TextRequest query)
+let RunElasticQuery testing (query: string) =
+  let indexName = 
+    match testing with
+    | true -> "kb_test"
+    | false -> "kb"
+
+  let url = sprintf "http://elastic:9200/%s/qualitystatement/_search?" indexName
+  Http.RequestString(url, body = TextRequest query)
 
 let ParseResponse response = 
 
@@ -51,5 +57,5 @@ let ParseResponse response =
       printf "%s" (ex.ToString())
       []
 
-let GetSearchResults runSearch query =
-  query |> runSearch |> ParseResponse
+let GetSearchResults runSearch testing query =
+  query |> runSearch testing |> ParseResponse

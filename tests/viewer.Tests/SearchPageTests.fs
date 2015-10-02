@@ -23,8 +23,8 @@ let ``Should show message when attempting to search with no filters`` () =
 
 [<Test>]
 let ``Should present search results`` () =
-  let GetSearchResults _ = [{Uri = "";Abstract = ""};
-                            {Uri = "";Abstract = ""}]
+  let GetSearchResults _ _ = [{Uri = "";Abstract = ""};
+                              {Uri = "";Abstract = ""}]
   let GetVocabularies () = []
 
   let results =
@@ -38,8 +38,8 @@ let ``Should present search results`` () =
 
 [<Test>]
 let ``Should present a result count`` () =
-  let GetSearchResults _ = [{Uri = "";Abstract = ""};
-                            {Uri = "";Abstract = ""}]
+  let GetSearchResults _ _ = [{Uri = "";Abstract = ""};
+                              {Uri = "";Abstract = ""}]
   let GetVocabularies () = []
 
   let totalCount =
@@ -51,8 +51,8 @@ let ``Should present a result count`` () =
 
 [<Test>]
 let ``Should present abstract and link for each result`` () =
-  let GetSearchResults _ = [{Uri = "Uri1"; Abstract = "Abstract1"};
-                            {Uri = "Uri2"; Abstract = "Abstract2"}]
+  let GetSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"};
+                              {Uri = "Uri2"; Abstract = "Abstract2"}]
   let GetVocabularies () = []
 
   let dom =

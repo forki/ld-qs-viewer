@@ -1,7 +1,8 @@
-
 module Viewer.Search
 
 open Suave
+open Suave.Types
+open Suave.Cookie
 open Viewer.Types
 open Viewer.Utils
 open Viewer.Elastic
@@ -13,11 +14,15 @@ type SearchModel = {
   totalCount: int
 }
 
-let search qs getSearchResults getVocabs =
-  let vocab = getVocabs()
+let search (req:HttpRequest) getSearchResults getVocabs =
+  let testing = req.cookies |> Map.containsKey "test"
+
+  let qs = req.query
   match qs with
-    | [("", _)] -> {Results = []; Filters = []; Vocabularies = vocab; totalCount = 0}
+    | [("", _)] ->
+      {Results = []; Filters = []; Vocabularies = getVocabs(); totalCount = 0}
     | _         ->
-      let results = (qs |> BuildQuery |> getSearchResults)
-      {Results = results; Filters = extractFilters qs; Vocabularies = vocab; totalCount = results.Length}
+      let results = (qs |> BuildQuery |> getSearchResults testing)
+      {Results = results; Filters = extractFilters qs; Vocabularies = getVocabs(); totalCount = results.Length}
+
   |> DotLiquid.page "search.html"

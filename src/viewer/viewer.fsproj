@@ -45,6 +45,7 @@
     <Compile Include="Utils.fs" />
     <Compile Include="Queries.fs" />
     <Compile Include="Elastic.fs" />
+    <Compile Include="Home.fs" />
     <Compile Include="Search.fs" />
     <Compile Include="App.fs" />
     <Compile Include="VocabGeneration.fs" />

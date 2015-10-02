@@ -5,6 +5,7 @@ type VocabularyTerm = {
                  Uri: string
                }
 type Vocabulary = {
+                  Label: string
                   Name: string
                   Terms: VocabularyTerm list
                 }

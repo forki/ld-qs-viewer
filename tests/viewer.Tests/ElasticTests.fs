@@ -49,9 +49,9 @@ let ``Should build query correctly for a multiple terms with same key`` () =
 
 [<Test>]
 let ``GetSearchResults should return an empty list on zero results`` () =
-  let StubbedQueryResponse _ = "{}"
+  let StubbedQueryResponse _ _ = "{}"
   let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse 
+  let DoSearchWith = GetSearchResults StubbedQueryResponse false
   let results = DoSearchWith query
 
   test <@ results = [] @>
@@ -60,7 +60,7 @@ let ``GetSearchResults should return an empty list on zero results`` () =
 [<Test>]
 let ``GetSearchResults should map a single result`` () =
 
-  let StubbedQueryResponse _ = 
+  let StubbedQueryResponse _ _ = 
     """
     {
       "hits":{
@@ -78,7 +78,7 @@ let ``GetSearchResults should map a single result`` () =
     """
 
   let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse 
+  let DoSearchWith = GetSearchResults StubbedQueryResponse false
   let results = DoSearchWith query
 
   test <@ results = [{Uri = "This is the Uri";Abstract = "This is the abstract"}] @>
@@ -86,7 +86,7 @@ let ``GetSearchResults should map a single result`` () =
 [<Test>]
 let ``GetSearchResults should map multiple results`` () =
   
-  let StubbedQueryResponse _ = 
+  let StubbedQueryResponse _ _ = 
     """
     {
       "hits":{
@@ -111,7 +111,7 @@ let ``GetSearchResults should map multiple results`` () =
     """
 
   let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse 
+  let DoSearchWith = GetSearchResults StubbedQueryResponse false
   let results = DoSearchWith query
   
   test <@ results.Length = 2 @>

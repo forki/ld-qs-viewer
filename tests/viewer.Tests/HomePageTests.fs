@@ -37,7 +37,7 @@ let ``Should present the vocabulary terms in form`` () =
                                 {Name = "Term2"; Uri = "Uri2"}]};
                       {Name = "Vocab 2";
                        Terms = [{Name = "Term3"; Uri = "Uri3"}]}]
-  let GetSearchResults _ = []
+  let GetSearchResults _ _ = []
 
   let html = startServerWithData GetVocabs GetSearchResults |> get "/"
 

@@ -5,7 +5,9 @@
         <div class="vocab">
             <h4 class="h4">{{vocab.Name}}</h4>
             {% for item in vocab.Terms -%}
-                {% include "checkbox.html" item:item vocabName:vocab.Name %}
+                {% if item.Name != empty %}
+                    {% include "checkbox.html" item:item vocabName:vocab.Name %}
+                {% endif %}
             {% endfor -%}
         </div>
         {% endfor -%}

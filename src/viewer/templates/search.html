@@ -14,7 +14,7 @@
                 <div class="tags-list"></div>
                 <div class="counter">{{model.total_count}} filtered items</div>
         </div>
-
+        {% include "beta-message.html" %}
         {% if model.Filters == empty %}
         <div class="message">Please select one or more filters.</div>
         {% endif %}

@@ -5,7 +5,8 @@ open Suave.Types
 open Suave.Cookie
 open Viewer.Types
 
-let getTestVocabs () = [{Name = "setting"; 
+let getTestVocabs () = [{Label = "Settings:";
+                         Name = "setting";
                          Terms = [{Name = "Term1"; Uri = "http://testing.com/TestSetting1"};
                                   {Name = "Term2"; Uri = "http://testing.com/TestSetting2"}]};]
 

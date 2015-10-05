@@ -5,11 +5,13 @@
 #r "VDS.Common.dll"
 #r "Newtonsoft.Json.dll"
 #load "Types.fs"
+#load "Utils.fs"
 
 open FSharp.RDF
 open VDS.Common
 open Viewer.Types
 open FSharp.Data
+open Viewer.Utils
 
 type Term =
     {Uri : Uri;
@@ -52,14 +54,42 @@ let vocabGeneration ttl =
     |> Seq.toList
     |> List.map(fun ls ->
                 match ls with
-                | lbl, uri -> {Name = lbl; Uri = string uri})
+                | lbl, uri -> {Name = lbl; Uri = string uri; Selected = false})
 
 
 let vocabLookup uri =
   vocabGeneration(Http.RequestString uri)
 
 let GetVocabs () =
-  [{Name = "setting"; Terms = vocabLookup "http://schema/ns/qualitystandard/setting.ttl"};
-   {Name = "serviceArea"; Terms = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl"};
-   {Name = "targetPopulation"; Terms = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl"}]
+    [{Label = "Settings:"; Name = "setting"; Terms = vocabLookup "http://schema/ns/qualitystandard/setting.ttl"};
+    {Label = "Service areas:"; Name = "serviceArea"; Terms = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl"};
+    {Label = "Age groups:"; Name = "targetPopulation"; Terms = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl"}]
 
+
+let matchTermsWithQString vocabTerms selected =
+  let exists list el = List.exists(fun ele -> ele = el) list
+  vocabTerms |> List.map(fun vt ->
+                         match vt with
+                         | {Name = n; Uri = u; Selected = s} when (exists selected u) -> {Name = n; Uri = u; Selected = true}
+                         | {Name = n; Uri = u; Selected = s} -> {Name = n; Uri = u; Selected = false})
+
+
+let GetVocabsWithState qString =
+  let selectedTerms = extractFilters qString
+  if (selectedTerms |> List.isEmpty) then
+    GetVocabs()
+  else
+    GetVocabs()
+    |> List.map(fun vocab ->
+                match vocab with
+                | {Label = label; Name = name; Terms = terms} ->
+                {Label = label; Name = name; Terms = (matchTermsWithQString terms selectedTerms)})
+
+
+
+//Testing
+let vTList = [{Name = "Care Home"; Uri = "http://ld.nice.org.uk/test#Care Home"; Selected = false};{Name = "Old Home"; Uri = "http://ld.nice.org.uk/test#Old Home"; Selected = false}]
+
+let selected = ["http://ld.nice.org.uk/test#Care Home"]
+
+matchTermsWithQString vTList selected

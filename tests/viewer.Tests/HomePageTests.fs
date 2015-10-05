@@ -19,7 +19,7 @@ let ``Should set the title`` () =
     |> CQ.select "title"
     |> CQ.text
 
-  test <@ title = "KB - Home" @>
+  test <@ title = "BETA Quality Statements Discovery Tool | NICE" @>
 
 [<Test>]
 let ``Should add form with search action`` () =

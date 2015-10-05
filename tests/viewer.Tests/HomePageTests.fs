@@ -5,8 +5,9 @@ open Suave.DotLiquid
 open NUnit.Framework
 open Swensen.Unquote
 open Viewer.Types
+open Viewer.VocabGeneration
 open Viewer.Tests.Utils
-
+open FSharp.RDF
 [<SetUp>]
 let ``Run before tests`` () =
   setTemplatesDir "templates/"
@@ -41,11 +42,8 @@ let ``Should add form with search action`` () =
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =
-  let GetVocabs () = [{Name = "Vocab 1";
-                       Terms = [{Name = "Term1"; Uri = "Uri1"};
-                                {Name = "Term2"; Uri = "Uri2"}]};
-                      {Name = "Vocab 2";
-                       Terms = [{Name = "Term3"; Uri = "Uri3"}]}]
+  let GetVocabs () = [Term {Uri=(Uri.from "http://goog.com/1" );Label="Vocab 1";Children=[]}
+                      Term {Uri=(Uri.from "http://goog.com/2" );Label="Vocab 2";Children=[]}]
   let GetSearchResults _ = []
 
   let html = startServerWithData GetVocabs GetSearchResults |> get "/"

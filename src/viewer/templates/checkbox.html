@@ -1,2 +1,8 @@
-
-<input type="checkbox" name="{{ vocabName }}" value="{{ item.Uri }}">{{ item.Name }}<br>
+<ul>
+    {% for term in terms -%}
+    <li>
+        <input type="checkbox" name="{{ term.Label }}" value="{{ term.Uri }}">{{ term.Label }}
+        {% include "checkbox.html" terms:term.Children %}
+    </li>
+    {% endfor -%}
+</ul>

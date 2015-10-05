@@ -12,12 +12,12 @@ open Suave.Utils
 open Viewer.Types
 open Viewer.Search
 open FSharp.Data
-
+open Viewer.VocabGeneration
 let setTemplatesDir path =
   DotLiquid.setTemplatesDir(path)
 
 type HomeModel =  {
-   Vocabularies: Vocabulary list
+   Vocabularies: Term list
 }
 
 let qualityStandardsDir = "/artifacts/published/"

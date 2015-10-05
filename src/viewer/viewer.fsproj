@@ -45,8 +45,8 @@
     <Compile Include="Utils.fs" />
     <Compile Include="Elastic.fs" />
     <Compile Include="Search.fs" />
-    <Compile Include="App.fs" />
     <Compile Include="VocabGeneration.fs" />
+    <Compile Include="App.fs" />
     <None Include="Script.fsx" />
     <None Include="RunServer.fsx" />
     <None Include="paket.references" />

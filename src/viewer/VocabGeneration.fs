@@ -52,7 +52,7 @@ let vocabLookup uri =
   vocabGeneration(Http.RequestString uri)
 
 let GetVocabs () =
-  [{Name = "setting"; Terms = vocabLookup "http://schema/ns/qualitystandard/setting.ttl"};
-   {Name = "serviceArea"; Terms = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl"};
-   {Name = "targetPopulation"; Terms = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl"}]
+  [{Label = "Settings:"; Name = "setting"; Terms = vocabLookup "http://schema/ns/qualitystandard/setting.ttl"};
+   {Label = "Service areas:"; Name = "serviceArea"; Terms = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl"};
+   {Label = "Age groups:"; Name = "targetPopulation"; Terms = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl"}]
 

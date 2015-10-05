@@ -32,10 +32,12 @@ let ``Should add form with search action`` () =
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =
-  let GetVocabs () = [{Name = "Vocab 1";
+  let GetVocabs () = [{Label = "Vocab 1";
+                       Name = "vocab1";
                        Terms = [{Name = "Term1"; Uri = "Uri1"};
                                 {Name = "Term2"; Uri = "Uri2"}]};
-                      {Name = "Vocab 2";
+                      {Label = "Vocab 2";
+                       Name = "vocab2";
                        Terms = [{Name = "Term3"; Uri = "Uri3"}]}]
   let GetSearchResults _ _ = []
 

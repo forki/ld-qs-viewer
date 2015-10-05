@@ -1174,7 +1174,9 @@ table {
     }
 }
 
-.clearfix, .clearfix:before, .clearfix:after, .container:before, .container:after, .container-fluid:before, .container-fluid:after, .row:before, .row:after {
+.clearfix, .clearfix:before, .clearfix:after, .container:before,
+.container:after, .container-fluid:before, .container-fluid:after,
+.row:before, .row:after {
     content: " ";
     display: table
 }
@@ -1209,7 +1211,7 @@ table {
     text-align: right
 }
 
-*, *:before, *:after {
+* , * :before, * :after {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box
@@ -1219,7 +1221,7 @@ table {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 30px;
     line-height: 1.25;
-    margin-top: 1.5rem;
+    padding-top: 1.5rem;
     margin-bottom: 1.5rem
 }
 
@@ -1233,6 +1235,7 @@ table {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.5rem;
     line-height: 1.25;
+    padding-top: 1.5rem;
     margin-bottom: 1.5rem
 }
 
@@ -1294,6 +1297,12 @@ table {
     color: #11779b
 }
 
+.user-styles ul {
+    margin-bottom: 1.5rem;
+    list-style: disc;
+    padding-left: 2.25rem
+}
+
 .material-icons {
     font-family: "Material Icons";
     color: #757575;
@@ -1317,7 +1326,7 @@ a {
 .h1 {
     font-size: 30px;
     line-height: 1.25;
-    margin-top: 1.5rem;
+    padding-top: 1.5rem;
     margin-bottom: 1.5rem
 }
 
@@ -1330,6 +1339,7 @@ a {
 .h2 {
     font-size: 1.5rem;
     line-height: 1.25;
+    padding-top: 1.5rem;
     margin-bottom: 1.5rem
 }
 
@@ -1434,6 +1444,7 @@ p {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.5rem;
     line-height: 1.25;
+    padding-top: 1.5rem;
     margin-bottom: 1.5rem
 }
 
@@ -1533,6 +1544,27 @@ p {
     color: #11779b
 }
 
+.button {
+    background: #cecece;
+    color: #333;
+    padding: .75rem 0;
+    text-align: center;
+    display: block
+}
+
+.button:hover {
+    background: #dfdfdf
+}
+
+.button.primary {
+    background: #43b581;
+    color: #fff
+}
+
+.button.primary:hover {
+    background: #4bbc89
+}
+
 .button-group {
     width: 100%;
     position: fixed;
@@ -1554,26 +1586,8 @@ p {
 }
 
 .button-group .button {
-    background: #cecece;
-    color: #333;
     width: 50%;
-    padding: .75rem 0;
-    text-align: center;
-    display: block;
     float: left
-}
-
-.button-group .button.primary {
-    background: #43b581;
-    color: #fff
-}
-
-.button-group .button:hover {
-    background: #dfdfdf
-}
-
-.button-group .button.primary:hover {
-    background: #4bbc89
 }
 
 .nav-menu-open .filters {
@@ -1586,10 +1600,15 @@ p {
 }
 
 .links-list a {
-    color: #11779b
+    color: #11779b;
+    display: block
 }
 
 .links-list a:hover {
+    color: #11779b
+}
+
+.links-list a.nav-active {
     color: #333
 }
 
@@ -1611,7 +1630,7 @@ p {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding: 0;
+    padding: 0 0 48px 0;
     widows: auto
 }
 
@@ -1620,6 +1639,11 @@ p {
         padding: 3rem;
         max-width: 960px
     }
+}
+
+.card-list nav {
+    margin-bottom: 1.5rem;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
 .card-list-header {
@@ -1702,12 +1726,14 @@ a.card .card-excerpt {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.5rem;
     line-height: 1.25;
+    padding-top: 1.5rem;
     margin-bottom: 1.5rem;
     -webkit-transition: color 0.3s ease-in-out;
     -moz-transition: color 0.3s ease-in-out;
     -o-transition: color 0.3s ease-in-out;
     transition: color 0.3s ease-in-out;
-    margin-bottom: 0 !important
+    margin-bottom: 0 !important;
+    padding-top: 0
 }
 
 @media (min-width:992px) {
@@ -1812,6 +1838,17 @@ a.card:hover .card-excerpt {
     -webkit-backface-visibility: hidden
 }
 
+.mfp-container {
+    overflow: scroll;
+    height: 100%
+}
+
+@media (min-width:992px) {
+    .mfp-container {
+        overflow: hidden
+    }
+}
+
 .mfp-content {
     width: 100%;
     position: relative;
@@ -1824,7 +1861,7 @@ a.card:hover .card-excerpt {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 30px;
     line-height: 1.25;
-    margin-top: 1.5rem;
+    padding-top: 1.5rem;
     margin-bottom: 1.5rem
 }
 
@@ -1838,6 +1875,7 @@ a.card:hover .card-excerpt {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.5rem;
     line-height: 1.25;
+    padding-top: 1.5rem;
     margin-bottom: 1.5rem
 }
 
@@ -1899,9 +1937,15 @@ a.card:hover .card-excerpt {
     color: #11779b
 }
 
+.modal ul {
+    margin-bottom: 1.5rem;
+    list-style: disc;
+    padding-left: 2.25rem
+}
+
 .modal header {
     background-color: #ddd;
-    padding: 1.5rem 4.5rem 1.5rem 1.5rem;
+    padding: 1.5rem;
     margin-left: -1.5rem;
     margin-right: -1.5rem;
     margin-bottom: 1.5rem
@@ -1984,6 +2028,187 @@ a.card:hover .card-excerpt {
     display: block;
     visibility: visible;
     background-color: #d5d5d5
+}
+
+@media (max-width:520px) {
+    #doorbell {
+        left: 0;
+        width: 100%;
+        top: 48px !important
+    }
+}
+
+#doorbell form {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-border-radius: 0;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 0;
+    -moz-background-clip: padding;
+    border-radius: 0;
+    background-clip: padding-box;
+    padding: 1.5rem
+}
+
+#doorbell form legend {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    border: 0
+}
+
+@media (min-width:992px) {
+    #doorbell form legend {
+        font-size: 1.5rem
+    }
+}
+
+#doorbell form input[type="email"], #doorbell form textarea {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    width: 100%;
+    padding: .75rem 1.5rem;
+    margin-bottom: .75rem;
+    background-color: #ececec;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 0
+}
+
+#doorbell form input[type="email"]::-webkit-input-placeholder,
+#doorbell form textarea::-webkit-input-placeholder {
+    color: #757575
+}
+
+#doorbell form input[type="email"]:-moz-placeholder, #doorbell form textarea:-moz-placeholder {
+    color: #757575
+}
+
+#doorbell form input[type="email"]::-moz-placeholder, #doorbell form textarea::-moz-placeholder {
+    color: #757575
+}
+
+#doorbell form input[type="email"]:-ms-input-placeholder, #doorbell form textarea:-ms-input-placeholder {
+    color: #757575
+}
+
+#doorbell form input[type="email"]:focus, #doorbell form textarea:focus {
+    background-color: #f4f4f4;
+    outline: none
+}
+
+#doorbell form textarea {
+    min-height: 180px
+}
+
+#doorbell #doorbell-powered-by {
+    display: none
+}
+
+#doorbell .buttons button {
+    background: #cecece;
+    color: #333;
+    padding: .75rem 0;
+    text-align: center;
+    display: block;
+    color: #fff;
+    background-color: #11779b
+}
+
+#doorbell .buttons button:hover {
+    background: #dfdfdf
+}
+
+#doorbell .buttons button.primary {
+    background: #43b581;
+    color: #fff
+}
+
+#doorbell .buttons button.primary:hover {
+    background: #4bbc89
+}
+
+#doorbell .buttons button:hover {
+    background-color: #1382a9;
+    color: #fff
+}
+
+#doorbell label {
+    padding-bottom: .75rem;
+    display: block
+}
+
+#doorbell-background {
+    background: rgba(51, 51, 51, 0.96);
+    opacity: 1
+}
+
+#doorbell-button {
+    -webkit-border-radius: 0;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 0;
+    -moz-background-clip: padding;
+    border-radius: 0;
+    background-clip: padding-box;
+    padding: .75rem 1.5rem .75rem 4.5rem;
+    font-size: 1rem;
+    background-color: #11779b;
+    width: 100%;
+    right: 0
+}
+
+@media (min-width:992px) {
+    #doorbell-button {
+        width: auto;
+        z-index: 99998
+    }
+}
+
+#doorbell-button:hover {
+    background-color: #1382a9
+}
+
+#doorbell-button:before {
+    content: "\e87f";
+    font-family: "Material Icons";
+    color: #757575;
+    display: inline-block;
+    height: 1.5rem;
+    width: 1.5rem;
+    font-size: 1.5rem;
+    line-height: 3rem;
+    color: #fff;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #0f6c8d;
+    width: 3rem;
+    height: 3rem
+}
+
+#doorbell-error {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    width: 100%;
+    padding: .75rem 1.5rem;
+    margin-bottom: .75rem !important
+}
+
+#doorbell-error.alert-error {
+    background-color: #f9dede
+}
+
+#doorbell-error.alert-success {
+    background-color: #e5fcde
+}
+
+#doorbell-error.alert-warning {
+    background-color: #fdf7dc
 }
 
 html, body {
@@ -2156,6 +2381,10 @@ input, button, submit, label {
 .checkbox input:indeterminate:before {
     content: "\e834";
     color: #afafaf
+}
+
+.checkbox label input:before {
+    margin-top: -6px
 }
 
 .radio {
@@ -2373,4 +2602,29 @@ ul.checkbox-list ul li:before {
     }
 }
 
+.alert {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    width: 100%;
+    padding: .75rem 1.5rem;
+    margin-bottom: .75rem !important
+}
 
+.alert.alert-error {
+    background-color: #f9dede
+}
+
+.alert.alert-success {
+    background-color: #e5fcde
+}
+
+.alert.alert-warning {
+    background-color: #fdf7dc
+}
+
+::selection {
+    background: #ffb7b7;
+    display: block;
+    padding: 24px
+}

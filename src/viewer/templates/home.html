@@ -6,5 +6,13 @@
 
 {% block content %}
     {% include "sidebar.html" model:model %}
-    {% include "beta-message.html" %}
+    <div class="card-list-wrapper">
+        <div class="card-list results">
+        <div class="card-list-header">
+                <div id="toggle-filters" class="toggle-filters">Filters</div>
+                <div class="tags-list"></div>
+                <div class="counter"></div>
+        </div>
+        {% include "beta-message.html" %}
+    </div>
 {% endblock %}

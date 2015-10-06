@@ -42,8 +42,8 @@ let ``Should add form with search action`` () =
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =
-  let GetVocabs () = [Term {Uri=(Uri.from "http://goog.com/1" );Label="Vocab 1";Children=[]}
-                      Term {Uri=(Uri.from "http://goog.com/2" );Label="Vocab 2";Children=[]}]
+  let GetVocabs () = [{Root=Term {Uri=(Uri.from "http://goog.com/1" );Label="Vocab 1";Children=[]};Property="v1"}
+                      {Root=Term {Uri=(Uri.from "http://goog.com/2" );Label="Vocab 2";Children=[]};Property="v2"}]
   let GetSearchResults _ = []
 
   let html = startServerWithData GetVocabs GetSearchResults |> get "/"

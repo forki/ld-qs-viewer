@@ -17,7 +17,7 @@ let setTemplatesDir path =
   DotLiquid.setTemplatesDir(path)
 
 type HomeModel =  {
-   Vocabularies: Term list
+   Vocabularies: Vocabulary list
 }
 
 let qualityStandardsDir = "/artifacts/published/"

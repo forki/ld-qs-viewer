@@ -1,8 +1,8 @@
 <ul>
     {% for term in terms -%}
     <li>
-        <input type="checkbox" name="{{ term.Label }}" value="{{ term.Uri }}">{{ term.Label }}
-        {% include "checkbox.html" terms:term.Children %}
+        <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}">{{ term.Label }}
+        {% include "checkbox.html" terms:term.Children prop:prop %}
     </li>
     {% endfor -%}
 </ul>

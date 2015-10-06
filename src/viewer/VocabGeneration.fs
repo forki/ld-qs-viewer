@@ -107,9 +107,31 @@ let vocabGeneration ttl lbl =
 
 let vocabLookup uri lbl = vocabGeneration (Http.RequestString uri) lbl
 
-let GetVocabs() =
-  [ vocabLookup "http://192.168.99.100/ns/qualitystandard/setting.ttl" "Setting"
-    vocabLookup "http://192.168.99.100/ns/qualitystandard/agegroup.ttl" "AgeGroup"
-    vocabLookup "http://192.168.99.100/ns/qualitystandard/servicearea.ttl" "Service Area"
-    vocabLookup "http://192.168.99.100/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
-    vocabLookup "http://192.168.99.100/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition" ]
+type Vocabulary = {
+  Root : Term
+  Property : string
+}
+
+let GetVocabs = lazy
+  [
+    {
+      Root = vocabLookup "http://192.168.99.100/ns/qualitystandard/setting.ttl" "Setting"
+      Property = "qualitystandard:setting"
+    }
+    {
+      Root = vocabLookup "http://192.168.99.100/ns/qualitystandard/agegroup.ttl" "AgeGroup"
+      Property = "qualitystandard:age"
+    }
+    {
+      Root = vocabLookup "http://192.168.99.100/ns/qualitystandard/servicearea.ttl" "Service Area"
+      Property = "qualitystandard:serviceArea"
+    }
+    {
+      Root = vocabLookup "http://192.168.99.100/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
+      Property = "qualitystandard:condition"
+    }
+    {
+      Root = vocabLookup "http://192.168.99.100/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
+      Property = "qualitystandard:lifestylecondition"
+    }
+  ]

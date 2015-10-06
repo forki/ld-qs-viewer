@@ -6,10 +6,10 @@
 
 {% block content %}
         <form action="/search">
-            {% for term in model.Vocabularies -%}
+            {% for vocab in model.Vocabularies -%}
             <div class="vocabulary">
-                <h3> {{ term.Label }} </h3>
-                {% include "checkbox.html" terms:term.Children %}
+                <h3> {{ vocab.Root.Label }} </h3>
+                {% include "checkbox.html" terms:vocab.Root.Children prop:vocab.Property %}
             <div>
             {% endfor -%}
             <input type="submit" Value="Search">

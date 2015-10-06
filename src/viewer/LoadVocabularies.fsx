@@ -61,5 +61,5 @@ let vocabLookup uri =
 let GetVocabs () =
   [{Name = "setting"; Terms = vocabLookup "http://schema/ns/qualitystandard/setting.ttl"};
    {Name = "serviceArea"; Terms = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl"};
-   {Name = "targetPopulation"; Terms = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl"}]
+   {Name = "age"; Terms = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl"}]
 

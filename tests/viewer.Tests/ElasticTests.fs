@@ -108,7 +108,7 @@ let ``GetSearchResults should map a single result`` () =
             "_id":"qs1_st1",
             "_source":{
               "@id":"This is the Uri",
-              "dcterms:abstract": "This is the abstract"
+              "qualitystandard:abstract": "This is the abstract"
             }
           }
         ]
@@ -134,14 +134,14 @@ let ``GetSearchResults should map multiple results`` () =
             "_id":"qs1_st1",
             "_source":{
               "@id":"",
-              "dcterms:abstract": ""
+              "qualitystandard:abstract": ""
             }
           },
           {
             "_id":"qs1_st2",
             "_source":{
               "@id":"",
-              "dcterms:abstract": ""
+              "qualitystandard:abstract": ""
             }
           }
         ]

@@ -50,7 +50,7 @@ let ParseResponse response =
     let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(response)
     let hits = json.Hits.Hits
     hits
-      |> Seq.map(fun hit -> {Uri = chopPath hit.Source.Id;Abstract = hit.Source.DctermsAbstract})
+      |> Seq.map(fun hit -> {Uri = chopPath hit.Source.Id;Abstract = hit.Source.QualitystandardAbstract})
       |> Seq.toList
   with
     | ex ->

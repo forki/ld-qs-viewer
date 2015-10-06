@@ -5,14 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    {% include "sidebar.html" model:model %}
     <div class="card-list-wrapper">
-        <div class="card-list results">
-        <div class="card-list-header">
-                <div id="toggle-filters" class="toggle-filters">Filters</div>
-                <div class="tags-list"></div>
-                <div class="counter"></div>
+        <div class="card-list">
+            {% include "beta-message.html" %}
         </div>
-        {% include "beta-message.html" %}
     </div>
+    {% include "sidebar.html" model:model %}
 {% endblock %}

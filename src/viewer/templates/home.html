@@ -5,10 +5,6 @@
 {% endblock %}
 
 {% block content %}
-    <div class="card-list-wrapper">
-        <div class="card-list">
-            {% include "beta-message.html" %}
-        </div>
-    </div>
     {% include "sidebar.html" model:model %}
+    {% include "results-page.html" model:model %}
 {% endblock %}

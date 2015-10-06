@@ -12,6 +12,7 @@ let getTestVocabs () = [{Label = "Settings:";
 
 type HomeModel =  {
    Vocabularies: Vocabulary list
+   totalCount: int
 }
 let home (req:HttpRequest) getVocabs =
   printf "Request: %A\n" req
@@ -22,4 +23,4 @@ let home (req:HttpRequest) getVocabs =
     | true  -> getTestVocabs
     | false -> getVocabs
 
-  DotLiquid.page "home.html" {Vocabularies = vocabs()}
+  DotLiquid.page "home.html" {Vocabularies = vocabs(); totalCount = 0}

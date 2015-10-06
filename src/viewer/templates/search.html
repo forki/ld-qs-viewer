@@ -1,19 +1,31 @@
 {% extends "page.html" %}
 
 {% block head %}
-    <title>KB - Search</title>
+    <title>BETA Quality Statements Discovery Tool | NICE</title>
 {% endblock %}
 
 {% block content %}
-    <div class="results">
+    {% include "sidebar.html" model:model %}
+
+    <div class="card-list-wrapper">
+        <div class="card-list results">
+        <div class="card-list-header">
+                <div id="toggle-filters" class="toggle-filters">Filters</div>
+                <div class="tags-list"></div>
+                <div class="counter">{{model.total_count}} filtered items</div>
+        </div>
+        {% include "beta-message.html" %}
         {% if model.Filters == empty %}
         <div class="message">Please select one or more filters.</div>
         {% endif %}
+
         {% for item in model.Results -%}
-        <div class="result">
-            <span class="abstract">{{item.Abstract}}</span>
-            <a href="{{item.Uri}}">{{item.Uri}}</a>
+        <div class="card result">
+            <a class="card" href="{{item.Uri}}">
+                <div class="card-excerpt abstract">{{item.Abstract}}</div>
+            </a>
         </div>
         {% endfor -%}
+        </div>
     </div>
 {% endblock %}

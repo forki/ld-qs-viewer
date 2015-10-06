@@ -26,7 +26,7 @@ let startServerWithData getVocabularies getSearchResults =
 
 let startServer () =
   let GetVocabularies () = []
-  let GetSearchResults _ = []
+  let GetSearchResults _ _ = []
 
   startServerWithData GetVocabularies GetSearchResults
 

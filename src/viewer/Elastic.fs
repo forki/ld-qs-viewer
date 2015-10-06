@@ -1,31 +1,36 @@
 module Viewer.Elastic
 
+open Viewer.Utils
 open Viewer.Types
+open Viewer.Queries
 open Elasticsearch.Net
 open Elasticsearch.Net.Connection
 open System
 open FSharp.Data
 
-let BuildQuery qs =
-  let query = 
-    """
-    {
-       "from": 0, "size": 100,
-       "query": {
-            "term" : {
-                "qualitystandard:%s" : "%s"
-            }
-       }
-    }"""
+let BuildQuery qsPairs =
+  let aggregatedKeyValues = aggregateQueryStringValues qsPairs 
 
-  qs
-  |> Seq.head
-  |> (fun a ->
-      match a with
-      | (k, Some(v)) -> (sprintf (Printf.StringFormat<string->string->string>(query)) k v))
+  let shouldQuery = aggregatedKeyValues
+                    |> Seq.map (fun (k, vals) -> vals
+                                                 |> Seq.map (fun v -> insertItemsInto termQuery k v)
+                                                 |> concatToStringWithDelimiter ",")
+                    |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)
+                    |> concatToStringWithDelimiter ","
 
-let RunElasticQuery (query: string) =
-  Http.RequestString("http://elastic:9200/kb/qualitystatement/_search?", body = TextRequest query)
+  let fullQuery = insertItemInto mustQuery shouldQuery
+
+  printf "Running query: %s" fullQuery
+  fullQuery
+
+let RunElasticQuery testing (query: string) =
+  let indexName = 
+    match testing with
+    | true -> "kb_test"
+    | false -> "kb"
+
+  let url = sprintf "http://elastic:9200/%s/qualitystatement/_search?" indexName
+  Http.RequestString(url, body = TextRequest query)
 
 let ParseResponse response = 
 
@@ -45,12 +50,12 @@ let ParseResponse response =
     let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(response)
     let hits = json.Hits.Hits
     hits
-      |> Seq.map(fun hit -> {Uri = chopPath hit.Source.Id;Abstract = hit.Source.DctermsAbstract})
+      |> Seq.map(fun hit -> {Uri = chopPath hit.Source.Id;Abstract = hit.Source.QualitystandardAbstract})
       |> Seq.toList
   with
     | ex ->
       printf "%s" (ex.ToString())
       []
 
-let GetSearchResults runSearch query =
-  query |> runSearch |> ParseResponse
+let GetSearchResults runSearch testing query =
+  query |> runSearch testing |> ParseResponse

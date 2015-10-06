@@ -9,22 +9,49 @@
 
   {% block head %}
   {% endblock %}
-
+  <link href="//fonts.googleapis.com/css?family=Lato:400,700|Merriweather:400,700,400italic,700italic|Material+Icons" rel="stylesheet" type="text/css" />
   <!-- Standard page design and scripts
   <link href="/favicon.ico" rel="icon" />-->
 </head>
 <body>
-    <main id="content" role="main">
-        <h1>NICE Quality Standards</h1>
-        <div class="phase-banner-alpha">
-            <p>
-                <strong class="phase-tag">ALPHA</strong>
-                <span>This is a new service – your <a href="#">feedback</a> will help us to improve it.</span>
-            </p>
+    <nav class="top-hat">
+        <div class="nav-link"><a href="#">Menu</a></div>
+        <div class="logo">
+            <a href=""><img src="Images/nice-logo.svg" alt="">
+                <div class="app-title">BETA  – Quality Statements Discovery Tool</div>
+            </a>
         </div>
+        <div class="nav-link"><a href="#">Sign in</a></div>
+    </nav>
+
+    <main class="app" id="content" role="main">
     {% block content %}
 
     {% endblock %}
     </main>
+    <!--Doorbell User feedback module-->
+    <script type="text/javascript">
+	 window.doorbellOptions = {
+        strings: {
+            'feedback-button-text': 'Leave feedback',
+
+            'title': 'Your feedback',
+            'feedback-textarea-placeholder': '',
+            'feedback-label': 'Your comments, suggestions and issues (if applicable)...',
+            'email-input-placeholder': '',
+            'email-label': 'Your email address',
+            'attach-a-screenshot': 'Include screenshot',
+            'submit-button-text': 'Submit feedback',
+            'add-attachments-label': 'Add an attachment',
+        },
+        appKey: '0Kr8cH0IhEL3L3W6mxNjQIKFxNP1Ic78RsDPYmxmle77ACqDCOq34CIWcVVnDpDp'
+    };
+
+
+    (function(d, t) {
+        var g = d.createElement(t);g.id = 'doorbellScript';g.type = 'text/javascript';g.async = true;g.src = 'https://embed.doorbell.io/button/2274?t='+(new Date().getTime());(d.getElementsByTagName('head')[0]||d.getElementsByTagName('body')[0]).appendChild(g);
+    }(document, 'script'));
+
+    </script>
 </body>
 </html>

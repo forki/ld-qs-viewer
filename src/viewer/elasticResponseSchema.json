@@ -5,7 +5,7 @@
         "_id":"qs1_st1",
         "_source":{
             "@id":"http://ld.nice.org.uk/prov/entity#f178fc5:qualitystandards/qs1/st1/Statement.md",
-            "qualitystandard:abstract": "This is an abstract"
+            "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is an abstract"
         }
       }
     ],

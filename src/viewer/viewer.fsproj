@@ -106,7 +106,7 @@
     <EmbeddedResource Include="templates\checkbox.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\beta-message.html">
+    <EmbeddedResource Include="templates\results-page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\search.html">

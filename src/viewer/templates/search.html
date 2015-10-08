@@ -6,26 +6,5 @@
 
 {% block content %}
     {% include "sidebar.html" model:model %}
-
-    <div class="card-list-wrapper">
-        <div class="card-list results">
-        <div class="card-list-header">
-                <div id="toggle-filters" class="toggle-filters">Filters</div>
-                <div class="tags-list"></div>
-                <div class="counter">{{model.total_count}} filtered items</div>
-        </div>
-        {% include "beta-message.html" %}
-        {% if model.Filters == empty %}
-        <div class="message">Please select one or more filters.</div>
-        {% endif %}
-
-        {% for item in model.Results -%}
-        <div class="card result">
-            <a class="card" href="{{item.Uri}}">
-                <div class="card-excerpt abstract">{{item.Abstract}}</div>
-            </a>
-        </div>
-        {% endfor -%}
-        </div>
-    </div>
+    {% include "results-page.html" model:model %}
 {% endblock %}

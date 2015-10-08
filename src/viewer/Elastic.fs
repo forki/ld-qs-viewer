@@ -13,7 +13,7 @@ let BuildQuery qsPairs =
 
   let shouldQuery = aggregatedKeyValues
                     |> Seq.map (fun (k, vals) -> vals
-                                                 |> Seq.map (fun v -> insertItemsInto termQuery k v)
+                                                 |> Seq.map (fun v -> insertItemsInto termQuery (Uri.UnescapeDataString k) v)
                                                  |> concatToStringWithDelimiter ",")
                     |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)
                     |> concatToStringWithDelimiter ","

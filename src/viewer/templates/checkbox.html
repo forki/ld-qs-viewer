@@ -1,7 +1,8 @@
-<ul>
+<ul class="checkbox-list">
     {% for term in terms -%}
-    <li>
-        <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}">{{ term.Label }}
+    <li class="checkbox">
+        <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}" id="{{ term.Uri }}">
+        <label for="{{ term.Uri }}}">{{ term.Label }}</label>
         {% include "checkbox.html" terms:term.Children prop:prop %}
     </li>
     {% endfor -%}

@@ -22,7 +22,7 @@ let singleTierGraph = """@base <http://ld.nice.org.uk/ns/qualitystandard/setting
                                                              rdfs:label "Community"^^xsd:string;
                                                              rdfs:subClassOf <http://ld.nice.org.uk/ns/qualitystandard/setting#Setting>.
   """
-
+(*
 [<Test>]
 let ``Parse flat graph will return a flat list`` () =
   let output = vocabGeneration singleTierGraph
@@ -30,4 +30,4 @@ let ``Parse flat graph will return a flat list`` () =
             { Name = "Primary care setting"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Primary care setting"}
             { Name = "Community"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"}
     ] @>
-
+*)

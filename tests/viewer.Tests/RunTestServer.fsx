@@ -1,11 +1,11 @@
-#I "bin/Release"
-#r "bin/Release/CsQuery.dll"
-#r "bin/Release/DotLiquid.dll"
-#r "bin/Release/Suave.dll"
-#r "bin/Release/Suave.DotLiquid.dll"
-#r "bin/Release/Suave.Testing.dll"
-#r "bin/Release/viewer.dll"
-#r "bin/Release/viewer.Tests.dll"
+#I "bin/Debug"
+#r "bin/Debug/CsQuery.dll"
+#r "bin/Debug/DotLiquid.dll"
+#r "bin/Debug/Suave.dll"
+#r "bin/Debug/Suave.DotLiquid.dll"
+#r "bin/Debug/Suave.Testing.dll"
+#r "bin/Debug/viewer.dll"
+#r "bin/Debug/viewer.Tests.dll"
 
 open Suave
 open Suave.Http.Successful
@@ -19,8 +19,12 @@ open Viewer.App
 
 setTemplatesDir "templates/"
 
-let GetVocabularies = []
-let GetSearchResults = ""
+let GetVocabularies () =
+
+  let v = Viewer.VocabGeneration.GetVocabs ()
+  printfn "%A" v
+  v
+let GetSearchResults x = []
 
 let server = startServerWithData GetVocabularies GetSearchResults
 

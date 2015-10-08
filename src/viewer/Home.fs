@@ -4,11 +4,19 @@ open Suave
 open Suave.Types
 open Suave.Cookie
 open Viewer.Types
+open Viewer.VocabGeneration
+open FSharp.RDF
 
-let getTestVocabs () = [{Label = "Settings:";
-                         Name = "setting";
-                         Terms = [{Name = "Term1"; Uri = "http://testing.com/TestSetting1"};
-                                  {Name = "Term2"; Uri = "http://testing.com/TestSetting2"}]};]
+let getTestVocabs () = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
+                                      Label = "Settings:";
+                                      Children = [
+                                                   Term { Uri = Uri.from "http://testing.com/TestSetting1";
+                                                          Label = "Term1";
+                                                          Children = []};
+                                                   Term { Uri = Uri.from "http://testing.com/TestSetting2";
+                                                          Label = "Term2";
+                                                          Children = []};]};
+                        Property = "setting"}]
 
 type HomeModel =  {
    Vocabularies: Vocabulary list

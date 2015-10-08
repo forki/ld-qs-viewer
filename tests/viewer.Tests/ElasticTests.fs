@@ -18,7 +18,7 @@ let ``Should build query correctly for a single term`` () =
         "must" : [
           {"bool" : {
             "should" : [
-              {"term" : {"qualitystandard:key" : "val"}}
+              {"term" : {"key" : "val"}}
             ]
           }}
         ]
@@ -44,7 +44,7 @@ let ``Should build query correctly for a multiple terms with same key`` () =
         "must" : [
           {"bool" : {
             "should" : [
-              {"term" : {"qualitystandard:key" : "val1"}},{"term" : {"qualitystandard:key" : "val2"}}
+              {"term" : {"key" : "val1"}},{"term" : {"key" : "val2"}}
             ]
           }}
         ]
@@ -72,11 +72,11 @@ let ``Should build query correctly for a multiple terms with different keys`` ()
         "must" : [
           {"bool" : {
             "should" : [
-              {"term" : {"qualitystandard:key" : "val1"}},{"term" : {"qualitystandard:key" : "val2"}}
+              {"term" : {"key" : "val1"}},{"term" : {"key" : "val2"}}
             ]
           }},{"bool" : {
             "should" : [
-              {"term" : {"qualitystandard:key2" : "val3"}},{"term" : {"qualitystandard:key2" : "val4"}}
+              {"term" : {"key2" : "val3"}},{"term" : {"key2" : "val4"}}
             ]
           }}
         ]

@@ -112,26 +112,26 @@ type Vocabulary = {
   Property : string
 }
 
-let GetVocabs = lazy
+let GetVocabs () = 
   [
     {
-      Root = vocabLookup "http://192.168.99.100/ns/qualitystandard/setting.ttl" "Setting"
+      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/setting.ttl" "Setting"
       Property = "qualitystandard:setting"
     }
     {
-      Root = vocabLookup "http://192.168.99.100/ns/qualitystandard/agegroup.ttl" "AgeGroup"
+      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/agegroup.ttl" "Age group"
       Property = "qualitystandard:age"
     }
     {
-      Root = vocabLookup "http://192.168.99.100/ns/qualitystandard/servicearea.ttl" "Service Area"
+      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/servicearea.ttl" "Service area"
       Property = "qualitystandard:serviceArea"
     }
     {
-      Root = vocabLookup "http://192.168.99.100/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
+      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
       Property = "qualitystandard:condition"
     }
     {
-      Root = vocabLookup "http://192.168.99.100/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
+      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
       Property = "qualitystandard:lifestylecondition"
     }
   ]

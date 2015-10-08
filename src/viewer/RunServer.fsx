@@ -6,6 +6,7 @@
 #r "Suave.dll"
 #r "Suave.DotLiquid.dll"
 #r "viewer.dll"
+#r "FSharp.RDF.dll"
 
 open Suave
 open Suave.Http.Successful
@@ -16,13 +17,24 @@ open Viewer.App
 open Viewer.Types
 open Viewer.Elastic
 open Viewer.VocabGeneration
+open FSharp.RDF
 
 let devMode = fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev"
 
-let getStubbedVocabs () = [{Label = "Setting";
-                            Name = "setting"; 
-                            Terms = [{Name = "Hospice"; Uri = "Uri"};
-                                     {Name = "Community"; Uri = "Uri"}]};]
+//let getStubbedVocabs () = [{Label = "Setting";
+//                            Name = "setting"; 
+//                            Terms = [{Name = "Hospice"; Uri = "Uri"};
+//                                     {Name = "Community"; Uri = "Uri"}]};]
+let getStubbedVocabs () = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
+                                         Label = "Settings:";
+                                         Children = [
+                                                      Term { Uri = Uri.from "http://testing.com/TestSetting1";
+                                                             Label = "Term1";
+                                                             Children = []};
+                                                      Term { Uri = Uri.from "http://testing.com/TestSetting2";
+                                                             Label = "Term2";
+                                                             Children = []};]};
+                           Property = "setting"}]
 
 let getStubbedSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."};
                                    {Uri = "Uri2"; Abstract = "Goblins with arthritis..."}]

@@ -1,17 +1,18 @@
 {% extends "page.html" %}
 
 {% block head %}
-    <title>KB - Home</title>
+    <title>BETA Quality Statements Discovery Tool | NICE</title>
 {% endblock %}
 
 {% block content %}
-        <form action="/search">
-            {% for vocab in model.Vocabularies -%}
-            <div class="vocabulary">
-                <h3> {{ vocab.Root.Label }} </h3>
-                {% include "checkbox.html" terms:vocab.Root.Children prop:vocab.Property %}
-            <div>
-            {% endfor -%}
-            <input type="submit" Value="Search">
-        </form>
+  {% include "sidebar.html" model:model %}
+    <div class="card-list-wrapper">
+        <div class="card-list results">
+        <div class="card-list-header">
+                <div id="toggle-filters" class="toggle-filters">Filters</div>
+                <div class="tags-list"></div>
+                <div class="counter"></div>
+        </div>
+        {% include "beta-message.html" %}
+    </div>
 {% endblock %}

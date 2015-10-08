@@ -6,6 +6,7 @@ open Suave.Cookie
 open Viewer.Types
 open Viewer.Utils
 open Viewer.Elastic
+open Viewer.VocabGeneration
 
 type SearchModel = {
   Results: SearchResult list

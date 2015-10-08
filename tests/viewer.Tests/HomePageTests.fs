@@ -5,8 +5,9 @@ open Suave.DotLiquid
 open NUnit.Framework
 open Swensen.Unquote
 open Viewer.Types
+open Viewer.VocabGeneration
 open Viewer.Tests.Utils
-
+open FSharp.RDF
 [<SetUp>]
 let ``Run before tests`` () =
   setTemplatesDir "templates/"
@@ -19,7 +20,16 @@ let ``Should set the title`` () =
     |> CQ.select "title"
     |> CQ.text
 
-  test <@ title = "BETA Quality Statements Discovery Tool | NICE" @>
+  test <@ title = "KB - Home" @>
+
+[<Test>]
+let ``Should show heading`` () =
+  let header =
+    startServer ()
+    |> get "/"
+    |> CQ.select "main > h1"
+    |> CQ.text
+  test <@ header = "NICE Quality Standards" @>
 
 [<Test>]
 let ``Should add form with search action`` () =
@@ -32,26 +42,21 @@ let ``Should add form with search action`` () =
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =
-  let GetVocabs () = [{Label = "Vocab 1";
-                       Name = "vocab1";
-                       Terms = [{Name = "Term1"; Uri = "Uri1"};
-                                {Name = "Term2"; Uri = "Uri2"}]};
-                      {Label = "Vocab 2";
-                       Name = "vocab2";
-                       Terms = [{Name = "Term3"; Uri = "Uri3"}]}]
-  let GetSearchResults _ _ = []
+  let GetVocabs () = [{Root=Term {Uri=(Uri.from "http://goog.com/1" );Label="Vocab 1";Children=[]};Property="v1"}
+                      {Root=Term {Uri=(Uri.from "http://goog.com/2" );Label="Vocab 2";Children=[]};Property="v2"}]
+  let GetSearchResults _ = []
 
   let html = startServerWithData GetVocabs GetSearchResults |> get "/"
 
-  let vocabs = html |> CQ.select ".filter-group > .vocab"
+  let vocabs = html |> CQ.select "form > .vocab"
 
   let vocab1text = vocabs |> CQ.first |> CQ.text
-  test <@ vocab1text.Contains("Vocab 1") @>
+  test <@ vocab1text.StartsWith("Vocab 1") @>
 
   let vocab2text = vocabs |> CQ.last |> CQ.text
-  test <@ vocab2text.Contains("Vocab 2") @>
+  test <@ vocab2text.StartsWith("Vocab 2") @>
 
-  let termCount = html |> CQ.select "input[type='checkbox']" |> CQ.length
+  let termCount = html |> CQ.select "form > .vocab > input" |> CQ.length
   test <@ termCount = 3 @>
 
 [<Test>]

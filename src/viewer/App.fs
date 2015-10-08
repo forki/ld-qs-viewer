@@ -14,7 +14,7 @@ open Viewer.Types
 open Viewer.Search
 open Viewer.Home
 open FSharp.Data
-
+open Viewer.VocabGeneration
 let setTemplatesDir path =
   DotLiquid.setTemplatesDir(path)
 

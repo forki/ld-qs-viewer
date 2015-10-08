@@ -28,7 +28,7 @@ let ``Viewing an artifact should load html file`` () =
    startServer ()
    |> get "/some/path/to/file.html"
    |> CQ.select "#content"
-   |> CQ.text 
+   |> CQ.text
 
   File.Delete("/artifacts/published/some/path/to/file.html")
 

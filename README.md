@@ -1,3 +1,5 @@
+[![Build Status](http://drone.ld.nice.org.uk/api/badge/github.com/nhsevidence/ld-viewer/status.svg?branch=master)](http://drone.ld.nice.org.uk/github.com/nhsevidence/ld-viewer)
+
 # Viewer app for the knowledge base quality standards project
 
 This project contains the web app for searching and browsing the quality standards knowledge base.  Currently written in F# using Suave.io web framework

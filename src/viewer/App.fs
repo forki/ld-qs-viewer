@@ -23,8 +23,8 @@ let qualityStandardsDir = "/artifacts/published/"
 let createApp getVocabs getSearchResults =
   choose
     [ GET >>= choose
-        [path "/" >>= request(fun req -> home req getVocabs)
-         path "/search" >>= request(fun req -> search req getSearchResults getVocabs)
+        [path "/qs" >>= request(fun req -> home req getVocabs)
+         path "/qs/search" >>= request(fun req -> search req getSearchResults getVocabs)
          browse qualityStandardsDir
          browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]

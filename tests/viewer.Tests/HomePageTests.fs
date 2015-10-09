@@ -15,20 +15,20 @@ let ``Run before tests`` () =
 let ``Should set the title`` () =
   let title =
     startServer ()
-    |> get "/"
+    |> get "/qs"
     |> CQ.select "title"
     |> CQ.text
 
-  test <@ title = "KB - Home" @>
+  test <@ title = "BETA Quality Statements Discovery Tool | NICE" @>
 
 [<Test>]
 let ``Should add form with search action`` () =
   let action =
     startServer ()
-    |> get "/"
+    |> get "/qs"
     |> CQ.select "form"
     |> CQ.attr "action"
-  test <@ action = "/search" @>
+  test <@ action = "/qs/search" @>
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =
@@ -41,7 +41,7 @@ let ``Should present the vocabulary terms in form`` () =
                        Terms = [{Name = "Term3"; Uri = "Uri3"; Selected = false}]}]
   let GetSearchResults _ _ = []
 
-  let html = startServerWithData GetVocabs GetSearchResults |> get "/"
+  let html = startServerWithData GetVocabs GetSearchResults |> get "/qs"
 
   let vocabs = html |> CQ.select ".filter-group > .vocab"
 
@@ -58,7 +58,7 @@ let ``Should present the vocabulary terms in form`` () =
 let ``Should have search button`` () =
   let searchButtonLabel =
     startServer ()
-    |> get "/"
+    |> get "/qs"
     |> CQ.select ":submit"
     |> CQ.attr "Value"
   test <@ searchButtonLabel = "Search" @>

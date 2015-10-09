@@ -55,7 +55,9 @@ let vocabLookup uri =
 let GetVocabs () =
   [{Label = "Settings:"; Name = "setting"; Terms = vocabLookup "http://schema/ns/qualitystandard/setting.ttl"};
    {Label = "Service areas:"; Name = "serviceArea"; Terms = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl"};
-   {Label = "Age groups:"; Name = "targetPopulation"; Terms = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl"}]
+   {Label = "Age groups:"; Name = "age"; Terms = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl"}
+   {Label = "Conditions and diseases:"; Name = "condition"; Terms = vocabLookup "http://schema/ns/qualitystandard/conditiondisease.ttl"}
+   {Label = "Lifestyle conditions:"; Name = "lifestyleCondition"; Terms = vocabLookup "http://schema/ns/qualitystandard/lifestylecondition.ttl"}]
 
 let matchTermsWithQString vocabTerms selected =
   let exists list el = List.exists(fun ele -> ele = el) list

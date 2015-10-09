@@ -31,15 +31,5 @@ let ``Parse flat graph will return a flat list`` () =
             { Name = "Community"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"; Selected = false}
     ] @>
 <<<<<<< HEAD
-
-
-[<Test>]
-let ``Query string will return a state persisted vocab checklist`` () =
-  let vocab = [{Name = "Care Home"; Uri = "http://ld.nice.org.uk/test#Care Home"; Selected = false};
-               {Name = "Old Home"; Uri = "http://ld.nice.org.uk/test#Old Home"; Selected = false}]
-  let expected = [{Name = "Care Home"; Uri = "http://ld.nice.org.uk/test#Care Home"; Selected = true};
-                  {Name = "Old Home"; Uri = "http://ld.nice.org.uk/test#Old Home"; Selected = false}]
-  let selected = ["http://ld.nice.org.uk/test#Care Home"]
-  let output = (matchTermsWithQString vocab selected)
-  test <@ output = expected @>
 *)
+

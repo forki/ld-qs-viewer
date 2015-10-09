@@ -1,4 +1,4 @@
-module Viewer.Tests.SearchPageTests
+module Viewer.Tests.SearchResultsTests
 
 open Suave
 open Suave.DotLiquid

@@ -65,9 +65,9 @@ let matchTermsWithQString vocabTerms selected =
                          | {Name = n; Uri = u; Selected = s} -> {Name = n; Uri = u; Selected = false})
 
 
-let GetVocabsWithState qString =
+let GetVocabsWithState vocabFunction qString =
   let selectedTerms = extractFilters qString
-  GetVocabs()
+  vocabFunction()
   |> List.map(fun vocab ->
               match vocab with
               | {Label = label; Name = name; Terms = terms} ->

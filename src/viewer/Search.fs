@@ -24,6 +24,6 @@ let search (req:HttpRequest) getSearchResults getVocabs =
       {Results = []; Filters = []; Vocabularies = getVocabs(); totalCount = 0}
     | _         ->
       let results = (qs |> BuildQuery |> getSearchResults testing)
-      {Results = results; Filters = extractFilters qs; Vocabularies = (GetVocabsWithState qs); totalCount = results.Length}
+      {Results = results; Filters = extractFilters qs; Vocabularies = (GetVocabsWithState getVocabs qs); totalCount = results.Length}
 
   |> DotLiquid.page "search.html"

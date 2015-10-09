@@ -15,7 +15,7 @@ let ``Run before tests`` () =
 let ``Should show message when attempting to search with no filters`` () =
  let message =
    startServer ()
-   |> get "/search"
+   |> get "/qs/search"
    |> CQ.select ".message"
    |> CQ.text 
 
@@ -29,7 +29,7 @@ let ``Should present search results`` () =
 
   let results =
     startServerWithData GetVocabularies GetSearchResults
-    |> getQuery "/search" "notused=notused"
+    |> getQuery "/qs/search" "notused=notused"
     |> CQ.select ".results > .result"
     |> CQ.length
 
@@ -44,7 +44,7 @@ let ``Should present a result count`` () =
 
   let totalCount =
     startServerWithData GetVocabularies GetSearchResults
-    |> getQuery "/search" "notused=notused"
+    |> getQuery "/qs/search" "notused=notused"
     |> CQ.select ".card-list-header > .counter"
     |> CQ.text
   test <@ totalCount = "2 filtered items" @>
@@ -57,7 +57,7 @@ let ``Should present abstract and link for each result`` () =
 
   let dom =
     startServerWithData GetVocabularies GetSearchResults
-    |> getQuery "/search" "notused=notused"
+    |> getQuery "/qs/search" "notused=notused"
 
   let abstracts = dom |> CQ.select ".abstract"
 

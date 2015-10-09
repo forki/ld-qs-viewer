@@ -7,8 +7,8 @@ open Viewer.Types
 
 let getTestVocabs () = [{Label = "Settings:";
                          Name = "setting";
-                         Terms = [{Name = "Term1"; Uri = "http://testing.com/TestSetting1"};
-                                  {Name = "Term2"; Uri = "http://testing.com/TestSetting2"}]};]
+                         Terms = [{Name = "Term1"; Uri = "http://testing.com/TestSetting1"; Selected = false};
+                                  {Name = "Term2"; Uri = "http://testing.com/TestSetting2"; Selected = false}]};]
 
 type HomeModel =  {
    Vocabularies: Vocabulary list

@@ -3,6 +3,7 @@ module Viewer.VocabGeneration
 open FSharp.RDF
 open VDS.Common
 open Viewer.Types
+open Viewer.Utils
 open FSharp.Data
 
 type Term =
@@ -46,7 +47,7 @@ let vocabGeneration ttl =
     |> Seq.toList
     |> List.map(fun ls ->
                 match ls with
-                | lbl, uri -> {Name = lbl; Uri = string uri})
+                | lbl, uri -> {Name = lbl; Uri = string uri; Selected = false})
 
 let vocabLookup uri =
   vocabGeneration(Http.RequestString uri)
@@ -58,3 +59,18 @@ let GetVocabs () =
    {Label = "Conditions and diseases:"; Name = "condition"; Terms = vocabLookup "http://schema/ns/qualitystandard/conditiondisease.ttl"}
    {Label = "Lifestyle conditions:"; Name = "lifestyleCondition"; Terms = vocabLookup "http://schema/ns/qualitystandard/lifestylecondition.ttl"}]
 
+let matchTermsWithQString vocabTerms selected =
+  let exists list el = List.exists(fun ele -> ele = el) list
+  vocabTerms |> List.map(fun vt ->
+                         match vt with
+                         | {Name = n; Uri = u; Selected = s} when (exists selected u) -> {Name = n; Uri = u; Selected = true}
+                         | {Name = n; Uri = u; Selected = s} -> {Name = n; Uri = u; Selected = false})
+
+
+let GetVocabsWithState vocabFunction qString =
+  let selectedTerms = extractFilters qString
+  vocabFunction()
+  |> List.map(fun vocab ->
+              match vocab with
+              | {Label = label; Name = name; Terms = terms} ->
+              {Label = label; Name = name; Terms = (matchTermsWithQString terms selectedTerms)})

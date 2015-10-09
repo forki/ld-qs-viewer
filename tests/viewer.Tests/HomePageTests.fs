@@ -34,11 +34,11 @@ let ``Should add form with search action`` () =
 let ``Should present the vocabulary terms in form`` () =
   let GetVocabs () = [{Label = "Vocab 1";
                        Name = "vocab1";
-                       Terms = [{Name = "Term1"; Uri = "Uri1"};
-                                {Name = "Term2"; Uri = "Uri2"}]};
+                       Terms = [{Name = "Term1"; Uri = "Uri1"; Selected = false};
+                                {Name = "Term2"; Uri = "Uri2"; Selected = false}]};
                       {Label = "Vocab 2";
                        Name = "vocab2";
-                       Terms = [{Name = "Term3"; Uri = "Uri3"}]}]
+                       Terms = [{Name = "Term3"; Uri = "Uri3"; Selected = false}]}]
   let GetSearchResults _ _ = []
 
   let html = startServerWithData GetVocabs GetSearchResults |> get "/qs"

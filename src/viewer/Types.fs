@@ -3,6 +3,7 @@ module Viewer.Types
 type VocabularyTerm = {
                  Name: string
                  Uri: string
+                 Selected: bool
                }
 type Vocabulary = {
                   Label: string

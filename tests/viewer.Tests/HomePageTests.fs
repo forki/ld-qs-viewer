@@ -16,7 +16,7 @@ let ``Run before tests`` () =
 let ``Should set the title`` () =
   let title =
     startServer ()
-    |> get "/"
+    |> get "/qs"
     |> CQ.select "title"
     |> CQ.text
 
@@ -26,30 +26,34 @@ let ``Should set the title`` () =
 let ``Should add form with search action`` () =
   let action =
     startServer ()
-    |> get "/"
+    |> get "/qs"
     |> CQ.select "form"
     |> CQ.attr "action"
-  test <@ action = "/search" @>
+  test <@ action = "/qs/search" @>
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =
   let GetVocabs () = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
-                                    Label = "Vocab 1";
+                                    Label = "Vocab 1"
+                                    Selected = false
                                     Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/Uri1";
-                                                        Label = "Term1";
+                                                 Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                        Label = "Term1"
+                                                        Selected = false
                                                         Children = []}]};
                        Property = "v1"};
                       {Root = Term {Uri = (Uri.from "http://testing.com/Vocab2")
-                                    Label = "Vocab 2";
+                                    Label = "Vocab 2"
+                                    Selected = false
                                     Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/Uri2";
-                                                        Label = "Term2";
+                                                 Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                        Label = "Term2"
+                                                        Selected = false
                                                         Children = []}]};
                        Property = "v2"}]
   let GetSearchResults _ _ = []
 
-  let html = startServerWithData GetVocabs GetSearchResults |> get "/"
+  let html = startServerWithData GetVocabs GetSearchResults |> get "/qs"
 
   let vocabs = html |> CQ.select ".vocab"
 
@@ -66,7 +70,7 @@ let ``Should present the vocabulary terms in form`` () =
 let ``Should have search button`` () =
   let searchButtonLabel =
     startServer ()
-    |> get "/"
+    |> get "/qs"
     |> CQ.select ":submit"
     |> CQ.attr "Value"
   test <@ searchButtonLabel = "Search" @>

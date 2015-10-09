@@ -2,6 +2,7 @@ module Viewer.VocabGeneration
 
 open FSharp.RDF
 open Viewer.Types
+open Viewer.Utils
 open FSharp.Data
 
 //subClassOf relations are the opposite way round from what we need
@@ -30,6 +31,7 @@ type InverseTerm =
 type TermD =
   { Uri : Uri
     Label : string
+    Selected : bool
     Children : Term list }
 and Term =
   | Term of TermD
@@ -44,6 +46,7 @@ and Term =
         let h = DotLiquid.Hash()
         h.Add("uri", (string) x.Uri)
         h.Add("label", x.Label)
+        h.Add("selected", x.Selected)
         h.Add("children", x.Children)
         h :> obj
 
@@ -56,6 +59,7 @@ and Term =
     walk xs |> List.fold (fun c (uri, label) ->
                  Term { Uri = uri
                         Label = label
+                        Selected = false
                         Children =
                           (if c = Empty then []
                            else [ c ]) }) Empty
@@ -90,6 +94,7 @@ and Term =
         | true ->
           Term { Uri = uri
                  Label = label
+                 Selected = false
                  Children = matchingTerms xs ys @ uniqueTerms xs ys }
     match a, b with
     | Empty, Empty -> Empty
@@ -115,23 +120,23 @@ type Vocabulary = {
 let GetVocabs () = 
   [
     {
-      Root = vocabLookup "http://schema/ns/qualitystandard/setting.ttl" "Setting"
+      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/setting.ttl" "Setting"
       Property = "qualitystandard:setting"
     }
     {
-      Root = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl" "Age group"
+      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/agegroup.ttl" "Age group"
       Property = "qualitystandard:age"
     }
     {
-      Root = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl" "Service area"
+      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/servicearea.ttl" "Service area"
       Property = "qualitystandard:serviceArea"
     }
     {
-      Root = vocabLookup "http://schema/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
+      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
       Property = "qualitystandard:condition"
     }
     {
-      Root = vocabLookup "http://schema/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
+      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
       Property = "qualitystandard:lifestylecondition"
     }
   ]

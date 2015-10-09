@@ -21,18 +21,17 @@ open FSharp.RDF
 
 let devMode = fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev"
 
-//let getStubbedVocabs () = [{Label = "Setting";
-//                            Name = "setting"; 
-//                            Terms = [{Name = "Hospice"; Uri = "Uri"};
-//                                     {Name = "Community"; Uri = "Uri"}]};]
 let getStubbedVocabs () = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
-                                         Label = "Settings:";
+                                         Label = "Settings:"
+                                         Selected = false
                                          Children = [
-                                                      Term { Uri = Uri.from "http://testing.com/TestSetting1";
-                                                             Label = "Term1";
+                                                      Term { Uri = Uri.from "http://testing.com/TestSetting1"
+                                                             Label = "Term1"
+                                                             Selected = false
                                                              Children = []};
-                                                      Term { Uri = Uri.from "http://testing.com/TestSetting2";
-                                                             Label = "Term2";
+                                                      Term { Uri = Uri.from "http://testing.com/TestSetting2"
+                                                             Label = "Term2"
+                                                             Selected = false
                                                              Children = []};]};
                            Property = "setting"}]
 

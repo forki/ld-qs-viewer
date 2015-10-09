@@ -1,7 +1,11 @@
 <ul class="checkbox-list">
     {% for term in terms -%}
     <li class="checkbox">
-        <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}" id="{{ term.Uri }}">
+        {% if term.Selected == true %}
+            <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}" id="{{ term.Uri }}" checked>
+        {% elsif term.Selected == false  %}
+            <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}" id="{{ term.Uri }}">
+        {% endif %}
         <label for="{{ term.Uri }}}">{{ term.Label }}</label>
         {% include "checkbox.html" terms:term.Children prop:prop %}
     </li>

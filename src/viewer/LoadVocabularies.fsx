@@ -4,6 +4,7 @@
 #r "VDS.Common.dll"
 #r "Newtonsoft.Json.dll"
 #load "Types.fs"
+#load "Utils.fs"
 
 open FSharp.RDF
 open Viewer.Types

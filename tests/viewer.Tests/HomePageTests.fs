@@ -28,7 +28,7 @@ let ``Should add form with search action`` () =
     |> get "/qs"
     |> CQ.select "form"
     |> CQ.attr "action"
-  test <@ action = "/search" @>
+  test <@ action = "/qs/search" @>
 
 [<Test>]
 let ``Should present the vocabulary terms in form`` () =

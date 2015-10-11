@@ -10,5 +10,6 @@
 #r "bin/Release/viewer.Tests.dll"
 #r "bin/Release/viewer.dll"
 #r "bin/Release/Unquote.dll"
+#r "bin/Release/FSharp.RDF.dll"
 #r "../../packages/FSharp.Data/lib/net40/FSharp.Data.dll"
 #r "../../packages/FSharp.Data/lib/net40/FSharp.Data.DesignTime.dll"

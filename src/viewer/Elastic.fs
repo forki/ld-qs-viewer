@@ -20,7 +20,6 @@ let BuildQuery qsPairs =
 
   let fullQuery = insertItemInto mustQuery shouldQuery
 
-  printf "Running query: %s" fullQuery
   fullQuery
 
 let RunElasticQuery testing (query: string) =
@@ -30,7 +29,12 @@ let RunElasticQuery testing (query: string) =
     | false -> "kb"
 
   let url = sprintf "http://elastic:9200/%s/qualitystatement/_search?" indexName
-  Http.RequestString(url, body = TextRequest query)
+  try 
+    Http.RequestString(url, body = TextRequest query)
+  with
+    | ex ->
+      printf "%s" (ex.ToString())
+      ""
 
 let ParseResponse response = 
 

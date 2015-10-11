@@ -117,26 +117,48 @@ type Vocabulary = {
   Property : string
 }
 
-let GetVocabs () = 
+let readVocabsFromFiles () = 
   [
     {
-      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/setting.ttl" "Setting"
+      Root = vocabLookup "http://schema/ns/qualitystandard/setting.ttl" "Setting"
       Property = "qualitystandard:setting"
     }
     {
-      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/agegroup.ttl" "Age group"
+      Root = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl" "Age group"
       Property = "qualitystandard:age"
     }
     {
-      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/servicearea.ttl" "Service area"
+      Root = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl" "Service area"
       Property = "qualitystandard:serviceArea"
     }
     {
-      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
+      Root = vocabLookup "http://schema/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
       Property = "qualitystandard:condition"
     }
     {
-      Root = vocabLookup "http://ld.nice.org.uk/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
+      Root = vocabLookup "http://schema/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
       Property = "qualitystandard:lifestylecondition"
     }
   ]
+
+let setSelectedIfFiltered filters vocab =
+
+  let rec filterChildren f acc children =
+    match children with
+      | [] -> []
+      | x::xs -> f x :: filterChildren f acc xs
+
+  let rec filterVocab v =
+    match v with
+    | Empty -> v
+    | Term x -> Term { x with
+                        Selected = filters |> Seq.exists (fun y -> y = x.Uri.ToString())
+                        Children = filterChildren filterVocab [] x.Children }
+
+  {vocab with Root = filterVocab (vocab.Root)}
+
+let getVocabsWithState vocabs filters =
+  vocabs
+  |> Seq.map (fun v -> setSelectedIfFiltered filters v)
+  |> Seq.toList
+

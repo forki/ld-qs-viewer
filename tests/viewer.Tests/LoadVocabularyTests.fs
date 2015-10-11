@@ -2,6 +2,7 @@ module Viewer.Tests.LoadVocabularyTests
 
 open Swensen.Unquote
 open NUnit.Framework
+open FSharp.RDF
 open Viewer.VocabGeneration
 open Viewer.Types
 
@@ -33,3 +34,45 @@ let ``Parse flat graph will return a flat list`` () =
 <<<<<<< HEAD
 *)
 
+
+[<Test>]
+let ``Should set vocab term as selected if url exists in filters`` () =
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                              Label = "Vocab 1"
+                              Selected = false
+                              Children = [
+                                           Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                  Label = "Term1"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                  Label = "Term2"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { Uri = Uri.from "http://testing.com/Uri3"
+                                                  Label = "Term3"
+                                                  Selected = false
+                                                  Children = []}]};
+                 Property = "v1"}]
+
+  let expectedVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                                      Label = "Vocab 1"
+                                      Selected = false
+                                      Children = [
+                                                   Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                          Label = "Term1"
+                                                          Selected = false
+                                                          Children = []};
+                                                   Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                          Label = "Term2"
+                                                          Selected = true
+                                                          Children = []};
+                                                   Term { Uri = Uri.from "http://testing.com/Uri3"
+                                                          Label = "Term3"
+                                                          Selected = true
+                                                          Children = []}]};
+                         Property = "v1"}]
+
+  let filters = ["http://testing.com/Uri2";"http://testing.com/Uri3"]
+  let actualVocabs = getVocabsWithState vocabs filters 
+  test <@ actualVocabs = expectedVocabs @>

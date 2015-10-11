@@ -1,4 +1,4 @@
-module Viewer.Tests.HomePageTests
+module Viewer.Tests.SidebarTests
 
 open Suave
 open Suave.DotLiquid
@@ -8,6 +8,7 @@ open Viewer.Types
 open Viewer.VocabGeneration
 open Viewer.Tests.Utils
 open FSharp.RDF
+
 [<SetUp>]
 let ``Run before tests`` () =
   setTemplatesDir "templates/"
@@ -33,18 +34,18 @@ let ``Should add form with search action`` () =
 
 [<Test>]
 let ``Should present a vocabulary with a single term as an input checkbox`` () =
-  let GetVocabs () = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
-                                    Label = "Vocab 1"
-                                    Selected = false
-                                    Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/Uri1"
-                                                        Label = "Term1"
-                                                        Selected = false
-                                                        Children = []}]};
-                       Property = "property"}]
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                              Label = "Vocab 1"
+                              Selected = false
+                              Children = [
+                                           Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                  Label = "Term1"
+                                                  Selected = false
+                                                  Children = []}]};
+                 Property = "property"}]
   let GetSearchResults _ _ = []
 
-  let html = startServerWithData GetVocabs GetSearchResults |> get "/qs"
+  let html = startServerWithData vocabs GetSearchResults |> get "/qs"
 
   let vocabs = html |> CQ.select ".vocab"
 
@@ -62,38 +63,38 @@ let ``Should present a vocabulary with a single term as an input checkbox`` () =
 
 [<Test>]
 let ``Should present the multiple vocabulary containing multiple terms`` () =
-  let GetVocabs () = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
-                                    Label = "Vocab 1"
-                                    Selected = false
-                                    Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/Uri1"
-                                                        Label = "Term1"
-                                                        Selected = false
-                                                        Children = []}]};
-                       Property = "v1"};
-                      {Root = Term {Uri = (Uri.from "http://testing.com/Vocab2")
-                                    Label = "Vocab 2"
-                                    Selected = false
-                                    Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/Uri2"
-                                                        Label = "Term2"
-                                                        Selected = false
-                                                        Children = []};
-                                                 Term { Uri = Uri.from "http://testing.com/Uri3"
-                                                        Label = "Term3"
-                                                        Selected = false
-                                                        Children = []}]};
-                       Property = "v2"}]
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                              Label = "Vocab 1"
+                              Selected = false
+                              Children = [
+                                           Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                  Label = "Term1"
+                                                  Selected = false
+                                                  Children = []}]};
+                 Property = "v1"};
+                 {Root = Term {Uri = (Uri.from "http://testing.com/Vocab2")
+                               Label = "Vocab 2"
+                               Selected = false
+                               Children = [
+                                            Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                   Label = "Term2"
+                                                   Selected = false
+                                                   Children = []};
+                                            Term { Uri = Uri.from "http://testing.com/Uri3"
+                                                   Label = "Term3"
+                                                   Selected = false
+                                                   Children = []}]};
+                 Property = "v2"}]
   let GetSearchResults _ _ = []
 
-  let html = startServerWithData GetVocabs GetSearchResults |> get "/qs"
+  let html = startServerWithData vocabs GetSearchResults |> get "/qs"
 
   let checkboxes = html |> CQ.select "input[type='checkbox']"
   test <@ checkboxes |> CQ.length = 3 @>
 
 [<Test>]
 let ``Should present the vocabulary term checkboxes unselected by default`` () =
-  let GetVocabs () = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
                                     Label = "Vocab 1"
                                     Selected = false
                                     Children = [
@@ -104,14 +105,14 @@ let ``Should present the vocabulary term checkboxes unselected by default`` () =
                        Property = "v1"};]
   let GetSearchResults _ _ = []
 
-  let html = startServerWithData GetVocabs GetSearchResults |> get "/qs"
+  let html = startServerWithData vocabs GetSearchResults |> get "/qs"
 
   let selectedCheckboxes = html |> CQ.select "input[checked]"
   test <@ selectedCheckboxes |> CQ.length = 0 @>
 
 [<Test>]
 let ``Should present the vocabulary term checkboxes as selected when they exist in the querystring`` () =
-  let GetVocabs () = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
                                     Label = "Vocab 1"
                                     Selected = false
                                     Children = [
@@ -126,7 +127,7 @@ let ``Should present the vocabulary term checkboxes as selected when they exist 
                        Property = "v1"}]
   let GetSearchResults _ _ = []
 
-  let html = startServerWithData GetVocabs GetSearchResults |> getQuery "/qs/search/" "key=http%3A%2F%2Ftesting.com%2FUri1"
+  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" "key=http%3A%2F%2Ftesting.com%2FUri2"
 
   let selectedCheckboxes = html |> CQ.select "input[checked]"
 

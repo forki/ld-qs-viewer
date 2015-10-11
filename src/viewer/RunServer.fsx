@@ -21,19 +21,19 @@ open FSharp.RDF
 
 let devMode = fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev"
 
-let getStubbedVocabs () = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
-                                         Label = "Settings:"
-                                         Selected = false
-                                         Children = [
-                                                      Term { Uri = Uri.from "http://testing.com/TestSetting1"
-                                                             Label = "Term1"
-                                                             Selected = false
-                                                             Children = []};
-                                                      Term { Uri = Uri.from "http://testing.com/TestSetting2"
-                                                             Label = "Term2"
-                                                             Selected = false
-                                                             Children = []};]};
-                           Property = "setting"}]
+let stubbedVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
+                                   Label = "Settings:"
+                                   Selected = false
+                                   Children = [
+                                                Term { Uri = Uri.from "http://testing.com/TestSetting1"
+                                                       Label = "Term1"
+                                                       Selected = false
+                                                       Children = []};
+                                                Term { Uri = Uri.from "http://testing.com/TestSetting2"
+                                                       Label = "Term2"
+                                                       Selected = false
+                                                       Children = []};]};
+                     Property = "setting"}]
 
 let getStubbedSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."};
                                    {Uri = "Uri2"; Abstract = "Goblins with arthritis..."}]
@@ -45,12 +45,13 @@ let getSearchFunc () =
       getStubbedSearchResults
     | false -> GetSearchResults RunElasticQuery
 
-let getVocabFunc () =
+let getVocabs () =
   match devMode with
     | true ->
       printf "RUNNING DEV MODE: Using stubbed data\n"
-      getStubbedVocabs
-    | false -> GetVocabs 
+      stubbedVocabs
+    | false -> readVocabsFromFiles ()
+ 
 
 let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
 setTemplatesDir templatePath
@@ -60,4 +61,4 @@ let defaultConfig = { defaultConfig with
                     }
 
 printf "Running with config:\n%A\n" defaultConfig
-startWebServer defaultConfig (createApp (getVocabFunc()) (getSearchFunc()))
+startWebServer defaultConfig (createApp (getVocabs()) (getSearchFunc()))

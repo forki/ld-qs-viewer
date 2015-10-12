@@ -27,12 +27,12 @@ let ``Viewing a resource should load html file content`` () =
   let content =
    startServer ()
    |> get "/qualitystandards/test_standard/test_statement/Statement.html"
-   |> CQ.select "#content"
+   |> CQ.select "#resource-content"
    |> CQ.text
 
   File.Delete("/artifacts/published/qualitystandards/test_standard/test_statement/Statement.html")
 
-  test <@ content = "Some content here" @>
+  test <@ content.Contains "Some content here" @>
 
 [<Test>]
 let ``Viewing a resource should load contain disclaimer banner`` () =
@@ -47,3 +47,14 @@ let ``Viewing a resource should load contain disclaimer banner`` () =
   File.Delete("/artifacts/published/qualitystandards/test_standard/test_statement/Statement.html")
 
   test <@ banner |> CQ.length = 1 @>
+
+[<Test>]
+let ``Requesting a resource that does not exist should show message`` () =
+
+  let content =
+    startServer ()
+    |> get "/qualitystandards/this/does/not/exist/Statement.html"
+    |> CQ.select "#resource-content"
+    |> CQ.text
+
+  test <@ content.Contains "Could not find resource." @>

@@ -9,6 +9,11 @@ type ResourceModel = {
 }
 
 let resource filename =
-  let content = File.ReadAllText(sprintf "/artifacts/published/qualitystandards/%s" filename)
+  let content =
+    try
+      File.ReadAllText(sprintf "/artifacts/published/qualitystandards/%s" filename)
+    with
+      | ex -> "Could not find resource."
+
   DotLiquid.page "resource.html" {Content = content}
 

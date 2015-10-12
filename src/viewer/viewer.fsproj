@@ -48,6 +48,7 @@
     <Compile Include="Elastic.fs" />
     <Compile Include="Home.fs" />
     <Compile Include="Search.fs" />
+    <Compile Include="Resource.fs" />
     <Compile Include="App.fs" />
     <None Include="Script.fsx" />
     <None Include="RunServer.fsx" />
@@ -110,6 +111,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\search.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\disclaimer.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\resource.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="RunServer.fsx">

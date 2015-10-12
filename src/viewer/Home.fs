@@ -20,7 +20,7 @@ let testVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
                                                     Label = "Term2"
                                                     Selected = false
                                                     Children = []};]};
-                   Property = "setting"}]
+                   Property = "qualitystandard:setting"}]
 
 type HomeModel =  {
    Vocabularies: Vocabulary list

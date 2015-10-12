@@ -2,7 +2,7 @@ module Viewer.Queries
 
 // Elasticsearch query fragments go here
 
-let termQuery = """{"term" : {"qualitystandard:%s" : "%s"}}"""
+let termQuery = """{"term" : {"%s" : "%s"}}"""
 
 let shouldQuery = """{"bool" : {
             "should" : [

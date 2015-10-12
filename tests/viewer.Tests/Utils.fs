@@ -21,14 +21,14 @@ type CQ = | CQ of CsQuery.CQ
 
 let parseHtml (resp: string) = CQ.Create(resp) |> CQ
 
-let startServerWithData getVocabularies getSearchResults =
-  runWith defaultConfig (createApp getVocabularies getSearchResults)
+let startServerWithData vocabs getSearchResults =
+  runWith defaultConfig (createApp vocabs getSearchResults)
 
 let startServer () =
-  let GetVocabularies () = []
+  let vocabs = []
   let GetSearchResults _ _ = []
 
-  startServerWithData GetVocabularies GetSearchResults
+  startServerWithData vocabs GetSearchResults
 
 let get path testCtx = req HttpMethod.GET path None testCtx |> parseHtml
 let getQuery path qs testCtx = reqQuery HttpMethod.GET path qs testCtx |> parseHtml

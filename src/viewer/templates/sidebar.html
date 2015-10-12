@@ -3,20 +3,14 @@
     <div class="filter-group">
         {% for vocab in model.Vocabularies -%}
         <div class="vocab">
-            <h4 class="h4">{{vocab.Label}}</h4>
-            {% for item in vocab.Terms -%}
-                {% if item.Name != empty %}
-                    {% include "checkbox.html" item:item vocabName:vocab.Name %}
-                {% endif %}
-            {% endfor -%}
+            <h4 class="h4">{{vocab.Root.Label}}</h4>
+            {% include "checkbox.html" terms:vocab.Root.Children prop:vocab.Property %}
         </div>
         {% endfor -%}
     </div>
-
     <div class="button-group">
         <input type="reset" class="button" Value="Reset">
         <input type="submit" class="button primary" Value="Search">
     </div>
-
 </form>
 

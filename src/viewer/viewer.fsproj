@@ -43,9 +43,9 @@
   <ItemGroup>
     <Compile Include="Types.fs" />
     <Compile Include="Utils.fs" />
+    <Compile Include="VocabGeneration.fs" />
     <Compile Include="Queries.fs" />
     <Compile Include="Elastic.fs" />
-    <Compile Include="VocabGeneration.fs" />
     <Compile Include="Home.fs" />
     <Compile Include="Search.fs" />
     <Compile Include="App.fs" />

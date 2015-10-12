@@ -14,17 +14,17 @@ open Viewer.Types
 open Viewer.Search
 open Viewer.Home
 open FSharp.Data
-
+open Viewer.VocabGeneration
 let setTemplatesDir path =
   DotLiquid.setTemplatesDir(path)
 
 let qualityStandardsDir = "/artifacts/published/"
 
-let createApp getVocabs getSearchResults =
+let createApp vocabs getSearchResults =
   choose
     [ GET >>= choose
-        [path "/qs" >>= request(fun req -> home req getVocabs)
-         path "/qs/search" >>= request(fun req -> search req getSearchResults getVocabs)
+        [path "/qs" >>= request(fun req -> home req vocabs)
+         path "/qs/search" >>= request(fun req -> search req getSearchResults vocabs)
          browse qualityStandardsDir
          browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]

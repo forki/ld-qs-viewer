@@ -13,14 +13,13 @@ let BuildQuery qsPairs =
 
   let shouldQuery = aggregatedKeyValues
                     |> Seq.map (fun (k, vals) -> vals
-                                                 |> Seq.map (fun v -> insertItemsInto termQuery k v)
+                                                 |> Seq.map (fun v -> insertItemsInto termQuery (Uri.UnescapeDataString k) v)
                                                  |> concatToStringWithDelimiter ",")
                     |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)
                     |> concatToStringWithDelimiter ","
 
   let fullQuery = insertItemInto mustQuery shouldQuery
 
-  printf "Running query: %s" fullQuery
   fullQuery
 
 let RunElasticQuery testing (query: string) =
@@ -30,7 +29,12 @@ let RunElasticQuery testing (query: string) =
     | false -> "kb"
 
   let url = sprintf "http://elastic:9200/%s/qualitystatement/_search?" indexName
-  Http.RequestString(url, body = TextRequest query)
+  try 
+    Http.RequestString(url, body = TextRequest query)
+  with
+    | ex ->
+      printf "%s" (ex.ToString())
+      ""
 
 let ParseResponse response = 
 

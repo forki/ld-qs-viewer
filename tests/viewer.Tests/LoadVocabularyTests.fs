@@ -2,6 +2,7 @@ module Viewer.Tests.LoadVocabularyTests
 
 open Swensen.Unquote
 open NUnit.Framework
+open FSharp.RDF
 open Viewer.VocabGeneration
 open Viewer.Types
 
@@ -22,7 +23,7 @@ let singleTierGraph = """@base <http://ld.nice.org.uk/ns/qualitystandard/setting
                                                              rdfs:label "Community"^^xsd:string;
                                                              rdfs:subClassOf <http://ld.nice.org.uk/ns/qualitystandard/setting#Setting>.
   """
-
+(*
 [<Test>]
 let ``Parse flat graph will return a flat list`` () =
   let output = vocabGeneration singleTierGraph
@@ -30,14 +31,48 @@ let ``Parse flat graph will return a flat list`` () =
             { Name = "Primary care setting"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Primary care setting"; Selected = false}
             { Name = "Community"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"; Selected = false}
     ] @>
+<<<<<<< HEAD
+*)
 
 
 [<Test>]
-let ``Query string will return a state persisted vocab checklist`` () =
-  let vocab = [{Name = "Care Home"; Uri = "http://ld.nice.org.uk/test#Care Home"; Selected = false};
-               {Name = "Old Home"; Uri = "http://ld.nice.org.uk/test#Old Home"; Selected = false}]
-  let expected = [{Name = "Care Home"; Uri = "http://ld.nice.org.uk/test#Care Home"; Selected = true};
-                  {Name = "Old Home"; Uri = "http://ld.nice.org.uk/test#Old Home"; Selected = false}]
-  let selected = ["http://ld.nice.org.uk/test#Care Home"]
-  let output = (matchTermsWithQString vocab selected)
-  test <@ output = expected @>
+let ``Should set vocab term as selected if url exists in filters`` () =
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                              Label = "Vocab 1"
+                              Selected = false
+                              Children = [
+                                           Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                  Label = "Term1"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                  Label = "Term2"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { Uri = Uri.from "http://testing.com/Uri3"
+                                                  Label = "Term3"
+                                                  Selected = false
+                                                  Children = []}]};
+                 Property = "v1"}]
+
+  let expectedVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                                      Label = "Vocab 1"
+                                      Selected = false
+                                      Children = [
+                                                   Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                          Label = "Term1"
+                                                          Selected = false
+                                                          Children = []};
+                                                   Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                          Label = "Term2"
+                                                          Selected = true
+                                                          Children = []};
+                                                   Term { Uri = Uri.from "http://testing.com/Uri3"
+                                                          Label = "Term3"
+                                                          Selected = true
+                                                          Children = []}]};
+                         Property = "v1"}]
+
+  let filters = ["http://testing.com/Uri2";"http://testing.com/Uri3"]
+  let actualVocabs = getVocabsWithState vocabs filters 
+  test <@ actualVocabs = expectedVocabs @>

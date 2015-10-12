@@ -1,25 +1,31 @@
 ﻿#load "LoadDeps.fsx"
 
 open Swensen.Unquote
+open Suave.Testing
+open Viewer.Tests.Utils
+open CsQuery
+open Viewer.VocabGeneration
+open FSharp.RDF
 
-let extractFilters qs =
-  qs
-  |> Seq.map (fun (_,v) ->
-                match v with
-                  | Some s -> s
-                  | None -> "")
-  |> Seq.toList
 
-let noResults () =
-  let qs = []
-  let filters = extractFilters qs
-  test <@ filters = [] @>
+let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                            Label = "Vocab 1"
+                            Selected = false
+                            Children = [
+                                         Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                Label = "Term1"
+                                                Selected = false
+                                                Children = []};
+                                         Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                Label = "Term2"
+                                                Selected = false
+                                                Children = []}]};
+               Property = "v1"}]
+let GetSearchResults _ _ = []
 
-let results () =
-  let qs = [("key1", Some("val1"));
-            ("key2", Some("val2"))]
-  let filters = extractFilters qs
+let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search/" "key=http%3A%2F%2Ftesting.com%2FUri1"
 
-  test <@ filters = ["val1";"val2"] @>
+let selectedCheckboxes = html |> CQ.select "input[checked]"
 
-[noResults; results] |> Seq.iter (fun test -> test())
+//test <@ selectedCheckboxes |> CQ.length = 1 @>
+//test <@ selectedCheckboxes |> CQ.first |> CQ.attr "value" = "http://testing.com/Uri2" @>

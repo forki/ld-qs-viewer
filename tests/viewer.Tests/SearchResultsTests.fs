@@ -1,4 +1,4 @@
-module Viewer.Tests.SearchPageTests
+module Viewer.Tests.SearchResultsTests
 
 open Suave
 open Suave.DotLiquid
@@ -25,10 +25,10 @@ let ``Should show message when attempting to search with no filters`` () =
 let ``Should present search results`` () =
   let GetSearchResults _ _ = [{Uri = "";Abstract = ""};
                               {Uri = "";Abstract = ""}]
-  let GetVocabularies () = []
+  let vocabs = []
 
   let results =
-    startServerWithData GetVocabularies GetSearchResults
+    startServerWithData vocabs GetSearchResults
     |> getQuery "/qs/search" "notused=notused"
     |> CQ.select ".results > .result"
     |> CQ.length
@@ -40,10 +40,10 @@ let ``Should present search results`` () =
 let ``Should present a result count`` () =
   let GetSearchResults _ _ = [{Uri = "";Abstract = ""};
                               {Uri = "";Abstract = ""}]
-  let GetVocabularies () = []
+  let vocabs = []
 
   let totalCount =
-    startServerWithData GetVocabularies GetSearchResults
+    startServerWithData vocabs GetSearchResults
     |> getQuery "/qs/search" "notused=notused"
     |> CQ.select ".card-list-header > .counter"
     |> CQ.text
@@ -53,10 +53,10 @@ let ``Should present a result count`` () =
 let ``Should present abstract and link for each result`` () =
   let GetSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"};
                               {Uri = "Uri2"; Abstract = "Abstract2"}]
-  let GetVocabularies () = []
+  let vocabs = []
 
   let dom =
-    startServerWithData GetVocabularies GetSearchResults
+    startServerWithData vocabs GetSearchResults
     |> getQuery "/qs/search" "notused=notused"
 
   let abstracts = dom |> CQ.select ".abstract"

@@ -15,15 +15,16 @@ type SearchModel = {
   totalCount: int
 }
 
-let search (req:HttpRequest) getSearchResults getVocabs =
+let search (req:HttpRequest) getSearchResults vocabs =
   let testing = req.cookies |> Map.containsKey "test"
 
   let qs = req.query
   match qs with
     | [("", _)] ->
-      {Results = []; Filters = []; Vocabularies = getVocabs(); totalCount = 0}
+      {Results = []; Filters = []; Vocabularies = vocabs; totalCount = 0}
     | _         ->
       let results = (qs |> BuildQuery |> getSearchResults testing)
-      {Results = results; Filters = extractFilters qs; Vocabularies = (GetVocabsWithState getVocabs qs); totalCount = results.Length}
+      let filters = extractFilters qs
+      {Results = results; Filters = filters; Vocabularies = getVocabsWithState vocabs filters; totalCount = results.Length}
 
   |> DotLiquid.page "search.html"

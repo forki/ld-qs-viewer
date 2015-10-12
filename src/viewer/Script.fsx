@@ -17,6 +17,9 @@ open FSharp.Data
 
 System.Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
+open System
+S
+
 //let uri = new Uri("http://localhost:9200")
 //let settings = new ConnectionConfiguration(uri) |> (fun x -> x.ExposeRawResponse())
 //let client = new ElasticsearchClient(settings) 

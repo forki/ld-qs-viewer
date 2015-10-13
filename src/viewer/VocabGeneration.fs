@@ -137,7 +137,7 @@ let readVocabsFromFiles () =
     }
     {
       Root = vocabLookup "http://schema/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
-      Property = "qualitystandard:lifestylecondition"
+      Property = "qualitystandard:lifestyleCondition"
     }
   ]
 

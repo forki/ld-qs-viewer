@@ -11,7 +11,7 @@ let shouldQuery = """{"bool" : {
           }}"""
 
 let mustQuery = """{
-"from": 0, "size": 100,
+"from": 0, "size": 1500,
 "query": {
   "filtered": {
     "filter" : {

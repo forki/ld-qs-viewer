@@ -10,7 +10,7 @@ let ``Should build query correctly for a single term`` () =
   let qs = [("key", Some("val"))]
   let query = BuildQuery qs
   let expectedQuery = """{
-"from": 0, "size": 100,
+"from": 0, "size": 1500,
 "query": {
   "filtered": {
     "filter" : {
@@ -36,7 +36,7 @@ let ``Should build query correctly for a multiple terms with same key`` () =
 
   let query = BuildQuery qs
   let expectedQuery = """{
-"from": 0, "size": 100,
+"from": 0, "size": 1500,
 "query": {
   "filtered": {
     "filter" : {
@@ -64,7 +64,7 @@ let ``Should build query correctly for a multiple terms with different keys`` ()
 
   let query = BuildQuery qs
   let expectedQuery = """{
-"from": 0, "size": 100,
+"from": 0, "size": 1500,
 "query": {
   "filtered": {
     "filter" : {
@@ -160,7 +160,7 @@ let ``Should build query correctly for an encoded single term key`` () =
   let qs = [("key%3akey", Some("val"))]
   let query = BuildQuery qs
   let expectedQuery = """{
-"from": 0, "size": 100,
+"from": 0, "size": 1500,
 "query": {
   "filtered": {
     "filter" : {

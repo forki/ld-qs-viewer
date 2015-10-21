@@ -7,6 +7,7 @@ open Elasticsearch.Net
 open Elasticsearch.Net.Connection
 open System
 open FSharp.Data
+open System.Text.RegularExpressions
 
 let BuildQuery qsPairs =
   let aggregatedKeyValues = aggregateQueryStringValues qsPairs 
@@ -50,12 +51,24 @@ let ParseResponse response =
     with
       | ex -> url
 
+  //temporary - not reusing stuffs
+  let getStandardNo (url:string) =
+    try
+      let parts = url.Split (':')
+      let path = parts.[2]
+      Regex.Match(path,"qs[0-9]{1,4}").Value
+    with
+      | _ -> url
+
   try
     let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(response)
     let hits = json.Hits.Hits
     hits
-      |> Seq.map(fun hit -> {Uri = chopPath hit.Source.Id;Abstract = hit.Source.HttpLdNiceOrgUkNsQualitystandardAbstract})
-      |> Seq.toList
+        |> Seq.map(fun hit ->
+                {Uri = chopPath hit.Source.Id;
+                    Abstract = hit.Source.HttpLdNiceOrgUkNsQualitystandardAbstract;
+                    Title = (sprintf "%s (%s)" hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle (getStandardNo hit.Source.Id))})
+        |> Seq.toList
   with
     | ex ->
       printf "%s" (ex.ToString())

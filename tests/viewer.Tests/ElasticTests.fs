@@ -105,10 +105,11 @@ let ``GetSearchResults should map a single result`` () =
       "hits":{
         "hits":[
           {
-            "_id":"qs1_st1",
+            "_id":"http://ld.somedomain.com/prov/entity#XXXXXX:path/qs7/to/Statement.md",
             "_source":{
               "@id":"This is the Uri",
               "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is the abstract"
+              "http://ld.nice.org.uk/ns/qualitystandard#title": "This is the title"
             }
           }
         ]
@@ -120,7 +121,7 @@ let ``GetSearchResults should map a single result`` () =
   let DoSearchWith = GetSearchResults StubbedQueryResponse false
   let results = DoSearchWith query
 
-  test <@ results = [{Uri = "This is the Uri";Abstract = "This is the abstract"}] @>
+  test <@ results = [{Uri = "This is the Uri";Abstract = "This is the abstract"; Title = "This is the title (qs7)"}] @>
 
 [<Test>]
 let ``GetSearchResults should map multiple results`` () =
@@ -135,6 +136,7 @@ let ``GetSearchResults should map multiple results`` () =
             "_source":{
               "@id":"",
               "http://ld.nice.org.uk/ns/qualitystandard#abstract": ""
+              "http://ld.nice.org.uk/ns/qualitystandard#title": "This is the title 1"
             }
           },
           {
@@ -142,6 +144,7 @@ let ``GetSearchResults should map multiple results`` () =
             "_source":{
               "@id":"",
               "http://ld.nice.org.uk/ns/qualitystandard#abstract": ""
+              "http://ld.nice.org.uk/ns/qualitystandard#title": "This is the title 1"
             }
           }
         ]

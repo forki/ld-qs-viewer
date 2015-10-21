@@ -35,8 +35,8 @@ let stubbedVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
                                                        Children = []};]};
                      Property = "setting"}]
 
-let getStubbedSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "Unicooorns"};
-                                   {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "Goblinnns"}]
+let getStubbedSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title (qs7)"};
+                                   {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title (qs7)"}]
 
 let getSearchFunc () =
   match devMode with

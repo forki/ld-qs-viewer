@@ -51,24 +51,14 @@ let ParseResponse response =
     with
       | ex -> url
 
-  //temporary - not reusing stuffs
-  let getStandardNo (url:string) =
-    try
-      let parts = url.Split (':')
-      let path = parts.[2]
-      Regex.Match(path,"qs[0-9]{1,4}").Value
-    with
-      | _ -> url
+  let createResult (hit:JsonProvider<"elasticResponseSchema.json">.Hit) =
+    {Uri = chopPath hit.Source.Id;
+     Abstract = hit.Source.HttpLdNiceOrgUkNsQualitystandardAbstract;
+     Title = hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle}
 
   try
-    let json = FSharp.Data.JsonProvider<"elasticResponseSchema.json">.Parse(response)
-    let hits = json.Hits.Hits
-    hits
-        |> Seq.map(fun hit ->
-                {Uri = chopPath hit.Source.Id;
-                    Abstract = hit.Source.HttpLdNiceOrgUkNsQualitystandardAbstract;
-                    Title = (sprintf "%s (%s)" hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle (getStandardNo hit.Source.Id))})
-        |> Seq.toList
+    let json = JsonProvider<"elasticResponseSchema.json">.Parse(response)
+    json.Hits.Hits |> Seq.map createResult |> Seq.toList
   with
     | ex ->
       printf "%s" (ex.ToString())

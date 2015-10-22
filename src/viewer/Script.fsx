@@ -15,39 +15,11 @@ open Elasticsearch.Net.Connection
 open System
 open FSharp.Data
 
-System.Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
-open System
-S
+open System.Text.RegularExpressions
+let path = "qualitystandards/qs7/st2/Statement.md" 
 
-//let uri = new Uri("http://localhost:9200")
-//let settings = new ConnectionConfiguration(uri) |> (fun x -> x.ExposeRawResponse())
-//let client = new ElasticsearchClient(settings) 
-//let index = "kb"
-//let query = "{}"
-//let resp = client.Search<string>(index, query)
-//let raw = resp.Response
-
-type jp = JsonProvider<"../../src/viewer/elasticResponseSchema.json">
-let s = jp.GetSample()
-let hits = s.Hits.Hits
-hits
-  |> Seq.map(fun hit -> hit.Source.QualitystandardAbstract)
-  |> Seq.toList
-
-
-let url = "http://ld.nice.org.uk/prov/entity#98ead3d:qualitystandards/qs7/st2/Statement.md" 
-
-let parts = url.Split (':')
-let path = parts.[2]
-let id = path.Split('.')
-id.[0]
-
-
-let l = [("A","B");("C","D");("A","E")]
-l
-|> Seq.groupBy (fun (k,v) -> k)
-|> Seq.map (fun (k, v) -> (k, Seq.map (fun (s,p) -> p) v) )
-
-
-let l = ["A";"B";"C"]
+let m = Regex.Match(path,"qs([0-9]+)/st([0-9]+)")
+let standard = m.Groups.[1].Value
+let statement = m.Groups.[2].Value
+printf "Quality Statement %s from Quality standard %s" statement standard

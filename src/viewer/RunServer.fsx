@@ -25,11 +25,11 @@ let stubbedVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
                                    Label = "Settings:"
                                    Selected = false
                                    Children = [
-                                                Term { Uri = Uri.from "http://testing.com/TestSetting1"
+                                                Term { Uri = Uri.from "http://testing.com/TestSetting1#Term1"
                                                        Label = "Term1"
                                                        Selected = false
                                                        Children = []};
-                                                Term { Uri = Uri.from "http://testing.com/TestSetting2"
+                                                Term { Uri = Uri.from "http://testing.com/TestSetting2#Term2"
                                                        Label = "Term2"
                                                        Selected = false
                                                        Children = []};]};

@@ -1,4 +1,5 @@
 module Viewer.Utils
+open Viewer.Types
 
 let extractFilters qs =
   qs
@@ -35,3 +36,12 @@ let concatToStringWithDelimiter delimiter items =
                match acc with
                  | "" -> item
                  | _ -> acc + delimiter + item) ""
+
+
+let createFilterTags filters =
+  try
+    filters
+    |> Seq.map (fun (x:string) -> {Label = x.Split('#').[1]})
+    |> Seq.toList
+  with
+    | _ -> []

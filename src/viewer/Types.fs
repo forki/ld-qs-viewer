@@ -5,3 +5,7 @@ type SearchResult = {
   Title: string
   Abstract: string
 }
+
+type Tag = {
+  Label: string
+}

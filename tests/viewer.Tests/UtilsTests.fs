@@ -1,6 +1,7 @@
 module Viewer.Tests.UtilsTests
 
 open Viewer.Utils
+open Viewer.Types
 open Swensen.Unquote
 open NUnit.Framework
 
@@ -27,3 +28,11 @@ let ``Filter values should be extracted from a querystring`` () =
   let filters = extractFilters qs
 
   test <@ filters = ["val1";"val2"] @>
+
+[<Test>]
+let ``Filter tags should be created from filters`` () =
+  let filters = ["Something#val1";"Something#val2"]
+  let filterTags = createFilterTags filters
+
+  test <@ filterTags = [{Label = "val1"};
+                        {Label = "val2"}] @>

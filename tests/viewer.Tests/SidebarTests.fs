@@ -145,7 +145,7 @@ let ``Should have search button`` () =
 
 
 [<Test>]
-let ``Should show tags for search filters in query string`` () =
+let ``Should show tag labels for search filters in query string`` () =
   let vocabs = []
   let GetSearchResults _ _ = []
 
@@ -156,3 +156,16 @@ let ``Should show tags for search filters in query string`` () =
   test <@ tags |> CQ.length = 2 @>
   test <@ tags |> CQ.first |> CQ.text = "Term1" @>
   test <@ tags |> CQ.last |> CQ.text = "Term2" @>
+
+[<Test>]
+let ``Should show tag removal links for search filters in query string`` () =
+  let vocabs = []
+  let GetSearchResults _ _ = []
+
+  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" "key=http%3A%2F%2Ftesting.com%2FUri%23Term1&key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
+
+  let tags = html |> CQ.select ".tag-remove-link"
+
+  test <@ tags |> CQ.length = 2 @>
+  test <@ tags |> CQ.first |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term2" @>
+  test <@ tags |> CQ.last |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term1" @>

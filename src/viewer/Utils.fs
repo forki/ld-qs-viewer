@@ -3,10 +3,10 @@ open Viewer.Types
 
 let extractFilters qs =
   qs
-  |> Seq.map (fun (_,v) ->
+  |> Seq.map (fun (k,v) ->
                 match v with
-                  | Some s -> s
-                  | None -> "")
+                  | Some s -> {Key = k; Val = s}
+                  | None -> {Key = k; Val = ""})
   |> Seq.toList
 
 let aggregateQueryStringValues qsPairs =

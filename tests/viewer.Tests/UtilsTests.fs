@@ -27,12 +27,13 @@ let ``Filter values should be extracted from a querystring`` () =
             ("key2", Some("val2"))]
   let filters = extractFilters qs
 
-  test <@ filters = ["val1";"val2"] @>
+  test <@ filters = [{Key = "key1"; Val = "val1"}
+                     {Key = "key2"; Val = "val2"}] @>
 
 [<Test>]
 let ``Filter tags should be created from filters`` () =
-  let filters = ["Something#val1";"Something#val2"]
+  let filters = [{Key = "key"; Val = "http://somelink.com/Uri#val1"}
+                 {Key = "key"; Val = "http://somelink.com/Uri#val2"}]
   let filterTags = createFilterTags filters
-
-  test <@ filterTags = [{Label = "val1"};
-                        {Label = "val2"}] @>
+  test <@ filterTags = [{Label = "val1"; RemovalLink = "/qs/search?key=http%3A%2F%2Fsomelink.com%2FUri%23val2"};
+                        {Label = "val2"; RemovalLink = "/qs/search?key=http%3A%2F%2Fsomelink.com%2FUri%23val1"}] @>

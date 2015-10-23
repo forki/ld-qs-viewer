@@ -21,35 +21,18 @@ open FSharp.RDF
 
 let devMode = fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev"
 
-let stubbedVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
-                                   Label = "Settings:"
-                                   Selected = false
-                                   Children = [
-                                                Term { Uri = Uri.from "http://testing.com/TestSetting1#Term1"
-                                                       Label = "Term1"
-                                                       Selected = false
-                                                       Children = []};
-                                                Term { Uri = Uri.from "http://testing.com/TestSetting2#Term2"
-                                                       Label = "Term2"
-                                                       Selected = false
-                                                       Children = []};]};
-                     Property = "setting"}]
-
-let getStubbedSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title (qs7)"};
-                                   {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title (qs7)"}]
-
 let getSearchFunc () =
   match devMode with
     | true ->
       printf "RUNNING DEV MODE: Using stubbed data\n"
-      getStubbedSearchResults
+      Stubs.getSearchResults
     | false -> GetSearchResults RunElasticQuery
 
 let getVocabs () =
   match devMode with
     | true ->
       printf "RUNNING DEV MODE: Using stubbed data\n"
-      stubbedVocabs
+      Stubs.vocabs
     | false -> readVocabsFromFiles ()
  
 

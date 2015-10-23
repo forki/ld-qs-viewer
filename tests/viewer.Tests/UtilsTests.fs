@@ -35,5 +35,5 @@ let ``Filter tags should be created from filters`` () =
   let filters = [{Key = "key"; Val = "http://somelink.com/Uri#val1"}
                  {Key = "key"; Val = "http://somelink.com/Uri#val2"}]
   let filterTags = createFilterTags filters
-  test <@ filterTags = [{Label = "val1"; RemovalLink = "key=http%3A%2F%2Fsomelink.com%2FUri%23val2"};
-                        {Label = "val2"; RemovalLink = "key=http%3A%2F%2Fsomelink.com%2FUri%23val1"}] @>
+  test <@ filterTags = [{Label = "val1"; RemovalQueryString = "key=http%3A%2F%2Fsomelink.com%2FUri%23val2"};
+                        {Label = "val2"; RemovalQueryString = "key=http%3A%2F%2Fsomelink.com%2FUri%23val1"}] @>

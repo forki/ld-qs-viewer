@@ -42,16 +42,16 @@ let concatToStringWithDelimiter delimiter items =
 
 let createFilterTags filters =
 
-  let createRemovalLink x =
+  let createRemovalQS x =
     filters
     |> Seq.filter (fun y -> y.Val <> x)
-    |> Seq.map (fun y -> sprintf "%s=%s" y.Key (Uri.EscapeUriString(y.Val)))
+    |> Seq.map (fun y -> sprintf "%s=%s" y.Key (Uri.EscapeDataString(y.Val)))
     |> concatToStringWithDelimiter "&"
 
   try
     filters
     |> Seq.map (fun x -> {Label = x.Val.Split('#').[1]
-                          RemovalLink = createRemovalLink x.Val})
+                          RemovalQueryString = createRemovalQS x.Val})
     |> Seq.toList
   with
     | _ -> []

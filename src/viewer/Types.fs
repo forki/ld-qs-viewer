@@ -13,5 +13,5 @@ type SearchResult = {
 
 type Tag = {
   Label: string
-  RemovalLink: string
+  RemovalQueryString: string
 }

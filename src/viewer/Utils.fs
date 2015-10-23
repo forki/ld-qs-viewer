@@ -1,4 +1,6 @@
 module Viewer.Utils
+
+open System
 open Viewer.Types
 
 let extractFilters qs =
@@ -6,7 +8,7 @@ let extractFilters qs =
   |> Seq.map (fun (k,v) ->
                 match v with
                   | Some s -> {Key = k; Val = s}
-                  | None -> {Key = k; Val = ""})
+                  | None ->   {Key = k; Val = ""})
   |> Seq.toList
 
 let aggregateQueryStringValues qsPairs =
@@ -39,9 +41,17 @@ let concatToStringWithDelimiter delimiter items =
 
 
 let createFilterTags filters =
+
+  let createRemovalLink x =
+    filters
+    |> Seq.filter (fun y -> y.Val <> x)
+    |> Seq.map (fun y -> sprintf "%s=%s" y.Key (Uri.EscapeUriString(y.Val)))
+    |> concatToStringWithDelimiter "&"
+
   try
     filters
-    |> Seq.map (fun (x:string) -> {Label = x.Split('#').[1]})
+    |> Seq.map (fun x -> {Label = x.Val.Split('#').[1]
+                          RemovalLink = createRemovalLink x.Val})
     |> Seq.toList
   with
     | _ -> []

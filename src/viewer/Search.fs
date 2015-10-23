@@ -27,10 +27,9 @@ let search (req:HttpRequest) getSearchResults vocabs =
       let results = (qs |> BuildQuery |> getSearchResults testing)
       let filters = extractFilters qs
       let filterTags = createFilterTags filters
-      let filterVals = filters |> Seq.map (fun x -> x.Val)
       {Results = results;
        Tags = filterTags;
-       Vocabularies = getVocabsWithState vocabs filterVals;
+       Vocabularies = getVocabsWithState vocabs filters
        totalCount = results.Length}
 
   |> DotLiquid.page "search.html"

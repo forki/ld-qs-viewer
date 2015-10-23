@@ -49,6 +49,6 @@ let home (req:HttpRequest) actualVocabs =
     | true  -> testVocabs
     | false -> actualVocabs
 
-  let filters = extractFilters req.query |> Seq.map (fun x -> x.Val)
+  let filters = extractFilters req.query
   let filteredVocabs = getVocabsWithState vocabs filters
   DotLiquid.page "home.html" {Vocabularies = filteredVocabs; totalCount = 0}

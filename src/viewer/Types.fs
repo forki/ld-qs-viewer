@@ -1,8 +1,8 @@
 module Viewer.Types
 
 type Filter = {
-  Key: string
-  Val: string
+  Vocab: string
+  TermUri: string
 }
 
 type SearchResult = {

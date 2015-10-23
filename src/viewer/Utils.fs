@@ -7,8 +7,8 @@ let extractFilters qs =
   qs
   |> Seq.map (fun (k,v) ->
                 match v with
-                  | Some s -> {Key = k; Val = s}
-                  | None ->   {Key = k; Val = ""})
+                  | Some s -> {Vocab = k; TermUri = s}
+                  | None ->   {Vocab = k; TermUri = ""})
   |> Seq.toList
 
 let aggregateQueryStringValues qsPairs =
@@ -44,14 +44,12 @@ let createFilterTags filters =
 
   let createRemovalQS x =
     filters
-    |> Seq.filter (fun y -> y.Val <> x)
-    |> Seq.map (fun y -> sprintf "%s=%s" y.Key (Uri.EscapeDataString(y.Val)))
+    |> Seq.filter (fun y -> y.TermUri <> x)
+    |> Seq.map (fun y -> sprintf "%s=%s" y.Vocab (Uri.EscapeDataString(y.TermUri)))
     |> concatToStringWithDelimiter "&"
 
-  try
-    filters
-    |> Seq.map (fun x -> {Label = x.Val.Split('#').[1]
-                          RemovalQueryString = createRemovalQS x.Val})
-    |> Seq.toList
-  with
-    | _ -> []
+  filters
+  |> Seq.map (fun x -> {Label = try x.TermUri.Split('#').[1] with _ -> ""
+                        RemovalQueryString = createRemovalQS x.TermUri})
+  |> Seq.filter (fun x -> x.Label <> "")
+  |> Seq.toList

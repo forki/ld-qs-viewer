@@ -3,8 +3,10 @@
     <div class="filter-group">
         {% for vocab in model.Vocabularies -%}
         <div class="vocab">
-            <h4 class="h4">{{vocab.Root.Label}}</h4>
+            <h4 class="filter-label accordion-trigger">{{vocab.Root.Label}}</h4>
+            <div class="accordion closed no-js">
             {% include "checkbox.html" terms:vocab.Root.Children prop:vocab.Property %}
+            </div>
         </div>
         {% endfor -%}
     </div>

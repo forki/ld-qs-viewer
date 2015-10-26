@@ -39,3 +39,31 @@ showLeft.addEventListener('click', function(){
 //    menuLeft.className = menuLeft.className + ' filters-open';
 });
 
+function setupAccordionEvents(){
+
+    function getChildren(n, skipMe){
+        var r = [];
+        for ( ; n; n = n.nextSibling ) 
+            if ( n.nodeType == 1 && n != skipMe)
+                r.push( n );        
+        return r;
+    };
+
+    function getSiblings(n) {
+        return getChildren(n.parentNode.firstChild, n);
+    }
+
+    var accordians = document.getElementsByClassName("accordion-trigger");
+    for (var i = 0; i < accordians.length; i++) {
+        accordians[i].addEventListener('click', function() {
+            this.classList.toggle('open');
+            var siblings = getSiblings(this);
+            for(var s = 0; s < siblings.length; s++){
+                siblings[s].classList.toggle('open');
+            }
+        });
+    }
+
+};
+
+setupAccordionEvents();

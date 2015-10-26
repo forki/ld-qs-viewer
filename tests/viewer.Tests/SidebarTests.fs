@@ -142,3 +142,22 @@ let ``Should have search button`` () =
     |> CQ.select ":submit"
     |> CQ.attr "Value"
   test <@ searchButtonLabel = "Search" @>
+
+[<Test>]
+let ``Should present the vocabulary collapsed by default`` () =
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                                    Label = "Vocab 1"
+                                    Selected = false
+                                    Children = [
+                                                 Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                        Label = "Term1"
+                                                        Selected = false
+                                                        Children = []}]}
+                 Property = "v1"}]
+  let GetSearchResults _ _ = []
+
+  let html = startServerWithData vocabs GetSearchResults |> get "/qs"
+
+  let accordians = html |> CQ.select ".accordion.closed"
+
+  test <@ accordians |> CQ.length = 1 @>

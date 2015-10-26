@@ -2724,6 +2724,11 @@ ul.checkbox-list ul li:before {
     overflow: hidden
 }
 
+.accordion.closed.open {
+    display: block;
+    overflow: hidden
+}
+
 .icon-link {
     display: block;
     font-size: 1rem;
@@ -3078,4 +3083,7 @@ ul.checkbox-list ul li:before {
     }
 }
 
-
+.no-js.accordion.closed {
+    display: block;
+    overflow: hidden
+}

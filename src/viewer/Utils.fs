@@ -1,11 +1,14 @@
 module Viewer.Utils
 
+open System
+open Viewer.Types
+
 let extractFilters qs =
   qs
-  |> Seq.map (fun (_,v) ->
+  |> Seq.map (fun (k,v) ->
                 match v with
-                  | Some s -> s
-                  | None -> "")
+                  | Some s -> {Vocab = k; TermUri = s}
+                  | None ->   {Vocab = k; TermUri = ""})
   |> Seq.toList
 
 let aggregateQueryStringValues qsPairs =
@@ -35,3 +38,18 @@ let concatToStringWithDelimiter delimiter items =
                match acc with
                  | "" -> item
                  | _ -> acc + delimiter + item) ""
+
+
+let createFilterTags filters =
+
+  let createRemovalQS x =
+    filters
+    |> Seq.filter (fun y -> y.TermUri <> x)
+    |> Seq.map (fun y -> sprintf "%s=%s" y.Vocab (Uri.EscapeDataString(y.TermUri)))
+    |> concatToStringWithDelimiter "&"
+
+  filters
+  |> Seq.map (fun x -> {Label = try x.TermUri.Split('#').[1] with _ -> ""
+                        RemovalQueryString = createRemovalQS x.TermUri})
+  |> Seq.filter (fun x -> x.Label <> "")
+  |> Seq.toList

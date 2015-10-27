@@ -8,9 +8,10 @@ open Viewer.Utils
 open Viewer.Elastic
 open Viewer.VocabGeneration
 
+
 type SearchModel = {
   Results: SearchResult list
-  Filters: string list
+  Tags: Tag list
   Vocabularies: Vocabulary list
   totalCount: int
 }
@@ -21,10 +22,14 @@ let search (req:HttpRequest) getSearchResults vocabs =
   let qs = req.query
   match qs with
     | [("", _)] ->
-      {Results = []; Filters = []; Vocabularies = vocabs; totalCount = 0}
+      {Results = []; Tags = []; Vocabularies = vocabs; totalCount = 0}
     | _         ->
       let results = (qs |> BuildQuery |> getSearchResults testing)
       let filters = extractFilters qs
-      {Results = results; Filters = filters; Vocabularies = getVocabsWithState vocabs filters; totalCount = results.Length}
+      let filterTags = createFilterTags filters
+      {Results = results;
+       Tags = filterTags;
+       Vocabularies = getVocabsWithState vocabs filters
+       totalCount = results.Length}
 
   |> DotLiquid.page "search.html"

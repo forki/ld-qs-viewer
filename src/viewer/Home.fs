@@ -3,14 +3,9 @@ module Viewer.Home
 open Suave
 open Suave.Types
 open Suave.Cookie
-open Viewer.Types
+open Viewer.Model
 open Viewer.Utils
 open Viewer.VocabGeneration
-
-type HomeModel =  {
-   Vocabularies: Vocabulary list
-   totalCount: int
-}
 
 let home (req:HttpRequest) actualVocabs =
   //printf "Request: %A\n" req
@@ -21,9 +16,14 @@ let home (req:HttpRequest) actualVocabs =
     | true  -> Stubs.vocabsForTests
     | false -> actualVocabs
 
-  let filteredVocabs =
+  let viewVocabs =
     req.query
     |> extractFilters
     |> getVocabsWithState vocabs
+    |> List.map (fun v -> {Vocab = v; Expanded = false})
 
-  DotLiquid.page "home.html" {Vocabularies = filteredVocabs; totalCount = 0}
+  {Results = []
+   Tags = []
+   Vocabularies = viewVocabs
+   totalCount = 0}
+  |> DotLiquid.page "home.html"

@@ -18,6 +18,7 @@ type CQ = | CQ of CsQuery.CQ
        static member first (CQ cq) = cq.First() |> CQ
        static member last (CQ cq) = cq.Last() |> CQ
        static member length (CQ cq) = cq.Length
+       static member cq (CQ cq) = cq
 
 let parseHtml (resp: string) = CQ.Create(resp) |> CQ
 

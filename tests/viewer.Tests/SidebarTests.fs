@@ -163,22 +163,26 @@ let ``Should present the vocabulary collapsed by default`` () =
   test <@ accordians |> CQ.length = 1 @>
 
 [<Test>]
-let ``Should present the vocabulary expanded if vocabulary term is on querystring`` () =
+let ``Should present the vocabulary expanded if vocabulary term is in querystring filters`` () =
   let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
                                     Label = "Vocab 1"
                                     Selected = false
                                     Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                 Term { Uri = Uri.from "http://testing.com/Uri#Term"
                                                         Label = "Term1"
                                                         Selected = false
                                                         Children = []}]}
-                 Property = "v1"}]
+                 Property = "setting"}
+                {Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                                    Label = "Vocab 2"
+                                    Selected = false
+                                    Children = []}
+                 Property = "anotherVocab"}]
+
   let GetSearchResults _ _ = []
-  let qsWithOneFilter = "vocab=http%3A%2F%2Ftesting.com%2FUri2"
+  let qsWithOneFilter = "setting=http%3A%2F%2Ftesting.com%2FUri%23Term"
 
-  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs" qsWithOneFilter
+  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" qsWithOneFilter
 
-  let accordians = html |> CQ.select ".accordion.closed.open"
-
-  test <@ accordians |> CQ.length = 1 @>
-
+  test <@ html |> CQ.select ".accordion-trigger.open" |> CQ.length = 1 @>
+  test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>

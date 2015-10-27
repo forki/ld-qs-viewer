@@ -172,7 +172,7 @@ let ``Should present the vocabulary expanded if vocabulary term is in querystrin
                                                         Label = "Term1"
                                                         Selected = false
                                                         Children = []}]}
-                 Property = "setting"}
+                 Property = "some:vocab"}
                 {Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
                                     Label = "Vocab 2"
                                     Selected = false
@@ -180,7 +180,7 @@ let ``Should present the vocabulary expanded if vocabulary term is in querystrin
                  Property = "anotherVocab"}]
 
   let GetSearchResults _ _ = []
-  let qsWithOneFilter = "setting=http%3A%2F%2Ftesting.com%2FUri%23Term"
+  let qsWithOneFilter = "some%3Avocab=http%3A%2F%2Ftesting.com%2FUri%23Term"
 
   let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" qsWithOneFilter
 

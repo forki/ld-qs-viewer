@@ -12,7 +12,7 @@ open Viewer.VocabGeneration
 let search (req:HttpRequest) getSearchResults vocabs =
 
   let shouldExpandVocab vocab (filters:Filter list) =
-    filters |> List.exists (fun x -> x.Vocab = vocab.Property)
+    filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocab.Property)
 
   let testing = req.cookies |> Map.containsKey "test"
 

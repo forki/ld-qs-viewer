@@ -132,12 +132,12 @@ let readVocabsFromFiles () =
       Property = "qualitystandard:serviceArea"
     }
     {
-      Root = vocabLookup "http://schema/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
-      Property = "qualitystandard:condition"
-    }
-    {
       Root = vocabLookup "http://schema/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
       Property = "qualitystandard:lifestyleCondition"
+    }
+    {
+      Root = vocabLookup "http://schema/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
+      Property = "qualitystandard:condition"
     }
   ]
 

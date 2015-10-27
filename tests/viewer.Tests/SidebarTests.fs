@@ -143,31 +143,46 @@ let ``Should have search button`` () =
     |> CQ.attr "Value"
   test <@ searchButtonLabel = "Search" @>
 
+[<Test>]
+let ``Should present the vocabulary collapsed by default`` () =
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                                    Label = "Vocab 1"
+                                    Selected = false
+                                    Children = [
+                                                 Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                        Label = "Term1"
+                                                        Selected = false
+                                                        Children = []}]}
+                 Property = "v1"}]
+  let GetSearchResults _ _ = []
+
+  let html = startServerWithData vocabs GetSearchResults |> get "/qs"
+
+  let accordians = html |> CQ.select ".accordion.closed"
+
+  test <@ accordians |> CQ.length = 1 @>
 
 [<Test>]
-let ``Should show active filters as tags with labels`` () =
-  let vocabs = []
+let ``Should present the vocabulary expanded if vocabulary term is in querystring filters`` () =
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                                    Label = "Vocab 1"
+                                    Selected = false
+                                    Children = [
+                                                 Term { Uri = Uri.from "http://testing.com/Uri#Term"
+                                                        Label = "Term1"
+                                                        Selected = false
+                                                        Children = []}]}
+                 Property = "setting"}
+                {Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                                    Label = "Vocab 2"
+                                    Selected = false
+                                    Children = []}
+                 Property = "anotherVocab"}]
+
   let GetSearchResults _ _ = []
-  let qsWithTwoActiveFilters = "key=http%3A%2F%2Ftesting.com%2FUri%23Term1&key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
+  let qsWithOneFilter = "setting=http%3A%2F%2Ftesting.com%2FUri%23Term"
 
-  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" qsWithTwoActiveFilters
+  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" qsWithOneFilter
 
-  let tags = html |> CQ.select ".tag-label"
-
-  test <@ tags |> CQ.length = 2 @>
-  test <@ tags |> CQ.first |> CQ.text = "Term1" @>
-  test <@ tags |> CQ.last |> CQ.text = "Term2" @>
-
-[<Test>]
-let ``Should show active filters as tags with removal links`` () =
-  let vocabs = []
-  let GetSearchResults _ _ = []
-  let qsWithTwoActiveFilters = "key=http%3A%2F%2Ftesting.com%2FUri%23Term1&key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
-
-  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" qsWithTwoActiveFilters
-
-  let tags = html |> CQ.select ".tag-remove-link"
-
-  test <@ tags |> CQ.length = 2 @>
-  test <@ tags |> CQ.first |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term2" @>
-  test <@ tags |> CQ.last |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term1" @>
+  test <@ html |> CQ.select ".accordion-trigger.open" |> CQ.length = 1 @>
+  test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>

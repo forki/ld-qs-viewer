@@ -73,3 +73,31 @@ let ``Should present abstract and link for each result`` () =
 
   test <@ link1 = "Uri1" @>
   test <@ link2 = "Uri2" @>
+
+[<Test>]
+let ``Should show active filters as tags with labels`` () =
+  let vocabs = []
+  let GetSearchResults _ _ = []
+  let qsWithTwoActiveFilters = "key=http%3A%2F%2Ftesting.com%2FUri%23Term1&key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
+
+  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" qsWithTwoActiveFilters
+
+  let tags = html |> CQ.select ".tag-label"
+
+  test <@ tags |> CQ.length = 2 @>
+  test <@ tags |> CQ.first |> CQ.text = "Term1" @>
+  test <@ tags |> CQ.last |> CQ.text = "Term2" @>
+
+[<Test>]
+let ``Should show active filters as tags with removal links`` () =
+  let vocabs = []
+  let GetSearchResults _ _ = []
+  let qsWithTwoActiveFilters = "key=http%3A%2F%2Ftesting.com%2FUri%23Term1&key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
+
+  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" qsWithTwoActiveFilters
+
+  let tags = html |> CQ.select ".tag-remove-link"
+
+  test <@ tags |> CQ.length = 2 @>
+  test <@ tags |> CQ.first |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term2" @>
+  test <@ tags |> CQ.last |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term1" @>

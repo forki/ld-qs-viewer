@@ -6,7 +6,7 @@
         {% elsif term.Selected == false  %}
             <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}" id="{{ term.Uri }}">
         {% endif %}
-        <label for="{{ term.Uri }}}">{{ term.Label }}</label>
+        <label for="{{ term.Uri }}">{{ term.Label }}</label>
         {% include "checkbox.html" terms:term.Children prop:prop %}
     </li>
     {% endfor -%}

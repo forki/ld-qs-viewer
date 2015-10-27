@@ -1,10 +1,17 @@
 <form action="/qs/search" class="filters" id="filters">
     <h3 class="filters-title">Filters</h3>
     <div class="filter-group">
-        {% for vocab in model.Vocabularies -%}
+        {% for v in model.Vocabularies -%}
         <div class="vocab">
-            <h4 class="h4">{{vocab.Root.Label}}</h4>
-            {% include "checkbox.html" terms:vocab.Root.Children prop:vocab.Property %}
+            {% if v.Expanded %}
+            <h4 class="filter-label accordion-trigger open">{{v.Vocab.Root.Label}}</h4>
+            <div class="accordion closed open no-js">
+            {% else %}
+            <h4 class="filter-label accordion-trigger">{{v.Vocab.Root.Label}}</h4>
+            <div class="accordion closed no-js">
+            {% endif %}
+            {% include "checkbox.html" terms:v.Vocab.Root.Children prop:v.Vocab.Property %}
+            </div>
         </div>
         {% endfor -%}
     </div>

@@ -161,3 +161,24 @@ let ``Should present the vocabulary collapsed by default`` () =
   let accordians = html |> CQ.select ".accordion.closed"
 
   test <@ accordians |> CQ.length = 1 @>
+
+[<Test>]
+let ``Should present the vocabulary expanded if vocabulary term is on querystring`` () =
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                                    Label = "Vocab 1"
+                                    Selected = false
+                                    Children = [
+                                                 Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                        Label = "Term1"
+                                                        Selected = false
+                                                        Children = []}]}
+                 Property = "v1"}]
+  let GetSearchResults _ _ = []
+  let qsWithOneFilter = "vocab=http%3A%2F%2Ftesting.com%2FUri2"
+
+  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs" qsWithOneFilter
+
+  let accordians = html |> CQ.select ".accordion.closed.open"
+
+  test <@ accordians |> CQ.length = 1 @>
+

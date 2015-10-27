@@ -73,6 +73,7 @@ let ``Should set vocab term as selected if url exists in filters`` () =
                                                           Children = []}]};
                          Property = "v1"}]
 
-  let filters = ["http://testing.com/Uri2";"http://testing.com/Uri3"]
+  let filters = [{Vocab = "notused"; TermUri = "http://testing.com/Uri2"}
+                 {Vocab = "notused"; TermUri = "http://testing.com/Uri3"}]
   let actualVocabs = getVocabsWithState vocabs filters 
   test <@ actualVocabs = expectedVocabs @>

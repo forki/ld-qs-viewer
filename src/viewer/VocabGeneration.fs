@@ -158,7 +158,8 @@ let setSelectedIfFiltered filters vocab =
   {vocab with Root = filterVocab (vocab.Root)}
 
 let getVocabsWithState vocabs filters =
+  let filterUris = filters |> Seq.map (fun x -> x.TermUri)
   vocabs
-  |> Seq.map (fun v -> setSelectedIfFiltered filters v)
+  |> Seq.map (fun v -> setSelectedIfFiltered filterUris v)
   |> Seq.toList
 

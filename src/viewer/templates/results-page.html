@@ -17,8 +17,12 @@
             {% endif %}
     </div>
     {% include "disclaimer.html" %}
-    {% if model.Tags == empty %}
-    <div class="message">Please select one or more filters.</div>
+    {% if model.Tags == empty and model.show_help == false %}
+        <div class="message">Please select one or more filters.</div>
+    {% endif %}
+
+    {% if model.show_help == true %}
+        {% include "what-is-this.html" %}
     {% endif %}
 
     {% for item in model.Results -%}

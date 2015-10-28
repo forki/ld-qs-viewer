@@ -25,5 +25,6 @@ let home (req:HttpRequest) actualVocabs =
   {Results = []
    Tags = []
    Vocabularies = viewVocabs
-   totalCount = 0}
+   totalCount = 0
+   ShowHelp = true}
   |> DotLiquid.page "home.html"

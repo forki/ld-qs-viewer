@@ -13,4 +13,5 @@ type Model = {
   Tags: Tag list
   Vocabularies: ViewVocab list
   totalCount: int
+  ShowHelp : bool
 }

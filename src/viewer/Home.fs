@@ -8,7 +8,7 @@ open Viewer.Utils
 open Viewer.VocabGeneration
 open Viewer.Elastic
 
-let home (req:HttpRequest) actualVocabs =
+let home (req:HttpRequest) actualVocabs KBCount =
   //printf "Request: %A\n" req
 
   let testing = req.cookies |> Map.containsKey "test"
@@ -23,14 +23,9 @@ let home (req:HttpRequest) actualVocabs =
     |> getVocabsWithState vocabs
     |> List.map (fun v -> {Vocab = v; Expanded = false})
 
-  let KBDocTotal =
-    match testing with
-      | true -> 0
-      | false -> Elastic.KnowledgeBaseCount testing
-
   {Results = []
    Tags = []
    Vocabularies = viewVocabs
-   totalCount = KBDocTotal
+   totalCount = KBCount
    ShowHelp = true}
   |> DotLiquid.page "home.html"

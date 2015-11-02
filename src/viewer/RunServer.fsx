@@ -34,7 +34,12 @@ let getVocabs () =
       printf "RUNNING DEV MODE: Using stubbed data\n"
       Stubs.vocabs
     | false -> readVocabsFromFiles ()
- 
+
+let getKBCount () =
+  match devMode with
+    | true -> 0
+    | false -> Elastic.KnowledgeBaseCount testing
+
 
 let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
 setTemplatesDir templatePath
@@ -44,4 +49,4 @@ let defaultConfig = { defaultConfig with
                     }
 
 printf "Running with config:\n%A\n" defaultConfig
-startWebServer defaultConfig (createApp (getVocabs()) (getSearchFunc()))
+startWebServer defaultConfig (createApp (getVocabs()) (getSearchFunc()) (getKBCount()))

@@ -26,9 +26,9 @@ let ``Should present search results`` () =
   let GetSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""};
                               {Uri = "";Abstract = ""; Title = ""}]
   let vocabs = []
-
+  let KBCount = 0
   let results =
-    startServerWithData vocabs GetSearchResults
+    startServerWithData vocabs GetSearchResults KBCount 
     |> getQuery "/qs/search" "notused=notused"
     |> CQ.select ".results > .result"
     |> CQ.length
@@ -41,9 +41,10 @@ let ``Should present a result count`` () =
   let GetSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""};
                               {Uri = "";Abstract = ""; Title = ""}]
   let vocabs = []
+  let KBCount = 0
 
   let totalCount =
-    startServerWithData vocabs GetSearchResults
+    startServerWithData vocabs GetSearchResults KBCount
     |> getQuery "/qs/search" "notused=notused"
     |> CQ.select ".card-list-header > .counter"
     |> CQ.text
@@ -54,9 +55,10 @@ let ``Should present abstract and link for each result`` () =
   let GetSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"};
                               {Uri = "Uri2"; Abstract = "Abstract2"; Title = "Title2"}]
   let vocabs = []
+  let KBCount = 0
 
   let dom =
-    startServerWithData vocabs GetSearchResults
+    startServerWithData vocabs GetSearchResults KBCount
     |> getQuery "/qs/search" "notused=notused"
 
   let abstracts = dom |> CQ.select ".abstract"
@@ -78,9 +80,10 @@ let ``Should present abstract and link for each result`` () =
 let ``Should show active filters as tags with labels`` () =
   let vocabs = []
   let GetSearchResults _ _ = []
+  let KBCount = 0
   let qsWithTwoActiveFilters = "key=http%3A%2F%2Ftesting.com%2FUri%23Term1&key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
 
-  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" qsWithTwoActiveFilters
+  let html = startServerWithData vocabs GetSearchResults KBCount |> getQuery "/qs/search" qsWithTwoActiveFilters
 
   let tags = html |> CQ.select ".tag-label"
 
@@ -92,9 +95,10 @@ let ``Should show active filters as tags with labels`` () =
 let ``Should show active filters as tags with removal links`` () =
   let vocabs = []
   let GetSearchResults _ _ = []
+  let KBCount = 0
   let qsWithTwoActiveFilters = "key=http%3A%2F%2Ftesting.com%2FUri%23Term1&key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
 
-  let html = startServerWithData vocabs GetSearchResults |> getQuery "/qs/search" qsWithTwoActiveFilters
+  let html = startServerWithData vocabs GetSearchResults KBCount |> getQuery "/qs/search" qsWithTwoActiveFilters
 
   let tags = html |> CQ.select ".tag-remove-link"
 

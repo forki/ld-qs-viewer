@@ -21,10 +21,10 @@ let setTemplatesDir path =
 
 let qualityStandardsDir = "/artifacts/published/"
 
-let createApp vocabs getSearchResults =
+let createApp vocabs getSearchResults KBCount =
   choose
     [ GET >>= choose
-        [path "/qs" >>= request(fun req -> home req vocabs)
+        [path "/qs" >>= request(fun req -> home req vocabs KBCount)
          path "/qs/search" >>= request(fun req -> search req getSearchResults vocabs)
          pathScan "/qualitystandards/%s" (fun (filename) -> resource filename) 
          browseHome

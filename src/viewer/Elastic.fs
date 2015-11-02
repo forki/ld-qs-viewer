@@ -23,12 +23,8 @@ let BuildQuery qsPairs =
 
   fullQuery
 
-let GetKBCount testing =
-  let indexName =
-    match testing with
-    | true -> "kb_test"
-    | false -> "kb"
-  let url = sprintf "http://elastic:9200/%s/_count?" indexName
+let GetKBCount =
+  let url = "http://elastic:9200/kb/_count?"
   try
     Http.RequestString(url)
   with
@@ -83,8 +79,5 @@ let ParseResponse response =
 let GetSearchResults runSearch testing query =
   query |> runSearch testing |> ParseResponse
 
-let KnowledgeBaseCount testing =
-  printfn "%A" testing 
-  match testing with
-    | false -> GetKBCount testing |> ParseCountResponse
-    | true -> 0
+let KnowledgeBaseCount =
+    GetKBCount |> ParseCountResponse

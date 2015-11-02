@@ -79,5 +79,5 @@ let ParseResponse response =
 let GetSearchResults runSearch testing query =
   query |> runSearch testing |> ParseResponse
 
-let KnowledgeBaseCount =
-    GetKBCount |> ParseCountResponse
+let KnowledgeBaseCount () =
+  GetKBCount |> ParseCountResponse

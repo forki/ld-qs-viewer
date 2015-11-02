@@ -37,8 +37,10 @@ let getVocabs () =
 
 let getKBCount () =
   match devMode with
-    | true -> 0
-    | false -> Elastic.KnowledgeBaseCount testing
+    | true -> 
+      printf "RUNNING DEV MODE: Using empty KB Count"
+      0
+    | false -> KnowledgeBaseCount ()
 
 
 let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")

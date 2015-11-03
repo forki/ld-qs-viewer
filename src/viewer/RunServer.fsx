@@ -35,12 +35,13 @@ let getVocabs () =
       Stubs.vocabs
     | false -> readVocabsFromFiles ()
 
-let getKBCount () =
+let getKBCountFunc () =
   match devMode with
-    | true -> 
+    | true ->
       printf "RUNNING DEV MODE: Using empty KB Count"
-      0
-    | false -> KnowledgeBaseCount ()
+      Stubs.getKBCount
+    | false ->
+      KnowledgeBaseCount
 
 
 let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
@@ -51,4 +52,4 @@ let defaultConfig = { defaultConfig with
                     }
 
 printf "Running with config:\n%A\n" defaultConfig
-startWebServer defaultConfig (createApp (getVocabs()) (getSearchFunc()) (getKBCount()))
+startWebServer defaultConfig (createApp (getVocabs()) (getSearchFunc()) (getKBCountFunc()))

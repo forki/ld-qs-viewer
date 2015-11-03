@@ -26,10 +26,9 @@ let GetVocabularies () =
   v
 let GetSearchResults x = []
 
-let GetKBCount () =
-  0
+let getKBCount _ = 0
 
-let server = startServerWithData GetVocabularies GetSearchResults GetKBCount
+let server = startServerWithData GetVocabularies GetSearchResults getKBCount
 
 // Example request
 // let response = server |> req HttpMethod.GET "/" None |> ParseHtml;;

@@ -46,3 +46,5 @@ let vocabsForTests = [{Root = Term {Uri = (Uri.from "http://testing.com/setting"
                                                         Selected = false
                                                         Children = []};]};
                        Property = "qualitystandard:serviceArea"}]
+
+let getKBCount _ = 0

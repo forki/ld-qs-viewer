@@ -50,6 +50,21 @@ let ``Should present a result count`` () =
     |> CQ.text
   test <@ totalCount = "2 filtered items" @>
 
+
+[<Test>]
+let ``Should present a total KB Quality statement count`` () =
+  let GetSearchResults _ _ = []
+  let vocabs = []
+  let KBCount = 3
+
+  let totalCount =
+    startServerWithData vocabs GetSearchResults KBCount
+    |> get "/qs"
+    |> CQ.select ".counter"
+    |> CQ.text
+  test <@ totalCount = "Total number of NICE Quality statements: 3" @>
+
+
 [<Test>]
 let ``Should present abstract and link for each result`` () =
   let GetSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"};

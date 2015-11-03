@@ -23,27 +23,39 @@ let BuildQuery qsPairs =
 
   fullQuery
 
+let GetKBCount =
+  let url = "http://elastic:9200/kb/_count?"
+  try
+    Http.RequestString(url)
+  with
+    ex ->
+      printf "%s" (ex.ToString())
+      ""
+
 let RunElasticQuery testing (query: string) =
-  let indexName = 
+  let indexName =
     match testing with
     | true -> "kb_test"
     | false -> "kb"
 
   let url = sprintf "http://elastic:9200/%s/qualitystatement/_search?" indexName
-  try 
+  try
     Http.RequestString(url, body = TextRequest query)
   with
     | ex ->
       printf "%s" (ex.ToString())
       ""
 
-let ParseResponse response = 
+let ParseCountResponse resp =
+  let json = JsonProvider<"elasticCountSchema.json">.Parse(resp)
+  json.Count
 
+let ParseResponse response =
   let chopPath (url:string) =
     try
       //This should probably be done elsewhere!
-      //converting from "http://ld.nice.org.uk/prov/entity#98ead3d:qualitystandards/qs7/st2/Statement.md" 
-      //to = "/qualitystandards/qs7/st2/Statement.html" 
+      //converting from "http://ld.nice.org.uk/prov/entity#98ead3d:qualitystandards/qs7/st2/Statement.md"
+      //to = "/qualitystandards/qs7/st2/Statement.html"
       let parts = url.Split (':')
       let path = parts.[2]
       let id = path.Split('.')
@@ -66,3 +78,6 @@ let ParseResponse response =
 
 let GetSearchResults runSearch testing query =
   query |> runSearch testing |> ParseResponse
+
+let KnowledgeBaseCount () =
+  GetKBCount |> ParseCountResponse

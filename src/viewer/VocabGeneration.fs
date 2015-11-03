@@ -69,6 +69,9 @@ and Term =
       match a, b with
       | { Uri = uri; Label = label; Children = xs },
         { Uri = uri'; Children = ys } ->
+        let sortbyLabel = List.sortBy (function
+                                       | Term {Label=label} -> label
+                                       | _ -> "")
         //Recursively merge terms that are present in both
         let matchingTerms xs ys =
           let termFrom x y =
@@ -95,7 +98,7 @@ and Term =
           Term { Uri = uri
                  Label = label
                  Selected = false
-                 Children = matchingTerms xs ys @ uniqueTerms xs ys }
+                 Children = (matchingTerms xs ys @ uniqueTerms xs ys) |> sortbyLabel }
     match a, b with
     | Empty, Empty -> Empty
     | Empty, Term x -> Term x
@@ -117,7 +120,7 @@ type Vocabulary = {
   Property : string
 }
 
-let readVocabsFromFiles () = 
+let readVocabsFromFiles () =
   [
     {
       Root = vocabLookup "http://schema/ns/qualitystandard/setting.ttl" "Setting"
@@ -162,4 +165,3 @@ let getVocabsWithState vocabs filters =
   vocabs
   |> Seq.map (fun v -> setSelectedIfFiltered filterUris v)
   |> Seq.toList
-

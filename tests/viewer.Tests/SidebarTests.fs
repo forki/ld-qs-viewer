@@ -44,8 +44,8 @@ let ``Should present a vocabulary with a single term as an input checkbox`` () =
                                                   Children = []}]};
                  Property = "property"}]
   let GetSearchResults _ _ = []
-  let KBCount = 0
-  let html = startServerWithData vocabs GetSearchResults KBCount |> get "/qs"
+  let getKBCount _ = 0
+  let html = startServerWithData vocabs GetSearchResults getKBCount |> get "/qs"
 
   let vocabs = html |> CQ.select ".vocab"
 
@@ -86,8 +86,8 @@ let ``Should present the multiple vocabulary containing multiple terms`` () =
                                                    Children = []}]};
                  Property = "v2"}]
   let GetSearchResults _ _ = []
-  let KBCount = 0
-  let html = startServerWithData vocabs GetSearchResults KBCount |> get "/qs"
+  let getKBCount _ = 0
+  let html = startServerWithData vocabs GetSearchResults getKBCount |> get "/qs"
 
   let checkboxes = html |> CQ.select "input[type='checkbox']"
   test <@ checkboxes |> CQ.length = 3 @>
@@ -104,8 +104,8 @@ let ``Should present the vocabulary term checkboxes unselected by default`` () =
                                                         Children = []}]};
                        Property = "v1"};]
   let GetSearchResults _ _ = []
-  let KBCount = 0
-  let html = startServerWithData vocabs GetSearchResults KBCount |> get "/qs"
+  let getKBCount _ = 0
+  let html = startServerWithData vocabs GetSearchResults getKBCount |> get "/qs"
 
   let selectedCheckboxes = html |> CQ.select "input[checked]"
   test <@ selectedCheckboxes |> CQ.length = 0 @>
@@ -126,8 +126,8 @@ let ``Should present the vocabulary term checkboxes as selected when they exist 
                                                         Children = []}]};
                        Property = "v1"}]
   let GetSearchResults _ _ = []
-  let KBCount = 0
-  let html = startServerWithData vocabs GetSearchResults KBCount |> getQuery "/qs/search" "key=http%3A%2F%2Ftesting.com%2FUri2"
+  let getKBCount _ = 0
+  let html = startServerWithData vocabs GetSearchResults getKBCount |> getQuery "/qs/search" "key=http%3A%2F%2Ftesting.com%2FUri2"
 
   let selectedCheckboxes = html |> CQ.select "input[checked]"
 
@@ -156,8 +156,8 @@ let ``Should present the vocabulary collapsed by default`` () =
                  Property = "v1"}]
   let GetSearchResults _ _ = []
 
-  let KBCount = 0
-  let html = startServerWithData vocabs GetSearchResults KBCount |> get "/qs"
+  let getKBCount _ = 0
+  let html = startServerWithData vocabs GetSearchResults getKBCount |> get "/qs"
 
   let accordians = html |> CQ.select ".accordion.closed"
 
@@ -183,8 +183,8 @@ let ``Should present the vocabulary expanded if vocabulary term is in querystrin
   let GetSearchResults _ _ = []
   let qsWithOneFilter = "some%3Avocab=http%3A%2F%2Ftesting.com%2FUri%23Term"
 
-  let KBCount = 0
-  let html = startServerWithData vocabs GetSearchResults KBCount |> getQuery "/qs/search" qsWithOneFilter
+  let getKBCount _ = 0
+  let html = startServerWithData vocabs GetSearchResults getKBCount |> getQuery "/qs/search" qsWithOneFilter
 
   test <@ html |> CQ.select ".accordion-trigger.open" |> CQ.length = 1 @>
   test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>

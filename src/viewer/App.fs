@@ -21,13 +21,18 @@ let setTemplatesDir path =
 
 let qualityStandardsDir = "/artifacts/published/"
 
-let createApp vocabs getSearchResults KBCount =
+
+type Configuration = {
+  Vocabs : Vocabulary list
+  GetSearchResults : (bool -> string -> SearchResult list)
+  GetKBCount : bool -> int
+  }
+
+let createApp config =
   choose
     [ GET >>= choose
-        [path "/qs" >>= request(fun req -> home req vocabs KBCount)
-         path "/qs/search" >>= request(fun req -> search req getSearchResults vocabs)
-         pathScan "/qualitystandards/%s" (fun (filename) -> resource filename) 
+        [path "/qs" >>= request(fun req -> home req config.Vocabs config.GetKBCount)
+         path "/qs/search" >>= request(fun req -> search req config.GetSearchResults config.Vocabs)
+         pathScan "/qualitystandards/%s" (fun (filename) -> resource filename)
          browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]
-
-

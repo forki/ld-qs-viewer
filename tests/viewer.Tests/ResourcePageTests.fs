@@ -25,7 +25,7 @@ let ``Viewing a resource should load html file content`` () =
   writeToFile "/artifacts/published/qualitystandards/test_standard/test_statement/" "Statement.html" """<div id="content">Some content here</div>"""
 
   let content =
-   startServer ()
+   startServerWith baseConfig
    |> get "/qualitystandards/test_standard/test_statement/Statement.html"
    |> CQ.select "#resource-content"
    |> CQ.text
@@ -40,7 +40,7 @@ let ``Viewing a resource should load contain disclaimer banner`` () =
   writeToFile "/artifacts/published/qualitystandards/test_standard/test_statement/" "Statement.html" ""
 
   let banner =
-    startServer ()
+    startServerWith baseConfig
     |> get "/qualitystandards/test_standard/test_statement/Statement.html"
     |> CQ.select ".banner"
 
@@ -52,7 +52,7 @@ let ``Viewing a resource should load contain disclaimer banner`` () =
 let ``Requesting a resource that does not exist should show message`` () =
 
   let content =
-    startServer ()
+    startServerWith baseConfig
     |> get "/qualitystandards/this/does/not/exist/Statement.html"
     |> CQ.select "#resource-content"
     |> CQ.text

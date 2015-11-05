@@ -28,7 +28,7 @@ let getSearchFunc () =
       Stubs.getSearchResults
     | false -> GetSearchResults RunElasticQuery
 
-let getVocabs () =
+let getVocabsFunc () =
   match devMode with
     | true ->
       printf "RUNNING DEV MODE: Using stubbed data\n"
@@ -52,4 +52,4 @@ let defaultConfig = { defaultConfig with
                     }
 
 printf "Running with config:\n%A\n" defaultConfig
-startWebServer defaultConfig (createApp (getVocabs()) (getSearchFunc()) (getKBCountFunc()))
+startWebServer defaultConfig (createApp {Vocabs = getVocabsFunc(); GetSearchResults = getSearchFunc(); GetKBCount = getKBCountFunc() })

@@ -11,6 +11,7 @@ open FSharp.RDF
 
 let NoSearchResults _ _ = []
 let NoDocuments _ = 0
+let vcBuilder = new VocabularyBuilder()
 
 [<SetUp>]
 let ``Run before tests`` () =
@@ -37,15 +38,8 @@ let ``Should add form with search action`` () =
 
 [<Test>]
 let ``Should present a vocabulary with a single term as an input checkbox`` () =
-  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
-                              Label = "Vocab 1"
-                              Selected = false
-                              Children = [
-                                           Term { Uri = Uri.from "http://testing.com/Uri1"
-                                                  Label = "Term1"
-                                                  Selected = false
-                                                  Children = []}]};
-                 Property = "property"}]
+  let child = vcBuilder.createChild ("http://testing.com/Uri1", "Term1", false, [])
+  let vocabs = vcBuilder.createRoot ("http://testing.com/Vocab1", "Vocab 1", false, [child], "property")
 
   let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
 
@@ -65,28 +59,10 @@ let ``Should present a vocabulary with a single term as an input checkbox`` () =
 
 [<Test>]
 let ``Should present the multiple vocabulary containing multiple terms`` () =
-  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
-                              Label = "Vocab 1"
-                              Selected = false
-                              Children = [
-                                           Term { Uri = Uri.from "http://testing.com/Uri1"
-                                                  Label = "Term1"
-                                                  Selected = false
-                                                  Children = []}]};
-                 Property = "v1"};
-                 {Root = Term {Uri = (Uri.from "http://testing.com/Vocab2")
-                               Label = "Vocab 2"
-                               Selected = false
-                               Children = [
-                                            Term { Uri = Uri.from "http://testing.com/Uri2"
-                                                   Label = "Term2"
-                                                   Selected = false
-                                                   Children = []};
-                                            Term { Uri = Uri.from "http://testing.com/Uri3"
-                                                   Label = "Term3"
-                                                   Selected = false
-                                                   Children = []}]};
-                 Property = "v2"}]
+  let child1 = vcBuilder.createChild ("http://testing.com/Uri1", "Term1", false, [])
+  let child2 = vcBuilder.createChild ("http://testing.com/Uri2", "Term2", false, [])
+  let child3 = vcBuilder.createChild ("http://testing.com/Uri3", "Term3", false, [])
+  let vocabs = vcBuilder.createRoot ("http://testing.com/Vocab1", "Vocab 1", false, [child1], "v1") @ vcBuilder.createRoot("http://testing.com/Vocab2", "Vocab 2", false, [child2; child3], "v2")
 
   let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
 
@@ -95,15 +71,8 @@ let ``Should present the multiple vocabulary containing multiple terms`` () =
 
 [<Test>]
 let ``Should present the vocabulary term checkboxes unselected by default`` () =
-  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
-                                    Label = "Vocab 1"
-                                    Selected = false
-                                    Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/Uri1"
-                                                        Label = "Term1"
-                                                        Selected = false
-                                                        Children = []}]};
-                       Property = "v1"};]
+  let child1 = vcBuilder.createChild ("http://testing.com/Uri1", "Term1", false, [])
+  let vocabs = vcBuilder.createRoot ("http://testing.com/Vocab1", "Vocab 1", false, [child1], "v1") 
   let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
 
   let selectedCheckboxes = html |> CQ.select "input[checked]"
@@ -111,19 +80,9 @@ let ``Should present the vocabulary term checkboxes unselected by default`` () =
 
 [<Test>]
 let ``Should present the vocabulary term checkboxes as selected when they exist in the querystring`` () =
-  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
-                                    Label = "Vocab 1"
-                                    Selected = false
-                                    Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/Uri1"
-                                                        Label = "Term1"
-                                                        Selected = false
-                                                        Children = []};
-                                                 Term { Uri = Uri.from "http://testing.com/Uri2"
-                                                        Label = "Term2"
-                                                        Selected = true
-                                                        Children = []}]};
-                       Property = "v1"}]
+  let child1 = vcBuilder.createChild ("http://testing.com/Uri1", "Term1", false, [])
+  let child2 = vcBuilder.createChild ("http://testing.com/Uri2", "Term2", true, [])
+  let vocabs = vcBuilder.createRoot ("http://testing.com/Vocab1", "Vocab 1", false, [child1;child2], "v1")
 
   let html = startServerWith {baseConfig with Vocabs = vocabs}
              |> getQuery "/qs/search" "key=http%3A%2F%2Ftesting.com%2FUri2"
@@ -144,15 +103,8 @@ let ``Should have search button`` () =
 
 [<Test>]
 let ``Should present the vocabulary collapsed by default`` () =
-  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
-                                    Label = "Vocab 1"
-                                    Selected = false
-                                    Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/Uri2"
-                                                        Label = "Term1"
-                                                        Selected = false
-                                                        Children = []}]}
-                 Property = "v1"}]
+  let child1 = vcBuilder.createChild ("http://testing.com/Uri2", "Term1", false, [])
+  let vocabs = vcBuilder.createRoot ("http://testing.com/Vocab1", "Vocab 1", false, [child1], "v1")
 
   let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
 
@@ -162,20 +114,8 @@ let ``Should present the vocabulary collapsed by default`` () =
 
 [<Test>]
 let ``Should present the vocabulary expanded if vocabulary term is in querystring filters`` () =
-  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
-                                    Label = "Vocab 1"
-                                    Selected = false
-                                    Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/Uri#Term"
-                                                        Label = "Term1"
-                                                        Selected = false
-                                                        Children = []}]}
-                 Property = "some:vocab"}
-                {Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
-                                    Label = "Vocab 2"
-                                    Selected = false
-                                    Children = []}
-                 Property = "anotherVocab"}]
+  let child1 = vcBuilder.createChild ("http://testing.com/Uri#Term", "Term1", false, [])
+  let vocabs = vcBuilder.createRoot ("http://testing.com/Vocab1", "Vocab 1", false, [child1], "some:vocab") @ vcBuilder.createRoot ("http://testing.com/Vocab1", "Vocab 2", false, [], "anotherVocab")
 
   let qsWithOneFilter = "some%3Avocab=http%3A%2F%2Ftesting.com%2FUri%23Term"
 

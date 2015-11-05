@@ -6,7 +6,7 @@ open FSharp.RDF
 open Viewer.VocabGeneration
 open Viewer.Types
 
-let singleTierGraph = """@base <http://ld.nice.org.uk/ns/qualitystandard/setting>.
+let graph = """@base <http://ld.nice.org.uk/ns/qualitystandard/setting>.
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
@@ -18,21 +18,38 @@ let singleTierGraph = """@base <http://ld.nice.org.uk/ns/qualitystandard/setting
                                                                               owl:NamedIndividual;
                                                                             rdfs:label "Primary care setting"^^xsd:string;
                                                                             rdfs:subClassOf <http://ld.nice.org.uk/ns/qualitystandard/setting#Setting>.
+<http://ld.nice.org.uk/ns/qualitystandard/setting#Hospital> a owl:Class,
+                                                              owl:NamedIndividual;
+                                                            rdfs:label "Hospital"^^xsd:string;
+                                                            rdfs:subClassOf <http://ld.nice.org.uk/ns/qualitystandard/setting#Primary%20care%20setting>.
+
 <http://ld.nice.org.uk/ns/qualitystandard/setting#Community> a owl:Class,
                                                                owl:NamedIndividual;
                                                              rdfs:label "Community"^^xsd:string;
-                                                             rdfs:subClassOf <http://ld.nice.org.uk/ns/qualitystandard/setting#Setting>.
+                                                             rdfs:subClassOf <http://ld.nice.org.uk/ns/qualitystandard/setting#Primary%20care%20setting>.
   """
-(*
+
+
 [<Test>]
-let ``Parse flat graph will return a flat list`` () =
-  let output = vocabGeneration singleTierGraph
-  test <@ output = [
-            { Name = "Primary care setting"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Primary care setting"; Selected = false}
-            { Name = "Community"; Uri = "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"; Selected = false}
-    ] @>
-<<<<<<< HEAD
-*)
+let ``Parsing graph will return sorted tree`` () =
+  let output = vocabGeneration graph "Setting"
+  test <@ output =
+             Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Primary%20care%20setting"
+                   Label = "Primary care setting"
+                   Selected = false
+                   Children = [
+                       Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"
+                             Label = "Community"
+                             Selected = false
+                             Children = []}
+                       Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Hospital"
+                             Label = "Hospital"
+                             Selected = false
+                             Children = []}
+
+             ]}
+    @>
+
 
 
 [<Test>]

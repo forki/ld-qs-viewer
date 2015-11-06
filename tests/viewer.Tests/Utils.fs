@@ -36,35 +36,11 @@ let startServerWith config =
 let get path testCtx = req HttpMethod.GET path None testCtx |> parseHtml
 let getQuery path qs testCtx = reqQuery HttpMethod.GET path qs testCtx |> parseHtml
 
-type VocabularyBuilder () =
-  member x.childDefault =
-    { Uri = Uri.from "http://test.com/uri#uri1"
-      Label = "Term1"
-      Selected = false
-      Children = []
-      }
+let uri (s:string) =
+  Uri.from s
 
-  member x.RootDefault =
-    { Root = Term { Uri = Uri.from "http://test.com/uri#uri1";
-                     Label = "Term1";
-                     Selected = false;
-                     Children = [];};
-       Property = "Property 1"
-       }
+let t = {Label = ""
+         Uri = uri "http://somewhere.com"
+         Selected = false;
+         Children = []}
 
-  member x.AddChildrenToRoot parent children =
-    match parent with
-      | { Root = root; Property = property } ->
-        match root with
-          | Term y ->
-            match y with
-              | { Uri = uri;Label = lbl; Selected = selected; Children = xsChildren;} ->
-                {Root = Term { Uri = uri; Label = lbl; Selected = selected;
-                        Children = (children @ xsChildren)};
-                 Property = property}
-
-  member x.createRoot ((uri:string), lbl, selected, children, property) =
-    [{ Root = Term { Uri = Uri.from uri; Label = lbl; Selected = selected; Children = children}; Property = property}]
-
-  member x.createChild ((uri:string), lbl, selected, children) =
-    Term { Uri = Uri.from uri; Label = lbl; Selected = selected; Children = children}

@@ -48,8 +48,9 @@ let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "
 setTemplatesDir templatePath
 let defaultConfig = { defaultConfig with
                                     bindings = [ HttpBinding.mk' HTTP "0.0.0.0" 8083 ]
-                                    homeFolder = Some (__SOURCE_DIRECTORY__ + "/web")
-                    }
+                                    homeFolder = Some (__SOURCE_DIRECTORY__ + "/web")}
 
 printf "Running with config:\n%A\n" defaultConfig
-startWebServer defaultConfig (createApp {Vocabs = getVocabsFunc(); GetSearchResults = getSearchFunc(); GetKBCount = getKBCountFunc() })
+startWebServer defaultConfig (createApp {Vocabs=getVocabs()
+                                         GetSearchResults=getSearchFunc()
+                                         GetKBCount=getKBCountFunc()})

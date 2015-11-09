@@ -10,6 +10,7 @@ This project contains the web app for searching and browsing the quality standar
 ./build.sh
 ```
 
+
 ### Running in dev mode
 
 This will run the server up with stubbed data 

@@ -9,6 +9,8 @@ open Suave.Testing
 open Suave.Http.Applicatives
 open Viewer.App
 open Viewer.Types
+open Viewer.VocabGeneration
+open FSharp.RDF
 open CsQuery
 
 type CQ = | CQ of CsQuery.CQ
@@ -22,16 +24,23 @@ type CQ = | CQ of CsQuery.CQ
 
 let parseHtml (resp: string) = CQ.Create(resp) |> CQ
 
-let startServerWithData vocabs getSearchResults getKBCount =
-  runWith defaultConfig (createApp {Vocabs=vocabs;GetSearchResults=getSearchResults;GetKBCount=getKBCount})
+let baseConfig = {
+  Vocabs = []
+  GetSearchResults = (fun _ _ -> [])
+  GetKBCount = (fun _ -> 0)
+}
 
-let startServer () =
-  let vocabs = []
-  let GetSearchResults _ _ = []
-  let getKBCount _ = 0
-  startServerWithData vocabs GetSearchResults getKBCount
+let startServerWith config =
+  runWith defaultConfig (createApp config)
 
 let get path testCtx = req HttpMethod.GET path None testCtx |> parseHtml
 let getQuery path qs testCtx = reqQuery HttpMethod.GET path qs testCtx |> parseHtml
 
+let uri (s:string) =
+  Uri.from s
+
+let t = {Label = ""
+         Uri = uri "http://somewhere.com"
+         Selected = false;
+         Children = []}
 

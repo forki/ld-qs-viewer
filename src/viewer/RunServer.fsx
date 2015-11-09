@@ -28,7 +28,7 @@ let getSearchFunc () =
       Stubs.getSearchResults
     | false -> GetSearchResults RunElasticQuery
 
-let getVocabs () =
+let getVocabsFunc () =
   match devMode with
     | true ->
       printf "RUNNING DEV MODE: Using stubbed data\n"

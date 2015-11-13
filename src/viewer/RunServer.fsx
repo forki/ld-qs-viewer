@@ -51,6 +51,6 @@ let defaultConfig = { defaultConfig with
                                     homeFolder = Some (__SOURCE_DIRECTORY__ + "/web")}
 
 printf "Running with config:\n%A\n" defaultConfig
-startWebServer defaultConfig (createApp {Vocabs=getVocabs()
+startWebServer defaultConfig (createApp {Vocabs=getVocabsFunc()
                                          GetSearchResults=getSearchFunc()
                                          GetKBCount=getKBCountFunc()})

@@ -3,8 +3,6 @@ module Viewer.Elastic
 open Viewer.Utils
 open Viewer.Types
 open Viewer.Queries
-open Elasticsearch.Net
-open Elasticsearch.Net.Connection
 open System
 open FSharp.Data
 open System.Text.RegularExpressions

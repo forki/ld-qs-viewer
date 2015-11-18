@@ -1,18 +1,13 @@
-image: nice/ld-docker-build:latest
-script:
-  - ./.drone/build.sh
+build:
+  image: nice/ld-docker-build
 publish:
   docker:
-    image_name: nice/ld-suave-viewer
+    repo: nice/ld-suave-viewer
     username: $$DOCKERHUB_USER
     password: $$DOCKERHUB_PASS
     email: $$DOCKERHUB_EMAIL
-    registry_login: true
-    tags: [latest, $DRONE_COMMIT]
-    docker_host: tcp://172.16.204.198:5555
-notify:
-  webhook:
-    urls:
-      - "https://webhooks.gitter.im/e/8cf4ecd7ef5370ce747b"
-    on_success: true
-    on_failure: true
+    file: Dockerfile
+    insecure: false
+    tag:
+      - latest
+      - $$COMMIT

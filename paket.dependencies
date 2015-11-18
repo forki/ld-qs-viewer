@@ -1,20 +1,16 @@
 source https://nuget.org/api/v2
 
-nuget DotLiquid
 nuget CsQuery
 nuget FSharp.Data
 nuget FSharp.Formatting
 nuget FSharp.RDF
-nuget Fuchu
-nuget NEST
-nuget NUnit 
-nuget NUnit.Runners
+nuget NUnit 2.6.4
+nuget NUnit.Runners 2.6.4
 nuget FAKE
 nuget SourceLink.Fake
 nuget Suave
 nuget Suave.DotLiquid
 nuget Suave.Testing
-nuget System.Net.Http
 nuget Unquote
 
 github fsharp/FAKE modules/Octokit/Octokit.fsx

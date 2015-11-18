@@ -32,8 +32,7 @@ let baseConfig = {
 
 let startServerWith config =
   runWith defaultConfig (createApp config)
-
-let get path testCtx = req HttpMethod.GET path None testCtx |> parseHtml
+let get path testCtx = reqQuery HttpMethod.GET path "" testCtx |> parseHtml
 let getQuery path qs testCtx = reqQuery HttpMethod.GET path qs testCtx |> parseHtml
 
 let uri (s:string) =

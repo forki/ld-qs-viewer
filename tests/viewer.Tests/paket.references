@@ -2,7 +2,6 @@ NUnit
 NUnit.Runners
 Suave
 Suave.Testing
-System.Net.Http
 Fuchu
 CsQuery
 Suave.DotLiquid

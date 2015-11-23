@@ -1,8 +1,3 @@
-#r "DotLiquid.dll"
-#r "Elasticsearch.Net.dll"
-#r "FsPickler.dll"
-#r "Nest.dll"
-#r "Newtonsoft.Json.dll"
 #r "Suave.dll"
 #r "Suave.DotLiquid.dll"
 #r "viewer.dll"

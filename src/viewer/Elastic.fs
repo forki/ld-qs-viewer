@@ -49,8 +49,13 @@ let RunElasticQuery testing (query: string) =
       ""
 
 let ParseCountResponse resp =
-  let json = JsonProvider<"elasticCountSchema.json">.Parse(resp)
-  json.Count
+  try
+    let json = JsonProvider<"elasticCountSchema.json">.Parse(resp)
+    json.Count
+  with
+    | ex ->
+      printf "%s" (ex.ToString())
+      0
 
 let ParseResponse response =
   let chopPath (url:string) =

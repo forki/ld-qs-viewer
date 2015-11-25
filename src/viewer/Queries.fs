@@ -19,8 +19,12 @@ let mustQuery = """{
         "must" : [
           %s
         ]
-      } 
+      }
     }
   }
-}
+},
+"sort": [
+  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "asc" }},
+  { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
+]
 }"""

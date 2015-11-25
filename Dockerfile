@@ -1,4 +1,4 @@
-FROM nhsevidence/alpine-fsharp:ee06745b8aa982314a57820129bc59c9d7b383d4
+FROM nhsevidence/alpine-fsharp:2f00052c29ce34a5ce8e765b287b6e5072c1b22e	
 
 MAINTAINER James Kirk <james.kirk84@gmail.com>
 

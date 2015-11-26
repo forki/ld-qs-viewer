@@ -54,7 +54,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
-    <Folder Include="templates\" />
+    <Folder Include="..\..\src\viewer\templates\" />
     <Compile Include="Utils.fs" />
     <Compile Include="ElasticTests.fs" />
     <Compile Include="UtilsTests.fs" />
@@ -75,28 +75,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="templates\page.html">
+    <EmbeddedResource Include="..\..\src\viewer\templates\page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\results-page.html">
+    <EmbeddedResource Include="..\..\src\viewer\templates\results-page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\what-is-this.html">
+    <EmbeddedResource Include="..\..\src\viewer\templates\what-is-this.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\sidebar.html">
+    <EmbeddedResource Include="..\..\src\viewer\templates\sidebar.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\home.html">
+    <EmbeddedResource Include="..\..\src\viewer\templates\home.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\checkbox.html">
+    <EmbeddedResource Include="..\..\src\viewer\templates\checkbox.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\disclaimer.html">
+    <EmbeddedResource Include="..\..\src\viewer\templates\disclaimer.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\resource.html">
+    <EmbeddedResource Include="..\..\src\viewer\templates\resource.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

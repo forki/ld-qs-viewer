@@ -11,7 +11,7 @@ open FSharp.RDF
 
 [<SetUp>]
 let ``Run before tests`` () =
-  setTemplatesDir "templates/"
+  setTemplatesDir "."
 
 [<Test>]
 let ``Should set the title`` () =

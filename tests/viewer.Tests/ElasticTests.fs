@@ -22,10 +22,14 @@ let ``Should build query correctly for a single term`` () =
             ]
           }}
         ]
-      } 
+      }
     }
   }
-}
+},
+"sort": [
+  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "asc" }},
+  { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
+]
 }"""
   test <@ query = expectedQuery @>
 
@@ -48,10 +52,14 @@ let ``Should build query correctly for a multiple terms with same key`` () =
             ]
           }}
         ]
-      } 
+      }
     }
   }
-}
+},
+"sort": [
+  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "asc" }},
+  { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
+]
 }"""
   test <@ query = expectedQuery @>
 
@@ -80,10 +88,14 @@ let ``Should build query correctly for a multiple terms with different keys`` ()
             ]
           }}
         ]
-      } 
+      }
     }
   }
-}
+},
+"sort": [
+  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "asc" }},
+  { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
+]
 }"""
   test <@ query = expectedQuery @>
 [<Test>]
@@ -175,9 +187,13 @@ let ``Should build query correctly for an encoded single term key`` () =
             ]
           }}
         ]
-      } 
+      }
     }
   }
-}
+},
+"sort": [
+  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "asc" }},
+  { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
+]
 }"""
   test <@ query = expectedQuery @>

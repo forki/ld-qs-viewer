@@ -95,7 +95,7 @@ let ``Should have search button`` () =
     |> get "/qs"
     |> CQ.select ":submit"
     |> CQ.attr "Value"
-  test <@ searchButtonLabel = "Search" @>
+  test <@ searchButtonLabel = "Apply filters" @>
 
 [<Test>]
 let ``Should present the vocabulary collapsed by default`` () =

@@ -1,0 +1,588 @@
+.ie7 header,
+.ie8 header,
+.ie7 nav,
+.ie8 nav,
+.ie7 article,
+.ie8 article,
+.ie7 footer,
+.ie8 footer,
+.ie7 section,
+.ie8 section,
+.ie7 main,
+.ie8 main {
+  display: block;
+}
+.ie7 input,
+.ie8 input,
+.ie7 button,
+.ie8 button,
+.ie7 submit,
+.ie8 submit,
+.ie7 label,
+.ie8 label {
+  font-size: 16px;
+  line-height: 24px;
+}
+.ie7 h1,
+.ie8 h1,
+.ie7 h2,
+.ie8 h2,
+.ie7 h3,
+.ie8 h3,
+.ie7 h4,
+.ie8 h4,
+.ie7 h5,
+.ie8 h5,
+.ie7 h6,
+.ie8 h6 {
+  font-weight: normal;
+}
+.ie7 p,
+.ie8 p {
+  margin-bottom: 24px;
+}
+.ie7 .top-hat,
+.ie8 .top-hat,
+.ie7 .main,
+.ie8 .main {
+  min-width: 960px;
+  margin: 0 auto;
+}
+.ie7 .top-hat,
+.ie8 .top-hat {
+  padding: 24px;
+}
+.ie7 .top-hat .logo a img,
+.ie8 .top-hat .logo a img {
+  display: block;
+  float: left;
+  height: 30px;
+  width: 92px;
+  margin-right: 24px;
+}
+.ie7 .top-hat .logo a .app-title,
+.ie8 .top-hat .logo a .app-title {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  display: block;
+  color: white;
+  float: left;
+}
+.ie7 .filters-toggle-label,
+.ie8 .filters-toggle-label {
+  display: none;
+}
+.ie7 .filter-tools,
+.ie8 .filter-tools {
+  display: block;
+  min-width: 360px;
+  width: 33.3%;
+  background-color: white;
+}
+.ie7 .filter-groups,
+.ie8 .filter-groups {
+  min-width: 360px;
+  width: 33.3%;
+  background-color: white;
+  top: 84px;
+  bottom: 48px;
+  padding-top: 24px;
+}
+.ie7 .filter-groups .header,
+.ie8 .filter-groups .header {
+  padding: 0 24px;
+}
+.ie7 .filter-groups .header .title,
+.ie8 .filter-groups .header .title {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  float: left;
+  display: block;
+  padding: 24px 0;
+  font-size: 24px;
+  line-height: 36px;
+}
+.ie7 .filter-group.selections,
+.ie8 .filter-group.selections {
+  display: none;
+}
+.ie7 .filter-definitions,
+.ie8 .filter-definitions {
+  display: block;
+  float: right;
+  margin: 36px 0 24px 24px;
+  line-height: 24px;
+}
+.ie7 .filter-definitions .icon-link i,
+.ie8 .filter-definitions .icon-link i {
+  font-size: 24px;
+  height: 24px;
+  width: 30px;
+  display: block;
+}
+.ie7 .filter-definitions .icon-link span,
+.ie8 .filter-definitions .icon-link span {
+  display: block;
+}
+.ie7 .filter-label,
+.ie8 .filter-label {
+  font-size: 18px;
+  line-height: 24px;
+  padding: 24px;
+  border-top: 1px solid #eaeaea;
+}
+.ie7 .accordion,
+.ie8 .accordion {
+  padding: 24px 24px 6px 24px;
+}
+.ie7 .accordion .checkbox-group-title,
+.ie8 .accordion .checkbox-group-title {
+  margin-bottom: 6px;
+}
+.ie7 .accordion .checkbox-group-title:after,
+.ie8 .accordion .checkbox-group-title:after {
+  width: 72px;
+  margin-right: 6px;
+  margin-top: 6px;
+}
+.ie7 .accordion ul.checkbox-list,
+.ie8 .accordion ul.checkbox-list {
+  margin-bottom: 24px;
+}
+.ie7 .accordion ul.checkbox-list:before,
+.ie8 .accordion ul.checkbox-list:before {
+  display: none;
+}
+.ie7 .accordion ul.checkbox-list ul,
+.ie8 .accordion ul.checkbox-list ul {
+  margin: 0 6px -6px 0;
+}
+.ie7 .accordion ul.checkbox-list ul:before,
+.ie8 .accordion ul.checkbox-list ul:before {
+  display: none;
+}
+.ie7 .accordion ul.checkbox-list ul li:before,
+.ie8 .accordion ul.checkbox-list ul li:before {
+  display: none;
+}
+.ie7 .checkbox,
+.ie8 .checkbox {
+  padding-left: 24px;
+}
+.ie7 .checkbox input,
+.ie8 .checkbox input {
+  line-height: 24px;
+  margin: 3px 3px 3px -24px;
+}
+.ie7 .checkbox input:before,
+.ie8 .checkbox input:before {
+  display: none;
+}
+.ie7 .checkbox-all,
+.ie8 .checkbox-all {
+  display: none;
+}
+.ie7 .card-list-wrapper,
+.ie8 .card-list-wrapper {
+  top: 84px;
+  left: 33.3%;
+  min-width: 552px;
+  margin-left: 0;
+}
+.ie7 .card-list,
+.ie8 .card-list {
+  padding: 36px 48px;
+}
+.ie7 .button,
+.ie8 .button {
+  font-size: 16px;
+  line-height: 24px;
+  padding: 12px 0;
+}
+.ie7 .button-group,
+.ie8 .button-group {
+  bottom: 0;
+  left: 0;
+  min-width: 360px;
+  width: 33.3%;
+}
+.ie7 .intro h3,
+.ie8 .intro h3 {
+  font-size: 28px;
+  line-height: 42px;
+  margin: 0 0 24px 0;
+}
+.ie7 .intro h4,
+.ie8 .intro h4 {
+  font-size: 18px;
+  line-height: 24px;
+  margin-bottom: 12px;
+}
+.ie7 .intro h4:after,
+.ie8 .intro h4:after {
+  margin-top: 6px;
+}
+.ie7 .intro ul,
+.ie8 .intro ul {
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 24px;
+  padding-left: 36px;
+}
+.ie7 a.card,
+.ie8 a.card {
+  padding: 36px;
+  margin-bottom: 24px;
+}
+.ie7 a.card .card-excerpt,
+.ie8 a.card .card-excerpt {
+  font-size: 28px;
+  line-height: 42px;
+}
+.ie7 a.card .card-source,
+.ie8 a.card .card-source {
+  margin-top: 24px;
+  font-style: normal;
+}
+.ie7 .card-dates,
+.ie8 .card-dates {
+  margin: 0 0 24px 0;
+  border-bottom: solid 1px #d5d5d5;
+}
+.ie7 .card-dates li,
+.ie8 .card-dates li {
+  display: block;
+  float: left;
+  font-size: 12px;
+  line-height: 36px;
+  padding-left: 12px;
+}
+.ie7 .card-dates li:first-child,
+.ie8 .card-dates li:first-child {
+  padding-left: 0;
+  padding-right: 12px;
+  border-right: solid 1px #d5d5d5;
+}
+.ie7 .card-dates li:last-child,
+.ie8 .card-dates li:last-child {
+  border-right: 0;
+}
+.ie7 .card-list-header,
+.ie8 .card-list-header {
+  margin-bottom: 12px;
+}
+.ie7 .card-list-header .counter,
+.ie8 .card-list-header .counter {
+  padding-top: 24px;
+  padding-bottom: 12px;
+}
+.ie7 .panel,
+.ie8 .panel {
+  background-color: white;
+  margin: 0 0 24px 0;
+  padding: 48px;
+}
+.ie7 .panel header,
+.ie8 .panel header {
+  padding-bottom: 24px;
+}
+.ie7 .pagination,
+.ie8 .pagination {
+  margin: 0;
+}
+.ie7 .pagination li,
+.ie8 .pagination li {
+  width: 48px;
+}
+.ie7 .links-list,
+.ie8 .links-list {
+  border-top: 1px solid #eaeaea;
+}
+.ie7 .links-list a,
+.ie8 .links-list a {
+  padding: 0 24px;
+}
+.ie7 #doorbell-button,
+.ie8 #doorbell-button {
+  padding: 12px 24px;
+  height: 48px;
+  z-index: 5000;
+  top: 18px;
+  right: 18px;
+  background-color: #11779b;
+}
+.ie7 #doorbell-button:hover,
+.ie8 #doorbell-button:hover {
+  background-color: #1382a9;
+}
+.ie7 #doorbell-button:before,
+.ie8 #doorbell-button:before {
+  display: none;
+}
+.ie7 .user-styles h1,
+.ie8 .user-styles h1 {
+  line-height: 54px;
+  padding-top: 24px;
+  margin-bottom: 24px;
+  font-size: 42px;
+}
+.ie7 .user-styles h2,
+.ie8 .user-styles h2 {
+  font-size: 36px;
+  line-height: 48px;
+  padding-top: 24px;
+  margin-bottom: 24px;
+}
+.ie7 .user-styles h3,
+.ie8 .user-styles h3 {
+  font-size: 28px;
+  line-height: 42px;
+  margin-bottom: 24px;
+}
+.ie7 .user-styles h4,
+.ie8 .user-styles h4 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+.ie7 .user-styles h4:after,
+.ie8 .user-styles h4:after {
+  width: 48px;
+  margin-right: 12px;
+  margin-top: 12px;
+}
+.ie7 .user-styles h5,
+.ie8 .user-styles h5 {
+  font-size: 16px;
+}
+.ie7 .user-styles ul,
+.ie8 .user-styles ul {
+  margin-bottom: 24px;
+  padding-left: 36px;
+}
+.ie7 .user-styles li,
+.ie8 .user-styles li {
+  margin-bottom: 24px;
+}
+.ie7 .user-styles strong,
+.ie8 .user-styles strong,
+.ie7 .user-styles b,
+.ie8 .user-styles b {
+  font-weight: bold;
+}
+.ie7 .user-styles em,
+.ie8 .user-styles em,
+.ie7 .user-styles i,
+.ie8 .user-styles i {
+  font-style: italic;
+}
+.ie7 .banner,
+.ie8 .banner {
+  padding: 24px;
+  margin: 0 0 24px 0;
+}
+.ie7 .banner p,
+.ie8 .banner p {
+  margin-bottom: 0;
+}
+.ie7 .modal h1,
+.ie8 .modal h1 {
+  line-height: 54px;
+  padding-top: 24px;
+  margin-bottom: 24px;
+  font-size: 42px;
+}
+.ie7 .modal h2,
+.ie8 .modal h2 {
+  font-size: 36px;
+  line-height: 48px;
+  padding-top: 24px;
+  margin-bottom: 24px;
+}
+.ie7 .modal h3,
+.ie8 .modal h3 {
+  font-size: 28px;
+  line-height: 42px;
+  margin-bottom: 24px;
+}
+.ie7 .modal h4,
+.ie8 .modal h4 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+.ie7 .modal h4:after,
+.ie8 .modal h4:after {
+  width: 48px;
+  margin-right: 12px;
+  margin-top: 12px;
+}
+.ie7 .modal h5,
+.ie8 .modal h5 {
+  font-size: 16px;
+}
+.ie7 .modal ul,
+.ie8 .modal ul {
+  margin-bottom: 24px;
+  padding-left: 36px;
+}
+.ie7 .modal li,
+.ie8 .modal li {
+  margin-bottom: 24px;
+}
+.ie7 .modal strong,
+.ie8 .modal strong,
+.ie7 .modal b,
+.ie8 .modal b {
+  font-weight: bold;
+}
+.ie7 .modal em,
+.ie8 .modal em,
+.ie7 .modal i,
+.ie8 .modal i {
+  font-style: italic;
+}
+.ie7 .modal header,
+.ie8 .modal header,
+.ie7 .modal section,
+.ie8 .modal section {
+  padding: 48px;
+}
+.ie7 .detail,
+.ie8 .detail {
+  overflow-x: hidden;
+}
+.ie7 .detail .filter-tools .filter-groups,
+.ie8 .detail .filter-tools .filter-groups {
+  top: 84px;
+  bottom: 0;
+}
+.ie7 .detail .card-list-wrapper,
+.ie8 .detail .card-list-wrapper {
+  position: inherit;
+  padding-left: 33.3%;
+  padding-top: 72px;
+}
+.ie7 .detail .card-list nav,
+.ie8 .detail .card-list nav {
+  padding-top: 36px;
+  margin-bottom: 24px;
+}
+.ie7 #doorbell-background,
+.ie8 #doorbell-background {
+  background-color: #333;
+}
+.ie7 #doorbell form,
+.ie8 #doorbell form {
+  padding: 24px;
+}
+.ie7 #doorbell label,
+.ie8 #doorbell label {
+  margin-bottom: 12px;
+}
+.ie7 #doorbell form input[type="email"],
+.ie8 #doorbell form input[type="email"],
+.ie7 #doorbell form textarea,
+.ie8 #doorbell form textarea {
+  padding: 12px 24px;
+  font-size: 16px;
+  line-height: 24px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.ie7 #doorbell form legend,
+.ie8 #doorbell form legend {
+  font-size: 28px;
+  margin-bottom: 24px;
+  line-height: 42px;
+  border: 0;
+}
+.ie7 #doorbell .buttons button,
+.ie8 #doorbell .buttons button {
+  padding: 12px 24px;
+}
+.ie7 button#doorbell-close:after,
+.ie8 button#doorbell-close:after {
+  display: none;
+}
+.ie7 .tags-list,
+.ie8 .tags-list {
+  display: block;
+  padding-top: 24px;
+}
+.ie7 .tags-list .tag,
+.ie8 .tags-list .tag {
+  margin-right: 24px;
+  margin-bottom: 12px;
+}
+.ie7 .tags-list .tag a,
+.ie8 .tags-list .tag a {
+  height: 24px;
+  width: 48px;
+  line-height: 24px;
+  color: #ececec;
+}
+.ie7 .tags-list .tag a:before,
+.ie8 .tags-list .tag a:before {
+  font-size: 24px;
+}
+.ie7 {
+  overflow: hidden;
+  /*.intro {
+		display: block;
+		background-color: white;
+		padding: 48px;
+	}*/
+}
+.ie7 .filter-tools {
+  position: relative;
+}
+.ie7 .filter-label {
+  border-top: 2px solid #eaeaea;
+}
+.ie7 .button-group .button {
+  vertical-align: middle;
+}
+.ie7 .card-list-header {
+  display: block;
+  width: 100%;
+}
+.ie7 .tags-list {
+  display: none;
+}
+.ie7 .card-list-header .counter {
+  float: right;
+  display: block;
+  width: 50%;
+  margin-right: 24px;
+}
+.ie7 .card-list-wrapper {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  overflow-x: hidden;
+}
+.ie7 .card-list {
+  /*padding: 0;*/
+  height: 100%;
+  margin: 0;
+}
+.ie7 .banner {
+  padding: 24px 0;
+}
+.ie7 .banner p {
+  padding: 0 24px;
+}
+.ie7 .panel {
+  background-color: white;
+  padding: 48px;
+}
+.ie7 .detail .card-list-wrapper {
+  position: fixed;
+  left: 0;
+  margin-top: 84px;
+  padding-top: 0;
+  overflow-y: auto;
+}
+.ie7 .detail .card-list {
+  height: 100%;
+  padding-top: 24px;
+}

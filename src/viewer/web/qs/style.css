@@ -1728,6 +1728,10 @@ a.card:hover .card-excerpt {
 	display:none;
 	overflow:hidden
 }
+.accordion.closed.open {
+    display: block;
+    overflow: hidden
+}
 .no-js .accordion,.no-js .accordion.closed {
 	display:block
 }

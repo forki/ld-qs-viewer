@@ -45,7 +45,7 @@ let ``Should present a vocabulary with a single term as an input checkbox`` () =
   let vocab1text = vocabs |> CQ.first |> CQ.text
   test <@ vocab1text.Contains("Vocab 1") @>
 
-  let checkboxes = html |> CQ.select "input[type='checkbox']"
+  let checkboxes = html |> CQ.select "input[type='checkbox']" |> CQ.select ".term"
   test <@ checkboxes |> CQ.first |> CQ.attr "value" = "http://testing.com/Uri1" @>
   test <@ checkboxes |> CQ.first |> CQ.attr "name" = "vocab" @>
 
@@ -61,7 +61,7 @@ let ``Should present the multiple vocabulary containing multiple terms`` () =
 
   let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
 
-  test <@ html |> CQ.select "input[type='checkbox']" |> CQ.length = 2 @>
+  test <@ html |> CQ.select "input[type='checkbox']" |> CQ.select ".term" |> CQ.length = 2 @>
 
 [<Test>]
 let ``Should present the vocabulary term checkboxes unselected by default`` () =

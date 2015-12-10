@@ -122,5 +122,4 @@ let ``Should present the vocabulary expanded if vocabulary term is in querystrin
   let html = startServerWith {baseConfig with Vocabs = vocabs}
              |> getQuery "/qs/search" qsWithOneFilter
 
-  test <@ html |> CQ.select ".accordion-trigger.open" |> CQ.length = 1 @>
   test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>

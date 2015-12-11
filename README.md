@@ -20,5 +20,5 @@ fsharpi bin/viewer/RunServer.fsx "dev"
 ### Running in production
 
 This requires that you link the running docker container to another container called 'elastic'.
-See docker-compose file in https://github.com/nhsevidence/ld-kb-qs for usage.
+See docker-compose file in https://github.com/nhsevidence/ld-kb-qs for usage..
 

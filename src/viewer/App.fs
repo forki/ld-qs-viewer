@@ -33,6 +33,7 @@ let createApp config =
     [ GET >>= choose
         [path "/qs" >>= request(fun req -> home req config.Vocabs config.GetKBCount)
          path "/qs/search" >>= request(fun req -> search req config.GetSearchResults config.Vocabs)
-         pathScan "/qualitystandards/%s" (fun (filename) -> resource filename)
+         pathScan "/qualitystandards/%s" (fun (filename) ->
+                                          request  (fun req -> resource req filename))
          browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]

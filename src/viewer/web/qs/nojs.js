@@ -14,7 +14,7 @@
 
     function notIEandHasJavascript()
     {
-        if(!isIE())
+        if(!isIE() || !isIE() < 9)
         {
             detectJs();
         }

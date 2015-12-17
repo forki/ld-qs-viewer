@@ -6,15 +6,17 @@
     }
 
     function detectJs(){
+        //classList no supported by IE...
         var nojs = document.getElementsByClassName('no-js');
+        console.log(nojs[0].className);
         while (nojs.length > 0) {
-            nojs[0].classList.toggle('no-js');
+            nojs[0].className = nojs[0].className.replace(/ *\bno-js\b/g, " js");
         }
     };
 
     function notIEandHasJavascript()
     {
-        if(!isIE())
+        if(!isIE() || !isIE() < 9)
         {
             detectJs();
         }

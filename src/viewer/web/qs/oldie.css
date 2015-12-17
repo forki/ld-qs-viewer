@@ -586,3 +586,18 @@
   height: 100%;
   padding-top: 24px;
 }
+.ie9 #doorbell-button {
+    padding: 12px 24px;
+    height: 48px;
+    z-index: 5000;
+    top: 12px;
+    right: 12px;
+    background-color: #11779b;
+    border-radius: 0 !important;
+}
+.ie9 #doorbell-button:hover {
+    background-color: #1382a9;
+}
+.ie9 #doorbell-button:before {
+    display: none;
+}

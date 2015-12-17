@@ -41,6 +41,12 @@
     <Reference Include="FSharp.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="templates\" />
+    <Folder Include="web\" />
+    <Folder Include="annotationtool\" />
+    <Folder Include="templates\annotationtool\" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Types.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="VocabGeneration.fs" />
@@ -49,6 +55,7 @@
     <Compile Include="Queries.fs" />
     <Compile Include="Elastic.fs" />
     <Compile Include="Home.fs" />
+    <Compile Include="annotationtool\AnnotationTool.fs" />
     <Compile Include="Search.fs" />
     <Compile Include="Resource.fs" />
     <Compile Include="App.fs" />
@@ -82,10 +89,6 @@
   -->
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
-    <Folder Include="templates\" />
-    <Folder Include="web\qs" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="web\qs\robots.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -110,6 +113,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="templates\page.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\annotationtool\annotationtool.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\annotationtool\sidebar.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\annotationtool\page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\sidebar.html">

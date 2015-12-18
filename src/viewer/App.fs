@@ -16,11 +16,10 @@ open Viewer.Resource
 open Viewer.Home
 open FSharp.Data
 open Viewer.VocabGeneration
+open Viewer.AnnotationTool
+
 let setTemplatesDir path =
   DotLiquid.setTemplatesDir(path)
-
-let qualityStandardsDir = "/artifacts/published/"
-
 
 type Configuration = {
   Vocabs : Vocabulary list
@@ -35,5 +34,6 @@ let createApp config =
          path "/qs/search" >>= request(fun req -> search req config.GetSearchResults config.Vocabs)
          pathScan "/qualitystandards/%s" (fun (filename) ->
                                           request  (fun req -> resource req filename))
+         path "/annotationtool" >>= request(fun req -> annotationtool req config.Vocabs)
          browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]

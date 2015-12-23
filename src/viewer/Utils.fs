@@ -58,3 +58,6 @@ let createFilterTags filters =
                         RemovalQueryString = createRemovalQS x.TermUri})
   |> Seq.filter (fun x -> x.Label <> "")
   |> Seq.toList
+
+let shouldExpandVocab vocabProperty (filters:Filter list) =
+  filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocabProperty)

@@ -55,6 +55,7 @@
     <Compile Include="Queries.fs" />
     <Compile Include="Elastic.fs" />
     <Compile Include="Home.fs" />
+    <Compile Include="annotationtool\YamlHandler.fs" />
     <Compile Include="annotationtool\AnnotationTool.fs" />
     <Compile Include="Search.fs" />
     <Compile Include="Resource.fs" />
@@ -220,6 +221,11 @@
     </Reference>
     <Reference Include="FSharp.RDF">
       <HintPath>..\..\packages\FSharp.RDF\lib\FSharp.RDF.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+    <Reference Include="SharpYaml">
+      <HintPath>..\..\packages\SharpYaml\lib\SharpYaml.dll</HintPath>
       <Private>True</Private>
       <Paket>True</Paket>
     </Reference>

@@ -39,6 +39,11 @@ let concatToStringWithDelimiter delimiter items =
                  | "" -> item
                  | _ -> acc + delimiter + item) ""
 
+let stripAllButFragment (uri:string) =
+    let from = uri.LastIndexOf("#") + 1
+    let toEnd = uri.Length - from
+    uri.Substring(from, toEnd)
+
 
 let createFilterTags filters =
 

@@ -2,24 +2,14 @@ module Viewer.YamlHandler
 
 open Viewer.Utils
 open Viewer.Types
-open SharpYaml.Serialization
 
+let YamlBuilder (selected:LabelledFilter list) =
 
-let YamlBuilder (selected:Filter list) =
-  let dict = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.List<string>>()
-  let settings =
-    SerializerSettings
-        (EmitDefaultValues = true, EmitTags = false, SortKeyForMapping = false)
+  let createYamlVocabSection acc (vocab, filters) =
+    let yamlTerms = filters
+                    |> Seq.fold (fun acc filter -> acc + (sprintf "  - %s\n" (stripAllButFragment filter.TermUri))) ""
+    sprintf "%s\n%s" (acc + vocab) yamlTerms
 
-  let grouped = selected |> Seq.groupBy(fun g -> g.Vocab)
-  for keys in grouped do
-    let list = new System.Collections.Generic.List<string>()
-    let k,v = keys
-    v |> Seq.iter(fun y ->
-                    let term = stripAllButFragment y.TermUri
-                    list.Add(term)) |> ignore
-    dict.Add(k,list)
-    printfn "%A" dict
-
-  let serializer = new Serializer(settings)
-  serializer.Serialize(dict)
+  selected
+  |> Seq.groupBy(fun g -> g.VocabLabel)
+  |> Seq.fold (fun acc section -> createYamlVocabSection acc section) ""

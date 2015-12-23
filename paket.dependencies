@@ -8,7 +8,6 @@ nuget Fuchu
 nuget NUnit 2.6.4
 nuget NUnit.Runners 2.6.4
 nuget FAKE
-nuget SharpYaml
 nuget SourceLink.Fake
 nuget Suave
 nuget Suave.DotLiquid

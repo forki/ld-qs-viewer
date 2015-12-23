@@ -45,7 +45,7 @@ let stripAllButFragment (uri:string) =
     uri.Substring(from, toEnd)
 
 
-let createFilterTags filters =
+let createFilterTags (filters:Filter list) =
 
   let createRemovalQS x =
     filters

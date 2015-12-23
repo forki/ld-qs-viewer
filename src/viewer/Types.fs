@@ -5,6 +5,11 @@ type Filter = {
   TermUri: string
 }
 
+type LabelledFilter = {
+  VocabLabel: string
+  TermUri: string
+}
+
 type SearchResult = {
   Uri: string
   Title: string

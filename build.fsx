@@ -132,6 +132,19 @@ Target "Build" (fun _ ->
     |> ignore
 )
 
+
+// --------------------------------------------------------------------------------------
+// Fuchu
+
+
+Target "RunFuchuTests" (fun _ ->
+      let fuchuEntryPoint = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "tests/viewer.Fuchu.Tests/bin/Release/viewer.Fuchu.Tests.exe")
+      let result = ExecProcess (fun info ->
+        info.FileName <- fuchuEntryPoint) (TimeSpan.FromMinutes 5.0)
+      if result <> 0 then failwith "Fuchu runner failed" else ()
+)
+
+
 // --------------------------------------------------------------------------------------
 // Run the unit tests using test runner
 
@@ -338,6 +351,7 @@ Target "All" DoNothing
   ==> "AssemblyInfo"
   ==> "Build"
   ==> "CopyBinaries"
+  ==> "RunFuchuTests"
   ==> "RunTests"
   ==> "All"
 

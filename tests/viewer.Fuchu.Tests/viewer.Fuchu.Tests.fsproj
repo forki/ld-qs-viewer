@@ -107,9 +107,9 @@
       <Project>{15D3E111-F657-4FF9-A895-BC1BD5D39FAE}</Project>
       <Name>viewer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\tests\viewer.Tests\viewer.Tests.fsproj">
-      <Project>{15D3E111-F657-4FF9-A895-BC1BD5D39FAE}</Project>
-      <Name>viewer</Name>
+    <ProjectReference Include="..\viewer.Tests\viewer.Tests.fsproj">
+      <Project>{7D07687E-835C-4F9D-AE76-9921D6DBAD3B}</Project>
+      <Name>viewer.Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

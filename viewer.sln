@@ -34,7 +34,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ED8079DD
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "viewer.Tests", "tests\viewer.Tests\viewer.Tests.fsproj", "{7D07687E-835C-4F9D-AE76-9921D6DBAD3B}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "viewer.Fuchu.Tests", "tests\viewer.Fuchu.Tests\viewer.Fuchu.Tests.fsproj", "{3D07687E-835C-4F9D-AE76-9921D6DBAD3B}"
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "viewer.Tests", "tests\viewer.Fuchu.Tests\viewer.Fuchu.Tests.fsproj", "{3D07687E-835C-4F9D-AE76-9921D6DBAD3B}"
 EndProject
 Global

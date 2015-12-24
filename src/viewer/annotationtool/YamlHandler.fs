@@ -7,7 +7,7 @@ let YamlBuilder (selected:LabelledFilter list) =
 
   let createYamlVocabSection acc (vocab, filters) =
     let yamlTerms = filters
-                    |> Seq.fold (fun acc filter -> acc + (sprintf "  - %s\n" (stripAllButFragment filter.TermUri))) ""
+                    |> Seq.fold (fun acc filter -> acc + (sprintf "  - \"%s\"\n" (stripAllButFragment filter.TermUri))) ""
     sprintf "%s\n%s" (acc + vocab) yamlTerms
 
   selected

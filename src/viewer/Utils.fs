@@ -39,8 +39,13 @@ let concatToStringWithDelimiter delimiter items =
                  | "" -> item
                  | _ -> acc + delimiter + item) ""
 
+let stripAllButFragment (uri:string) =
+    let from = uri.LastIndexOf("#") + 1
+    let toEnd = uri.Length - from
+    uri.Substring(from, toEnd)
 
-let createFilterTags filters =
+
+let createFilterTags (filters:Filter list) =
 
   let createRemovalQS x =
     filters
@@ -53,3 +58,6 @@ let createFilterTags filters =
                         RemovalQueryString = createRemovalQS x.TermUri})
   |> Seq.filter (fun x -> x.Label <> "")
   |> Seq.toList
+
+let shouldExpandVocab vocabProperty (filters:Filter list) =
+  filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocabProperty)

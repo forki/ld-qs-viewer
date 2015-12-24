@@ -1,5 +1,5 @@
 <div class="filter-tools">
-    <form action="/annotationtool/generate" class="filters" id="filters">
+    <form action="/annotationtool/toyaml" class="filters" id="filters">
         <div class="filter-groups">
                 <div class="header">
                     <h4 class="title">Annotations</h4>
@@ -22,10 +22,10 @@
                 </div>
             </div>
         </div>
-        <div class="actions-vertical">
-        <button class="action" title="Annotations to YAML" rel="tooltip"><i class="material-icons vocab-to-yaml">&#xE5C8;</i></button>
-        <button class="action" title="Yaml to Annotations" rel="tooltip"><i class="material-icons yaml-to-vocab">&#xE5C4;</i></button>
-        </div>
     </form>
+    <div class="actions-vertical">
+        <button class="action" title="Annotations to YAML" form="filters" rel="tooltip"><i class="material-icons vocab-to-yaml">&#xE5C8;</i></button>
+        <button class="action" title="Yaml to Annotations" form="fromyaml" rel="tooltip"><i class="material-icons yaml-to-vocab">&#xE5C4;</i></button>
+    </div>
 </div>
 

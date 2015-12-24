@@ -1,3 +1,4 @@
+#I "../viewer/bin/Release"
 #r "Suave.dll"
 #r "Suave.DotLiquid.dll"
 #r "viewer.dll"

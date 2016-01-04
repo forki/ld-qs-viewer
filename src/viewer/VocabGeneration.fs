@@ -139,7 +139,7 @@ let readVocabsFromFiles () =
       Property = "qualitystandard:lifestyleCondition"
     }
     {
-      Root = vocabLookup "http://schema/ns/qualitystandard/conditiondisease.ttl" "Condition or disease"
+      Root = vocabLookup "http://schema/ns/qualitystandard/conditionordisease.ttl" "Condition or disease"
       Property = "qualitystandard:condition"
     }
   ]

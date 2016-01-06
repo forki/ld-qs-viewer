@@ -15,7 +15,7 @@ let tests =
   testList "Annotation tool tests" [
     testCase "Should generate yaml from annotation tree" <| fun _ ->
       let vocabs = [{Property = "vocab:property"
-                     Root = Term {t with Label = "Vocab Label:"
+                     Root = Term {t with Label = "Vocab Label"
                                          Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
                                                      Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}}]
 

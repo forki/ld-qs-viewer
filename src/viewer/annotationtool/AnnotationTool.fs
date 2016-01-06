@@ -31,7 +31,7 @@ let toyaml (req:HttpRequest) vocabs =
     let v = vocabs |> List.find (fun v -> v.Property = (System.Uri.UnescapeDataString filter.Vocab))
     match v.Root with
       | Empty -> {VocabLabel = ""; TermUri = filter.TermUri}
-      | Term t -> {VocabLabel = t.Label; TermUri = filter.TermUri}
+      | Term t -> {VocabLabel = t.Label + ":"; TermUri = filter.TermUri}
     
   let filters = extractFilters req.query
   let viewVocabs =

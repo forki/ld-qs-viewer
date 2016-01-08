@@ -10,6 +10,7 @@ open Suave.Http.Applicatives
 open Viewer.App
 open Viewer.Types
 open Viewer.VocabGeneration
+open Viewer.Model
 open FSharp.RDF
 open CsQuery
 

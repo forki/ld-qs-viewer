@@ -21,17 +21,11 @@ open Viewer.AnnotationTool
 let setTemplatesDir path =
   DotLiquid.setTemplatesDir(path)
 
-type Configuration = {
-  Vocabs : Vocabulary list
-  GetSearchResults : (bool -> string -> SearchResult list)
-  GetKBCount : bool -> int
-  }
-
 let createApp config =
   choose
     [ GET >>= choose
-        [path "/qs" >>= request(fun req -> home req config.Vocabs config.GetKBCount)
-         path "/qs/search" >>= request(fun req -> search req config.GetSearchResults config.Vocabs)
+        [path "/qs" >>= request(fun req -> home req config)
+         path "/qs/search" >>= request(fun req -> search req config)
          pathScan "/qualitystandards/%s" (fun (filename) ->
                                           request  (fun req -> resource req filename))
          path "/annotationtool" >>= request(fun req -> annotationtool req config.Vocabs)

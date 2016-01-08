@@ -7,25 +7,11 @@ open Viewer.Model
 open Viewer.Utils
 open Viewer.VocabGeneration
 open Viewer.Elastic
+open Viewer.Components
 
-let home (req:HttpRequest) actualVocabs getKBCount =
-  //printf "Request: %A\n" req
-
+let home (req:HttpRequest) config =
   let testing = req.cookies |> Map.containsKey "test"
-  let vocabs =
-    match testing with
-    | true  -> Stubs.vocabsForTests
-    | false -> actualVocabs
 
-  let viewVocabs =
-    req.query
-    |> extractFilters
-    |> getVocabsWithState vocabs
-    |> List.map (fun v -> {Vocab = v; Expanded = false})
-
-  {Results = []
-   Tags = []
-   Vocabularies = viewVocabs
-   totalCount = getKBCount testing
-   ShowHelp = true}
+  {Sidebar = Sidebar.createModel req config.Vocabs testing
+   blah = SearchResults.createModel req config.GetSearchResults config.GetKBCount true testing}
   |> DotLiquid.page "home.html"

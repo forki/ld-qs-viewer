@@ -1,4 +1,4 @@
-module Viewer.Tests.SidebarTests
+module Viewer.Tests.Components.Sidebar.Tests
 
 open Suave
 open Suave.DotLiquid

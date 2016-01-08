@@ -121,28 +121,31 @@ type Vocabulary = {
 }
 
 let readVocabsFromFiles () =
-  [
-    {
-      Root = vocabLookup "http://schema/ns/qualitystandard/setting.ttl" "Setting"
-      Property = "qualitystandard:setting"
-    }
-    {
-      Root = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl" "Age group"
-      Property = "qualitystandard:age"
-    }
-    {
-      Root = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl" "Service area"
-      Property = "qualitystandard:serviceArea"
-    }
-    {
-      Root = vocabLookup "http://schema/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
-      Property = "qualitystandard:lifestyleCondition"
-    }
-    {
-      Root = vocabLookup "http://schema/ns/qualitystandard/conditionordisease.ttl" "Condition or disease"
-      Property = "qualitystandard:condition"
-    }
-  ]
+  try
+    [
+      {
+        Root = vocabLookup "http://schema/ns/qualitystandard/setting.ttl" "Setting"
+        Property = "qualitystandard:setting"
+      }
+      {
+        Root = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl" "Age group"
+        Property = "qualitystandard:age"
+      }
+      {
+        Root = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl" "Service area"
+        Property = "qualitystandard:serviceArea"
+      }
+      {
+        Root = vocabLookup "http://schema/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
+        Property = "qualitystandard:lifestyleCondition"
+      }
+      {
+        Root = vocabLookup "http://schema/ns/qualitystandard/conditionordisease.ttl" "Condition or disease"
+        Property = "qualitystandard:condition"
+      }
+    ]
+  with
+    _ -> []
 
 let setSelectedIfFiltered filters vocab =
 

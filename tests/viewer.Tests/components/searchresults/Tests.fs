@@ -9,7 +9,7 @@ open Viewer.Tests.Utils
 
 [<SetUp>]
 let ``Run before tests`` () =
-  setTemplatesDir "."
+  setTemplatesDir "../../../../src/viewer/bin/Release/"
 
 [<Test>]
 let ``Should show message when attempting to search with no filters`` () =

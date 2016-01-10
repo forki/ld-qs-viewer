@@ -1,10 +1,10 @@
-{% extends "page.html" %}
+{% extends "templates/page.html" %}
 
 {% block head %}
     <title>BETA Quality Statements Discovery Tool | NICE</title>
 {% endblock %}
 
 {% block content %}
-    {% include "sidebar.html" model:model.Sidebar %}
-    {% include "results-page.html" model:model.blah %}
+    {% include "components/sidebar/index.html"       model:model.Sidebar %}
+    {% include "components/searchresults/index.html" model:model.blah %}
 {% endblock %}

@@ -17,7 +17,7 @@ let writeToFile dir file content =
 
 [<SetUp>]
 let ``Run before tests`` () =
-  setTemplatesDir "."
+  setTemplatesDir "../../../../src/viewer/bin/Release/"
 
 [<Test>]
 let ``Viewing a resource should load html file content`` () =

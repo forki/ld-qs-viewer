@@ -15,5 +15,5 @@ let search (req:HttpRequest) config =
 
   {Sidebar = Sidebar.createModel req config.Vocabs testing
    blah = SearchResults.createModel req config.GetSearchResults config.GetKBCount false testing}
-  |> DotLiquid.page "home.html"
+  |> DotLiquid.page "templates/home.html"
 

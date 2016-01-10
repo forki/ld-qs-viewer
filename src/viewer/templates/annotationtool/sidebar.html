@@ -15,7 +15,7 @@
                         <h4 class="filter-label accordion-trigger">{{v.Vocab.Root.Label}}</h4>
                         <div class="accordion closed">
                         {% endif %}
-                        {% include "checkbox.html" terms:v.Vocab.Root.Children prop:v.Vocab.Property %}
+                        {% include "templates/checkbox.html" terms:v.Vocab.Root.Children prop:v.Vocab.Property %}
                         </div>
                     </div>
                     {% endfor -%}

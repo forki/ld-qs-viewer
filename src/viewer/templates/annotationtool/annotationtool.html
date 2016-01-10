@@ -1,10 +1,10 @@
-﻿{% extends "annotationtool/page.html" %}
+﻿{% extends "templates/annotationtool/page.html" %}
 
 {% block head %}
     <title>BETA Quality Statements Annotation Tool | NICE</title>
 {% endblock %}
 
 {% block content %}
-    {% include "annotationtool/sidebar.html" model:model %}
-    {% include "annotationtool/main-body.html" model:model %}
+    {% include "templates/annotationtool/sidebar.html" model:model %}
+    {% include "templates/annotationtool/main-body.html" model:model %}
 {% endblock %}

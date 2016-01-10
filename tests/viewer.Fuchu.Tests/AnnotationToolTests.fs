@@ -10,7 +10,7 @@ open Viewer.VocabGeneration
 
 [<Tests>]
 let tests =
-  setTemplatesDir "src/viewer/bin/Release/templates/"
+  setTemplatesDir "src/viewer/bin/Release/"
 
   testList "Annotation tool tests" [
     testCase "Should generate yaml from annotation tree" <| fun _ ->

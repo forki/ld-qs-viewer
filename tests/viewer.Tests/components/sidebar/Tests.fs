@@ -11,17 +11,7 @@ open FSharp.RDF
 
 [<SetUp>]
 let ``Run before tests`` () =
-  setTemplatesDir "."
-
-[<Test>]
-let ``Should set the title`` () =
-  let title =
-    startServerWith baseConfig
-    |> get "/qs"
-    |> CQ.select "title"
-    |> CQ.text
-
-  test <@ title = "BETA Quality Statements Discovery Tool | NICE" @>
+  setTemplatesDir "../../../../src/viewer/bin/Release/"
 
 [<Test>]
 let ``Should add form with search action`` () =

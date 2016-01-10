@@ -72,13 +72,10 @@
     <EmbeddedResource Include="..\..\src\viewer\templates\page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\src\viewer\templates\results-page.html">
+    <EmbeddedResource Include="..\..\src\viewer\components\sidebar\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\src\viewer\templates\what-is-this.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\src\viewer\templates\sidebar.html">
+    <EmbeddedResource Include="..\..\src\viewer\components\searchresults\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\src\viewer\templates\home.html">

@@ -23,5 +23,5 @@ let resource (request:HttpRequest) filename =
     with
       | ex -> "Could not find resource."
 
-  DotLiquid.page "resource.html" {Content = content}
+  DotLiquid.page "templates/resource.html" {Content = content}
 

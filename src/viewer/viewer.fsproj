@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="templates\" />
+    <Folder Include="components\" />
     <Folder Include="web\" />
     <Folder Include="annotationtool\" />
     <Folder Include="templates\annotationtool\" />
@@ -133,19 +134,16 @@
     <EmbeddedResource Include="templates\annotationtool\page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\sidebar.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="templates\home.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\what-is-this.html">
+    <EmbeddedResource Include="components\sidebar\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="components\searchresults\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\checkbox.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="templates\results-page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\disclaimer.html">

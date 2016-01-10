@@ -17,8 +17,6 @@ open Suave.Http.Applicatives
 open Viewer.Tests.Utils
 open Viewer.App
 
-setTemplatesDir "templates/"
-
 let GetVocabularies () =
 
   let v = Viewer.VocabGeneration.GetVocabs ()

@@ -1,0 +1,86 @@
+<div class="card-list-wrapper">
+    <div class="card-list results">
+    <div class="card-list-header">
+            <div id="toggle-filters" class="toggle-filters"></div>
+            <div class="tags-list">
+                <div id="tags_tagsinput" class="tagsinput" style="width: 100%; min-height: auto; height: auto;">
+                    {% for tag in model.Tags -%}
+                    <span class="tag">
+                        <span class="tag-label">{{tag.Label}}</span>
+                        <a class="tag-remove-link" href="/qs/search?{{tag.removal_query_string}}" title="Removing tag">x</a>
+                    </span>
+                    {% endfor -%}
+                </div>
+            </div>
+            {% if model.total_count != empty and model.show_help == true %}
+            <div class="counter">Total number of NICE Quality statements: {{model.total_count}}</div>
+            {% else %}
+            <div class="counter">{{model.total_count}} filtered items</div>
+            {% endif %}
+    </div>
+    {% include "templates/disclaimer.html" %}
+    {% if model.Tags == empty and model.show_help == false %}
+        <div class="message">Please select one or more filters.</div>
+    {% endif %}
+
+    {% for item in model.Results -%}
+    <div class="card result">
+        <a class="card" href="{{item.Uri}}">
+            <div class="card-excerpt abstract">{{item.Abstract}}</div>
+            <div class="card-source">{{item.Title}}</div>
+        </a>
+    </div>
+    {% endfor -%}
+
+    {% if model.show_help == true %}
+      <div class="intro">
+        <section class="panel">
+          <header>
+            <h3>About NICE Quality Statements</h3>
+          </header>
+          <div class="row">
+            <div class="col-md-6">
+              <h4>Get started</h4>
+              <ul>
+                <li>Filter through all of the published quality statements relevant to your particular service, setting or population of interest from across the whole quality standards programme.</li>
+                <li>Use one or more of the filters to narrow down your search; you can expand or narrow your search further at any stage.</li>
+                <li>Select any of the results in the list to see the full statement, associated measures and useful related information.</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <h4>Who are they for?</h4>
+              <ul>
+                <li>Commissioners to inform new service specification.</li>
+                <li>Service providers to benchmark their current service provision.</li>
+                <li>Commissioners and service providers together to help prioritise key areas for service improvement activities.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section class="panel alt">
+          <header>
+            <h3>Benefits of using NICE Quality Statements</h3>
+          </header>
+          <div class="row">
+            <div class="col-sm-4">
+              <h4>Support</h4>
+              <p>Quality statements support commissioners and service providers with benchmarking and quality improvement initiatives.</p>
+            </div>
+            <div class="col-sm-4">
+              <h4>Measure</h4>
+              <p>Each NICE quality statement describes what high quality care or service provision looks like for a specific area of care, and provides measures to support initial benchmarking and evaluation of improvement.</p>
+            </div>
+            <div class="col-sm-4">
+              <h4>Improve</h4>
+              <p>Statements exist for those areas of care identified through the NICE quality standards programme as a high priority for quality improvement.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    {% endif %}
+
+    </div>
+</div>
+
+
+

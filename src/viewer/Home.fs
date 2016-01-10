@@ -14,4 +14,4 @@ let home (req:HttpRequest) config =
 
   {Sidebar = Sidebar.createModel req config.Vocabs testing
    blah = SearchResults.createModel req config.GetSearchResults config.GetKBCount true testing}
-  |> DotLiquid.page "home.html"
+  |> DotLiquid.page "templates/home.html"

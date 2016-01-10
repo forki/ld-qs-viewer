@@ -40,7 +40,7 @@ let getKBCountFunc () =
       KnowledgeBaseCount
 
 
-let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/templates")
+let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer")
 setTemplatesDir templatePath
 let defaultConfig = { defaultConfig with
                                     bindings = [ HttpBinding.mk' HTTP "0.0.0.0" 8083 ]

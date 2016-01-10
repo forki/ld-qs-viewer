@@ -23,7 +23,7 @@ let annotationtool (req:HttpRequest) vocabs =
     |> List.map (fun v -> {Vocab = v; Expanded = false})
 
   {Vocabularies = viewVocabs; Yaml = ""}
-  |> DotLiquid.page "annotationtool/annotationtool.html"
+  |> DotLiquid.page "templates/annotationtool/annotationtool.html"
 
 let toyaml (req:HttpRequest) vocabs =
 
@@ -44,7 +44,7 @@ let toyaml (req:HttpRequest) vocabs =
              |> YamlBuilder
 
   {Vocabularies = viewVocabs; Yaml = yaml}
-  |> DotLiquid.page "annotationtool/annotationtool.html"
+  |> DotLiquid.page "templates/annotationtool/annotationtool.html"
 
 let fromyaml (req:HttpRequest) vocabs =
   let viewVocabs =
@@ -54,4 +54,4 @@ let fromyaml (req:HttpRequest) vocabs =
     |> List.map (fun v -> {Vocab = v; Expanded = false})
 
   {Vocabularies = viewVocabs; Yaml = ""}
-  |> DotLiquid.page "annotationtool/annotationtool.html"
+  |> DotLiquid.page "templates/annotationtool/annotationtool.html"

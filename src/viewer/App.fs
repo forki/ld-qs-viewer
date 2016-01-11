@@ -28,8 +28,7 @@ let createApp config =
          path "/qs/search" >>= request(fun req -> search req config)
          pathScan "/qualitystandards/%s" (fun (filename) ->
                                           request  (fun req -> resource req filename))
-         path "/annotationtool" >>= request(fun req -> annotationtool req config.Vocabs)
-         path "/annotationtool/toyaml" >>= request(fun req -> toyaml req config.Vocabs)
-         path "/annotationtool/fromyaml" >>= request(fun req -> fromyaml req config.Vocabs)
+         path "/annotationtool" >>= request(fun req -> annotationTool req config false)
+         path "/annotationtool/toyaml" >>= request(fun req -> annotationTool req config true)
          browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]]

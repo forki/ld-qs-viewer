@@ -4,8 +4,14 @@ open Suave
 open Suave.Types
 open Viewer.Utils
 open Viewer.Types
-open Viewer.Model
 open Viewer.Elastic
+
+type SearchResultsModel = {
+  Results: SearchResult list
+  Tags: Tag list
+  totalCount: int
+  ShowHelp : bool
+}
 
 let createModel (req:HttpRequest) getSearchResults getKBCount showOverview testing =
 

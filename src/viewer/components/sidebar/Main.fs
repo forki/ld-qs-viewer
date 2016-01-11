@@ -3,9 +3,12 @@ module Viewer.Components.Sidebar
 open Suave
 open Suave.Types
 open Suave.Cookie
-open Viewer.Model
 open Viewer.Utils
 open Viewer.VocabGeneration
+
+type SidebarModel = {
+  Vocabularies: ViewVocab list
+}
 
 let createModel (req:HttpRequest) actualVocabs testing =
 

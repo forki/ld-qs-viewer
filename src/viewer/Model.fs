@@ -2,22 +2,8 @@ module Viewer.Model
 
 open Viewer.Types
 open Viewer.VocabGeneration
-
-type ViewVocab = {
-  Vocab: Vocabulary
-  Expanded: bool
-}
-
-type SidebarModel = {
-  Vocabularies: ViewVocab list
-}
-
-type SearchResultsModel = {
-  Results: SearchResult list
-  Tags: Tag list
-  totalCount: int
-  ShowHelp : bool
-}
+open Viewer.Components.Sidebar
+open Viewer.Components.SearchResults
 
 type HomeModel = {
   Sidebar: SidebarModel    

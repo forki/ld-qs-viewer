@@ -60,6 +60,8 @@
     <Compile Include="UtilsTests.fs" />
     <Compile Include="components\sidebar\Tests.fs" />
     <Compile Include="components\searchresults\Tests.fs" />
+    <Compile Include="components\annotationsidebar\Tests.fs" />
+    <Compile Include="components\annotationblock\Tests.fs" />
     <Compile Include="LoadVocabularyTests.fs" />
     <Compile Include="ResourcePageTests.fs" />
     <None Include="paket.references" />
@@ -81,10 +83,19 @@
     <EmbeddedResource Include="..\..\src\viewer\templates\home.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\viewer\templates\annotationtool.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\..\src\viewer\components\sidebar\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\src\viewer\components\searchresults\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\viewer\components\annotationsidebar\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\viewer\components\annotationblock\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\src\viewer\templates\checkbox.html">

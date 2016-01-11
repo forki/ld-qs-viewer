@@ -168,3 +168,8 @@ let getVocabsWithState vocabs (filters: Filter list) =
   vocabs
   |> Seq.map (fun v -> setSelectedIfFiltered filterUris v)
   |> Seq.toList
+
+type ViewVocab = {
+  Vocab: Vocabulary
+  Expanded: bool
+}

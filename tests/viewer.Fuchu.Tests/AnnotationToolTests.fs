@@ -8,7 +8,6 @@ open FSharp.Data
 open Viewer.Tests.Utils
 open Viewer.VocabGeneration
 
-[<Tests>]
 let tests =
   setTemplatesDir "src/viewer/bin/Release/"
 

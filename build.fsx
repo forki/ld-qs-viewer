@@ -351,7 +351,7 @@ Target "All" DoNothing
   ==> "AssemblyInfo"
   ==> "Build"
   ==> "CopyBinaries"
-  ==> "RunFuchuTests"
+//  ==> "RunFuchuTests"
   ==> "RunTests"
   ==> "All"
 

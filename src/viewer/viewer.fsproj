@@ -44,23 +44,22 @@
     <Folder Include="templates\" />
     <Folder Include="components\" />
     <Folder Include="web\" />
-    <Folder Include="annotationtool\" />
-    <Folder Include="templates\annotationtool\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Types.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="VocabGeneration.fs" />
-    <Compile Include="Model.fs" />
     <Compile Include="Stubs.fs" />
     <Compile Include="Queries.fs" />
     <Compile Include="Elastic.fs" />
     <Compile Include="components\sidebar\Main.fs" />
     <Compile Include="components\searchresults\Main.fs" />
+    <Compile Include="components\annotationsidebar\Main.fs" />
+    <Compile Include="components\annotationblock\Main.fs" />
+    <Compile Include="Model.fs" />
     <Compile Include="Home.fs" />
-    <Compile Include="annotationtool\YamlHandler.fs" />
-    <Compile Include="annotationtool\AnnotationTool.fs" />
     <Compile Include="Search.fs" />
+    <Compile Include="AnnotationTool.fs" />
     <Compile Include="Resource.fs" />
     <Compile Include="App.fs" />
     <None Include="Script.fsx" />
@@ -122,25 +121,22 @@
     <EmbeddedResource Include="templates\page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\annotationtool\annotationtool.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="templates\annotationtool\main-body.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="templates\annotationtool\sidebar.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="templates\annotationtool\page.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="templates\home.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\annotationtool.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="components\sidebar\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="components\searchresults\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="components\annotationsidebar\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="components\annotationblock\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\checkbox.html">

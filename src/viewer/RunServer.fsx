@@ -50,3 +50,4 @@ printf "Running with config:\n%A\n" defaultConfig
 startWebServer defaultConfig (createApp {Vocabs=getVocabsFunc()
                                          GetSearchResults=getSearchFunc()
                                          GetKBCount=getKBCountFunc()})
+printf "Server stopped\n"

@@ -137,25 +137,13 @@ Target "Build" (fun _ ->
 // Fuchu
 
 
-Target "RunFuchuTests" (fun _ ->
-      let fuchuEntryPoint = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "tests/viewer.Fuchu.Tests/bin/Release/viewer.Fuchu.Tests.exe")
+Target "RunTests" (fun _ ->
+      let fuchuEntryPoint = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "tests/viewer.Tests/bin/Release/viewer.Tests.exe")
       let result = ExecProcess (fun info ->
         info.FileName <- fuchuEntryPoint) (TimeSpan.FromMinutes 5.0)
       if result <> 0 then failwith "Fuchu runner failed" else ()
 )
 
-
-// --------------------------------------------------------------------------------------
-// Run the unit tests using test runner
-
-Target "RunTests" (fun _ ->
-    !! testAssemblies
-    |> NUnit (fun p ->
-        { p with
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 20.
-            OutputFile = "TestResults.xml" })
-)
 
 #if MONO
 #else
@@ -351,7 +339,6 @@ Target "All" DoNothing
   ==> "AssemblyInfo"
   ==> "Build"
   ==> "CopyBinaries"
-//  ==> "RunFuchuTests"
   ==> "RunTests"
   ==> "All"
 

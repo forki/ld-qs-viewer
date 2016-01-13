@@ -1,15 +1,18 @@
-module Viewer.Tests.QueryTests
+module Viewer.Tests.ElasticTests
 
-open NUnit.Framework
+open Fuchu
 open Swensen.Unquote
 open Viewer.Elastic
 open Viewer.Types
 
-[<Test>]
-let ``Should build query correctly for a single term`` () =
-  let qs = [("key", Some("val"))]
-  let query = BuildQuery qs
-  let expectedQuery = """{
+[<Tests>]
+let tests =
+  testList "Elastic query" [
+
+    testCase "Should build query correctly for a single term" <| fun _ ->
+      let qs = [("key", Some("val"))]
+      let query = BuildQuery qs
+      let expectedQuery = """{
 "from": 0, "size": 1500,
 "query": {
   "filtered": {
@@ -31,15 +34,14 @@ let ``Should build query correctly for a single term`` () =
   { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""
-  test <@ query = expectedQuery @>
+      test <@ query = expectedQuery @>
 
-[<Test>]
-let ``Should build query correctly for a multiple terms with same key`` () =
-  let qs = [("key", Some("val1"));
-            ("key", Some("val2"))]
+    testCase "Should build query correctly for a multiple terms with same key" <| fun _ ->
+      let qs = [("key", Some("val1"));
+                ("key", Some("val2"))]
 
-  let query = BuildQuery qs
-  let expectedQuery = """{
+      let query = BuildQuery qs
+      let expectedQuery = """{
 "from": 0, "size": 1500,
 "query": {
   "filtered": {
@@ -61,17 +63,16 @@ let ``Should build query correctly for a multiple terms with same key`` () =
   { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""
-  test <@ query = expectedQuery @>
+      test <@ query = expectedQuery @>
 
-[<Test>]
-let ``Should build query correctly for a multiple terms with different keys`` () =
-  let qs = [("key", Some("val1"));
-            ("key", Some("val2"));
-            ("key2", Some("val3"));
-            ("key2", Some("val4"))]
+    testCase "Should build query correctly for a multiple terms with different keys" <| fun _ ->
+      let qs = [("key", Some("val1"));
+                ("key", Some("val2"));
+                ("key2", Some("val3"));
+                ("key2", Some("val4"))]
 
-  let query = BuildQuery qs
-  let expectedQuery = """{
+      let query = BuildQuery qs
+      let expectedQuery = """{
 "from": 0, "size": 1500,
 "query": {
   "filtered": {
@@ -97,84 +98,80 @@ let ``Should build query correctly for a multiple terms with different keys`` ()
   { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""
-  test <@ query = expectedQuery @>
-[<Test>]
-let ``GetSearchResults should return an empty list on zero results`` () =
-  let StubbedQueryResponse _ _ = "{}"
-  let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse false
-  let results = DoSearchWith query
 
-  test <@ results = [] @>
+      test <@ query = expectedQuery @>
+
+    testCase "GetSearchResults should return an empty list on zero results" <| fun _ ->
+      let StubbedQueryResponse _ _ = "{}"
+      let query = "{}"
+      let DoSearchWith = GetSearchResults StubbedQueryResponse false
+      let results = DoSearchWith query
+
+      test <@ results = [] @>
 
 
-[<Test>]
-let ``GetSearchResults should map a single result`` () =
-
-  let StubbedQueryResponse _ _ = 
-    """
-    {
-      "hits":{
-        "hits":[
-          {
-            "_id":"st1_1",
-            "_source":{
-              "@id":"This is the Uri",
-              "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is the abstract",
-              "http://ld.nice.org.uk/ns/qualitystandard#title": "This is the title"
-            }
+    testCase "GetSearchResults should map a single result" <| fun _ ->
+      let StubbedQueryResponse _ _ = 
+        """
+        {
+          "hits":{
+            "hits":[
+              {
+                "_id":"st1_1",
+                "_source":{
+                  "@id":"This is the Uri",
+                  "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is the abstract",
+                  "http://ld.nice.org.uk/ns/qualitystandard#title": "This is the title"
+                }
+              }
+            ]
           }
-        ]
-      }
-    }
-    """
+        }
+        """
 
-  let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse false
-  let results = DoSearchWith query
+      let query = "{}"
+      let DoSearchWith = GetSearchResults StubbedQueryResponse false
+      let results = DoSearchWith query
 
-  test <@ results = [{Uri = "This is the Uri"; Abstract = "This is the abstract"; Title = "This is the title"}] @>
+      test <@ results = [{Uri = "This is the Uri"; Abstract = "This is the abstract"; Title = "This is the title"}] @>
 
-[<Test>]
-let ``GetSearchResults should map multiple results`` () =
-  
-  let StubbedQueryResponse _ _ = 
-    """
-    {
-      "hits":{
-        "hits":[
-          {
-            "_id": "st1_sd1",
-            "_source":{
-              "@id":"notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#abstract": "notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#title": "notused"
-            }
-          },
-          {
-            "_id": "st1_sd2",
-            "_source":{
-              "@id":"notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#abstract": "notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#title": "notused"
-            }
+    testCase "GetSearchResults should map multiple results" <| fun _ ->
+      let StubbedQueryResponse _ _ = 
+        """
+        {
+          "hits":{
+            "hits":[
+              {
+                "_id": "st1_sd1",
+                "_source":{
+                  "@id":"notused",
+                  "http://ld.nice.org.uk/ns/qualitystandard#abstract": "notused",
+                  "http://ld.nice.org.uk/ns/qualitystandard#title": "notused"
+                }
+              },
+              {
+                "_id": "st1_sd2",
+                "_source":{
+                  "@id":"notused",
+                  "http://ld.nice.org.uk/ns/qualitystandard#abstract": "notused",
+                  "http://ld.nice.org.uk/ns/qualitystandard#title": "notused"
+                }
+              }
+            ]
           }
-        ]
-      }
-    }
-    """
+        }
+        """
 
-  let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse false
-  let results = DoSearchWith query
-  
-  test <@ results.Length = 2 @>
+      let query = "{}"
+      let DoSearchWith = GetSearchResults StubbedQueryResponse false
+      let results = DoSearchWith query
+      
+      test <@ results.Length = 2 @>
 
-[<Test>]
-let ``Should build query correctly for an encoded single term key`` () =
-  let qs = [("key%3akey", Some("val"))]
-  let query = BuildQuery qs
-  let expectedQuery = """{
+    testCase "Should build query correctly for an encoded single term key" <| fun _ ->
+      let qs = [("key%3akey", Some("val"))]
+      let query = BuildQuery qs
+      let expectedQuery = """{
 "from": 0, "size": 1500,
 "query": {
   "filtered": {
@@ -196,4 +193,5 @@ let ``Should build query correctly for an encoded single term key`` () =
   { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""
-  test <@ query = expectedQuery @>
+      test <@ query = expectedQuery @>
+  ]

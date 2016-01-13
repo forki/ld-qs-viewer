@@ -2,114 +2,104 @@ module Viewer.Tests.Components.Sidebar.Tests
 
 open Suave
 open Suave.DotLiquid
-open NUnit.Framework
+open Fuchu
 open Swensen.Unquote
 open Viewer.Types
 open Viewer.VocabGeneration
 open Viewer.Tests.Utils
 open FSharp.RDF
 
-[<SetUp>]
-let ``Run before tests`` () =
-  setTemplatesDir "../../../../src/viewer/bin/Release/"
+[<Tests>]
+let tests =
+  setTemplatesDir "src/viewer/bin/Release/"
 
-[<Test>]
-let ``Should add form with search action`` () =
-  let action =
-    startServerWith baseConfig
-    |> get "/qs"
-    |> CQ.select "form"
-    |> CQ.attr "action"
-  test <@ action = "/qs/search" @>
+  testList "Sidebar component" [
 
-[<Test>]
-let ``Should present a vocabulary with a single term as an input checkbox`` () =
-  let vocabs = [{Property = "vocab"
-                 Root = Term {t with Label = "Vocab 1"
-                                     Children = [Term {t with Label = "Term1"; Uri = uri "http://testing.com/Uri1"}]}}]
+    testCase "Should add form with search action" <| fun _ ->
+      let action =
+        startServerWith baseConfig
+        |> get "/qs"
+        |> CQ.select "form"
+        |> CQ.attr "action"
+      test <@ action = "/qs/search" @>
 
-  let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
+    testCase "Should present a vocabulary with a single term as an input checkbox" <| fun _ ->
+      let vocabs = [{Property = "vocab"
+                     Root = Term {t with Label = "Vocab 1"
+                                         Children = [Term {t with Label = "Term1"; Uri = uri "http://testing.com/Uri1"}]}}]
 
-  let vocabs = html |> CQ.select ".vocab"
+      let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
 
-  let vocab1text = vocabs |> CQ.first |> CQ.text
-  test <@ vocab1text.Contains("Vocab 1") @>
+      let vocabs = html |> CQ.select ".vocab"
 
-  let checkboxes = html |> CQ.select "input[type='checkbox']" |> CQ.select ".term"
-  test <@ checkboxes |> CQ.first |> CQ.attr "value" = "http://testing.com/Uri1" @>
-  test <@ checkboxes |> CQ.first |> CQ.attr "name" = "vocab" @>
+      let vocab1text = vocabs |> CQ.first |> CQ.text
+      test <@ vocab1text.Contains("Vocab 1") @>
 
-  let labels = html |> CQ.select ".checkbox > label"
-  test <@ labels |> CQ.first |> CQ.text = "Term1" @>
+      let checkboxes = html |> CQ.select "input[type='checkbox']" |> CQ.select ".term"
+      test <@ checkboxes |> CQ.first |> CQ.attr "value" = "http://testing.com/Uri1" @>
+      test <@ checkboxes |> CQ.first |> CQ.attr "name" = "vocab" @>
 
-[<Test>]
-let ``Should present the multiple vocabulary containing multiple terms`` () =
+      let labels = html |> CQ.select ".checkbox > label"
+      test <@ labels |> CQ.first |> CQ.text = "Term1" @>
 
-  let vocabs = [{Property = ""
-                 Root = Term {t with Children = [Term t
-                                                 Term t]}}]
+    testCase "Should present the multiple vocabulary containing multiple terms" <| fun _ ->
+      let vocabs = [{Property = ""
+                     Root = Term {t with Children = [Term t
+                                                     Term t]}}]
 
-  let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
+      let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
 
-  test <@ html |> CQ.select "input[type='checkbox']" |> CQ.select ".term" |> CQ.length = 2 @>
+      test <@ html |> CQ.select "input[type='checkbox']" |> CQ.select ".term" |> CQ.length = 2 @>
 
-[<Test>]
-let ``Should present the vocabulary term checkboxes unselected by default`` () =
+    testCase "Should present the vocabulary term checkboxes unselected by default" <| fun _ ->
+      let vocabs = [{Property = ""
+                     Root = Term {t with Children = [Term t]}}]
+    
+      let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
+    
+      test <@ html |> CQ.select "input[checked]" |> CQ.length = 0 @>
 
-  let vocabs = [{Property = ""
-                 Root = Term {t with Children = [Term t]}}]
+    testCase "Should present the vocabulary term checkboxes as selected when they exist in the querystring" <| fun _ ->
+      let vocabs = [{Property = "vocab"
+                     Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri1"}
+                                                     Term {t with Uri = uri "http://testing.com/Uri2"}]}}]
 
-  let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
+      let html = startServerWith {baseConfig with Vocabs = vocabs}
+                 |> getQuery "/qs/search" "vocab=http%3A%2F%2Ftesting.com%2FUri2"
 
-  test <@ html |> CQ.select "input[checked]" |> CQ.length = 0 @>
+      let selectedCheckboxes = html |> CQ.select "input[checked]"
 
-[<Test>]
-let ``Should present the vocabulary term checkboxes as selected when they exist in the querystring`` () =
+      test <@ selectedCheckboxes |> CQ.length = 1 @>
+      test <@ selectedCheckboxes |> CQ.first |> CQ.attr "value" = "http://testing.com/Uri2" @>
 
-  let vocabs = [{Property = "vocab"
-                 Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri1"}
-                                                 Term {t with Uri = uri "http://testing.com/Uri2"}]}}]
+    testCase "Should have an apply filters button" <| fun _ -> 
+      let searchButtonLabel =
+        startServerWith baseConfig
+        |> get "/qs"
+        |> CQ.select ":submit"
+        |> CQ.attr "Value"
+      test <@ searchButtonLabel = "Apply filters" @>
 
-  let html = startServerWith {baseConfig with Vocabs = vocabs}
-             |> getQuery "/qs/search" "vocab=http%3A%2F%2Ftesting.com%2FUri2"
+    testCase "Should present the vocabulary collapsed by default" <| fun _ -> 
+      let vocabs = [{Property = ""
+                     Root = Term {t with Children = []}}]
 
-  let selectedCheckboxes = html |> CQ.select "input[checked]"
+      let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
 
-  test <@ selectedCheckboxes |> CQ.length = 1 @>
-  test <@ selectedCheckboxes |> CQ.first |> CQ.attr "value" = "http://testing.com/Uri2" @>
+      let accordians = html |> CQ.select ".accordion.closed"
 
-[<Test>]
-let ``Should have search button`` () =
-  let searchButtonLabel =
-    startServerWith baseConfig
-    |> get "/qs"
-    |> CQ.select ":submit"
-    |> CQ.attr "Value"
-  test <@ searchButtonLabel = "Apply filters" @>
+      test <@ accordians |> CQ.length = 1 @>
 
-[<Test>]
-let ``Should present the vocabulary collapsed by default`` () =
+    testCase "Should present the vocabulary expanded if vocabulary term is in querystring filters" <| fun _ ->
+      let vocabs = [{Property = "vocab:1"
+                     Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri#Term"}]}}
+                    {Property = "vocab:2"
+                     Root = Term t}]
 
-  let vocabs = [{Property = ""
-                 Root = Term {t with Children = []}}]
+      let qsWithOneFilter = "vocab%3A1=http%3A%2F%2Ftesting.com%2FUri%23Term"
 
-  let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
+      let html = startServerWith {baseConfig with Vocabs = vocabs}
+                 |> getQuery "/qs/search" qsWithOneFilter
 
-  let accordians = html |> CQ.select ".accordion.closed"
-
-  test <@ accordians |> CQ.length = 1 @>
-
-[<Test>]
-let ``Should present the vocabulary expanded if vocabulary term is in querystring filters`` () =
-
-  let vocabs = [{Property = "vocab:1"
-                 Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri#Term"}]}}
-                {Property = "vocab:2"
-                 Root = Term t}]
-
-  let qsWithOneFilter = "vocab%3A1=http%3A%2F%2Ftesting.com%2FUri%23Term"
-
-  let html = startServerWith {baseConfig with Vocabs = vocabs}
-             |> getQuery "/qs/search" qsWithOneFilter
-
-  test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>
+      test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>
+  ]

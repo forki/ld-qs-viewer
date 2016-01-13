@@ -31,7 +31,7 @@ let GetKBCount testing =
     Http.RequestString(url)
   with
     ex ->
-      printf "%s" (ex.ToString())
+      printf "%s\n" (ex.ToString())
       ""
 
 let RunElasticQuery testing (query: string) =
@@ -45,7 +45,7 @@ let RunElasticQuery testing (query: string) =
     Http.RequestString(url, body = TextRequest query)
   with
     | ex ->
-      printf "%s" (ex.ToString())
+      printf "%s\n" (ex.ToString())
       ""
 
 let ParseCountResponse resp =
@@ -54,7 +54,7 @@ let ParseCountResponse resp =
     json.Count
   with
     | ex ->
-      printf "%s" (ex.ToString())
+      printf "%s\n" (ex.ToString())
       0
 
 let ParseResponse response =
@@ -80,7 +80,7 @@ let ParseResponse response =
     json.Hits.Hits |> Seq.map createResult |> Seq.toList
   with
     | ex ->
-      printf "%s" (ex.ToString())
+      printf "%s\n" (ex.ToString())
       []
 
 let GetSearchResults runSearch testing query =

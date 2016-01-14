@@ -1,4 +1,4 @@
-module Viewer.AnnotationTool
+module Viewer.Pages.AnnotationTool
 
 open Suave
 open Suave.Types
@@ -13,7 +13,7 @@ type AnnotationToolModel = {
   blah2 : AnnotationBlockModel
 }
 
-let annotationTool (req:HttpRequest) config (convert:bool) =
+let page (req:HttpRequest) config (convert:bool) =
 
   {blah1 = AnnotationSidebar.createModel req config.Vocabs
    blah2 = AnnotationBlock.createModel req config.Vocabs convert}

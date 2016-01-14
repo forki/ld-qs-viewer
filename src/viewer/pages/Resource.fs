@@ -1,4 +1,4 @@
-module Viewer.Resource
+module Viewer.Pages.Resource
 
 open Suave
 open Suave.Types
@@ -9,13 +9,12 @@ type ResourceModel = {
   Content : string
 }
 
-
-let artifacts testing filename =
+let private artifacts testing filename =
   match testing with
     | true -> sprintf "/test_artifacts/published/qualitystandards/%s" filename
     | false -> sprintf "/artifacts/published/qualitystandards/%s" filename
 
-let resource (request:HttpRequest) filename =
+let page (request:HttpRequest) filename =
   let testing = request.cookies |> Map.containsKey "test"
   let content =
     try

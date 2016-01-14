@@ -57,9 +57,9 @@
     <Compile Include="components\annotationsidebar\Main.fs" />
     <Compile Include="components\annotationblock\Main.fs" />
     <Compile Include="AppConfig.fs" />
-    <Compile Include="Home.fs" />
-    <Compile Include="AnnotationTool.fs" />
-    <Compile Include="Resource.fs" />
+    <Compile Include="pages\Home.fs" />
+    <Compile Include="pages\AnnotationTool.fs" />
+    <Compile Include="pages\Resource.fs" />
     <Compile Include="App.fs" />
     <None Include="Script.fsx" />
     <None Include="RunServer.fsx" />

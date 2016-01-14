@@ -1,4 +1,4 @@
-module Viewer.Home
+module Viewer.Pages.Home
 
 open Suave
 open Suave.Types
@@ -14,7 +14,7 @@ type HomeModel = {
   blah: SearchResultsModel
 }
 
-let home (req:HttpRequest) config showOverview =
+let page (req:HttpRequest) config showOverview =
   let testing = req.cookies |> Map.containsKey "test"
 
   {Sidebar = Sidebar.createModel req config.Vocabs testing

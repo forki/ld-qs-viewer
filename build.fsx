@@ -112,9 +112,16 @@ Target "CopyBinaries" (fun _ ->
     |>  Seq.iter (fun (fromDir, toDir) -> CopyDir toDir fromDir (fun _ -> true))
 )
 
+Target "CopyClientScripts" (fun _ ->
+    !! "src/viewer/components/**/client/"
+    |>  Seq.map (fun f -> (f, replace "src/viewer" "bin/viewer/web/qs" f))
+    |>  Seq.iter (fun (fromDir, toDir) ->
+                    printf "copying %s to %s" fromDir toDir
+                    CopyDir toDir fromDir (fun _ -> true))
+)
+
 // --------------------------------------------------------------------------------------
 // Clean build results
-
 Target "Clean" (fun _ ->
     CleanDirs ["bin"; "temp"]
 )
@@ -339,6 +346,7 @@ Target "All" DoNothing
   ==> "AssemblyInfo"
   ==> "Build"
   ==> "CopyBinaries"
+  ==> "CopyClientScripts"
   ==> "RunTests"
   ==> "All"
 

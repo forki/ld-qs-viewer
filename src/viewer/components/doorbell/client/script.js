@@ -22,5 +22,4 @@
     function ShowDoorbellForm() {
         doorbell.show();
     }
-
 })();

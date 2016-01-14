@@ -9,8 +9,16 @@ open Viewer.VocabGeneration
 open Viewer.Tests.Utils
 open FSharp.RDF
 
+
+let vocabs = [{Property = "vocab:property";
+                      Root = Term {t with Label = "Vocab Label";
+                                         Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
+                                                     Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}}]
 [<Tests>]
 let tests =
+
+
+
   setTemplatesDir "src/viewer/bin/Release/"
 
   testList "Annotation block component" [
@@ -28,4 +36,13 @@ let tests =
                  |> CQ.text
 
       test <@ yaml = "Vocab Label:\n  - \"Term1\"\n  - \"Term2\"\n" @>
+
+    testCase "Should produce error upon no vocabulary selection" <| fun _ ->
+      let errorMessage = startServerWith {baseConfig with Vocabs = vocabs}
+                         |> getQuery "/annotationtool/toyaml" ""
+                         |> CQ.select ".message"
+                         |> CQ.text
+
+      test <@ errorMessage = "Please select an annotation from vocabulary." @>
+
   ]

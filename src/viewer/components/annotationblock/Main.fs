@@ -21,26 +21,26 @@ let private serialiseYaml (selected:LabelledFilter list) =
   |> Seq.groupBy(fun g -> g.VocabLabel)
   |> Seq.fold (fun acc section -> createYamlVocabSection acc section) ""
 
+let private getVocabLabel (filter:Filter) vocabs =
+    let v = vocabs |> List.find (fun v -> v.Property = (System.Uri.UnescapeDataString filter.Vocab))
+    match v.Root with
+        | Empty -> {VocabLabel = ""; TermUri = filter.TermUri}
+        | Term t -> {VocabLabel = t.Label + ":"; TermUri = filter.TermUri}
 
+ 
 let createModel (req:HttpRequest) vocabs convert =
   match convert with
     | true ->
-      let getVocabLabel (filter:Filter) =
-        let v = vocabs |> List.find (fun v -> v.Property = (System.Uri.UnescapeDataString filter.Vocab))
-        match v.Root with
-            | Empty -> {VocabLabel = ""; TermUri = filter.TermUri}
-            | Term t -> {VocabLabel = t.Label + ":"; TermUri = filter.TermUri}
+        if (req.rawQuery <> "") then
+            let filters = extractFilters req.query
+            let yaml =
+                filters
+                |> List.map (fun f -> getVocabLabel f vocabs)
+                |> serialiseYaml
 
-      if (req.rawQuery <> "") then
-        let filters = extractFilters req.query
-        let yaml =
-            filters
-            |> List.map (fun f -> getVocabLabel f)
-            |> serialiseYaml
-
-        {AnnotationBlock = yaml; ErrorMessage = ""}
-      else
-          {AnnotationBlock = ""; ErrorMessage = "Please select an annotation from vocabulary."}
+            {AnnotationBlock = yaml; ErrorMessage = ""}
+        else
+            {AnnotationBlock = ""; ErrorMessage = "Please select an annotation from vocabulary."}
 
     | false ->
       {AnnotationBlock = ""; ErrorMessage = ""}

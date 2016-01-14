@@ -8,9 +8,9 @@ open Suave.Types
 open Suave.Testing
 open Suave.Http.Applicatives
 open Viewer.App
+open Viewer.AppConfig
 open Viewer.Types
 open Viewer.VocabGeneration
-open Viewer.Model
 open FSharp.RDF
 open CsQuery
 

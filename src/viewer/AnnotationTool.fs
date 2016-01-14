@@ -2,9 +2,8 @@ module Viewer.AnnotationTool
 
 open Suave
 open Suave.Types
-open Viewer.Model
 open Viewer.Utils
-open Viewer.VocabGeneration
+open Viewer.AppConfig
 open Viewer.Components
 open Viewer.Components.AnnotationSidebar
 open Viewer.Components.AnnotationBlock

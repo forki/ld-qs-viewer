@@ -11,7 +11,6 @@ open Suave.Cookie
 open Suave.Log
 open Suave.Utils
 open Viewer.Types
-open Viewer.Search
 open Viewer.Resource
 open Viewer.Home
 open FSharp.Data
@@ -24,8 +23,8 @@ let setTemplatesDir path =
 let createApp config =
   choose
     [ GET >>= choose
-        [path "/qs" >>= request(fun req -> home req config)
-         path "/qs/search" >>= request(fun req -> search req config)
+        [path "/qs" >>= request(fun req -> home req config true)
+         path "/qs/search" >>= request(fun req -> home req config false)
          pathScan "/qualitystandards/%s" (fun (filename) ->
                                           request  (fun req -> resource req filename))
          path "/annotationtool" >>= request(fun req -> annotationTool req config false)

@@ -2,7 +2,6 @@
 #r "Suave.dll"
 #r "Suave.DotLiquid.dll"
 #r "viewer.dll"
-#r "FSharp.RDF.dll"
 
 open Suave
 open Suave.Http.Successful
@@ -10,44 +9,17 @@ open Suave.Web
 open Suave.Http
 open Suave.Types
 open Viewer.App
-open Viewer.Types
-open Viewer.Elastic
-open Viewer.VocabGeneration
-open FSharp.RDF
+open Viewer.AppConfig
 
-let devMode = fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev"
-
-let getSearchFunc () =
-  match devMode with
-    | true ->
-      printf "RUNNING DEV MODE: Using stubbed data\n"
-      Stubs.getSearchResults
-    | false -> GetSearchResults RunElasticQuery
-
-let getVocabsFunc () =
-  match devMode with
-    | true ->
-      printf "RUNNING DEV MODE: Using stubbed data\n"
-      Stubs.vocabs
-    | false -> readVocabsFromFiles ()
-
-let getKBCountFunc () =
-  match devMode with
-    | true ->
-      printf "RUNNING DEV MODE: Using empty KB Count"
-      Stubs.getKBCount
-    | false ->
-      KnowledgeBaseCount
+let mode = if fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev" then Mode.Dev else Mode.Prod
 
 
-let templatePath = System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer")
-setTemplatesDir templatePath
+setTemplatesDir (System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer"))
+
 let defaultConfig = { defaultConfig with
                                     bindings = [ HttpBinding.mk' HTTP "0.0.0.0" 8083 ]
                                     homeFolder = Some (__SOURCE_DIRECTORY__ + "/web")}
 
-printf "Running with config:\n%A\n" defaultConfig
-startWebServer defaultConfig (createApp {Vocabs=getVocabsFunc()
-                                         GetSearchResults=getSearchFunc()
-                                         GetKBCount=getKBCountFunc()})
-printf "Server stopped\n"
+//printf "Running with server config:\n%A\n" defaultConfig
+let appConfig = getAppConfig mode
+startWebServer defaultConfig (createApp appConfig)

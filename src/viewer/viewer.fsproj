@@ -56,9 +56,8 @@
     <Compile Include="components\searchresults\Main.fs" />
     <Compile Include="components\annotationsidebar\Main.fs" />
     <Compile Include="components\annotationblock\Main.fs" />
-    <Compile Include="Model.fs" />
+    <Compile Include="AppConfig.fs" />
     <Compile Include="Home.fs" />
-    <Compile Include="Search.fs" />
     <Compile Include="AnnotationTool.fs" />
     <Compile Include="Resource.fs" />
     <Compile Include="App.fs" />

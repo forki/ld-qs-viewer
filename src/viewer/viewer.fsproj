@@ -50,8 +50,8 @@
     <Compile Include="Utils.fs" />
     <Compile Include="VocabGeneration.fs" />
     <Compile Include="Stubs.fs" />
-    <Compile Include="Queries.fs" />
-    <Compile Include="Elastic.fs" />
+    <Compile Include="data\search\Queries.fs" />
+    <Compile Include="data\search\Elastic.fs" />
     <Compile Include="components\sidebar\Main.fs" />
     <Compile Include="components\searchresults\Main.fs" />
     <Compile Include="components\annotationsidebar\Main.fs" />

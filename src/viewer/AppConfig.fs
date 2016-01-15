@@ -1,7 +1,7 @@
 module Viewer.AppConfig
 
 open Viewer.Types
-open Viewer.Elastic
+open Viewer.Data.Search.Elastic
 open Viewer.VocabGeneration
 open FSharp.RDF
 

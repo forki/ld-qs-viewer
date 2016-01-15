@@ -1,4 +1,4 @@
-module Viewer.Queries
+module Viewer.Data.Search.Queries
 
 // Elasticsearch query fragments go here
 

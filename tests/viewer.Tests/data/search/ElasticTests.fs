@@ -2,7 +2,7 @@ module Viewer.Tests.ElasticTests
 
 open Fuchu
 open Swensen.Unquote
-open Viewer.Elastic
+open Viewer.Data.Search.Elastic
 open Viewer.Types
 
 [<Tests>]

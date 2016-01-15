@@ -1,8 +1,8 @@
-module Viewer.Elastic
+module Viewer.Data.Search.Elastic
 
 open Viewer.Utils
 open Viewer.Types
-open Viewer.Queries
+open Viewer.Data.Search.Queries
 open System
 open FSharp.Data
 open System.Text.RegularExpressions
@@ -50,7 +50,7 @@ let RunElasticQuery testing (query: string) =
 
 let ParseCountResponse resp =
   try
-    let json = JsonProvider<"elasticCountSchema.json">.Parse(resp)
+    let json = JsonProvider<"data/search/elasticCountSchema.json">.Parse(resp)
     json.Count
   with
     | ex ->
@@ -70,13 +70,13 @@ let ParseResponse response =
     with
       | ex -> url
 
-  let createResult (hit:JsonProvider<"elasticResponseSchema.json">.Hit) =
+  let createResult (hit:JsonProvider<"data/search/elasticResponseSchema.json">.Hit) =
     {Uri = chopPath hit.Source.Id;
      Abstract = hit.Source.HttpLdNiceOrgUkNsQualitystandardAbstract;
      Title = hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle}
 
   try
-    let json = JsonProvider<"elasticResponseSchema.json">.Parse(response)
+    let json = JsonProvider<"data/search/elasticResponseSchema.json">.Parse(response)
     json.Hits.Hits |> Seq.map createResult |> Seq.toList
   with
     | ex ->

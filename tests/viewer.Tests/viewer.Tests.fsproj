@@ -56,7 +56,7 @@
   <ItemGroup>
     <Folder Include="..\..\src\viewer\templates\" />
     <Compile Include="Utils.fs" />
-    <Compile Include="ElasticTests.fs" />
+    <Compile Include="data\search\ElasticTests.fs" />
     <Compile Include="UtilsTests.fs" />
     <Compile Include="components\sidebar\Tests.fs" />
     <Compile Include="components\searchresults\Tests.fs" />

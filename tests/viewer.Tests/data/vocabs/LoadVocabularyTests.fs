@@ -1,9 +1,9 @@
-module Viewer.Tests.LoadVocabularyTests
+module Viewer.Tests.Data.Vocabs.LoadVocabularyTests
 
 open Fuchu
 open Swensen.Unquote
 open FSharp.RDF
-open Viewer.VocabGeneration
+open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Types
 
 let graph = """@base <http://ld.nice.org.uk/ns/qualitystandard/setting>.

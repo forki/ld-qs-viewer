@@ -2,7 +2,7 @@ module Viewer.AppConfig
 
 open Viewer.Types
 open Viewer.Data.Search.Elastic
-open Viewer.VocabGeneration
+open Viewer.Data.Vocabs.VocabGeneration
 open FSharp.RDF
 
 type Mode =

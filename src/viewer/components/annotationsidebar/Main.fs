@@ -3,7 +3,7 @@ module Viewer.Components.AnnotationSidebar
 open Suave
 open Suave.Types
 open Viewer.Utils
-open Viewer.VocabGeneration
+open Viewer.Data.Vocabs.VocabGeneration
 
 type AnnotationSidebarModel = {
   Vocabularies: ViewVocab list

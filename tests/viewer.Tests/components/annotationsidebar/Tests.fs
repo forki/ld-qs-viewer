@@ -5,7 +5,7 @@ open Suave.DotLiquid
 open Fuchu
 open Swensen.Unquote
 open Viewer.Types
-open Viewer.VocabGeneration
+open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Tests.Utils
 open FSharp.RDF
 

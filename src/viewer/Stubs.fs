@@ -1,6 +1,6 @@
 module Stubs
 open Viewer.Types
-open Viewer.VocabGeneration
+open Viewer.Data.Vocabs.VocabGeneration
 open FSharp.RDF
 
 let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")

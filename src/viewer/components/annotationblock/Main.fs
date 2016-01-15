@@ -4,7 +4,7 @@ open Suave
 open Suave.Types
 open Viewer.Utils
 open Viewer.Types
-open Viewer.VocabGeneration
+open Viewer.Data.Vocabs.VocabGeneration
 
 type AnnotationBlockModel = {
   AnnotationBlock : string

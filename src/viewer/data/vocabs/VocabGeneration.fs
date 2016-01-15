@@ -1,4 +1,4 @@
-module Viewer.VocabGeneration
+module Viewer.Data.Vocabs.VocabGeneration
 
 open FSharp.RDF
 open Viewer.Types

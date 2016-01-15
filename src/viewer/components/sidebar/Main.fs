@@ -4,7 +4,7 @@ open Suave
 open Suave.Types
 open Suave.Cookie
 open Viewer.Utils
-open Viewer.VocabGeneration
+open Viewer.Data.Vocabs.VocabGeneration
 
 type SidebarModel = {
   Vocabularies: ViewVocab list

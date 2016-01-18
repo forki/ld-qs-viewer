@@ -2023,7 +2023,7 @@ a.card:hover .card-excerpt {
   width: 100%;
 }
 .button-group .button {
-  width: 50%;
+  width: 100%; /* was 50% */
   display: block;
   float: left;
   line-height: 24px;

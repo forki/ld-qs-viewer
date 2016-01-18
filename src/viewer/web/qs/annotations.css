@@ -2016,6 +2016,7 @@ a.card:hover .card-excerpt {
   }
 }
 .button-group {
+  z-index: 400;
   position: fixed;
   bottom: 0;
   left: auto;

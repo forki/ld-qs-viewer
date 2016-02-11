@@ -29,6 +29,7 @@ let baseConfig = {
   Vocabs = []
   GetSearchResults = (fun _ _ -> [])
   GetKBCount = (fun _ -> 0)
+  HotjarId = ""
 }
 
 let startServerWith config =

@@ -63,6 +63,7 @@
     <Compile Include="components\searchresults\Tests.fs" />
     <Compile Include="components\annotationsidebar\Tests.fs" />
     <Compile Include="components\annotationblock\Tests.fs" />
+    <Compile Include="components\hotjar\Tests.fs" />
     <Compile Include="ResourcePageTests.fs" />
     <Compile Include="Program.fs" />
     <None Include="paket.references" />

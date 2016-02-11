@@ -1,9 +1,9 @@
 module Viewer.Components.Hotjar
 
 type HotjarModel = {
-    Id: int
+    Id: string
 }
 
-let createModel () =
-    {Id = 1234}
+let createModel id =
+    {Id =id} 
 

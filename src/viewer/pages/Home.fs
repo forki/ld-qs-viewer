@@ -21,6 +21,6 @@ let page (req:HttpRequest) config showOverview =
 
   {Sidebar = Sidebar.createModel req config.Vocabs testing
    blah = SearchResults.createModel req config.GetSearchResults config.GetKBCount showOverview testing
-   hotjar = Hotjar.createModel ()
+   hotjar = Hotjar.createModel config.HotjarId 
    }
   |> DotLiquid.page "templates/home.html"

@@ -9,9 +9,10 @@ open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Tests.Utils
 open FSharp.RDF
 
+let hotjarId = "12344"
+
 [<Tests>]
 let tests =
-    setTemplatesDir "src/viewer/bin/Release/"
 
     testList "The knowledgebase site" [
 
@@ -21,4 +22,12 @@ let tests =
           |> get "/qs"
           |> CQ.select "script[id='hotjar']"
         test <@ script |> CQ.length = 1 @>
+
+      testCase "Should contain HotJar Id" <| fun _ ->
+        let script =
+          startServerWith { baseConfig with HotjarId = hotjarId} 
+          |> get "/qs"
+          |> CQ.select "script[id='hotjar']"
+          |> CQ.text
+        test <@ script.Contains hotjarId @>
     ]

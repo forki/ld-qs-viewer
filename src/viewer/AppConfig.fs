@@ -1,5 +1,6 @@
 module Viewer.AppConfig
 
+open System
 open Viewer.Types
 open Viewer.Data.Search.Elastic
 open Viewer.Data.Vocabs.VocabGeneration
@@ -23,9 +24,9 @@ let getAppConfig mode =
     {Vocabs = Stubs.vocabs
      GetSearchResults = Stubs.getSearchResults
      GetKBCount = Stubs.getKBCount
-     HotjarId = "152152"}
+     HotjarId = "whoisjaridanyway"}
   | Prod ->
     {Vocabs = readVocabsFromFiles ()
      GetSearchResults = GetSearchResults RunElasticQuery
      GetKBCount = KnowledgeBaseCount
-     HotjarId = "130640"}
+     HotjarId = Environment.GetEnvironmentVariable "HOTJARID"}

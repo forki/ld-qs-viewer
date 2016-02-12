@@ -2,18 +2,33 @@
 <html>
 <head>
   <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="/qs/style.css">
 </head>
 <style>
- code { display: none; }
+    code { display: none; }
 </style>
 
-<body>
-    <div style="box-shadow: 0px 0px 0px 1px #F00 inset;padding: 5px;">
-      {% include "templates/disclaimer.html" %}
-    </div>
-    <div id="resource-content">
-      {{model.Content}}
-    </div>
-    <script src="/qs/components/googleanalytics/client/script.js"></script>
+<body class="app">
+    <nav>
+        <div class="top-hat">
+            <div class="logo"><a href="/qs"><svg width="92" height="30"><image xlink:href="/qs/Images/nice-logo.svg" src="/qs/Images/nice-logo.png" width="92" height="30" /></svg><div class="app-title">BETA  – Quality Statements Discovery Tool</div></a></div>
+        </div>
+    </nav>
+    <main role="main">
+        <div class="main detail" id="content">
+            <div class="card-list-wrapper">
+                <div class="card-list user-styles">
+                <nav><a href="#" onclick="history.go(-1)">← Back to your search results</a></nav>
+                    <div style="banner">
+                        {% include "templates/disclaimer.html" %}
+                    </div>
+                    <div id="resource-content">
+                        {{model.Content}}
+                    </div>
+                    <script src="/qs/components/googleanalytics/client/script.js"></script>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

@@ -1158,6 +1158,28 @@ p {
 		top:0 !important
 	}
 }
+.content-list-wrapper {
+	position:fixed;
+	top:6rem;
+	overflow:auto;
+	bottom:0;
+	left:0;
+	right:0
+}
+@media (min-width:992px) {
+	.content-list-wrapper {
+		top:4.5rem
+	}
+}
+.detail .content-list-wrapper {
+	position:relative;
+	top:0 !important
+}
+@media (min-width:992px) {
+	.detail .content-list-wrapper {
+		top:0 !important
+	}
+}
 .card-list {
 	display:block;
 	margin-left:auto;
@@ -2422,6 +2444,14 @@ ul.checkbox-list ul li:before {
 }
 @media (min-width:992px) {
 	.detail .card-list-wrapper {
+		top:4.5rem
+	}
+}
+.detail .content-list-wrapper {
+	top:3rem
+}
+@media (min-width:992px) {
+	.detail .content-list-wrapper {
 		top:4.5rem
 	}
 }

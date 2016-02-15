@@ -123,7 +123,7 @@ Target "CopyClientScripts" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Clean build results
 Target "Clean" (fun _ ->
-    CleanDirs ["bin"; "temp"]
+    CleanDirs ["bin"]
 )
 
 Target "CleanDocs" (fun _ ->
@@ -343,7 +343,6 @@ Target "BuildPackage" DoNothing
 Target "All" DoNothing
 
 "Clean"
-  ==> "AssemblyInfo"
   ==> "Build"
   ==> "CopyBinaries"
   ==> "CopyClientScripts"

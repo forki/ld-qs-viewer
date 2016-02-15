@@ -1145,7 +1145,7 @@ p {
 }
 @media (min-width:992px) {
 	.card-list-wrapper {
-		margin-left:360px;
+    margin-left: 360px;
 		top:4.5rem
 	}
 }

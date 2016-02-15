@@ -56,6 +56,7 @@
     <Compile Include="components\searchresults\Main.fs" />
     <Compile Include="components\annotationsidebar\Main.fs" />
     <Compile Include="components\annotationblock\Main.fs" />
+    <Compile Include="components\hotjar\Main.fs" />
     <Compile Include="AppConfig.fs" />
     <Compile Include="pages\Home.fs" />
     <Compile Include="pages\AnnotationTool.fs" />
@@ -130,6 +131,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="components\annotationblock\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="components\hotjar\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\checkbox.html">

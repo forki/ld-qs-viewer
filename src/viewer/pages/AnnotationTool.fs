@@ -1,7 +1,6 @@
 module Viewer.Pages.AnnotationTool
 
 open Suave
-open Suave.Types
 open Viewer.Utils
 open Viewer.AppConfig
 open Viewer.Components

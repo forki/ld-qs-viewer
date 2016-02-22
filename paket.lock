@@ -14,7 +14,7 @@ NUGET
     FSharp.RDF (1.1.97)
     FSharpVSPowerTools.Core (2.1.0)
       FSharp.Compiler.Service (>= 1.4.0.6)
-    Fuchu (1.0.1)
+    Fuchu (1.0.3)
       FSharp.Core (>= 3.1.2.1)
     Microsoft.Bcl (1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
@@ -22,23 +22,23 @@ NUGET
     Microsoft.Net.Http (2.2.29)
       Microsoft.Bcl (>= 1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
-    Octokit (0.16.0)
+    Octokit (0.18.0)
       Microsoft.Net.Http
     SourceLink.Fake (1.1.0)
-    Suave (0.33.0)
+    Suave (1.1.1)
       FSharp.Core (>= 3.1.2.5)
-    Suave.DotLiquid (0.33.0)
+    Suave.DotLiquid (1.1.1)
       DotLiquid (>= 1.8.0)
       FSharp.Core (>= 3.1.2.5)
-      Suave (>= 0.33.0)
-    Suave.Testing (0.33.0)
+      Suave (>= 1.1.1)
+    Suave.Testing (1.1.1)
       FSharp.Core (>= 3.1.2.5)
-      Fuchu (>= 0.6.0)
-      Suave (>= 0.33.0)
+      Fuchu (>= 1.0.2)
+      Suave (>= 1.1.1)
     Unquote (3.1.0)
     Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
 GITHUB
   remote: fsharp/FAKE
   specs:
-    modules/Octokit/Octokit.fsx (a5883c6709279102b6dc4a3e273c17ff7ebff887)
+    modules/Octokit/Octokit.fsx (43c4800c5f132d2c2d6832a3a59232a64d83d4c0)
       Octokit

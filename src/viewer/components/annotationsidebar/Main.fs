@@ -1,7 +1,6 @@
 module Viewer.Components.AnnotationSidebar
 
 open Suave
-open Suave.Types
 open Viewer.Utils
 open Viewer.Data.Vocabs.VocabGeneration
 

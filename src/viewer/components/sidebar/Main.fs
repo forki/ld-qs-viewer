@@ -1,7 +1,6 @@
 module Viewer.Components.Sidebar
 
 open Suave
-open Suave.Types
 open Suave.Cookie
 open Viewer.Utils
 open Viewer.Data.Vocabs.VocabGeneration

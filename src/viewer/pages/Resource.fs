@@ -1,7 +1,6 @@
 module Viewer.Pages.Resource
 
 open Suave
-open Suave.Types
 open Suave.Cookie
 open System.IO
 

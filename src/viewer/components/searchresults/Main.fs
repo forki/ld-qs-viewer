@@ -1,7 +1,6 @@
 module Viewer.Components.SearchResults
 
 open Suave
-open Suave.Types
 open Viewer.Utils
 open Viewer.Types
 open Viewer.Data.Search.Elastic

@@ -1,12 +1,12 @@
 module Viewer.Tests.Components.Sidebar.Tests
 
 open Suave
-open Suave.DotLiquid
 open Fuchu
 open Swensen.Unquote
 open Viewer.Types
 open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Tests.Utils
+open Viewer.SuaveExtensions
 open FSharp.RDF
 
 [<Tests>]

@@ -23,3 +23,10 @@ let page (req:HttpRequest) config showOverview =
    hotjar = Hotjar.createModel config.HotjarId 
    }
   |> DotLiquid.page "templates/home.html"
+
+let template (req:HttpRequest) config showOverview =
+  [Hotjar.Build config.HotjarId]
+  |> Seq.fold (fun acc comp -> acc + comp) ""
+  |> Successful.OK
+   
+

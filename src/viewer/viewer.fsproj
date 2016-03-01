@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Types.fs" />
     <Compile Include="Utils.fs" />
+    <Compile Include="SuaveExtensions.fs" />
     <Compile Include="data\vocabs\VocabGeneration.fs" />
     <Compile Include="Stubs.fs" />
     <Compile Include="data\search\Queries.fs" />

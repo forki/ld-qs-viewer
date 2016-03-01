@@ -121,6 +121,7 @@ type Vocabulary = {
 }
 
 let readVocabsFromFiles () =
+  printf "reading vocabs"
   try
     [
       {

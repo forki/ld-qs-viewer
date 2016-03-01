@@ -1,11 +1,11 @@
 module Viewer.Tests.Components.SearchResults.Tests
 
 open Suave
-open Suave.DotLiquid
 open Fuchu
 open Swensen.Unquote
 open Viewer.Types
 open Viewer.Tests.Utils
+open Viewer.SuaveExtensions
 
 [<Tests>]
 let tests =

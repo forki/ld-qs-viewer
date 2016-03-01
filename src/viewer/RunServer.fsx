@@ -1,11 +1,11 @@
 #I "../viewer/bin/Release"
 #r "Suave.dll"
-#r "Suave.DotLiquid.dll"
 #r "viewer.dll"
 
 open Suave
 open Suave.Web
 open Suave.Http
+open Viewer.SuaveExtensions
 open Viewer.App
 open Viewer.AppConfig
 

@@ -19,7 +19,7 @@ let tests =
                 ("vocab2", Some("uri2"))]
       let filters = extractFilters qs
 
-      test <@ filters = [{Vocab = "vocab"; TermUri = "uri1"}
+      test <@ filters = [{Vocab = "vocab1"; TermUri = "uri1"}
                          {Vocab = "vocab2"; TermUri = "uri2"}] @>
 
     testCase "aggregateQueryStringValues should group by keys" <| fun _ ->

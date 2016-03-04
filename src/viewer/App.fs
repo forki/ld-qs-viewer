@@ -13,7 +13,6 @@ let buildPath pathLocation =
 let createApp config =
   choose
         [GET >=> buildPath "/qs" >=> request(fun req -> Home.page req config true)
-         GET >=> buildPath "/test" >=> request(fun req -> Home.template req config true)
          GET >=> path "/qs/search" >=> request(fun req -> Home.page req config false)
          GET >=> pathScan "/qualitystandards/%s" (fun (filename) -> request  (fun req -> Resource.page req filename))
          GET >=> buildPath "/annotationtool" >=> request(fun req -> AnnotationTool.page req config false)

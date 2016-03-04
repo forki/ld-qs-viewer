@@ -95,6 +95,7 @@ let mutable private templatesDir = None
 /// The current directory is a global variable and so it should not change between 
 /// multiple HTTP requests. This is a DotLiquid limitation.
 let setTemplatesDir dir =
+  Suave.DotLiquid.setTemplatesDir dir
   if templatesDir <> Some dir then
     templatesDir <- Some dir
     safe (fun () -> Template.FileSystem <- localFileSystem dir)

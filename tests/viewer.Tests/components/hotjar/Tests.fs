@@ -1,14 +1,10 @@
 module Viewer.Tests.Components.HotJar.Tests
 
-open Suave
 open Fuchu
 open Swensen.Unquote
-open Viewer.Types
-open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Tests.Utils
 open Viewer.Components.Hotjar
 open Viewer.SuaveExtensions
-open FSharp.RDF
 
 [<Tests>]
 let tests =
@@ -18,7 +14,7 @@ let tests =
 
       testCase "Should contain the hotjar script for heat map tracking" <| fun _ ->
         let script =
-          Build "notused"
+          render "notused"
           |> parseHtml
           |> CQ.select "script[id='hotjar']"
         test <@ script |> CQ.length = 1 @>
@@ -26,7 +22,7 @@ let tests =
       testCase "Should contain HotJar Id" <| fun _ ->
         let hotjarId = "12345"
         let script =
-          Build hotjarId
+          render hotjarId
           |> parseHtml
           |> CQ.select "script[id='hotjar']"
           |> CQ.text

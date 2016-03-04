@@ -9,5 +9,5 @@ type HotjarModel = {
 let createModel id =
     {Id =id} 
 
-let Build id = 
+let render id = 
   template "components/hotjar/index.html" {Id = id}

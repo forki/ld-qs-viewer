@@ -6,6 +6,7 @@ open Swensen.Unquote
 open Viewer.Types
 open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Tests.Utils
+open Viewer.Components.Sidebar
 open Viewer.SuaveExtensions
 open FSharp.RDF
 
@@ -17,8 +18,8 @@ let tests =
 
     testCase "Should add form with search action" <| fun _ ->
       let action =
-        startServerWith baseConfig
-        |> get "/qs"
+        render [] [] false
+        |> parseHtml
         |> CQ.select "form"
         |> CQ.attr "action"
       test <@ action = "/qs/search" @>
@@ -28,7 +29,7 @@ let tests =
                      Root = Term {t with Label = "Vocab 1"
                                          Children = [Term {t with Label = "Term1"; Uri = uri "http://testing.com/Uri1"}]}}]
 
-      let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
+      let html = render [] vocabs false |> parseHtml
 
       let vocabs = html |> CQ.select ".vocab"
 
@@ -47,7 +48,7 @@ let tests =
                      Root = Term {t with Children = [Term t
                                                      Term t]}}]
 
-      let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
+      let html = render [] vocabs false |> parseHtml
 
       test <@ html |> CQ.select "input[type='checkbox']" |> CQ.select ".term" |> CQ.length = 2 @>
 
@@ -55,7 +56,7 @@ let tests =
       let vocabs = [{Property = ""
                      Root = Term {t with Children = [Term t]}}]
     
-      let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
+      let html = render [] vocabs false |> parseHtml
     
       test <@ html |> CQ.select "input[checked]" |> CQ.length = 0 @>
 
@@ -64,8 +65,8 @@ let tests =
                      Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri1"}
                                                      Term {t with Uri = uri "http://testing.com/Uri2"}]}}]
 
-      let html = startServerWith {baseConfig with Vocabs = vocabs}
-                 |> getQuery "/qs/search" "vocab=http%3A%2F%2Ftesting.com%2FUri2"
+      let qs = [("vocab", Some "http://testing.com/Uri2")]
+      let html = render qs vocabs false |> parseHtml
 
       let selectedCheckboxes = html |> CQ.select "input[checked]"
 
@@ -74,8 +75,8 @@ let tests =
 
     testCase "Should have an apply filters button" <| fun _ -> 
       let searchButtonLabel =
-        startServerWith baseConfig
-        |> get "/qs"
+        render [] [] false
+        |> parseHtml
         |> CQ.select ":submit"
         |> CQ.attr "Value"
       test <@ searchButtonLabel = "Apply filters" @>
@@ -84,7 +85,7 @@ let tests =
       let vocabs = [{Property = ""
                      Root = Term {t with Children = []}}]
 
-      let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/qs"
+      let html = render [] vocabs false |> parseHtml
 
       let accordians = html |> CQ.select ".accordion.closed"
 
@@ -96,10 +97,9 @@ let tests =
                     {Property = "vocab:2"
                      Root = Term t}]
 
-      let qsWithOneFilter = "vocab%3A1=http%3A%2F%2Ftesting.com%2FUri%23Term"
+      let qsWithOneFilter = [("vocab%3A1",Some "http://testing.com/Uri#Term")]
 
-      let html = startServerWith {baseConfig with Vocabs = vocabs}
-                 |> getQuery "/qs/search" qsWithOneFilter
+      let html = render qsWithOneFilter vocabs false |> parseHtml
 
       test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>
   ]

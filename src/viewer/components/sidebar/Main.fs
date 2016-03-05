@@ -1,7 +1,6 @@
 module Viewer.Components.Sidebar
 
-open Suave
-open Suave.Cookie
+open Viewer.SuaveExtensions
 open Viewer.Utils
 open Viewer.Data.Vocabs.VocabGeneration
 
@@ -9,14 +8,13 @@ type SidebarModel = {
   Vocabularies: ViewVocab list
 }
 
-let createModel (req:HttpRequest) actualVocabs testing =
+let private createModel qs actualVocabs testing =
 
   let vocabs =
     match testing with
     | true  -> Stubs.vocabsForTests
     | false -> actualVocabs
 
-  let qs = req.query
   match qs with
     | [("", _)] ->
       {Vocabularies = vocabs |> List.map (fun v -> {Vocab = v; Expanded = false})}
@@ -29,3 +27,7 @@ let createModel (req:HttpRequest) actualVocabs testing =
         |> List.map (fun v -> {Vocab = v; Expanded = shouldExpandVocab v.Property filters})
 
       {Vocabularies = viewVocabs}
+
+let render qs vocabs testing =
+  createModel qs vocabs testing
+  |> template "components/sidebar/index.html"

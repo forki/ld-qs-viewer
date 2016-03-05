@@ -4,6 +4,15 @@ open Suave
 open Viewer.Utils
 open Viewer.Types
 open Viewer.Data.Search.Elastic
+open Viewer.SuaveExtensions
+
+type SearchResultsParameters = {
+  Qs : (string * string option) list
+  GetSearchResults : (bool -> string -> SearchResult list)
+  GetKBCount : (bool -> int)
+  ShowOverview : bool
+  Testing : bool
+}
 
 type SearchResultsModel = {
   Results: SearchResult list
@@ -12,21 +21,24 @@ type SearchResultsModel = {
   ShowHelp : bool
 }
 
-let createModel (req:HttpRequest) getSearchResults getKBCount showOverview testing =
-
-  let qs = req.query
-  match qs with
+let createModel args = 
+  match args.Qs with
     | [("", _)] ->
       {Results = []
        Tags = []
-       totalCount = if showOverview then getKBCount testing else 0
-       ShowHelp = if showOverview then true else false}
+       totalCount = if args.ShowOverview then args.GetKBCount args.Testing else 0
+       ShowHelp = if args.ShowOverview then true else false}
     | _ ->
-      let results = qs |> BuildQuery |> getSearchResults testing
-      let filters = extractFilters qs
+      let results = args.Qs |> BuildQuery |> args.GetSearchResults args.Testing
+      let filters = extractFilters args.Qs
       let filterTags = createFilterTags filters
 
       {Results = results
        Tags = filterTags
        totalCount = results.Length
        ShowHelp = false}
+
+let render args =
+  args
+  |> createModel
+  |> template "components/searchresults/index.html"

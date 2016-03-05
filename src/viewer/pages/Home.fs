@@ -10,7 +10,6 @@ open Viewer.Components.SearchResults
 open Viewer.Components.Hotjar
 
 type HomeModel = {
-  blah: SearchResultsModel
   Components: string
 }
 
@@ -19,12 +18,15 @@ let page (req:HttpRequest) config showOverview =
 
   let components =
     [Sidebar.render req.query config.Vocabs testing
+     SearchResults.render {Qs=req.query;
+                           GetSearchResults = config.GetSearchResults
+                           GetKBCount = config.GetKBCount
+                           ShowOverview = showOverview
+                           Testing = testing}
      Hotjar.render config.HotjarId]
     |> Seq.fold (fun acc comp -> acc + comp) ""
 
-  {blah = SearchResults.createModel req config.GetSearchResults config.GetKBCount showOverview testing
-   Components = components
-   }
+  {Components = components}
   |> DotLiquid.page "templates/home.html"
 
 

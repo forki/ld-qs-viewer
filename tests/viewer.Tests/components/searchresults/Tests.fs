@@ -1,11 +1,19 @@
 module Viewer.Tests.Components.SearchResults.Tests
 
-open Suave
 open Fuchu
 open Swensen.Unquote
 open Viewer.Types
 open Viewer.Tests.Utils
+open Viewer.Components.SearchResults
 open Viewer.SuaveExtensions
+
+let private defaultArgs = {
+  Qs = []
+  GetSearchResults = (fun _ _ -> [])
+  GetKBCount = (fun _ -> 0)
+  ShowOverview = false
+  Testing = false
+}
 
 [<Tests>]
 let tests =
@@ -15,8 +23,8 @@ let tests =
 
     testCase "Should show message when attempting to search with no filters" <| fun _ ->
       let message =
-        startServerWith baseConfig
-        |> get "/qs/search"
+        render defaultArgs
+        |> parseHtml
         |> CQ.select ".message"
         |> CQ.text 
 
@@ -27,8 +35,8 @@ let tests =
                                   {Uri = "";Abstract = ""; Title = ""}]
       let getKBCount _ = 0
       let results =
-        startServerWith {baseConfig with GetSearchResults=getSearchResults}
-        |> getQuery "/qs/search" "notused=notused"
+        render {defaultArgs with GetSearchResults=getSearchResults; GetKBCount=getKBCount}
+        |> parseHtml
         |> CQ.select ".results > .result"
         |> CQ.length
 
@@ -39,8 +47,8 @@ let tests =
                                   {Uri = "";Abstract = ""; Title = ""}]
 
       let totalCount =
-        startServerWith {baseConfig with GetSearchResults=getSearchResults}
-        |> getQuery "/qs/search" "notused=notused"
+        render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
+        |> parseHtml
         |> CQ.select ".card-list-header > .counter"
         |> CQ.text
       test <@ totalCount = "2 filtered items" @>
@@ -49,8 +57,8 @@ let tests =
       let getKBCount _ = 3
 
       let totalCount =
-        startServerWith {baseConfig with GetKBCount=getKBCount}
-        |> get "/qs"
+        render {defaultArgs with GetKBCount=getKBCount; ShowOverview=true; Qs=[("", Some "")]}
+        |> parseHtml
         |> CQ.select ".counter"
         |> CQ.text
       test <@ totalCount = "Total number of NICE Quality statements: 3" @>
@@ -60,8 +68,8 @@ let tests =
                                   {Uri = "Uri2"; Abstract = "Abstract2"; Title = "Title2"}]
 
       let dom =
-        startServerWith {baseConfig with GetSearchResults=getSearchResults}
-        |> getQuery "/qs/search" "notused=notused"
+        render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
+        |> parseHtml
 
       let abstracts = dom |> CQ.select ".abstract"
 
@@ -79,9 +87,10 @@ let tests =
       test <@ link2 = "Uri2" @>
 
     testCase "Should show active filters as tags with labels" <| fun _ ->
-      let qsWithTwoActiveFilters = "key=http%3A%2F%2Ftesting.com%2FUri%23Term1&key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
+      let qsWithTwoActiveFilters = [("key", Some "http://testing.com/Uri#Term1")
+                                    ("key", Some "http://testing.com/Uri#Term2")]
 
-      let html = startServerWith baseConfig |> getQuery "/qs/search" qsWithTwoActiveFilters
+      let html = render {defaultArgs with Qs=qsWithTwoActiveFilters} |> parseHtml
 
       let tags = html |> CQ.select ".tag-label"
 
@@ -90,9 +99,10 @@ let tests =
       test <@ tags |> CQ.last |> CQ.text = "Term2" @>
 
     testCase "Should show active filters as tags with removal links" <| fun _ ->
-      let qsWithTwoActiveFilters = "key=http%3A%2F%2Ftesting.com%2FUri%23Term1&key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
+      let qsWithTwoActiveFilters = [("key", Some "http://testing.com/Uri#Term1")
+                                    ("key", Some "http://testing.com/Uri#Term2")]
 
-      let html = startServerWith baseConfig |> getQuery "/qs/search" qsWithTwoActiveFilters
+      let html = render {defaultArgs with Qs=qsWithTwoActiveFilters} |> parseHtml
 
       let tags = html |> CQ.select ".tag-remove-link"
 

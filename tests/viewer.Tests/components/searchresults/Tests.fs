@@ -64,49 +64,50 @@ let tests =
       test <@ totalCount = "Total number of NICE Quality statements: 3" @>
 
     testCase "Should present abstract and link for each result" <| fun _ -> 
-      let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"};
-                                  {Uri = "Uri2"; Abstract = "Abstract2"; Title = "Title2"}]
+      let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"}]
 
-      let dom =
+      let html =
         render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
         |> parseHtml
 
-      let abstracts = dom |> CQ.select ".abstract"
-
+      let abstracts = html |> CQ.select ".abstract"
       let abstract1 = abstracts |> CQ.first |> CQ.text
-      let abstract2 = abstracts |> CQ.last |> CQ.text
+
+      let links = html |> CQ.select ".result > a"
+      let link1 = links |> CQ.first |> CQ.attr "href"
 
       test <@ abstract1 = "Abstract1" @>
-      test <@ abstract2 = "Abstract2" @>
-
-      let links = dom |> CQ.select ".result > a"
-      let link1 = links |> CQ.first |> CQ.attr "href"
-      let link2 = links |> CQ.last |> CQ.attr "href"
-
       test <@ link1 = "Uri1" @>
-      test <@ link2 = "Uri2" @>
 
-    testCase "Should show active filters as tags with labels" <| fun _ ->
+    testCase "Should show multiple active filters when they exist on qs" <| fun _ ->
       let qsWithTwoActiveFilters = [("key", Some "http://testing.com/Uri#Term1")
                                     ("key", Some "http://testing.com/Uri#Term2")]
-
-      let html = render {defaultArgs with Qs=qsWithTwoActiveFilters} |> parseHtml
-
-      let tags = html |> CQ.select ".tag-label"
+      let tags =
+        render {defaultArgs with Qs=qsWithTwoActiveFilters}
+        |> parseHtml
+        |> CQ.select ".tag-label"
 
       test <@ tags |> CQ.length = 2 @>
+    
+    testCase "Should show active filter as tag with label" <| fun _ ->
+      let qs = [("key", Some "http://testing.com/Uri#Term1")]
+
+      let tags =
+        render {defaultArgs with Qs=qs}
+        |> parseHtml
+        |> CQ.select ".tag-label"
+
       test <@ tags |> CQ.first |> CQ.text = "Term1" @>
-      test <@ tags |> CQ.last |> CQ.text = "Term2" @>
 
-    testCase "Should show active filters as tags with removal links" <| fun _ ->
+    testCase "Should show active filter as tag with removal link" <| fun _ ->
       let qsWithTwoActiveFilters = [("key", Some "http://testing.com/Uri#Term1")
                                     ("key", Some "http://testing.com/Uri#Term2")]
 
-      let html = render {defaultArgs with Qs=qsWithTwoActiveFilters} |> parseHtml
+      let tags =
+        render {defaultArgs with Qs=qsWithTwoActiveFilters}
+        |> parseHtml
+        |> CQ.select ".tag-remove-link"
 
-      let tags = html |> CQ.select ".tag-remove-link"
-
-      test <@ tags |> CQ.length = 2 @>
       test <@ tags |> CQ.first |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term2" @>
       test <@ tags |> CQ.last |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term1" @>
   ]

@@ -10,23 +10,32 @@ open Viewer.Components.SearchResults
 open Viewer.Components.Hotjar
 
 type HomeModel = {
-  Components: string
+  Content: string
+  Scripts: string
 }
 
-let page (req:HttpRequest) config showOverview =
+let private buildContent (req:HttpRequest) config showOverview =
   let testing = req.cookies |> Map.containsKey "test"
 
-  let components =
-    [Sidebar.render req.query config.Vocabs testing
-     SearchResults.render {Qs=req.query;
-                           GetSearchResults = config.GetSearchResults
-                           GetKBCount = config.GetKBCount
-                           ShowOverview = showOverview
-                           Testing = testing}
-     Hotjar.render config.HotjarId]
-    |> Seq.fold (fun acc comp -> acc + comp) ""
+  [Sidebar.render req.query config.Vocabs testing
+   SearchResults.render {Qs=req.query
+                         GetSearchResults = config.GetSearchResults
+                         GetKBCount = config.GetKBCount
+                         ShowOverview = showOverview
+                         Testing = testing}
+   Hotjar.render config.HotjarId]
+  |> Seq.fold (fun acc comp -> acc + comp) ""
 
-  {Components = components}
+let private buildScripts =
+  """<script src="/qs/components/sidebar/client/script.js"></script>
+     <script src="/qs/components/doorbell/client/script.js"></script>
+     <script src="/qs/components/nojs/client/script.js"></script>
+     <script src="/qs/components/googleanalytics/client/script.js"></script>"""
+
+let page (req:HttpRequest) config showOverview =
+
+  {Content = buildContent req config showOverview 
+   Scripts = buildScripts}
   |> DotLiquid.page "templates/home.html"
 
 

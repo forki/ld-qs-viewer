@@ -21,3 +21,7 @@ type Tag = {
   RemovalQueryString: string
 }
 
+type Component = {
+  Content : string
+  Script : string
+}

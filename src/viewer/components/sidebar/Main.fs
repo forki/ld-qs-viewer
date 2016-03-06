@@ -31,3 +31,4 @@ let private createModel qs actualVocabs testing =
 let render qs vocabs testing =
   createModel qs vocabs testing
   |> template "components/sidebar/index.html"
+

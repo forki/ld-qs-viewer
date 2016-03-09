@@ -601,3 +601,6 @@
 .ie9 #doorbell-button:before {
     display: none;
 }
+.ie8 .filters-toggle-input~.filter-tools {
+    display:block;
+}

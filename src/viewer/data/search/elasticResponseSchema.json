@@ -1,3 +1,4 @@
+[
 {
   "hits":{
     "hits":[
@@ -6,10 +7,34 @@
         "_source":{
             "@id":"http://ld.nice.org.uk/prov/entity#f178fc5:qualitystandards/qs1/st1/Statement.md",
             "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is an abstract",
-            "http://ld.nice.org.uk/ns/qualitystandard#title": "Quality statement x: Such and such"
+            "http://ld.nice.org.uk/ns/qualitystandard#title": "Quality statement x: Such and such",
+            "qualitystandard:age": "",
+            "qualitystandard:condition": "",
+            "qualitystandard:lifestyleCondition" : "",
+            "qualitystandard:serviceArea": "",
+            "qualitystandard:setting": ""
+        }
+      }
+    ],
+      "total": 3
+}
+},{
+  "hits":{
+    "hits":[
+      {
+        "_id":"qs1_st1",
+        "_source":{
+            "@id":"http://ld.nice.org.uk/prov/entity#f178fc5:qualitystandards/qs1/st1/Statement.md",
+            "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is an abstract",
+            "http://ld.nice.org.uk/ns/qualitystandard#title": "Quality statement x: Such and such",
+            "qualitystandard:age": [],
+            "qualitystandard:condition": [],
+            "qualitystandard:lifestyleCondition" : [],
+            "qualitystandard:serviceArea": [],
+            "qualitystandard:setting": []
         }
       }
     ],
       "total": 3
   }
-}
+}]

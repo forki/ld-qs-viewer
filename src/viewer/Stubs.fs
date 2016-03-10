@@ -18,8 +18,8 @@ let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
                                                 Children = []};]};
               Property = "qualitystandard:setting"}]
 
-let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title"};
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}]
+let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title"; Annotations = ["http://test.org#Annotation1"]};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; Annotations = ["http://test.org#Annotation2"]}]
 
 let vocabsForTests = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
                                     Label = "Settings:"

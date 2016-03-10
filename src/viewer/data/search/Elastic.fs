@@ -57,7 +57,15 @@ let ParseCountResponse resp =
       printf "%s\n" (ex.ToString())
       0
 
+
 let ParseResponse response =
+  //buildAnnotations :: JsonResponse<hit.Source> -> string list
+  let buildAnnotations (hit:JsonProvider<"data/search/elasticResponseSchema.json", SampleIsList = true, InferTypesFromValues = false >.Hit) = [
+      match hit.Source.QualitystandardSetting.JsonValue with
+          | JsonValue.String x -> yield x
+          | JsonValue.Array y -> for i in y do yield string i
+  ]
+
   let chopPath (url:string) =
     try
       //This should probably be done elsewhere!
@@ -70,13 +78,14 @@ let ParseResponse response =
     with
       | ex -> url
 
-  let createResult (hit:JsonProvider<"data/search/elasticResponseSchema.json">.Hit) =
+  let createResult (hit:JsonProvider<"data/search/elasticResponseSchema.json", SampleIsList = true, InferTypesFromValues = false >.Hit) =
     {Uri = chopPath hit.Source.Id;
      Abstract = hit.Source.HttpLdNiceOrgUkNsQualitystandardAbstract;
-     Title = hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle}
+     Title = hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle;
+     Annotations = []}
 
   try
-    let json = JsonProvider<"data/search/elasticResponseSchema.json">.Parse(response)
+    let json = JsonProvider<"data/search/elasticResponseSchema.json", SampleIsList = true, InferTypesFromValues = false >.Parse(response)
     json.Hits.Hits |> Seq.map createResult |> Seq.toList
   with
     | ex ->
@@ -84,7 +93,7 @@ let ParseResponse response =
       []
 
 let GetSearchResults runSearch testing query =
-  query |> runSearch testing |> ParseResponse
+    query |> runSearch testing |> ParseResponse
 
 let KnowledgeBaseCount testing =
   GetKBCount testing |> ParseCountResponse

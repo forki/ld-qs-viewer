@@ -57,14 +57,34 @@ let ParseCountResponse resp =
       printf "%s\n" (ex.ToString())
       0
 
+//buildAnnotations :: JsonResponse<hit.Source> -> string list
+let buildAnnotations (hit : JsonValue) =
+
+    let vocabs = [
+            "qualitystandard:age"
+            "qualitystandard:condition"
+            "qualitystandard:lifestyleCondition"
+            "qualitystandard:serviceArea"
+            "qualitystandard:setting"
+            ]
+
+    //getValue :: JsonValue -> string -> Option JsonValue
+    let getValue jsonValue vocab =
+        (FSharp.Data.JsonExtensions.TryGetProperty(jsonValue, vocab))
+
+    vocabs
+    |> List.map(fun v -> (getValue hit v))
+    |> List.map(function
+                | Some x ->
+                  match x with
+                    | FSharp.Data.JsonValue.String y -> [y]
+                    | FSharp.Data.JsonValue.Array xs -> (xs |> Array.map string |> Array.toList)
+                | _ -> [])
+    |> List.concat
+    |> List.map string
+
 
 let ParseResponse response =
-  //buildAnnotations :: JsonResponse<hit.Source> -> string list
-  let buildAnnotations (hit:JsonProvider<"data/search/elasticResponseSchema.json", SampleIsList = true, InferTypesFromValues = false >.Hit) = [
-      match hit.Source.QualitystandardSetting.JsonValue with
-          | JsonValue.String x -> yield x
-          | JsonValue.Array y -> for i in y do yield string i
-  ]
 
   let chopPath (url:string) =
     try
@@ -79,10 +99,11 @@ let ParseResponse response =
       | ex -> url
 
   let createResult (hit:JsonProvider<"data/search/elasticResponseSchema.json", SampleIsList = true, InferTypesFromValues = false >.Hit) =
+
     {Uri = chopPath hit.Source.Id;
      Abstract = hit.Source.HttpLdNiceOrgUkNsQualitystandardAbstract;
      Title = hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle;
-     Annotations = []}
+     Annotations = buildAnnotations (hit.Source.JsonValue)}
 
   try
     let json = JsonProvider<"data/search/elasticResponseSchema.json", SampleIsList = true, InferTypesFromValues = false >.Parse(response)

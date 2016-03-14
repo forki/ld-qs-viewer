@@ -111,7 +111,7 @@ let tests =
       test <@ tags |> CQ.first |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term2" @>
       test <@ tags |> CQ.last |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term1" @>
 
-    testCase "Should show annotations for each search result" <| fun _ ->
+    testCase "Should show annotation for first result" <| fun _ ->
       let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; Annotations = "Annotation1"};
                                   {Uri = "";Abstract = ""; Title = ""; Annotations = "Annotation2"}]
       let getKBCount _ = 0

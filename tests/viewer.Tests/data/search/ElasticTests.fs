@@ -122,7 +122,7 @@ let tests =
                   "@id":"This is the Uri",
                   "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is the abstract",
                   "http://ld.nice.org.uk/ns/qualitystandard#title": "This is the title",
-                  "qualitystandard:setting": "This is a setting"
+                  "qualitystandard:setting": "http://test.org#Annotation"
                 }
               }
             ]
@@ -134,7 +134,7 @@ let tests =
       let DoSearchWith = GetSearchResults StubbedQueryResponse false
       let results = DoSearchWith query
 
-      test <@ results = [{Uri = "This is the Uri"; Abstract = "This is the abstract"; Title = "This is the title"; Annotations = ["This is a setting"]}] @>
+      test <@ results = [{Uri = "This is the Uri"; Abstract = "This is the abstract"; Title = "This is the title"; Annotations = "Annotation"}] @>
 
     testCase "GetSearchResults should map multiple results" <| fun _ ->
       let StubbedQueryResponse _ _ = 
@@ -148,7 +148,7 @@ let tests =
                   "@id":"notused",
                   "http://ld.nice.org.uk/ns/qualitystandard#abstract": "notused",
                   "http://ld.nice.org.uk/ns/qualitystandard#title": "notused",
-                  "qualitystandard:setting": "This is a setting"
+                  "qualitystandard:setting": "http://test.org#Annotation1"
                 }
               },
               {
@@ -157,7 +157,7 @@ let tests =
                   "@id":"notused",
                   "http://ld.nice.org.uk/ns/qualitystandard#abstract": "notused",
                   "http://ld.nice.org.uk/ns/qualitystandard#title": "notused",
-                  "qualitystandard:setting": "This is a setting"
+                  "qualitystandard:setting": "http://test.org#Annotation1"
                 }
               }
             ]

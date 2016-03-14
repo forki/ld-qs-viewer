@@ -19,12 +19,7 @@ type SearchResultsModel = {
   Tags: Tag list
   totalCount: int
   ShowHelp : bool
-  Annotations : string
 }
-
-let concatAnnotations (annotation:SearchResult list) =
-    let annot = annotation |> List.map(fun x -> x.Annotations) |> List.concat
-    annot |> List.fold(fun acc ele -> acc + ele + ",") ""
 
 
 let createModel args =
@@ -33,8 +28,7 @@ let createModel args =
       {Results = []
        Tags = []
        totalCount = if args.ShowOverview then args.GetKBCount args.Testing else 0
-       ShowHelp = if args.ShowOverview then true else false;
-       Annotations = ""}
+       ShowHelp = if args.ShowOverview then true else false;}
     | _ ->
       let results = args.Qs |> BuildQuery |> args.GetSearchResults args.Testing
       let filters = extractFilters args.Qs
@@ -43,8 +37,7 @@ let createModel args =
       {Results = results
        Tags = filterTags
        totalCount = results.Length
-       ShowHelp = false;
-       Annotations = (concatAnnotations results)}
+       ShowHelp = false;}
 
 let render args =
   args

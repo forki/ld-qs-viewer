@@ -31,8 +31,8 @@ let tests =
       test <@ message = "Please select one or more filters." @>
 
     testCase "Should present search results" <| fun _ ->
-      let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; Annotations = []};
-                                  {Uri = "";Abstract = ""; Title = ""; Annotations = []}]
+      let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; Annotations = ""};
+                                  {Uri = "";Abstract = ""; Title = ""; Annotations = ""}]
       let getKBCount _ = 0
       let results =
         render {defaultArgs with GetSearchResults=getSearchResults; GetKBCount=getKBCount}
@@ -43,8 +43,8 @@ let tests =
       test <@ results = 2 @>
 
     testCase "Should present a result count" <| fun _ ->
-      let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; Annotations = []};
-                                  {Uri = "";Abstract = ""; Title = ""; Annotations = []}]
+      let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; Annotations = ""};
+                                  {Uri = "";Abstract = ""; Title = ""; Annotations = ""}]
 
       let totalCount =
         render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
@@ -64,7 +64,7 @@ let tests =
       test <@ totalCount = "Total number of NICE Quality statements: 3" @>
 
     testCase "Should present abstract and link for each result" <| fun _ ->
-      let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"; Annotations = []}]
+      let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"; Annotations = "http://test.org#Annotation1"}]
 
       let html =
         render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
@@ -112,8 +112,8 @@ let tests =
       test <@ tags |> CQ.last |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term1" @>
 
     testCase "Should show annotations for each search result" <| fun _ ->
-      let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; Annotations = ["Annotation1"]};
-                                  {Uri = "";Abstract = ""; Title = ""; Annotations = ["Annotation2"]}]
+      let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; Annotations = "Annotation1"};
+                                  {Uri = "";Abstract = ""; Title = ""; Annotations = "Annotation2"}]
       let getKBCount _ = 0
       let result =
         render {defaultArgs with GetSearchResults=getSearchResults; GetKBCount=getKBCount}
@@ -123,4 +123,17 @@ let tests =
         |> CQ.text
     
       test <@ result = "Annotation1" @>
+
+    testCase "Should have annotations for each search result" <| fun _ ->
+      let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; Annotations = "http://test.org#Annotation1"};
+                                  {Uri = "";Abstract = ""; Title = ""; Annotations = "http://test.org#Annotation2"}]
+      let getKBCount _ = 0
+      let result =
+        render {defaultArgs with GetSearchResults=getSearchResults; GetKBCount=getKBCount}
+        |> parseHtml
+        |> CQ.select ".annotations"
+        |> CQ.length
+
+      test <@ result = 2 @>
+
   ]

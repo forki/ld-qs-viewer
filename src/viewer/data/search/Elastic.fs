@@ -57,18 +57,22 @@ let ParseCountResponse resp =
       printf "%s\n" (ex.ToString())
       0
 
-//buildAnnotations :: JsonResponse<hit.Source> -> string list
 let buildAnnotations (hit : JsonValue) =
 
+    let returnFragment (annotation:string) =
+        let ann = annotation.TrimEnd('"')
+        let start = ann.LastIndexOf('#') + 1
+        let length = ann.Length - start
+        ann.Substring(start, length)
+
     let vocabs = [
-            "qualitystandard:age"
-            "qualitystandard:condition"
-            "qualitystandard:lifestyleCondition"
-            "qualitystandard:serviceArea"
             "qualitystandard:setting"
+            "qualitystandard:age"
+            "qualitystandard:serviceArea"
+            "qualitystandard:lifestyleCondition"
+            "qualitystandard:condition"
             ]
 
-    //getValue :: JsonValue -> string -> Option JsonValue
     let getValue jsonValue vocab =
         (FSharp.Data.JsonExtensions.TryGetProperty(jsonValue, vocab))
 
@@ -77,11 +81,13 @@ let buildAnnotations (hit : JsonValue) =
     |> List.map(function
                 | Some x ->
                   match x with
-                    | FSharp.Data.JsonValue.String y -> [y]
-                    | FSharp.Data.JsonValue.Array xs -> (xs |> Array.map string |> Array.toList)
+                    | FSharp.Data.JsonValue.String y -> [returnFragment y]
+                    | FSharp.Data.JsonValue.Array xs -> (xs
+                                                         |> Array.map(fun ann -> returnFragment (string ann))
+                                                         |> Array.toList)
                 | _ -> [])
     |> List.concat
-    |> List.map string
+    |> String.concat " "
 
 
 let ParseResponse response =

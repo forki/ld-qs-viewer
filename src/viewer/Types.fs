@@ -14,7 +14,7 @@ type SearchResult = {
   Uri: string
   Title: string
   Abstract: string
-  Annotations: string list
+  Annotations: string
 }
 
 type Tag = {

@@ -118,9 +118,9 @@ let tests =
       let result =
         render {defaultArgs with GetSearchResults=getSearchResults; GetKBCount=getKBCount}
         |> parseHtml
-        |> CQ.select ".results > .annotations"
+        |> CQ.select ".annotations"
         |> CQ.first
         |> CQ.text
-
+    
       test <@ result = "Annotation1" @>
   ]

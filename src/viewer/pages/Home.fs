@@ -30,7 +30,11 @@ let private buildScripts =
   """<script src="/qs/components/sidebar/client/script.js"></script>
      <script src="/qs/components/doorbell/client/script.js"></script>
      <script src="/qs/components/nojs/client/script.js"></script>
-     <script src="/qs/components/googleanalytics/client/script.js"></script>"""
+     <script src="/qs/components/googleanalytics/client/script.js"></script>
+     <script src="/qs/components/jquery/client/script.js"></script>
+     <script src="/qs/components/nestedcheckboxes/client/script.js"></script>
+
+"""
 
 let page (req:HttpRequest) config showOverview =
 

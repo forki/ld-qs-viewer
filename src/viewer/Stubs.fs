@@ -11,11 +11,30 @@ let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
                                          Term { Uri = Uri.from "http://testing.com/TestSetting1#Term1"
                                                 Label = "Term1"
                                                 Selected = false
-                                                Children = []};
+                                                Children = [
+                                                 Term { Uri = Uri.from "http://testing.com/TestSetting1"
+                                                        Label = "Term1A"
+                                                        Selected = false
+                                                        Children = [
+                                                 Term { Uri = Uri.from "http://testing.com/TestSetting1"
+                                                        Label = "Term1AA"
+                                                        Selected = false
+                                                        Children = []};
+
+                                                        ]};
+                                                 Term { Uri = Uri.from "http://testing.com/TestSetting1"
+                                                        Label = "Term1B"
+                                                        Selected = false
+                                                        Children = []};
+
+
+
+                                                ]};
                                          Term { Uri = Uri.from "http://testing.com/TestSetting2#Term2"
                                                 Label = "Term2"
                                                 Selected = false
-                                                Children = []};]};
+                                                Children = []};
+                                       ]};
               Property = "qualitystandard:setting"}]
 
 let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title"};

@@ -2,9 +2,9 @@
     {% for term in terms -%}
     <li class="checkbox">
         {% if term.Selected == true %}
-            <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}" id="{{ term.Uri }}" class="term" checked>
+            <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}" id="{{ term.Uri }}" class="term filter-checkbox" checked>
         {% elsif term.Selected == false  %}
-            <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}" id="{{ term.Uri }}" class="term">
+            <input type="checkbox" name="{{ prop }}" value="{{ term.Uri }}" id="{{ term.Uri }}" class="term filter-checkbox">
         {% endif %}
         <label for="{{ term.Uri }}">{{ term.Label }}</label>
         {% include "templates/checkbox.html" terms:term.Children prop:prop %}

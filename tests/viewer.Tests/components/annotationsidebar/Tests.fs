@@ -1,7 +1,7 @@
 module Viewer.Tests.Components.AnnotationSidebar.Tests
 
 open Suave
-open Fuchu
+open NUnit.Framework
 open Swensen.Unquote
 open Viewer.Types
 open Viewer.Data.Vocabs.VocabGeneration
@@ -9,53 +9,53 @@ open Viewer.Tests.Utils
 open Viewer.SuaveExtensions
 open FSharp.RDF
 
-[<Tests>]
-let tests =
-  setTemplatesDir "src/viewer/bin/Release/"
+[<Test>]
+let ``Should present the vocabulary term checkboxes unselected by default`` () =
+  let vocabs = [{Property = ""
+                 Root = Term {t with Children = [Term t]}}]
 
-  testList "Annotation sidebar component" [
+  let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/annotationtool"
 
-    testCase "Should present the vocabulary term checkboxes unselected by default" <| fun _ ->
-      let vocabs = [{Property = ""
-                     Root = Term {t with Children = [Term t]}}]
+  test <@ html |> CQ.select "input[checked]" |> CQ.length = 0 @>
 
-      let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/annotationtool"
+    
+[<Test>]
+let ``Should present the vocabulary term checkboxes as selected when they exist in the querystring`` () =
+  let vocabs = [{Property = "vocab"
+                 Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri1"}
+                                                 Term {t with Uri = uri "http://testing.com/Uri2"}]}}]
 
-      test <@ html |> CQ.select "input[checked]" |> CQ.length = 0 @>
+  let html = startServerWith {baseConfig with Vocabs = vocabs}
+             |> getQuery "/annotationtool/toyaml" "vocab=http%3A%2F%2Ftesting.com%2FUri2"
 
-    testCase "Should present the vocabulary term checkboxes as selected when they exist in the querystring" <| fun _ ->
-      let vocabs = [{Property = "vocab"
-                     Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri1"}
-                                                     Term {t with Uri = uri "http://testing.com/Uri2"}]}}]
+  let selectedCheckboxes = html |> CQ.select "input[checked]"
 
-      let html = startServerWith {baseConfig with Vocabs = vocabs}
-                 |> getQuery "/annotationtool/toyaml" "vocab=http%3A%2F%2Ftesting.com%2FUri2"
+  test <@ selectedCheckboxes |> CQ.length = 1 @>
+  test <@ selectedCheckboxes |> CQ.first |> CQ.attr "value" = "http://testing.com/Uri2" @>
 
-      let selectedCheckboxes = html |> CQ.select "input[checked]"
+    
+[<Test>]
+let ``Should present the vocabulary collapsed by default`` () =
+  let vocabs = [{Property = ""
+                 Root = Term {t with Children = []}}]
 
-      test <@ selectedCheckboxes |> CQ.length = 1 @>
-      test <@ selectedCheckboxes |> CQ.first |> CQ.attr "value" = "http://testing.com/Uri2" @>
+  let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/annotationtool"
 
-    testCase "Should present the vocabulary collapsed by default" <| fun _ ->
-      let vocabs = [{Property = ""
-                     Root = Term {t with Children = []}}]
+  let accordians = html |> CQ.select ".accordion.closed"
 
-      let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/annotationtool"
+  test <@ accordians |> CQ.length = 1 @>
 
-      let accordians = html |> CQ.select ".accordion.closed"
+    
+[<Test>]
+let ``Should present the vocabulary expanded if vocabulary term is in querystring filters`` () =
+  let vocabs = [{Property = "vocab:1"
+                 Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri#Term"}]}}
+                {Property = "vocab:2"
+                 Root = Term t}]
 
-      test <@ accordians |> CQ.length = 1 @>
+  let qsWithOneFilter = "vocab%3A1=http%3A%2F%2Ftesting.com%2FUri%23Term"
 
-    testCase "Should present the vocabulary expanded if vocabulary term is in querystring filters" <| fun _ ->
-      let vocabs = [{Property = "vocab:1"
-                     Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri#Term"}]}}
-                    {Property = "vocab:2"
-                     Root = Term t}]
+  let html = startServerWith {baseConfig with Vocabs = vocabs}
+             |> getQuery "/annotationtool/toyaml" qsWithOneFilter
 
-      let qsWithOneFilter = "vocab%3A1=http%3A%2F%2Ftesting.com%2FUri%23Term"
-
-      let html = startServerWith {baseConfig with Vocabs = vocabs}
-                 |> getQuery "/annotationtool/toyaml" qsWithOneFilter
-
-      test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>
-  ]
+  test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>

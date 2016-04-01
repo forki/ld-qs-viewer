@@ -139,18 +139,16 @@ Target "Build" (fun _ ->
     |> ignore
 )
 
-
 // --------------------------------------------------------------------------------------
-// Fuchu
-
-
+// Run the unit tests using NUnit runner
 Target "RunTests" (fun _ ->
-      let fuchuEntryPoint = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "tests/viewer.Tests/bin/Release/viewer.Tests.exe")
-      let result = ExecProcess (fun info ->
-        info.FileName <- fuchuEntryPoint) (TimeSpan.FromMinutes 5.0)
-      if result <> 0 then failwith "Fuchu runner failed" else ()
-)
-
+    !! testAssemblies
+    |> NUnit (fun p ->
+        { p with
+            DisableShadowCopy = true
+            TimeOut = TimeSpan.FromMinutes 20.
+            OutputFile = "TestResults.xml" })
+ )
 
 #if MONO
 #else

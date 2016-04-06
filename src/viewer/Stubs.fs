@@ -12,20 +12,19 @@ let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/setting")
                                                 Label = "Term1"
                                                 Selected = false
                                                 Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/TestSetting1"
-                                                        Label = "Term1A"
-                                                        Selected = false
-                                                        Children = [
-                                                 Term { Uri = Uri.from "http://testing.com/TestSetting1"
-                                                        Label = "Term1AA"
-                                                        Selected = false
-                                                        Children = []};
-
-                                                        ]};
-                                                 Term { Uri = Uri.from "http://testing.com/TestSetting1"
-                                                        Label = "Term1B"
-                                                        Selected = false
-                                                        Children = []};
+                                                             Term { Uri = Uri.from "http://testing.com/TestSetting1#Term1A"
+                                                                    Label = "Term1A"
+                                                                    Selected = false
+                                                                    Children = [
+                                                                                 Term { Uri = Uri.from "http://testing.com/TestSetting1#Term1AA"
+                                                                                        Label = "Term1AA"
+                                                                                        Selected = false
+                                                                                        Children = []};
+                                                                   ]};
+                                                      Term { Uri = Uri.from "http://testing.com/TestSetting1#Term1B"
+                                                             Label = "Term1B"
+                                                             Selected = false
+                                                             Children = []};
 
 
 

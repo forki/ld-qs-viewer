@@ -2233,9 +2233,6 @@ a.card:hover .card-excerpt {
 .annotations {
   background-color: #424242;
 }
-.annotations #doorbell-button {
-  display: none;
-}
 .annotations .top-hat .logo {
   display: block;
   overflow: hidden;

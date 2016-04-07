@@ -28,7 +28,6 @@ let private buildContent (req:HttpRequest) config showOverview =
 
 let private buildScripts =
   """<script src="/qs/components/sidebar/client/script.js"></script>
-     <script src="/qs/components/doorbell/client/script.js"></script>
      <script src="/qs/components/nojs/client/script.js"></script>
      <script src="/qs/components/googleanalytics/client/script.js"></script>
      <script src="/qs/components/jquery/client/script.js"></script>

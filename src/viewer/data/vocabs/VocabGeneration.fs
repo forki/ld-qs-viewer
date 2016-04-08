@@ -30,6 +30,7 @@ type InverseTerm =
 
 type TermD =
   { Uri : Uri
+    ShortenedUri : string
     Label : string
     Selected : bool
     Children : Term list }
@@ -58,6 +59,7 @@ and Term =
         (uri, label) :: walk xs
     walk xs |> List.fold (fun c (uri, label) ->
                  Term { Uri = uri
+                        ShortenedUri = uri.ToString().Replace("http://ld.nice.org.uk/", "")
                         Label = label
                         Selected = false
                         Children =
@@ -96,6 +98,7 @@ and Term =
         | false -> Term a
         | true ->
           Term { Uri = uri
+                 ShortenedUri = uri.ToString().Replace("http://ld.nice.org.uk/", "")
                  Label = label
                  Selected = false
                  Children = (matchingTerms xs ys @ uniqueTerms xs ys) |> sortbyLabel }
@@ -111,6 +114,7 @@ let vocabGeneration ttl lbl =
   Resource.fromType (Uri.from "http://www.w3.org/2002/07/owl#Class") gcd
   |> List.map (InverseTerm.from lbl)
   |> List.map Term.from
+  |> List.map (fun i -> i.ShortenedUri = i.Uri.ToString)
   |> List.fold (++) Empty
 
 let vocabLookup uri lbl = vocabGeneration (Http.RequestString uri) lbl

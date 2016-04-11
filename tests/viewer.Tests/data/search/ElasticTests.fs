@@ -169,6 +169,17 @@ let ``ParseResponse should map results`` () =
   
   test <@ results.Length = 2 @>
 
+let prefixUrl filters url =
+    filters |> List.map (fun {Vocab=key; TermUri=value} -> {Vocab=key;TermUri=url+value }) 
+
+[<Test>]
+  let ``Should prefix key with defined url`` () =
+      let prefix = "http://something"
+      let extractedFilters = [{Vocab = "vocab"; TermUri = "uri"}]
+
+      let results = prefixUrl extractedFilters prefix
+
+      test <@ [{Vocab = "vocab"; TermUri = prefix+"uri"}] = results @>
     
 [<Test>]
 let ``Should build query correctly for an encoded single term key`` () =

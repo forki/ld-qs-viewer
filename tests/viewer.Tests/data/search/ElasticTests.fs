@@ -113,8 +113,8 @@ let ``GetSearchResults should return an empty list on zero results`` () =
   test <@ results = [] @>
 
 [<Test>]
-let ``GetSearchResults should map a single result`` () =
-  let StubbedQueryResponse _ _ = 
+let ``ParseResponse should map a single result`` () =
+  let stubbedResponse  = 
     """
     {
       "hits":{
@@ -132,9 +132,7 @@ let ``GetSearchResults should map a single result`` () =
     }
     """
 
-  let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse false
-  let results = DoSearchWith query
+  let results = ParseResponse stubbedResponse
 
   test <@ results = [{Uri = "This is the Uri"; Abstract = "This is the abstract"; Title = "This is the title"}] @>
 

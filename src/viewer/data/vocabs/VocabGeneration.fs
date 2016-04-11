@@ -8,6 +8,7 @@ open FSharp.Data
 //subClassOf relations are the opposite way round from what we need
 type InverseTerm =
   { Uri : Uri
+    ShortenedUri : string
     Label : string
     Parents : InverseTerm list }
   static member from lbl x =
@@ -25,6 +26,7 @@ type InverseTerm =
       | _ -> lbl
 
     { Uri = Resource.id x
+      ShortenedUri = "" 
       Parents = parents x
       Label = label x }
 
@@ -46,6 +48,7 @@ and Term =
       | Term x ->
         let h = DotLiquid.Hash()
         h.Add("uri", (string) x.Uri)
+        h.Add("ShortenedUri", x.ShortenedUri)
         h.Add("label", x.Label)
         h.Add("selected", x.Selected)
         h.Add("children", x.Children)
@@ -54,12 +57,12 @@ and Term =
   static member from xs =
     let rec walk =
       function
-      | { Uri = uri; Label = label; Parents = [] } -> [ (uri, label) ]
-      | { Uri = uri; Label = label; Parents = xs :: _ } ->
+      | { Uri = uri; Label = label; ShortenedUri=""; Parents = [] } -> [ (uri, label) ]
+      | { Uri = uri; Label = label; ShortenedUri=""; Parents = xs :: _ } ->
         (uri, label) :: walk xs
     walk xs |> List.fold (fun c (uri, label) ->
                  Term { Uri = uri
-                        ShortenedUri = uri.ToString().Replace("http://ld.nice.org.uk/", "")
+                        ShortenedUri = uri.ToString().Replace("http://ld.nice.org.uk/ns/qualitystandard/", "")
                         Label = label
                         Selected = false
                         Children =
@@ -98,7 +101,7 @@ and Term =
         | false -> Term a
         | true ->
           Term { Uri = uri
-                 ShortenedUri = uri.ToString().Replace("http://ld.nice.org.uk/", "")
+                 ShortenedUri = uri.ToString().Replace("http://ld.nice.org.uk/ns/qualitystandard/", "")
                  Label = label
                  Selected = false
                  Children = (matchingTerms xs ys @ uniqueTerms xs ys) |> sortbyLabel }
@@ -114,7 +117,6 @@ let vocabGeneration ttl lbl =
   Resource.fromType (Uri.from "http://www.w3.org/2002/07/owl#Class") gcd
   |> List.map (InverseTerm.from lbl)
   |> List.map Term.from
-  |> List.map (fun i -> i.ShortenedUri = i.Uri.ToString)
   |> List.fold (++) Empty
 
 let vocabLookup uri lbl = vocabGeneration (Http.RequestString uri) lbl
@@ -163,7 +165,7 @@ let setSelectedIfFiltered filters vocab =
     match v with
     | Empty -> v
     | Term x -> Term { x with
-                        Selected = filters |> Seq.exists (fun y -> y = x.Uri.ToString())
+                        Selected = filters |> Seq.exists (fun (filter:string) -> x.Uri.ToString().Contains(filter) && filter <> "")
                         Children = filterChildren filterVocab [] x.Children }
 
   {vocab with Root = filterVocab (vocab.Root)}

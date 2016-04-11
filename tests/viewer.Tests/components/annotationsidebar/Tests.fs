@@ -14,24 +14,23 @@ let ``Should present the vocabulary term checkboxes unselected by default`` () =
   let vocabs = [{Property = ""
                  Root = Term {t with Children = [Term t]}}]
 
-  let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/annotationtool"
-
+  let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/annotationtool" 
   test <@ html |> CQ.select "input[checked]" |> CQ.length = 0 @>
 
     
 [<Test>]
 let ``Should present the vocabulary term checkboxes as selected when they exist in the querystring`` () =
   let vocabs = [{Property = "vocab"
-                 Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri1"}
-                                                 Term {t with Uri = uri "http://testing.com/Uri2"}]}}]
+                 Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri1"; ShortenedUri="Uri1";}
+                                                 Term {t with Uri = uri "http://testing.com/Uri2"; ShortenedUri="Uri2";}]}}]
 
   let html = startServerWith {baseConfig with Vocabs = vocabs}
-             |> getQuery "/annotationtool/toyaml" "vocab=http%3A%2F%2Ftesting.com%2FUri2"
+             |> getQuery "/annotationtool/toyaml" "vocab=Uri2"
 
   let selectedCheckboxes = html |> CQ.select "input[checked]"
 
   test <@ selectedCheckboxes |> CQ.length = 1 @>
-  test <@ selectedCheckboxes |> CQ.first |> CQ.attr "value" = "http://testing.com/Uri2" @>
+  test <@ selectedCheckboxes |> CQ.first |> CQ.attr "value" = "Uri2" @>
 
     
 [<Test>]

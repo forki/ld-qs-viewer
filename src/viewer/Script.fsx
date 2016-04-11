@@ -8,3 +8,6 @@ setTemplatesDir "src/viewer/bin/Release/"
 
 let res = template "components/hotjar/index.html" {Id = "12345"}
 test <@ res = "arse" @>
+
+
+let uri = ""

@@ -140,8 +140,8 @@ let ``GetSearchResults should map a single result`` () =
 
     
 [<Test>]
-let ``GetSearchResults should map multiple results`` () =
-  let StubbedQueryResponse _ _ = 
+let ``ParseResponse should map results`` () =
+  let stubbedResponse = 
     """
     {
       "hits":{
@@ -167,9 +167,7 @@ let ``GetSearchResults should map multiple results`` () =
     }
     """
 
-  let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse false
-  let results = DoSearchWith query
+  let results = ParseResponse stubbedResponse
   
   test <@ results.Length = 2 @>
 

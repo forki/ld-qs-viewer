@@ -34,14 +34,17 @@ let ``When parsing graph will return sorted tree`` () =
   let output = vocabGeneration graph "Setting"
   test <@ output =
              Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Primary%20care%20setting"
+                   ShortenedUri = "setting#Primary care setting"
                    Label = "Primary care setting"
                    Selected = false
                    Children = [
                        Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"
+                             ShortenedUri = "setting#Community"
                              Label = "Community"
                              Selected = false
                              Children = []}
                        Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Hospital"
+                             ShortenedUri = "setting#Hospital"
                              Label = "Hospital"
                              Selected = false
                              Children = []}
@@ -53,36 +56,44 @@ let ``When parsing graph will return sorted tree`` () =
 [<Test>]
 let ``Should set vocab term as selected if url exists in filters`` () =
   let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                              ShortenedUri = "setting"
                               Label = "Vocab 1"
                               Selected = false
                               Children = [
                                            Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                  ShortenedUri = "setting"
                                                   Label = "Term1"
                                                   Selected = false
                                                   Children = []};
                                            Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                  ShortenedUri = "setting"
                                                   Label = "Term2"
                                                   Selected = false
                                                   Children = []};
                                            Term { Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "setting"
                                                   Label = "Term3"
                                                   Selected = false
                                                   Children = []}]};
                  Property = "v1"}]
 
   let expectedVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                                      ShortenedUri = "setting"
                                       Label = "Vocab 1"
                                       Selected = false
                                       Children = [
                                                    Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                          ShortenedUri = "setting"
                                                           Label = "Term1"
                                                           Selected = false
                                                           Children = []};
                                                    Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                          ShortenedUri = "setting"
                                                           Label = "Term2"
                                                           Selected = true
                                                           Children = []};
                                                    Term { Uri = Uri.from "http://testing.com/Uri3"
+                                                          ShortenedUri = "setting"
                                                           Label = "Term3"
                                                           Selected = true
                                                           Children = []}]};
@@ -90,5 +101,56 @@ let ``Should set vocab term as selected if url exists in filters`` () =
 
   let filters = [{Vocab = "notused"; TermUri = "http://testing.com/Uri2"}
                  {Vocab = "notused"; TermUri = "http://testing.com/Uri3"}]
+  let actualVocabs = getVocabsWithState vocabs filters 
+  test <@ actualVocabs = expectedVocabs @>
+
+[<Test>]
+let ``Should have unselected checkboxes when no search term in url`` () =
+  let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                              ShortenedUri = "setting"
+                              Label = "Vocab 1"
+                              Selected = false
+                              Children = [
+                                           Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                  ShortenedUri = "setting"
+                                                  Label = "Term1"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                  ShortenedUri = "setting"
+                                                  Label = "Term2"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "setting"
+                                                  Label = "Term3"
+                                                  Selected = false
+                                                  Children = []}]};
+                 Property = "v1"}]
+
+  let expectedVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
+                                      ShortenedUri = "setting"
+                                      Label = "Vocab 1"
+                                      Selected = false
+                                      Children = [
+                                                   Term { Uri = Uri.from "http://testing.com/Uri1"
+                                                          ShortenedUri = "setting"
+                                                          Label = "Term1"
+                                                          Selected = false
+                                                          Children = []};
+                                                   Term { Uri = Uri.from "http://testing.com/Uri2"
+                                                          ShortenedUri = "setting"
+                                                          Label = "Term2"
+                                                          Selected = true
+                                                          Children = []};
+                                                   Term { Uri = Uri.from "http://testing.com/Uri3"
+                                                          ShortenedUri = "setting"
+                                                          Label = "Term3"
+                                                          Selected = true
+                                                          Children = []}]};
+                         Property = "v1"}]
+
+  let filters = [{Vocab = ""; TermUri = "http://testing.com/Uri2"}
+                 {Vocab = ""; TermUri = "http://testing.com/Uri3"}]
   let actualVocabs = getVocabsWithState vocabs filters 
   test <@ actualVocabs = expectedVocabs @>

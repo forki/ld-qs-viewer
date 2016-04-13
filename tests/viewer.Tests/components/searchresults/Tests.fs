@@ -4,6 +4,7 @@ open NUnit.Framework
 open Swensen.Unquote
 open Viewer.Types
 open Viewer.Tests.Utils
+open Viewer.Components
 open Viewer.Components.SearchResults
 open Viewer.SuaveExtensions
 
@@ -22,7 +23,7 @@ let private defaultArgs = {
 [<Test>]
 let ``Should show message when attempting to search with no filters`` () =
   let message =
-    render defaultArgs
+    SearchResults.render defaultArgs
     |> parseHtml
     |> CQ.select ".message"
     |> CQ.text 
@@ -36,7 +37,7 @@ let ``Should present search results`` () =
                               {Uri = "";Abstract = ""; Title = ""}]
   let getKBCount _ = 0
   let results =
-    render {defaultArgs with GetSearchResults=getSearchResults; GetKBCount=getKBCount}
+    SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; GetKBCount=getKBCount}
     |> parseHtml
     |> CQ.select ".results > .result"
     |> CQ.length
@@ -50,7 +51,7 @@ let ``Should present a result count`` () =
                               {Uri = "";Abstract = ""; Title = ""}]
 
   let totalCount =
-    render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
+    SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
     |> parseHtml
     |> CQ.select ".card-list-header > .counter"
     |> CQ.text
@@ -62,7 +63,7 @@ let ``Should present a total KB Quality statement count`` () =
   let getKBCount _ = 3
 
   let totalCount =
-    render {defaultArgs with GetKBCount=getKBCount; ShowOverview=true; Qs=[("", Some "")]}
+    SearchResults.render {defaultArgs with GetKBCount=getKBCount; ShowOverview=true; Qs=[("", Some "")]}
     |> parseHtml
     |> CQ.select ".counter"
     |> CQ.text
@@ -74,7 +75,7 @@ let ``Should present abstract and link for each result`` () =
   let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"}]
 
   let html =
-    render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
+    SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
     |> parseHtml
 
   let abstracts = html |> CQ.select ".abstract"
@@ -92,7 +93,7 @@ let ``Should show multiple active filters when they exist on qs`` () =
   let qsWithTwoActiveFilters = [("key", Some "http://testing.com/Uri#Term1")
                                 ("key", Some "http://testing.com/Uri#Term2")]
   let tags =
-    render {defaultArgs with Qs=qsWithTwoActiveFilters}
+    SearchResults.render {defaultArgs with Qs=qsWithTwoActiveFilters}
     |> parseHtml
     |> CQ.select ".tag-label"
 
@@ -104,7 +105,7 @@ let ``Should show active filter as tag with label`` () =
   let qs = [("key", Some "http://testing.com/Uri#Term1")]
 
   let tags =
-    render {defaultArgs with Qs=qs}
+    SearchResults.render {defaultArgs with Qs=qs}
     |> parseHtml
     |> CQ.select ".tag-label"
 
@@ -117,7 +118,7 @@ let ``Should show active filter as tag with removal link`` () =
                                 ("key", Some "http://testing.com/Uri#Term2")]
 
   let tags =
-    render {defaultArgs with Qs=qsWithTwoActiveFilters}
+    SearchResults.render {defaultArgs with Qs=qsWithTwoActiveFilters}
     |> parseHtml
     |> CQ.select ".tag-remove-link"
 

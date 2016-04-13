@@ -38,6 +38,7 @@ let uri (s:string) =
   Uri.from s
 
 let t = {Label = ""
+         ShortenedUri = ""
          Uri = uri "http://somewhere.com"
          Selected = false;
          Children = []}

@@ -4,10 +4,11 @@ open NUnit.Framework
 open Swensen.Unquote
 open Viewer.Data.Search.Elastic
 open Viewer.Types
+open Viewer.Components.SearchResults
 
 [<Test>]
 let ``Should build query correctly for a single term`` () =
-  let qs = [("key", Some("val"))]
+  let qs = [{Vocab="key"; TermUri="val"}]
   let query = BuildQuery qs
   let expectedQuery = """{
 "from": 0, "size": 1500,
@@ -36,8 +37,10 @@ let ``Should build query correctly for a single term`` () =
     
 [<Test>]
 let ``Should build query correctly for a multiple terms with same key`` () =
-  let qs = [("key", Some("val1"));
-            ("key", Some("val2"))]
+  let qs = [
+      {Vocab="key"; TermUri="val1"}
+      {Vocab="key"; TermUri="val2"}
+      ]
 
   let query = BuildQuery qs
   let expectedQuery = """{
@@ -67,10 +70,13 @@ let ``Should build query correctly for a multiple terms with same key`` () =
     
 [<Test>]
 let ``Should build query correctly for a multiple terms with different keys`` () =
-  let qs = [("key", Some("val1"));
-            ("key", Some("val2"));
-            ("key2", Some("val3"));
-            ("key2", Some("val4"))]
+  let qs = [
+      {Vocab="key"; TermUri="val1"}
+      {Vocab="key"; TermUri="val2"}
+      {Vocab="key2"; TermUri="val3"}
+      {Vocab="key2"; TermUri="val4"}
+
+      ]
 
   let query = BuildQuery qs
   let expectedQuery = """{
@@ -113,8 +119,8 @@ let ``GetSearchResults should return an empty list on zero results`` () =
   test <@ results = [] @>
 
 [<Test>]
-let ``GetSearchResults should map a single result`` () =
-  let StubbedQueryResponse _ _ = 
+let ``ParseResponse should map a single result`` () =
+  let stubbedResponse  = 
     """
     {
       "hits":{
@@ -132,16 +138,14 @@ let ``GetSearchResults should map a single result`` () =
     }
     """
 
-  let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse false
-  let results = DoSearchWith query
+  let results = ParseResponse stubbedResponse
 
   test <@ results = [{Uri = "This is the Uri"; Abstract = "This is the abstract"; Title = "This is the title"}] @>
 
     
 [<Test>]
-let ``GetSearchResults should map multiple results`` () =
-  let StubbedQueryResponse _ _ = 
+let ``ParseResponse should map results`` () =
+  let stubbedResponse = 
     """
     {
       "hits":{
@@ -167,16 +171,24 @@ let ``GetSearchResults should map multiple results`` () =
     }
     """
 
-  let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse false
-  let results = DoSearchWith query
+  let results = ParseResponse stubbedResponse
   
   test <@ results.Length = 2 @>
 
+[<Test>]
+  let ``Should prefix key with defined url`` () =
+      let prefix = "http://something"
+      let extractedFilters = [{Vocab = "vocab"; TermUri = "uri"}]
+
+      let putUrlBackIn = prefixFiltersWithBaseUrl prefix
+
+      let results = putUrlBackIn extractedFilters
+
+      test <@ [{Vocab = "vocab"; TermUri = prefix+"uri"}] = results @>
     
 [<Test>]
 let ``Should build query correctly for an encoded single term key`` () =
-  let qs = [("key%3akey", Some("val"))]
+  let qs = [{Vocab="key%3akey"; TermUri="val"}]
   let query = BuildQuery qs
   let expectedQuery = """{
 "from": 0, "size": 1500,

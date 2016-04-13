@@ -9,10 +9,12 @@ type AnnotationSidebarModel = {
 }
 
 let createModel (req:HttpRequest) vocabs =
+  printf "%A" req.query
 
   let filters = extractFilters req.query
+
   let viewVocabs =
-    filters
+      filters
     |> getVocabsWithState vocabs
     |> List.map (fun v -> {Vocab = v; Expanded = shouldExpandVocab v.Property filters})
   {Vocabularies = viewVocabs}

@@ -180,7 +180,7 @@ let ``ParseResponse should map results`` () =
       let prefix = "http://something"
       let extractedFilters = [{Vocab = "vocab"; TermUri = "uri"}]
 
-      let putUrlBackIn = prefixUrl prefix
+      let putUrlBackIn = prefixFiltersWithBaseUrl prefix
 
       let results = putUrlBackIn extractedFilters
 

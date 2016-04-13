@@ -4,6 +4,7 @@ open FSharp.RDF
 open Viewer.Types
 open Viewer.Utils
 open FSharp.Data
+open Viewer.Config
 
 //subClassOf relations are the opposite way round from what we need
 type InverseTerm =
@@ -62,7 +63,7 @@ and Term =
         (uri, label) :: walk xs
     walk xs |> List.fold (fun c (uri, label) ->
                  Term { Uri = uri
-                        ShortenedUri = uri.ToString().Replace("http://ld.nice.org.uk/ns/qualitystandard/", "")
+                        ShortenedUri = uri.ToString().Replace(BaseUrl, "")
                         Label = label
                         Selected = false
                         Children =
@@ -101,7 +102,7 @@ and Term =
         | false -> Term a
         | true ->
           Term { Uri = uri
-                 ShortenedUri = uri.ToString().Replace("http://ld.nice.org.uk/ns/qualitystandard/", "")
+                 ShortenedUri = uri.ToString().Replace(BaseUrl, "")
                  Label = label
                  Selected = false
                  Children = (matchingTerms xs ys @ uniqueTerms xs ys) |> sortbyLabel }

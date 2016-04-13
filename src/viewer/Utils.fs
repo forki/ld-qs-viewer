@@ -8,21 +8,20 @@ let extractFilters qs =
   |> Seq.map (fun (k,v) ->
                 match v with
                   | Some s -> {Vocab = k; TermUri = s}
-                  | None ->   {Vocab = k; TermUri = ""})
+                  | None ->   {Vocab = k; TermUri = ""}
+              )
   |> Seq.toList
 
-let aggregateQueryStringValues qsPairs =
-  let createAggregatedValuesForKey (k, vals) = 
+let aggregateQueryStringValues filters =
+  let getTerms (k, vals) = 
     let aggregatedVals = vals
-                         |> Seq.map (fun (_,p) ->
-                                     match p with
-                                       | Some s -> s)
+                         |> Seq.map (fun (v:Filter) -> v.TermUri)
                          |> Seq.toList
     (k, aggregatedVals)
 
-  qsPairs
-  |> Seq.groupBy (fun (k,_) -> k)
-  |> Seq.map createAggregatedValuesForKey
+  filters
+  |> Seq.groupBy (fun k -> k.Vocab)
+  |> Seq.map getTerms
   |> Seq.toList
 
 

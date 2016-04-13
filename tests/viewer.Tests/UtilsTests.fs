@@ -25,10 +25,11 @@ let ``extractFilters should convert query string pairs into record type`` () =
     
 [<Test>]
 let ``aggregateQueryStringValues should group by keys`` () =
-  let qs = [("key1", Some("val1"));
-            ("key1", Some("val2"));
-            ("key2", Some("val3"))]
-
+  let qs = [
+      {Vocab="key1"; TermUri="val1"}
+      {Vocab="key1"; TermUri="val2"}
+      {Vocab="key2"; TermUri="val3"}
+      ] 
   let aggs = aggregateQueryStringValues qs
   test <@ aggs = [("key1",["val1";"val2"]);
                   ("key2",["val3"])] @>

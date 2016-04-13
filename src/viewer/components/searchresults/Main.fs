@@ -22,7 +22,7 @@ type SearchResultsModel = {
   ShowHelp : bool
 }
 
-let prefixUrl url filters =
+let prefixFiltersWithBaseUrl url filters =
     filters |> List.map (fun {Vocab=key; TermUri=value} -> {Vocab=key;TermUri=url+value }) 
 
 let createModel args = 
@@ -33,8 +33,8 @@ let createModel args =
        totalCount = if args.ShowOverview then args.GetKBCount args.Testing else 0
        ShowHelp = if args.ShowOverview then true else false}
     | _ ->
-      let putUrlBackIn = prefixUrl BaseUrl 
-      let results = args.Qs |> extractFilters |> putUrlBackIn |> BuildQuery |> args.GetSearchResults args.Testing
+      let reAddBaseUrlToFilters = prefixFiltersWithBaseUrl BaseUrl
+      let results = args.Qs |> extractFilters |> reAddBaseUrlToFilters |> BuildQuery |> args.GetSearchResults args.Testing
 
       let filters = extractFilters args.Qs
       let filterTags = createFilterTags filters

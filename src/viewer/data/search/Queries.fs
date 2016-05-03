@@ -24,7 +24,7 @@ let mustQuery = """{
   }
 },
 "sort": [
-  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "asc" }},
+  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "desc" }},
   { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""

@@ -60,13 +60,7 @@ let ParseCountResponse resp =
 let ParseResponse response =
   let chopPath (url:string) =
     try
-      //This should probably be done elsewhere!
-      //converting from "http://ld.nice.org.uk/prov/entity#98ead3d:qualitystandards/qs7/st2/Statement.md"
-      //to = "/qualitystandards/qs7/st2/Statement.html"
-      let parts = url.Split (':')
-      let path = parts.[2]
-      let id = path.Split('.')
-      sprintf "/%s.html" id.[0]
+      ( System.Uri url ).LocalPath
     with
       | ex -> url
 

@@ -16,14 +16,16 @@ let ``Run before tests`` () =
 let vocabs = [{Property = "vocab:property";
                       Root = Term {t with Label = "Vocab Label";
                                          Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
-                                                     Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}}]
+                                                     Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}
+               Label = ""}]
     
 [<Test>]
 let ``Should generate annotation block from querystring`` () =
   let vocabs = [{Property = "vocab:property"
                  Root = Term {t with Label = "Vocab Label"
                                      Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
-                                                 Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}}]
+                                                 Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}
+                 Label = ""}]
 
   let qsWithTwoVocabTerms = "vocab%3Aproperty=http%3A%2F%2Ftesting.com%2FUri%23Term1&vocab%3Aproperty=http%3A%2F%2Ftesting.com%2FUri%23Term2"
 

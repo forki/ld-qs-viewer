@@ -125,6 +125,7 @@ let vocabLookup uri lbl = vocabGeneration (Http.RequestString uri) lbl
 type Vocabulary = {
   Root : Term
   Property : string
+  Label : string
 }
 
 let readVocabsFromFiles () =
@@ -134,22 +135,27 @@ let readVocabsFromFiles () =
       {
         Root = vocabLookup "http://schema/ns/qualitystandard/setting.ttl" "Setting"
         Property = "qualitystandard:setting"
+        Label = "Setting"
       }
       {
         Root = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl" "Age group"
         Property = "qualitystandard:age"
+        Label = "Age group"
       }
       {
         Root = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl" "Service area"
         Property = "qualitystandard:serviceArea"
+        Label = "Service Area"
       }
       {
         Root = vocabLookup "http://schema/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
         Property = "qualitystandard:lifestyleCondition"
+        Label = "Factors affecting health or wellbeing"
       }
       {
         Root = vocabLookup "http://schema/ns/qualitystandard/conditionordisease.ttl" "Condition or disease"
         Property = "qualitystandard:condition"
+        Label = "Condition or disease"
       }
     ]
   with

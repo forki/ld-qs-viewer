@@ -9,10 +9,10 @@
                     {% for v in model.Vocabularies -%}
                     <div class="vocab">
                         {% if v.Expanded %}
-                        <h4 class="filter-label accordion-trigger open">{{v.Vocab.Root.Label}}</h4>
+                        <h4 class="filter-label accordion-trigger open">{{v.Vocab.Label}}</h4>
                         <div class="accordion closed open">
                         {% else %}
-                        <h4 class="filter-label accordion-trigger">{{v.Vocab.Root.Label}}</h4>
+                        <h4 class="filter-label accordion-trigger">{{v.Vocab.Label}}</h4>
                         <div class="accordion closed">
                         {% endif %}
                         {% include "templates/checkbox.html" terms:v.Vocab.Root.Children prop:v.Vocab.Property %}

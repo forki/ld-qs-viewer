@@ -75,7 +75,8 @@ let ``Should set vocab term as selected if url exists in filters`` () =
                                                   Label = "Term3"
                                                   Selected = false
                                                   Children = []}]};
-                 Property = "v1"}]
+                 Property = "v1";
+                 Label = ""}]
 
   let expectedVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
                                       ShortenedUri = "setting"
@@ -97,7 +98,8 @@ let ``Should set vocab term as selected if url exists in filters`` () =
                                                           Label = "Term3"
                                                           Selected = true
                                                           Children = []}]};
-                         Property = "v1"}]
+                         Property = "v1";
+                         Label = ""}]
 
   let filters = [{Vocab = "notused"; TermUri = "http://testing.com/Uri2"}
                  {Vocab = "notused"; TermUri = "http://testing.com/Uri3"}]
@@ -126,7 +128,8 @@ let ``Should have unselected checkboxes when no search term in url`` () =
                                                   Label = "Term3"
                                                   Selected = false
                                                   Children = []}]};
-                 Property = "v1"}]
+                 Property = "v1";
+                Label = ""}]
 
   let expectedVocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")
                                       ShortenedUri = "setting"
@@ -148,7 +151,8 @@ let ``Should have unselected checkboxes when no search term in url`` () =
                                                           Label = "Term3"
                                                           Selected = true
                                                           Children = []}]};
-                         Property = "v1"}]
+                         Property = "v1";
+                         Label = ""}]
 
   let filters = [{Vocab = ""; TermUri = "http://testing.com/Uri2"}
                  {Vocab = ""; TermUri = "http://testing.com/Uri3"}]

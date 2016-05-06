@@ -40,7 +40,8 @@ let vocabs = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qualitysta
                                                 Selected = false
                                                 Children = []};
                                        ]};
-              Property = "qualitystandard:setting"}]
+              Property = "qualitystandard:setting";
+               Label = "Setting"}]
 
 let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title"};
                             {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}]
@@ -60,7 +61,8 @@ let vocabsForTests = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qu
                                                         Label = "Term2"
                                                         Selected = false
                                                         Children = []};]};
-                       Property = "qualitystandard:setting"};
+                       Property = "qualitystandard:setting";
+                       Label = "setting"};
                       {Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qualitystandard/ServiceArea")
                                     ShortenedUri = "setting"
                                     Label = "Service Area:"
@@ -76,6 +78,7 @@ let vocabsForTests = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qu
                                                         Label = "Term2"
                                                         Selected = false
                                                         Children = []};]};
-                       Property = "qualitystandard:serviceArea"}]
+                       Property = "qualitystandard:serviceArea";
+                       Label = "serviceArea"}]
 
 let getKBCount _ = 0

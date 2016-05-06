@@ -27,7 +27,8 @@ let ``Should add form with search action`` () =
 let ``Should present a vocabulary with a single term as an input checkbox`` () =
   let vocabs = [{Property = "vocab"
                  Root = Term {t with Label = "Vocab 1"
-                                     Children = [Term {t with Label = "Term1"; Uri = uri "http://testing.com/Uri1"; ShortenedUri="Uri1"}]}}]
+                                     Children = [Term {t with Label = "Term1"; Uri = uri "http://testing.com/Uri1"; ShortenedUri="Uri1"}]};
+                 Label = "Vocab 1"}]
 
   let html = Sidebar.render [] vocabs false |> parseHtml
 
@@ -48,7 +49,8 @@ let ``Should present a vocabulary with a single term as an input checkbox`` () =
 let ``Should present the multiple vocabulary containing multiple terms`` () =
   let vocabs = [{Property = ""
                  Root = Term {t with Children = [Term t
-                                                 Term t]}}]
+                                                 Term t]};
+                 Label = ""}]
 
   let html = Sidebar.render [] vocabs false |> parseHtml
 
@@ -58,7 +60,8 @@ let ``Should present the multiple vocabulary containing multiple terms`` () =
 [<Test>]
 let ``Should present the vocabulary term checkboxes unselected by default`` () =
   let vocabs = [{Property = ""
-                 Root = Term {t with Children = [Term t]}}]
+                 Root = Term {t with Children = [Term t]};
+                 Label = ""}]
 
   let html = Sidebar.render [] vocabs false 
 
@@ -69,7 +72,8 @@ let ``Should present the vocabulary term checkboxes unselected by default`` () =
 let ``Should present the vocabulary term checkboxes as selected when they exist in the querystring`` () =
   let vocabs = [{Property = "vocab"
                  Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri1";ShortenedUri="Uri1";}
-                                                 Term {t with Uri = uri "http://testing.com/Uri2";ShortenedUri="Uri2";}]}}]
+                                                 Term {t with Uri = uri "http://testing.com/Uri2";ShortenedUri="Uri2";}]}
+                 Label = ""}]
 
   let qs = [("vocab", Some "Uri2")]
   let html = Sidebar.render qs vocabs false 
@@ -98,7 +102,8 @@ let ``Should have an apply filters button`` () =
 [<Test>]
 let ``Should present the vocabulary collapsed by default`` () =
   let vocabs = [{Property = ""
-                 Root = Term {t with Children = []}}]
+                 Root = Term {t with Children = []}
+                 Label = ""}]
 
   let html = Sidebar.render [] vocabs false |> parseHtml
 
@@ -110,9 +115,11 @@ let ``Should present the vocabulary collapsed by default`` () =
 [<Test>]
 let ``Should present the vocabulary expanded if vocabulary term is in querystring filters`` () =
   let vocabs = [{Property = "vocab:1"
-                 Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri#Term"}]}}
+                 Root = Term {t with Children = [Term {t with Uri = uri "http://testing.com/Uri#Term"}]}
+                 Label = ""}
                 {Property = "vocab:2"
-                 Root = Term t}]
+                 Root = Term t
+                 Label = ""}]
 
   let qsWithOneFilter = [("vocab%3A1",Some "http://testing.com/Uri#Term")]
 

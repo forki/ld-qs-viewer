@@ -41,7 +41,7 @@ let vocabs = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qualitysta
                                                 Children = []};
                                        ]};
               Property = "qualitystandard:setting";
-               Label = "dave"}]
+               Label = "Setting"}]
 
 let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title"};
                             {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}]

@@ -1,4 +1,4 @@
-# Viewer app for the knowledge base quality standards project
+# Discovery tool app for the knowledge base quality standards project
 
 This project contains the web app for searching and browsing the quality standards knowledge base.  Currently written in F# using Suave.io web framework.  There is a component-oriented structure to the codebase with components in src/viewer/components.  Data related function that shuold be refactored out to APIs are found in src/viewer/data.
 

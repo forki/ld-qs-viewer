@@ -943,30 +943,29 @@ table {
 }
 .user-styles h2 {
 	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size:1.5rem;
+	font-size:1.73rem;
 	line-height:1.25;
 	padding-top:1.5rem;
 	margin-bottom:1.5rem
 }
 @media (min-width:992px) {
 	.user-styles h2 {
-		font-size:2.25rem
+		font-size:1.73rem
 	}
 }
 .user-styles h3 {
 	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size:1.25rem;
+	font-size:1.4rem;
 	line-height:1.5;
 	margin-bottom:1.5rem
 }
 @media (min-width:992px) {
 	.user-styles h3 {
-		font-size:1.75rem
+		font-size:1.4rem
 	}
 }
 .user-styles h4 {
 	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-family:"Merriweather",Georgia,"Times New Roman",Times,serif;
 	font-size:1.125rem;
 	margin-bottom:.75rem;
 	color:#636363;
@@ -1114,7 +1113,7 @@ a {
 	}
 }
 .h4 {
-	font-family:"Merriweather",Georgia,"Times New Roman",Times,serif;
+	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-size:1.125rem;
 	margin-bottom:.75rem;
 	color:#636363;
@@ -1399,7 +1398,6 @@ a.card:hover .card-excerpt {
 }
 .modal h4 {
 	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-family:"Merriweather",Georgia,"Times New Roman",Times,serif;
 	font-size:1.125rem;
 	margin-bottom:.75rem;
 	color:#636363;
@@ -1826,7 +1824,7 @@ html,body {
 	height:100%
 }
 body {
-	font-family:"Merriweather",Georgia,"Times New Roman",Times,serif;
+	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-size:1rem;
 	line-height:1.5;
 	position:relative;
@@ -1884,7 +1882,6 @@ button::-moz-focus-inner {
 }
 .banner h3 {
 	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-family:"Merriweather",Georgia,"Times New Roman",Times,serif;
 	font-size:1.125rem;
 	margin-bottom:.75rem;
 	color:#636363;
@@ -2409,7 +2406,6 @@ ul.checkbox-list ul li:before {
 }
 .intro h4 {
 	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-family:"Merriweather",Georgia,"Times New Roman",Times,serif;
 	font-size:1.125rem;
 	margin-bottom:.75rem;
 	color:#636363;

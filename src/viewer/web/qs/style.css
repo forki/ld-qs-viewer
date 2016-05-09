@@ -1252,7 +1252,7 @@ a.card {
 }
 a.card .card-excerpt {
 	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size:1.25rem;
+	font-size:1.125rem;
 	line-height:1.5;
 	margin-bottom:1.5rem;
 	color:#11779b;
@@ -1265,7 +1265,7 @@ a.card .card-excerpt {
 }
 @media (min-width:992px) {
 	a.card .card-excerpt {
-		font-size:1.75rem
+		font-size:1.125rem
 	}
 }
 @media (min-width:992px) {
@@ -1280,7 +1280,8 @@ a.card:hover .card-excerpt {
 }
 .card-source {
 	font-style:italic;
-	margin-top:1.5rem
+	margin-top:1.5rem;
+  font-size:0.875rem;
 }
 .card-dates {
 	margin-bottom:.75rem;

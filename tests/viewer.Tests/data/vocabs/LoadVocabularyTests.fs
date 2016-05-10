@@ -1,7 +1,7 @@
 module Viewer.Tests.Data.Vocabs.LoadVocabularyTests
 
 open NUnit.Framework
-open Swensen.Unquote
+open FsUnit
 open FSharp.RDF
 open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Types
@@ -32,25 +32,22 @@ let graph = """@base <http://ld.nice.org.uk/ns/qualitystandard/setting>.
 [<Test>]
 let ``When parsing graph will return sorted tree`` () =
   let output = vocabGeneration graph "Setting"
-  test <@ output =
-             Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Primary%20care%20setting"
-                   ShortenedUri = "setting#Primary care setting"
-                   Label = "Primary care setting"
-                   Selected = false
-                   Children = [
-                       Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"
-                             ShortenedUri = "setting#Community"
-                             Label = "Community"
-                             Selected = false
-                             Children = []}
-                       Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Hospital"
-                             ShortenedUri = "setting#Hospital"
-                             Label = "Hospital"
-                             Selected = false
-                             Children = []}
-
-             ]}
-    @>
+  output
+  |> should equal ( Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Primary%20care%20setting"
+                          ShortenedUri = "setting#Primary care setting"
+                          Label = "Primary care setting"
+                          Selected = false
+                          Children = [
+                                       Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"
+                                             ShortenedUri = "setting#Community"
+                                             Label = "Community"
+                                             Selected = false
+                                             Children = []}
+                                       Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Hospital"
+                                             ShortenedUri = "setting#Hospital"
+                                             Label = "Hospital"
+                                             Selected = false
+                                             Children = []}]})
 
     
 [<Test>]
@@ -104,7 +101,7 @@ let ``Should set vocab term as selected if url exists in filters`` () =
   let filters = [{Vocab = "notused"; TermUri = "http://testing.com/Uri2"}
                  {Vocab = "notused"; TermUri = "http://testing.com/Uri3"}]
   let actualVocabs = getVocabsWithState vocabs filters 
-  test <@ actualVocabs = expectedVocabs @>
+  actualVocabs |> should equal expectedVocabs
 
 [<Test>]
 let ``Should have unselected checkboxes when no search term in url`` () =
@@ -157,4 +154,4 @@ let ``Should have unselected checkboxes when no search term in url`` () =
   let filters = [{Vocab = ""; TermUri = "http://testing.com/Uri2"}
                  {Vocab = ""; TermUri = "http://testing.com/Uri3"}]
   let actualVocabs = getVocabsWithState vocabs filters 
-  test <@ actualVocabs = expectedVocabs @>
+  actualVocabs |> should equal expectedVocabs

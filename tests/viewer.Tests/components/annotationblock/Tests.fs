@@ -2,7 +2,7 @@ module Viewer.Tests.Components.AnnotationBlock.Tests
 
 open Suave
 open NUnit.Framework
-open Swensen.Unquote
+open FsUnit
 open Viewer.Types
 open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Tests.Utils
@@ -34,7 +34,7 @@ let ``Should generate annotation block from querystring`` () =
              |> CQ.select ".yaml-content"
              |> CQ.text
 
-  test <@ yaml = "Vocab Label:\n  - \"Term1\"\n  - \"Term2\"\n" @>
+  yaml |> should equal "Vocab Label:\n  - \"Term1\"\n  - \"Term2\"\n"
 
     
 [<Test>]
@@ -44,4 +44,4 @@ let ``Should produce error upon no vocabulary selection`` () =
                      |> CQ.select ".message"
                      |> CQ.text
 
-  test <@ errorMessage = "Please select an annotation from vocabulary." @>
+  errorMessage |> should equal "Please select an annotation from vocabulary."

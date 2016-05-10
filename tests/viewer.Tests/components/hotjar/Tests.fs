@@ -1,7 +1,7 @@
 module Viewer.Tests.Components.HotJar.Tests
 
 open NUnit.Framework
-open Swensen.Unquote
+open FsUnit
 open Viewer.Tests.Utils
 open Viewer.Components.Hotjar
 open Viewer.SuaveExtensions
@@ -12,7 +12,7 @@ let ``Should contain the hotjar script for heat map tracking`` () =
     render "notused"
     |> parseHtml
     |> CQ.select "script[id='hotjar']"
-  test <@ script |> CQ.length = 1 @>
+  script |> CQ.length |> should equal 1
 
       
 [<Test>]
@@ -23,5 +23,5 @@ let ``Should contain HotJar Id`` () =
     |> parseHtml
     |> CQ.select "script[id='hotjar']"
     |> CQ.text
-  test <@ script.Contains hotjarId @>
+  script |> should contain hotjarId
 

@@ -1,7 +1,7 @@
 module Viewer.Tests.Components.SearchResults.Tests
 
 open NUnit.Framework
-open Swensen.Unquote
+open FsUnit
 open Viewer.Types
 open Viewer.Tests.Utils
 open Viewer.Components
@@ -28,7 +28,7 @@ let ``Should show message when attempting to search with no filters`` () =
     |> CQ.select ".message"
     |> CQ.text 
 
-  test <@ message = "Please select one or more filters." @>
+  message |> should equal "Please select one or more filters."
 
     
 [<Test>]
@@ -42,7 +42,7 @@ let ``Should present search results`` () =
     |> CQ.select ".results > .result"
     |> CQ.length
 
-  test <@ results = 2 @>
+  results |> should equal 2
 
     
 [<Test>]
@@ -55,7 +55,7 @@ let ``Should present a result count`` () =
     |> parseHtml
     |> CQ.select ".card-list-header > .counter"
     |> CQ.text
-  test <@ totalCount = "2 filtered items" @>
+  totalCount |> should equal "2 filtered items"
 
     
 [<Test>]
@@ -67,7 +67,7 @@ let ``Should present a total KB Quality statement count`` () =
     |> parseHtml
     |> CQ.select ".counter"
     |> CQ.text
-  test <@ totalCount = "Total number of NICE Quality statements: 3" @>
+  totalCount |> should equal "Total number of NICE Quality statements: 3"
 
     
 [<Test>]
@@ -84,8 +84,8 @@ let ``Should present abstract and link for each result`` () =
   let links = html |> CQ.select ".result > a"
   let link1 = links |> CQ.first |> CQ.attr "href"
 
-  test <@ abstract1 = "Abstract1" @>
-  test <@ link1 = "Uri1" @>
+  abstract1 |> should equal "Abstract1"
+  link1 |> should equal "Uri1"
 
     
 [<Test>]
@@ -97,7 +97,7 @@ let ``Should show multiple active filters when they exist on qs`` () =
     |> parseHtml
     |> CQ.select ".tag-label"
 
-  test <@ tags |> CQ.length = 2 @>
+  tags |> CQ.length |> should equal 2
     
     
 [<Test>]
@@ -109,7 +109,7 @@ let ``Should show active filter as tag with label`` () =
     |> parseHtml
     |> CQ.select ".tag-label"
 
-  test <@ tags |> CQ.first |> CQ.text = "Term1" @>
+  tags |> CQ.first |> CQ.text |> should equal "Term1"
 
     
 [<Test>]
@@ -122,5 +122,5 @@ let ``Should show active filter as tag with removal link`` () =
     |> parseHtml
     |> CQ.select ".tag-remove-link"
 
-  test <@ tags |> CQ.first |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term2" @>
-  test <@ tags |> CQ.last |> CQ.attr "href" = "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term1" @>
+  tags |> CQ.first |> CQ.attr "href" |> should equal "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
+  tags |> CQ.last |> CQ.attr "href" |> should equal "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term1"

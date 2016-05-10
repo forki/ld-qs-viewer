@@ -1,7 +1,7 @@
 module Viewer.Tests.ElasticTests
 
 open NUnit.Framework
-open Swensen.Unquote
+open FsUnit
 open Viewer.Data.Search.Elastic
 open Viewer.Types
 open Viewer.Components.SearchResults
@@ -32,7 +32,7 @@ let ``Should build query correctly for a single term`` () =
   { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""
-  test <@ query = expectedQuery @>
+  query |> should equal expectedQuery
 
     
 [<Test>]
@@ -65,7 +65,7 @@ let ``Should build query correctly for a multiple terms with same key`` () =
   { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""
-  test <@ query = expectedQuery @>
+  query |> should equal expectedQuery
 
     
 [<Test>]
@@ -106,7 +106,7 @@ let ``Should build query correctly for a multiple terms with different keys`` ()
 ]
 }"""
 
-  test <@ query = expectedQuery @>
+  query |> should equal expectedQuery
 
     
 [<Test>]
@@ -116,7 +116,7 @@ let ``GetSearchResults should return an empty list on zero results`` () =
   let DoSearchWith = GetSearchResults StubbedQueryResponse false
   let results = DoSearchWith query
 
-  test <@ results = [] @>
+  results |> should equal []
 
 [<Test>]
 let ``ParseResponse should map a single result`` () =
@@ -140,7 +140,7 @@ let ``ParseResponse should map a single result`` () =
 
   let results = ParseResponse stubbedResponse
 
-  test <@ results = [{Uri = "This is the Uri"; Abstract = "This is the abstract"; Title = "This is the title"}] @>
+  results |> should equal [{Uri = "This is the Uri"; Abstract = "This is the abstract"; Title = "This is the title"}]
 
     
 [<Test>]
@@ -173,7 +173,7 @@ let ``ParseResponse should map results`` () =
 
   let results = ParseResponse stubbedResponse
   
-  test <@ results.Length = 2 @>
+  results.Length |> should equal 2
 
 [<Test>]
   let ``Should prefix key with defined url`` () =
@@ -184,7 +184,7 @@ let ``ParseResponse should map results`` () =
 
       let results = putUrlBackIn extractedFilters
 
-      test <@ [{Vocab = "vocab"; TermUri = prefix+"uri"}] = results @>
+      [{Vocab = "vocab"; TermUri = prefix+"uri"}] |> should equal results
     
 [<Test>]
 let ``Should build query correctly for an encoded single term key`` () =
@@ -212,4 +212,4 @@ let ``Should build query correctly for an encoded single term key`` () =
   { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""
-  test <@ query = expectedQuery @>
+  query |> should equal expectedQuery

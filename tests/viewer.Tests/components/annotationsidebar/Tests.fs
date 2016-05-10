@@ -2,7 +2,7 @@ module Viewer.Tests.Components.AnnotationSidebar.Tests
 
 open Suave
 open NUnit.Framework
-open Swensen.Unquote
+open FsUnit
 open Viewer.Types
 open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Tests.Utils
@@ -16,7 +16,7 @@ let ``Should present the vocabulary term checkboxes unselected by default`` () =
                  Label = ""}]
 
   let html = startServerWith {baseConfig with Vocabs = vocabs} |> get "/annotationtool" 
-  test <@ html |> CQ.select "input[checked]" |> CQ.length = 0 @>
+  html |> CQ.select "input[checked]" |> CQ.length |> should equal 0
 
     
 [<Test>]
@@ -31,8 +31,8 @@ let ``Should present the vocabulary term checkboxes as selected when they exist 
 
   let selectedCheckboxes = html |> CQ.select "input[checked]"
 
-  test <@ selectedCheckboxes |> CQ.length = 1 @>
-  test <@ selectedCheckboxes |> CQ.first |> CQ.attr "value" = "Uri2" @>
+  selectedCheckboxes |> CQ.length |> should equal 1
+  selectedCheckboxes |> CQ.first |> CQ.attr "value" |> should equal "Uri2"
 
     
 [<Test>]
@@ -45,7 +45,7 @@ let ``Should present the vocabulary collapsed by default`` () =
 
   let accordians = html |> CQ.select ".accordion.closed"
 
-  test <@ accordians |> CQ.length = 1 @>
+  accordians |> CQ.length |> should equal 1
 
     
 [<Test>]
@@ -62,4 +62,4 @@ let ``Should present the vocabulary expanded if vocabulary term is in querystrin
   let html = startServerWith {baseConfig with Vocabs = vocabs}
              |> getQuery "/annotationtool/toyaml" qsWithOneFilter
 
-  test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>
+  html |> CQ.select ".accordion.closed.open" |> CQ.length |> should equal 1

@@ -2,7 +2,7 @@ Suave
 Suave.Testing
 CsQuery
 Suave.DotLiquid
-Unquote
 FSharp.Data
 FSharp.RDF
 NUnit
+FsUnit

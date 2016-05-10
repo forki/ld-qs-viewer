@@ -2,7 +2,7 @@ module Viewer.Tests.Components.Sidebar.Tests
 
 open Suave
 open NUnit.Framework
-open Swensen.Unquote
+open FsUnit
 open Viewer.Types
 open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Tests.Utils
@@ -21,7 +21,7 @@ let ``Should add form with search action`` () =
     |> parseHtml
     |> CQ.select "form"
     |> CQ.attr "action"
-  test <@ action = "/qs/search" @>
+  action |> should equal "/qs/search"
 
 [<Test>]
 let ``Should present a vocabulary with a single term as an input checkbox`` () =
@@ -35,14 +35,14 @@ let ``Should present a vocabulary with a single term as an input checkbox`` () =
   let vocabs = html |> CQ.select ".vocab"
 
   let vocab1text = vocabs |> CQ.first |> CQ.text
-  test <@ vocab1text.Contains("Vocab 1") @>
+  vocab1text |> should contain "Vocab 1"
 
   let checkboxes = html |> CQ.select "input[type='checkbox']" |> CQ.select ".term"
-  test <@ checkboxes |> CQ.first |> CQ.attr "value" = "Uri1" @>
-  test <@ checkboxes |> CQ.first |> CQ.attr "name" = "vocab" @>
+  checkboxes |> CQ.first |> CQ.attr "value" |> should equal "Uri1"
+  checkboxes |> CQ.first |> CQ.attr "name" |> should equal "vocab"
 
   let labels = html |> CQ.select ".checkbox > label"
-  test <@ labels |> CQ.first |> CQ.text = "Term1" @>
+  labels |> CQ.first |> CQ.text |> should equal "Term1"
 
     
 [<Test>]
@@ -54,7 +54,7 @@ let ``Should present the multiple vocabulary containing multiple terms`` () =
 
   let html = Sidebar.render [] vocabs false |> parseHtml
 
-  test <@ html |> CQ.select "input[type='checkbox']" |> CQ.select ".term" |> CQ.length = 2 @>
+  html |> CQ.select "input[type='checkbox']" |> CQ.select ".term" |> CQ.length |> should equal 2
 
     
 [<Test>]
@@ -65,7 +65,7 @@ let ``Should present the vocabulary term checkboxes unselected by default`` () =
 
   let html = Sidebar.render [] vocabs false 
 
-  test <@ html |> parseHtml |> CQ.select "input[checked]" |> CQ.length = 0 @>
+  html |> parseHtml |> CQ.select "input[checked]" |> CQ.length |> should equal 0
 
     
 [<Test>]
@@ -78,16 +78,18 @@ let ``Should present the vocabulary term checkboxes as selected when they exist 
   let qs = [("vocab", Some "Uri2")]
   let html = Sidebar.render qs vocabs false 
 
-  test <@ html
-          |> parseHtml
-          |> CQ.select "input[checked]"
-          |> CQ.length = 1 @>
+  html
+  |> parseHtml
+  |> CQ.select "input[checked]"
+  |> CQ.length
+  |> should equal 1
 
-  test <@ html
-          |> parseHtml
-          |> CQ.select "input[checked]"
-          |> CQ.first
-          |> CQ.attr "id" = "http://testing.com/Uri2" @>
+  html
+  |> parseHtml
+  |> CQ.select "input[checked]"
+  |> CQ.first
+  |> CQ.attr "id"
+  |> should equal "http://testing.com/Uri2"
     
 [<Test>]
 let ``Should have an apply filters button`` () =
@@ -96,7 +98,7 @@ let ``Should have an apply filters button`` () =
     |> parseHtml
     |> CQ.select ":submit"
     |> CQ.attr "Value"
-  test <@ searchButtonLabel = "Apply filters" @>
+  searchButtonLabel |> should equal "Apply filters"
 
     
 [<Test>]
@@ -109,7 +111,7 @@ let ``Should present the vocabulary collapsed by default`` () =
 
   let accordians = html |> CQ.select ".accordion.closed"
 
-  test <@ accordians |> CQ.length = 1 @>
+  accordians |> CQ.length |> should equal 1
 
     
 [<Test>]
@@ -125,4 +127,4 @@ let ``Should present the vocabulary expanded if vocabulary term is in querystrin
 
   let html = Sidebar.render qsWithOneFilter vocabs false |> parseHtml
 
-  test <@ html |> CQ.select ".accordion.closed.open" |> CQ.length = 1 @>
+  html |> CQ.select ".accordion.closed.open" |> CQ.length |> should equal 1

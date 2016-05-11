@@ -128,3 +128,15 @@ let ``Should present the vocabulary expanded if vocabulary term is in querystrin
   let html = Sidebar.render qsWithOneFilter vocabs false |> parseHtml
 
   html |> CQ.select ".accordion.closed.open" |> CQ.length |> should equal 1
+
+[<Test>]
+let ``Should render the sidebar with vocabulary property embedded in dom`` () =
+  let vocabs = [{Property = "vocab:property"
+                 Root = Term t
+                 Label = ""}]
+
+  Sidebar.render [] vocabs false
+  |> parseHtml
+  |> CQ.select ".vocab"
+  |> CQ.attr "id"
+  |> should equal "vocab:property"

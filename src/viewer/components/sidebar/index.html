@@ -7,7 +7,7 @@
                 </div>
                 <div class="filter-group">
                     {% for v in model.Vocabularies -%}
-                    <div class="vocab">
+                    <div id="{{v.Vocab.Property}}" class="vocab">
                         {% if v.Expanded %}
                         <h4 class="filter-label accordion-trigger open">{{v.Vocab.Label}}</h4>
                         <div class="accordion closed open">

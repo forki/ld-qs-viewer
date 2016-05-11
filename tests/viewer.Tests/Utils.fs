@@ -24,6 +24,7 @@ let parseHtml (resp: string) = CQ.Create(resp) |> CQ
 
 let baseConfig = {
   Vocabs = []
+  RenderedVocabs = ""
   GetSearchResults = (fun _ _ -> [])
   GetKBCount = (fun _ -> 0)
   HotjarId = ""

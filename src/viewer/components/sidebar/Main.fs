@@ -8,6 +8,10 @@ type SidebarModel = {
   Vocabularies: ViewVocab list
 }
 
+type SidebarModelNew = {
+  VocabsString: string
+}
+
 let private createModel qs actualVocabs testing =
 
   let vocabs =
@@ -32,3 +36,6 @@ let render qs vocabs testing =
   createModel qs vocabs testing
   |> template "components/sidebar/index.html"
 
+let renderNew renderedVocabs =
+  {VocabsString = renderedVocabs} 
+  |> template "components/sidebar/index.html"

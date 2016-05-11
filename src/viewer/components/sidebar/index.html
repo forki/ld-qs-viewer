@@ -6,19 +6,7 @@
                         <!--<a href="" class="ajax-content icon-link filter-definitions"><i class="material-icons">info</i><span>Definitions</span></a>-->
                 </div>
                 <div class="filter-group">
-                    {% for v in model.Vocabularies -%}
-                    <div id="{{v.Vocab.Property}}" class="vocab">
-                        {% if v.Expanded %}
-                        <h4 class="filter-label accordion-trigger open">{{v.Vocab.Label}}</h4>
-                        <div class="accordion closed open">
-                        {% else %}
-                        <h4 class="filter-label accordion-trigger"> {{v.Vocab.Label}}</h4>
-                        <div class="accordion closed">
-                        {% endif %}
-                        {% include "templates/checkbox.html" terms:v.Vocab.Root.Children prop:v.Vocab.Property %}
-                        </div>
-                    </div>
-                    {% endfor -%}
+                    {{model.VocabsString}}
                 </div>
             </div>
             <div class="button-group">

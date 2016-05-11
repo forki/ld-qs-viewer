@@ -187,3 +187,6 @@ type ViewVocab = {
   Vocab: Vocabulary
   Expanded: bool
 }
+
+let renderVocabs vocabs =
+  "" 

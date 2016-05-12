@@ -12,7 +12,7 @@ open FSharp.RDF
 
 [<SetUp>]
 let ``Run before tests`` () =
-  setTemplatesDir "../../../../src/viewer/bin/Release/"
+  setTemplatesDir "../../../../bin/viewer/web/qs/"
 
 [<Test>]
 let ``Should add form with search action`` () =

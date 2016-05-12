@@ -1,0 +1,24 @@
+{
+  "name": "discoverytoolfrontendtests",
+  "version": "1.0.0",
+  "description": "discovery tool frontend testse knowledge base",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nhsevidence/ld-qs-viewer.git"
+  },
+  "author": "NICE",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "0.6.1",
+    "grunt-develop": "0.4.0",
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-npm-install": "0.1.0",
+    "mocha": "^2.4.5",
+    "should": "^8.3.0"
+  }
+}

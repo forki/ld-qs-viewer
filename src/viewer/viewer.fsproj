@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -56,7 +56,6 @@
     <Compile Include="data\search\Elastic.fs" />
     <Compile Include="components\sidebar\Main.fs" />
     <Compile Include="components\searchresults\Main.fs" />
-    <Compile Include="components\annotationsidebar\Main.fs" />
     <Compile Include="components\annotationblock\Main.fs" />
     <Compile Include="components\hotjar\Main.fs" />
     <Compile Include="AppConfig.fs" />
@@ -145,6 +144,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\resource.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\filters.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="RunServer.fsx">

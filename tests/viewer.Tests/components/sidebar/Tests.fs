@@ -16,27 +16,26 @@ let ``Run before tests`` () =
 
 [<Test>]
 let ``Should add form with search action`` () =
-  let action =
-    Sidebar.renderNew ""
-    |> parseHtml
-    |> CQ.select "form"
-    |> CQ.attr "action"
-  action |> should equal "/qs/search"
+  Sidebar.render ""
+  |> parseHtml
+  |> CQ.select "form"
+  |> CQ.attr "action"
+  |> should equal "/qs/search"
 
 [<Test>]
 let ``Should have an apply filters button`` () =
-  let searchButtonLabel =
-    Sidebar.render [] [] false
-    |> parseHtml
-    |> CQ.select ":submit"
-    |> CQ.attr "Value"
-  searchButtonLabel |> should equal "Apply filters"
+  Sidebar.render ""
+  |> parseHtml
+  |> CQ.select ":submit"
+  |> CQ.attr "Value"
+  |> should equal "Apply filters"
 
 [<Test>]
 let ``Should render sidebar with prerendered vocabs`` () =
   let renderedVocabs = """<div class="renderedVocabs"></div>"""
 
-  Sidebar.renderNew renderedVocabs
+  Sidebar.render renderedVocabs
   |> parseHtml
   |> CQ.select ".renderedVocabs"
+  |> CQ.length 
   |> should equal 1

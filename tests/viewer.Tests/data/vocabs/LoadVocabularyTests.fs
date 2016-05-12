@@ -167,17 +167,32 @@ let ``Should present a vocabulary with a single term as an input checkbox`` () =
 
   let html = renderVocabs vocabs |> parseHtml
 
-  let vocabs = html |> CQ.select ".vocab"
+  html
+  |> CQ.select ".vocab"
+  |> CQ.first
+  |> CQ.text
+  |> should contain "Vocab 1"
 
-  let vocab1text = vocabs |> CQ.first |> CQ.text
-  vocab1text |> should contain "Vocab 1"
+  let checkboxes =
+    html
+    |> CQ.select "input[type='checkbox']"
+    |> CQ.select ".term"
 
-  let checkboxes = html |> CQ.select "input[type='checkbox']" |> CQ.select ".term"
-  checkboxes |> CQ.first |> CQ.attr "value" |> should equal "Uri1"
-  checkboxes |> CQ.first |> CQ.attr "name" |> should equal "vocab"
+  checkboxes
+  |> CQ.first
+  |> CQ.attr "value"
+  |> should equal "Uri1"
 
-  let labels = html |> CQ.select ".checkbox > label"
-  labels |> CQ.first |> CQ.text |> should equal "Term1"
+  checkboxes
+  |> CQ.first
+  |> CQ.attr "name"
+  |> should equal "vocab"
+
+  html
+  |> CQ.select ".checkbox > label"
+  |> CQ.first
+  |> CQ.text
+  |> should equal "Term1"
     
 [<Test>]
 let ``Should present the multiple vocabulary containing multiple terms`` () =

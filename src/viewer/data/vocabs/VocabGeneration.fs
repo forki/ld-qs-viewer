@@ -5,6 +5,7 @@ open Viewer.Types
 open Viewer.Utils
 open FSharp.Data
 open Viewer.Config
+open Viewer.SuaveExtensions
 
 //subClassOf relations are the opposite way round from what we need
 type InverseTerm =
@@ -183,10 +184,10 @@ let getVocabsWithState vocabs (filters: Filter list) =
   |> Seq.map (fun v -> setSelectedIfFiltered filterUris v)
   |> Seq.toList
 
-type ViewVocab = {
-  Vocab: Vocabulary
-  Expanded: bool
+type VocabModel = {
+  Vocabularies: Vocabulary list
 }
 
 let renderVocabs vocabs =
-  "" 
+  {Vocabularies = vocabs}
+  |> template "templates/filters.html"

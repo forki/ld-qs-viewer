@@ -981,15 +981,6 @@ table {
 	color:#636363;
 	display:inline-block
 }
-.user-styles h4:after {
-	content:"";
-	width:3rem;
-	height:1px;
-	background-color:#d5d5d5;
-	margin-right:.75rem;
-	margin-top:.75rem;
-	display:block
-}
 .user-styles h5 {
 	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-size:1rem
@@ -2420,15 +2411,6 @@ ul.checkbox-list ul li:before {
 	margin-bottom:.75rem;
 	color:#636363;
 	display:inline-block
-}
-.intro h4:after {
-	content:"";
-	width:3rem;
-	height:1px;
-	background-color:#d5d5d5;
-	margin-right:.75rem;
-	margin-top:.75rem;
-	display:block
 }
 .intro h5 {
 	font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;

@@ -1,15 +1,19 @@
 FROM mhart/alpine-node:6.1.0
 
+RUN mkdir /src
 #install stuff we need
-ADD package.json package.json
-ADD Gruntfile.js Gruntfile.js
-ADD tests/ tests/
+ADD . /src
+#RUN rm -rf node_modules && npm cache clean
 
-RUN npm install && \
-    npm install -g grunt-cli
+RUN cd /src && \
+    npm install && \
+    npm install -g mocha
+  
+RUN cd /src && \
+    mocha  
 
-RUN cd /tests && \
-    grunt mochaTest
+#RUN cd /tests && \
+#    grunt mochaTest
 
 
 #Add files we need

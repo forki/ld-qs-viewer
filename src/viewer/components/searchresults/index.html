@@ -13,7 +13,7 @@
                 </div>
             </div>
             {% if model.total_count != empty and model.show_help == true %}
-            <div class="counter">Total number of NICE Quality statements: {{model.total_count}}</div>
+            <div class="counter">Total number of NICE quality statements: {{model.total_count}}</div>
             {% else %}
             <div class="counter">{{model.total_count}} filtered items</div>
             {% endif %}
@@ -33,50 +33,106 @@
     {% endfor -%}
 
     {% if model.show_help == true %}
-      <div class="intro">
+    <div class="intro">
+	  
+	  
+	  
+	   <section class="panel">
+ 
+    <div class="row">
+      <div class="col-md-12">
+
+     <h3 style="
+    /* text-align: center; */
+"> Quality statements help you prioritise areas for quality improvement. </h3>
+  
+</div>
+
+<div class="col-md-6">
+  <h4>Find statements tailored to your:     </h4>
+	 
+<ul> 
+
+<li> Service </li>
+
+<li> Setting </li>
+
+<li> Population of interest. </li>
+
+   </ul>
+</div>
+  
+  <div class="col-md-6">
+
+<h4>  How it works: </h4>
+
+<ul>
+
+ <li> Select filters to target your specific area of interest. </li>
+<li>    Click one of the results to access the full quality statement. </li>
+
+
+  
+  </ul>
+  
+
+
+</div>
+
+       </div>
+	   
+	   </section>
+	  
+	  
+
+	  
         <section class="panel">
-          <header>
-            <h3>About NICE Quality Statements</h3>
-          </header>
+        
           <div class="row">
-            <div class="col-md-6">
-              <h4>Get started</h4>
-              <ul>
-                <li>Filter through all of the published quality statements relevant to your particular service, setting or population of interest from across the whole quality standards programme.</li>
-                <li>Use one or more of the filters to narrow down your search; you can expand or narrow your search further at any stage.</li>
-                <li>Select any of the results in the list to see the full statement, associated measures and useful related information.</li>
-              </ul>
+            <div class="col-md-10">
+             
+			 <h3 style="
+    /* text-align: center; */
+"> What are quality statements?  </h3>
+			 
+			 <p> Quality statements use the best available evidence to identify priority areas for quality improvement. They focus on areas where variation in care has been identified. </p>
+  <p> Each statement describes what high-quality care looks like. They provide a benchmark for care and a framework for measuring improvements.  </p>
+   <p> The statements come from our collection of quality standards. <a href="https://www.nice.org.uk/standards-and-indicators"> Find out how we develop them, how you can get involved and what topics are coming up. </a> </p>
+
+			 
+			 
             </div>
-            <div class="col-md-6">
-              <h4>Who are they for?</h4>
-              <ul>
-                <li>Commissioners to inform new service specification.</li>
-                <li>Service providers to benchmark their current service provision.</li>
-                <li>Commissioners and service providers together to help prioritise key areas for service improvement activities.</li>
-              </ul>
-            </div>
+            
           </div>
-        </section>
-        <section class="panel alt">
+		  
+		  
+        </section><section class="panel alt">
           <header>
-            <h3>Benefits of using NICE Quality Statements</h3>
+            <h3>Benefits of using NICE quality statements</h3>
           </header>
           <div class="row">
             <div class="col-sm-4">
               <h4>Support</h4>
-              <p>Quality statements support commissioners and service providers with benchmarking and quality improvement initiatives.</p>
+              <p>  Know what high-quality care looks like when providing or commissioning services. </p>
             </div>
             <div class="col-sm-4">
               <h4>Measure</h4>
-              <p>Each NICE quality statement describes what high quality care or service provision looks like for a specific area of care, and provides measures to support initial benchmarking and evaluation of improvement.</p>
+              <p>  Use metrics that are nationally-recognised, robust, evidenced-based and consistent.</p>
             </div>
             <div class="col-sm-4">
               <h4>Improve</h4>
-              <p>Statements exist for those areas of care identified through the NICE quality standards programme as a high priority for quality improvement.</p>
+              <p> Find opportunities for quality improvement and set your strategy for the year ahead. </p>
             </div>
           </div>
         </section>
+		
+		    
+      
       </div>
+    
+
+    </div>
+</div>
     {% endif %}
 
     </div>

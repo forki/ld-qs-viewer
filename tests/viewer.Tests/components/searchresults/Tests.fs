@@ -67,7 +67,7 @@ let ``Should present a total KB Quality statement count`` () =
     |> parseHtml
     |> CQ.select ".counter"
     |> CQ.text
-  totalCount |> should equal "Total number of NICE Quality statements: 3"
+  totalCount |> should equal "Total number of NICE quality statements: 3"
 
     
 [<Test>]

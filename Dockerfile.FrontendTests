@@ -2,14 +2,15 @@ FROM mhart/alpine-node:6.1.0
 
 #Add files we need
 RUN mkdir /src
-ADD . /src
+ADD tests/viewer.FrontendTests /src/tests
+ADD src/viewer/components /src/components
 
 #install stuff we need
-RUN cd /src && \
+RUN cd /src/tests && \
     npm install && \
     npm install -g mocha
   
 #run tests
-RUN cd /src && \
+RUN cd /src/tests && \
     mocha  
 

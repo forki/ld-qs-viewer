@@ -1,0 +1,6 @@
+discoverytool:
+  image: "${IMAGE_NAME}:${IMAGE_VERSION}"
+  ports:
+    - "8083:8083"
+  environment:
+    - HOTJARID

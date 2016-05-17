@@ -13,7 +13,7 @@ module.exports = function sidebar() {
      }
      return values;
    },
-   reduce : function(arrayToGroup) {
+   groupBy : function(arrayToGroup) {
      var grouped = [];
      var hist = {};
 
@@ -39,6 +39,19 @@ module.exports = function sidebar() {
        }
      }
      return keys;
-   }
+   },
+   selectCheckboxes : function (qs) {
+     if (qs && qs!=="")  {
+        var result = sidebar.extractKeysAndValuesFromUrl(qs);
+        var keys = sidebar.extractKeys(result);
+        var values = sidebar.extractValues(result);
+        var uniqueKeys = sidebar.groupBy(keys);
+        var uniqueValues = sidebar.groupBy(values);
+        uniqueKeys.forEach(function (key) {
+          console.log(key);
+        });
+        
+     }               
+    }
  };
 };

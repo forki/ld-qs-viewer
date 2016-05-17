@@ -240,6 +240,6 @@ let ``Should render the vocabs with vocabulary property embedded in dom`` () =
 
   renderVocabs vocabs
   |> parseHtml
-  |> CQ.select ".vocab"
+  |> CQ.select ".accordion-trigger"
   |> CQ.attr "id"
   |> should equal "vocab:property"

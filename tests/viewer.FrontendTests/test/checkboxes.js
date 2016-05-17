@@ -19,7 +19,7 @@ describe("Given I have a url with more filters that have the same key" ,function
     var result = sidebar.extractKeysAndValuesFromUrl(qs);
     var keys = sidebar.extractKeys(result);
     var values = sidebar.extractValues(result);
-    var uniqueKeys = sidebar.reduce(keys);
+    var uniqueKeys = sidebar.groupBy(keys);
 
     uniqueKeys.length.should.equal(1);
     uniqueKeys[0].should.equal("key1");
@@ -27,4 +27,5 @@ describe("Given I have a url with more filters that have the same key" ,function
     values[1].should.equal("value2");
   })
 });
+
 

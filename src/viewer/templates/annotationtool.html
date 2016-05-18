@@ -42,13 +42,21 @@
 
     <main role="main">
         <div class="main" id="content">
-          {% include "components/annotationsidebar/index.html" model:model.Vocabularies %}
+          {% include "components/annotationsidebar/index.html" model:model %}
           {% include "components/annotationblock/index.html" model:model.blah2 %}
         </div>
     </main>
   <script src="/qs/components/sidebar/client/script.js"></script>
   <script src="/qs/components/nojs/client/script.js"></script>
+  <script src="/qs/components/jquery/client/script.js"></script>
   <script src="/qs/components/googleanalytics/client/script.js"></script>
+  <script type="text/javascript">
+   $(document).ready(function() {
+       console.log("here");
+       console.log(sidebar);
+    sidebar.selectCheckboxes(document.location.search);
+   });
+  </script>
 </body>
 </html>
 

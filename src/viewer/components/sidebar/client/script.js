@@ -44,7 +44,6 @@
      return stringWithColon.replace(":", "\\:");
    },
    selectCheckboxes : function (qs) {
-                        console.log(qs);
      if (qs && qs!=="")  {
         var result = sidebar.extractKeysAndValuesFromUrl(qs);
         var keys = sidebar.extractKeys(result);
@@ -56,7 +55,6 @@
           $("#" + sidebar.escapeColon(decodeURIComponent(key)) ).click();
         });
         uniqueValues.forEach(function (value) {
-          console.log(value);
           var selector ="input:checkbox[value='" + decodeURIComponent(value) + "']";
           if ($(selector + ":checked").length === 0) {
             $(selector).click();

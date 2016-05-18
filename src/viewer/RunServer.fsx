@@ -15,7 +15,7 @@ let mode = if fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev" 
 setTemplatesDir (System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/web/qs"))
 
 let defaultConfig = { defaultConfig with
-                                    bindings = [ HttpBinding.mkSimple HTTP "0.0.0.0" 8084 ]
+                                    bindings = [ HttpBinding.mkSimple HTTP "0.0.0.0" 8083 ]
                                     homeFolder = Some (__SOURCE_DIRECTORY__ + "/web")}
 
 //printf "Running with server config:\n%A\n" defaultConfig

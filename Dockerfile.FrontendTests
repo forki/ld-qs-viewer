@@ -1,0 +1,13 @@
+FROM mhart/alpine-node:6.1.0
+
+#Add files we need
+RUN mkdir /src
+ADD tests/viewer.FrontendTests /tests/viewer.FrontendTests
+ADD src/viewer/components /src/viewer/components
+
+#install stuff we need
+RUN cd /tests/viewer.FrontendTests && \
+    npm install && \
+    npm install -g mocha && \
+    mocha  
+

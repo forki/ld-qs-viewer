@@ -16,6 +16,13 @@ See build.fsx for task and dependancy definitions
 ### Tests
 Tests are run using NUnit with the FsUnit assertion framework.
 
+### Front end development (JS / HTML)
+
+There are tasks for updating the js and html files after changes have been made, without having to rebuild to app.
+```
+./build.sh CopyClient
+```
+
 ### Running in dev mode
 
 This will run the server up with stubbed data from external dependancies

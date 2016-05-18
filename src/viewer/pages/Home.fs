@@ -17,7 +17,7 @@ type HomeModel = {
 let private buildContent (req:HttpRequest) config showOverview =
   let testing = req.cookies |> Map.containsKey "test"
 
-  [Sidebar.render req.query config.Vocabs testing
+  [Sidebar.render config.RenderedVocabs
    SearchResults.render {Qs=req.query
                          GetSearchResults = config.GetSearchResults
                          GetKBCount = config.GetKBCount
@@ -32,7 +32,6 @@ let private buildScripts =
      <script src="/qs/components/googleanalytics/client/script.js"></script>
      <script src="/qs/components/jquery/client/script.js"></script>
      <script src="/qs/components/nestedcheckboxes/client/script.js"></script>
-
 """
 
 let page (req:HttpRequest) config showOverview =

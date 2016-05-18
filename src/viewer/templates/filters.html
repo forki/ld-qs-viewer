@@ -1,0 +1,8 @@
+{% for v in model.Vocabularies -%}
+    <div class="vocab">
+      <h4 id="{{v.Property}}" class="filter-label accordion-trigger"> {{v.Label}}</h4>
+        <div class="accordion closed">
+        {% include "templates/checkbox.html" terms:v.Root.Children prop:v.Property %}
+        </div>
+    </div>
+ {% endfor -%}

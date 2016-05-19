@@ -52,10 +52,10 @@
         var uniqueValues = sidebar.groupBy(values);
 
         uniqueKeys.forEach(function (key) {
-          $("#" + sidebar.escapeColon(decodeURIComponent(key)) ).click();
+          $("#" + sidebar.escapeColon(decodeURIComponent(key).replace("+"," ")) ).click();
         });
         uniqueValues.forEach(function (value) {
-          var selector ="input:checkbox[value='" + decodeURIComponent(value) + "']";
+          var selector ="input:checkbox[value='" + decodeURIComponent(value).replace("+"," ") + "']";
           if ($(selector + ":checked").length === 0) {
             $(selector).click();
           }  

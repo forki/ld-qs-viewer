@@ -55,10 +55,10 @@
         var uniqueValues = sidebar.groupBy(values);
 
         uniqueKeys.forEach(function (key) {
-            $("#" + sidebar.escapeColon(sidebar.replaceAllOccurrences(decodeURIComponent(key).replace("+"," ")))).click();
+            $("#" + sidebar.escapeColon(decodeURIComponent(key.replace(/\+/g,'%20')))).click();
         });
         uniqueValues.forEach(function (value) {
-            var selector ="input:checkbox[value='" + sidebar.replaceAllOccurrences(decodeURIComponent(value),"+"," ") + "']";
+          var selector ="input:checkbox[value='" + decodeURIComponent(value.replace(/\+/g, '%20')) + "']";
           if ($(selector + ":checked").length === 0) {
             $(selector).click();
           }

@@ -25,9 +25,9 @@ let vocabs = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qualitysta
                                                                                         Selected = false
                                                                                         Children = []};
                                                                    ]};
-                                                      Term { Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/TestSetting1#Term1B"
-                                                             ShortenedUri = "TestSetting1#Term1B"
-                                                             Label = "Term1B"
+                                                      Term { Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/TestSetting1#Term1+ B"
+                                                             ShortenedUri = "TestSetting1#Term1+ B"
+                                                             Label = "Term1+ B"
                                                              Selected = false
                                                              Children = []};
 

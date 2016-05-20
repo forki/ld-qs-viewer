@@ -42,7 +42,9 @@ let RunElasticQuery testing (query: string) =
 
   let url = sprintf "http://elastic:9200/%s/qualitystatement/_search?" indexName
   try
-    Http.RequestString(url, body = TextRequest query)
+    Http.RequestString(url,
+                       body = TextRequest query,
+                       headers = [ "Content-Type", "application/json;charset=utf-8" ])
   with
     | ex ->
       printf "%s\n" (ex.ToString())

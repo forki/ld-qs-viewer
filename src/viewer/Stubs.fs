@@ -19,9 +19,9 @@ let vocabs = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qualitysta
                                                                     Label = "Term1A"
                                                                     Selected = false
                                                                     Children = [
-                                                                                 Term { Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/TestSetting1#Term1AA"
-                                                                                        ShortenedUri = "TestSetting1#Term1AA"
-                                                                                        Label = "Term1AA"
+                                                                                 Term { Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/TestSetting1#Term1 AA"
+                                                                                        ShortenedUri = "TestSetting1#Term1 A A"
+                                                                                        Label = "Term1 A A"
                                                                                         Selected = false
                                                                                         Children = []};
                                                                    ]};
@@ -57,8 +57,8 @@ let vocabsForTests = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qu
                                                         Selected = false
                                                         Children = []};
                                                  Term { Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/TestSetting#Term2"
-                                                        ShortenedUri = "TestSetting#Term2"
-                                                        Label = "Term2"
+                                                        ShortenedUri = "TestSetting#Term2 AAA"
+                                                        Label = "Term2 AAA"
                                                         Selected = false
                                                         Children = []};]};
                        Property = "qualitystandard:setting";

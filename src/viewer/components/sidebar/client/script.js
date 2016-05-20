@@ -43,9 +43,6 @@
    escapeColon : function (stringWithColon){
      return stringWithColon.replace(":", "\\:");
    },
-   replaceAllOccurrences : function (str, find, replacement) {
-       return str.split(find).join(replacement);
-   },
    selectCheckboxes : function (qs) {
      if (qs && qs!=="")  {
         var result = sidebar.extractKeysAndValuesFromUrl(qs);

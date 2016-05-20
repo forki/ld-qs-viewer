@@ -4,6 +4,7 @@ open Suave
 open Suave.Cookie
 open Viewer.Utils
 open Viewer.AppConfig
+open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Components
 open Viewer.Components.Sidebar
 open Viewer.Components.SearchResults
@@ -16,8 +17,12 @@ type HomeModel = {
 
 let private buildContent (req:HttpRequest) config showOverview =
   let testing = req.cookies |> Map.containsKey "test"
+  let config = 
+    match testing with
+    | true -> {config with RenderedVocabs = renderVocabs Stubs.vocabs}
+    | false -> config
 
-  [Sidebar.render config.RenderedVocabs
+  [Sidebar.render config.RenderedVocabs 
    SearchResults.render {Qs=req.query
                          GetSearchResults = config.GetSearchResults
                          GetKBCount = config.GetKBCount

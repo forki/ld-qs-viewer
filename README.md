@@ -43,6 +43,12 @@ This requires that you link/dns resolve the running docker container to the foll
 
 See docker-compose file in https://github.com/nhsevidence/ld-kb-qs for usage..
 
-# Search 
-This app uses elastic for a search index
+## Tracking
+This app using hotjar and google analytics for capturing user behaviour.  To use these you need to provide the following account ids as environment variables:
+
+* HOTJARID (hot jar id)
+* GAID (google analytics id)
+
+The server will still run if you dont provide these (dev mode or test)
+
 

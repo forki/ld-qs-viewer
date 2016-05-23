@@ -28,6 +28,7 @@ let baseConfig = {
   GetSearchResults = (fun _ _ -> [])
   GetKBCount = (fun _ -> 0)
   HotjarId = ""
+  GAId = ""
 }
 
 let startServerWith config =

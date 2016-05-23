@@ -9,6 +9,7 @@ open Viewer.Components
 open Viewer.Components.Sidebar
 open Viewer.Components.SearchResults
 open Viewer.Components.Hotjar
+open Viewer.Components.GoogleAnalytics
 
 type HomeModel = {
   Content: string
@@ -28,13 +29,13 @@ let private buildContent (req:HttpRequest) config showOverview =
                          GetKBCount = config.GetKBCount
                          ShowOverview = showOverview
                          Testing = testing}
-   Hotjar.render config.HotjarId]
+   Hotjar.render config.HotjarId
+   GoogleAnalytics.render config.GAId]
   |> Seq.fold (fun acc comp -> acc + comp) ""
 
 let private buildScripts =
   """<script src="/qs/components/sidebar/client/script.js?version=1"></script>
      <script src="/qs/components/nojs/client/script.js?version=1"></script>
-     <script src="/qs/components/googleanalytics/client/script.js?version=1"></script>
      <script src="/qs/components/jquery/client/script.js?version=1"></script>
      <script src="/qs/components/nestedcheckboxes/client/script.js?version=1"></script>
 """

@@ -59,6 +59,7 @@
     <Compile Include="components\searchresults\Main.fs" />
     <Compile Include="components\annotationblock\Main.fs" />
     <Compile Include="components\hotjar\Main.fs" />
+    <Compile Include="components\googleanalytics\Main.fs" />
     <Compile Include="pages\Home.fs" />
     <Compile Include="pages\AnnotationTool.fs" />
     <Compile Include="pages\Resource.fs" />

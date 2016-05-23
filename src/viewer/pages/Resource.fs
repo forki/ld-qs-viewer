@@ -7,7 +7,7 @@ open Suave.Cookie
 open Viewer.AppConfig
 open Viewer.Components
 open Viewer.Components.Hotjar
-
+open Viewer.Components.GoogleAnalytics
 
 type ResourceModel = {
   Content : string
@@ -15,8 +15,9 @@ type ResourceModel = {
 }
 
 let private buildScripts config =
-    sprintf """ <script src="/qs/components/googleanalytics/client/script.js"></script>
-    %s """ (Hotjar.render config.HotjarId)
+  [Hotjar.render config.HotjarId
+   GoogleAnalytics.render config.GAId]
+  |> Seq.fold (fun acc comp -> acc + comp) ""
 
 let page config resourceId =
   let url = sprintf "http://resourceapi:8082/resource/%s" resourceId

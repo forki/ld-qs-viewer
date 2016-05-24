@@ -63,6 +63,7 @@
     <Compile Include="components\searchresults\Tests.fs" />
     <Compile Include="components\annotationblock\Tests.fs" />
     <Compile Include="components\hotjar\Tests.fs" />
+    <Compile Include="components\googleanalytics\Tests.fs" />
     <None Include="paket.references" />
     <None Include="Script.fsx" />
   </ItemGroup>

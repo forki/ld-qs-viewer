@@ -38,6 +38,9 @@ let private buildScripts =
      <script src="/qs/components/nojs/client/script.js?version=1"></script>
      <script src="/qs/components/jquery/client/script.js?version=1"></script>
      <script src="/qs/components/nestedcheckboxes/client/script.js?version=1"></script>
+     <script defer>
+      if ($.fn.trackevent) $('.counter').trackevent('Search Results', { action: 'Zero Search Results', label: 'penguin gutterfff' });
+    </script>
 """
 
 let page (req:HttpRequest) config showOverview =

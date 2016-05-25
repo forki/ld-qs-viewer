@@ -1,13 +1,11 @@
-FROM mhart/alpine-node:6.1.0
+FROM nice/frontend-testing
 
 #Add files we need
 RUN mkdir /src
 ADD tests/viewer.FrontendTests /tests/viewer.FrontendTests
 ADD src/viewer/components /src/viewer/components
 
-#install stuff we need
+#run tests
 RUN cd /tests/viewer.FrontendTests && \
-    npm install && \
-    npm install -g mocha && \
-    mocha  
+    mocha-phantomjs -R spec test/test.html
 

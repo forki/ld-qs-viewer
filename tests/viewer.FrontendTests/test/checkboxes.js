@@ -1,5 +1,4 @@
-var should = require("should");
-var sidebar = require("../../../src/viewer/components/sidebar/client/checkboxesFromUrlFilter.js")();
+chai.should();
 
 describe("Given I have a url with filters" ,function() {
   it("should give me an array of keys and values", function() {

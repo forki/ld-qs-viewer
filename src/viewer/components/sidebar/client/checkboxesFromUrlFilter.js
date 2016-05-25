@@ -1,4 +1,4 @@
-module.exports = function sidebar() {
+  var sidebar = (function () {
  return {
    extractKeysAndValuesFromUrl : function (searchOptions) {
       searchOptions = searchOptions.slice(1); //take out the ? mark from the beginning
@@ -40,6 +40,9 @@ module.exports = function sidebar() {
      }
      return keys;
    },
+   escapeColon : function (stringWithColon){
+     return stringWithColon.replace(":", "\\:");
+   },
    selectCheckboxes : function (qs) {
      if (qs && qs!=="")  {
         var result = sidebar.extractKeysAndValuesFromUrl(qs);
@@ -47,11 +50,19 @@ module.exports = function sidebar() {
         var values = sidebar.extractValues(result);
         var uniqueKeys = sidebar.groupBy(keys);
         var uniqueValues = sidebar.groupBy(values);
+
         uniqueKeys.forEach(function (key) {
-          console.log(key);
+            $("#" + sidebar.escapeColon(decodeURIComponent(key.replace(/\+/g,'%20')))).click();
         });
-        
-     }               
+        uniqueValues.forEach(function (value) {
+          var selector ="input:checkbox[value='" + decodeURIComponent(value.replace(/\+/g, '%20')) + "']";
+          if ($(selector + ":checked").length === 0) {
+            $(selector).click();
+          }
+        });
+     }
     }
  };
-};
+
+})();
+

@@ -45,15 +45,5 @@
     </main>
   {% block scripts %}
   {% endblock %}
-  <script type="text/javascript">
-  $(document).ready(function() {
-
-    $("input:submit[value='Apply filters']").click(function() {
-        ga('send', 'event', 'Filters', 'Applied', 'Adults');
-        console.log(sidebar);
-    });
-     sidebar.selectCheckboxes(document.location.search); 
-  });
-  </script>
 </body>
 </html>

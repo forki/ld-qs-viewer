@@ -38,6 +38,7 @@ let private buildScripts =
      <script src="/qs/components/nojs/client/script.js?version=1"></script>
      <script src="/qs/components/jquery/client/script.js?version=1"></script>
      <script src="/qs/components/nestedcheckboxes/client/script.js?version=1"></script>
+     <script src="/qs/components/main/client/script.js?version=1"></script>
   """
 
 let page (req:HttpRequest) config showOverview =

@@ -14,8 +14,9 @@ describe("Given there has been a filter selected", function(){
     googleAnalytics.sendFilters(ga, values); 
 
     var noOfArgumentsPassed = ga.getCalls()[0].args.length;
-    noOfArgumentsPassed.should.equal(4); 
+    noOfArgumentsPassed.should.equal(5); 
     ga.getCalls()[0].args[0].should.equal("send");
+    ga.getCalls()[0].args[1].should.equal("event");
     ga.calledTwice.should.be.true; 
 
   });

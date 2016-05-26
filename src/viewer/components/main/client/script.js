@@ -1,8 +1,11 @@
 (function() {
   if (jQuery) {
     jQuery("input:submit[value='Apply filters']").click(function() {
-      ga('send', 'event', 'Filters', 'Applied', 'Adults');
-      console.log(sidebar);
+      var qs = document.location.search;
+      var result = sidebar.extractKeysAndValuesFromUrl(qs);
+      var values = sidebar.extractValues(result);
+      var uniqueValues = sidebar.groupBy(values);
+      googleAnalytics.sendFilters(uniqueValues);
     });
     sidebar.selectCheckboxes(document.location.search);
   }

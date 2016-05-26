@@ -8,6 +8,6 @@ describe("Given there has been a filter selected", function(){
 
 describe("Given the clear all button has been clicked", function(){
   it("should send a clear event to GA", function() {
-    jQuery.withArgs("input:reset[value='Reset']").calledOnce.should.be.true;
+    jQuery.withArgs("a[type='reset']").calledOnce.should.be.true;
   });
 });

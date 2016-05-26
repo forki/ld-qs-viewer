@@ -8,7 +8,7 @@
       googleAnalytics.sendFilters(ga, uniqueValues);
     });
 
-    jQuery("input:reset[value='Reset']").click(function() {
+    jQuery("a[type='reset']").click(function() {
       googleAnalytics.sendClearFilters(ga);
     });
 

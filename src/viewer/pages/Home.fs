@@ -35,6 +35,7 @@ let private buildContent (req:HttpRequest) config showOverview =
 
 let private buildScripts =
   """<script src="/qs/components/sidebar/client/script.js?version=1"></script>
+     <script src="/qs/components/sidebar/client/googleAnalytics.js"></script>
      <script src="/qs/components/nojs/client/script.js?version=1"></script>
      <script src="/qs/components/jquery/client/script.js?version=1"></script>
      <script src="/qs/components/nestedcheckboxes/client/script.js?version=1"></script>

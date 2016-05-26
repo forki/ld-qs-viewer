@@ -7,6 +7,7 @@
       var uniqueValues = sidebar.groupBy(values);
       googleAnalytics.sendFilters(uniqueValues);
     });
+
     sidebar.selectCheckboxes(document.location.search);
   }
 })(jQuery);

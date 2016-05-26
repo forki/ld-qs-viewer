@@ -21,3 +21,18 @@ describe("Given there has been a filter selected", function(){
 
   });
 });
+
+describe("Given I am on the discovery tool page and I click the Clear All button", function(){
+  it("should send an unapplied event to GA", function() {
+    var ga = sinon.spy();
+    
+    googleAnalytics.sendClearFilters(ga); 
+
+    var noOfArgumentsPassed = ga.getCalls()[0].args.length;
+    noOfArgumentsPassed.should.equal(4); 
+    ga.getCalls()[0].args[0].should.equal("send");
+    ga.getCalls()[0].args[1].should.equal("event");
+    ga.calledOnce.should.be.true; 
+
+  });
+});

@@ -2,6 +2,12 @@ chai.should()
 
 describe("Given there has been a filter selected", function(){
   it("should send an event for each filter selected", function() {
-    jQuery.calledOnce.should.be.true;
+    jQuery.withArgs("input:submit[value='Apply filters']").calledOnce.should.be.true;
+  });
+});
+
+describe("Given the clear all button has been clicked", function(){
+  it("should send a clear event to GA", function() {
+    jQuery.withArgs("input:submit[value='Reset']").calledOnce.should.be.true;
   });
 });

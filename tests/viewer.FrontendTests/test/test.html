@@ -15,6 +15,7 @@
     <script type="text/javascript">
       var jQuery = sinon.stub();
       jQuery.withArgs("input:submit[value='Apply filters']").returns(sinon.stub({click: function(){}}));
+      jQuery.withArgs("input:submit[value='Reset']").returns(sinon.stub({click: function(){}}));
     </script>
     <script src="../../../src/viewer/components/sidebar/client/checkboxesFromUrlFilter.js"></script>
     <script src="../../../src/viewer/components/sidebar/client/googleAnalytics.js"></script>

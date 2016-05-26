@@ -8,6 +8,10 @@
       googleAnalytics.sendFilters(ga, uniqueValues);
     });
 
+    jQuery("input:submit[value='Reset']").click(function() {
+      googleAnalytics.sendClearFilters(ga);
+    });
+
     sidebar.selectCheckboxes(document.location.search);
   }
 })(jQuery);

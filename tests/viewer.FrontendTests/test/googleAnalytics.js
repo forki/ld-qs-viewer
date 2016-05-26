@@ -9,13 +9,14 @@ describe("Given there has been a filter selected", function(){
     var uniqueKeys = sidebar.groupBy(keys);
 
 
-    var ga = { send: sinon.spy() };
+    var ga = sinon.spy();
     
     googleAnalytics.sendFilters(ga, values); 
 
-    var noOfArgumentsPassed = ga.send.getCalls()[0].args.length;
-    noOfArgumentsPassed.should.equal(3); 
-    ga.send.calledTwice.should.be.true; 
+    var noOfArgumentsPassed = ga.getCalls()[0].args.length;
+    noOfArgumentsPassed.should.equal(4); 
+    ga.getCalls()[0].args[0].should.equal("send");
+    ga.calledTwice.should.be.true; 
 
   });
 });

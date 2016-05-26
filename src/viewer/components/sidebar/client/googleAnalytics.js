@@ -9,7 +9,7 @@ var googleAnalytics = (function googleAnalytics() {
             label : events[i]
           };
 
-          ga.send(eventObj.category, eventObj.action, eventObj.label);
+          ga('send', eventObj.category, eventObj.action, eventObj.label);
         }
       }
   };

@@ -5,7 +5,7 @@
       var result = sidebar.extractKeysAndValuesFromUrl(qs);
       var values = sidebar.extractValues(result);
       var uniqueValues = sidebar.groupBy(values);
-      googleAnalytics.sendFilters(uniqueValues);
+      googleAnalytics.sendFilters(ga, uniqueValues);
     });
 
     sidebar.selectCheckboxes(document.location.search);

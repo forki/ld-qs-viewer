@@ -8,12 +8,14 @@ describe("Given there has been a filter selected", function(){
     var values = sidebar.extractValues(result);
     var uniqueKeys = sidebar.groupBy(keys);
 
-    var ga = {
-      send : sinon.stub()
-    };
 
-    googleAnalytics.send(ga, values); 
+    var ga = { send: sinon.spy() };
     
+    googleAnalytics.sendFilters(ga, values); 
+
+    var noOfArgumentsPassed = ga.send.getCalls()[0].args.length;
+    noOfArgumentsPassed.should.equal(3); 
     ga.send.calledTwice.should.be.true; 
+
   });
 });

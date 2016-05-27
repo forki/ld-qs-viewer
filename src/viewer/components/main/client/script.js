@@ -8,7 +8,7 @@
       googleAnalytics.sendFilters(ga, uniqueValues);
 
       var results = jQuery(".result");
-      googleAnayltics.sendResults(ga, results);
+      googleAnalytics.sendResults(ga, results);
     });
 
     jQuery("a[type='reset']").click(function() {
@@ -16,5 +16,7 @@
     });
 
     sidebar.selectCheckboxes(document.location.search);
+
+    jQuery.scrollDepth();
   }
 })(jQuery);

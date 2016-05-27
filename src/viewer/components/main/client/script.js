@@ -8,7 +8,7 @@
       googleAnalytics.sendFilters(ga, uniqueValues);
 
       var results = jQuery(".result");
-      googleAnayltics.sendResults(results);
+      googleAnayltics.sendResults(ga, results);
     });
 
     jQuery("a[type='reset']").click(function() {

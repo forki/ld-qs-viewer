@@ -36,3 +36,38 @@ describe("Given I am on the discovery tool page and I click the Clear All button
 
   });
 });
+
+describe("Given there has been a filter selected and I click the apply filter button and zero results have returned", function(){
+  it("should send an event for each with results provided", function() {
+    var ga = sinon.spy();
+    
+    googleAnalytics.sendResults(ga, []); 
+
+    var noOfArgumentsPassed = ga.getCalls()[0].args.length;
+    noOfArgumentsPassed.should.equal(5); 
+    ga.getCalls()[0].args[0].should.equal("send");
+    ga.getCalls()[0].args[1].should.equal("event");
+    ga.getCalls()[0].args[3].should.equal("Without results");
+    ga.getCalls()[0].args[4].should.equal("0 results");
+    ga.calledOnce.should.be.true; 
+
+  });
+});
+
+describe("Given there has been a filter selected and I click the apply filter button and results have returned", function(){
+  it("should send an event for each with results provided", function() {
+    var ga = sinon.spy();
+    
+    googleAnalytics.sendResults(ga, ["<div class='result'>something</div>"]); 
+
+    var noOfArgumentsPassed = ga.getCalls()[0].args.length;
+    noOfArgumentsPassed.should.equal(5); 
+    ga.getCalls()[0].args[0].should.equal("send");
+    ga.getCalls()[0].args[1].should.equal("event");
+    ga.getCalls()[0].args[3].should.not.equal("Without results");
+    ga.getCalls()[0].args[4].should.not.equal("0 results");
+    ga.calledOnce.should.be.true; 
+
+  });
+});
+

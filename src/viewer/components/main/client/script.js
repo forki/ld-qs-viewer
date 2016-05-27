@@ -6,6 +6,9 @@
       var values = sidebar.extractValues(result);
       var uniqueValues = sidebar.groupBy(values);
       googleAnalytics.sendFilters(ga, uniqueValues);
+
+      var results = jQuery(".result");
+      googleAnayltics.sendResults(results);
     });
 
     jQuery("a[type='reset']").click(function() {

@@ -50,8 +50,7 @@
           if (percentage > 100) {
             percentageText = "100%";
           }
-          if (!scrollTracker[getEventValue(percentage)]) {
-
+          if (!scrollTracker[getEventValue(percentage)] && qs !== "") {
              googleAnalytics.sendScrollDepth(ga, percentageText, getEventValue(percentage));
              scrollTracker[getEventValue(percentage)] = true;
           }

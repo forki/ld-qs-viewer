@@ -37,6 +37,7 @@ var googleAnalytics = (function googleAnalytics() {
       ga('send', 'event', "Filters", "Cleared");
     },
     sendResults : function send(ga, results) {
+      console.log(results.length);
       if (results && results.length === 0) {
         ga('send', 'event', "Results provided", "Without results", "0 results");
       } else{

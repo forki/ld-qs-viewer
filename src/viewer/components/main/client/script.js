@@ -8,6 +8,7 @@
       googleAnalytics.sendFilters(ga, uniqueValues);
 
       var results = jQuery(".result");
+      console.log("before function call", results);
       googleAnalytics.sendResults(ga, results);
     });
 
@@ -17,6 +18,25 @@
 
     sidebar.selectCheckboxes(document.location.search);
 
-    jQuery.scrollDepth();
+    //var Frequency = 10;
+    //var _frequency = Frequency;
+    //var _repentance = 100 / Frequency;
+    //var _scrollMatrix = [];
+    //for (ix = 0; ix < _repentance; ix++) {
+        //_scrollMatrix[ix] = [_frequency, 'false'];
+        //_frequency = Frequency + _frequency;
+    //}
+    console.log(jQuery, jQuery("div.results"));
+
+    jQuery("div.results").scroll(function (e) {
+      console.log(e);
+       //for (iz = 0; iz < _scrollMatrix.length; iz++) {
+         //if ((jQuery(window).scrollTop() + jQuery(window).height() >= jQuery(document).height() * _scrollMatrix[iz][0] / 100)  && (_scrollMatrix[iz][1]== 'false')) {
+           //console.log(_scrollMatrix[iz][0]);
+           //_scrollMatrix[iz][1] = 'true';
+             //ga('send', 'event', "Scroll depth", "Percetage of scroll", _scrollMatrix[iz][0]+'%');
+         //}
+       //}
+    });
   }
 })(jQuery);

@@ -1,5 +1,15 @@
 (function() {
   if (jQuery) {
+    jQuery(document).ready(function() {
+      //track result count 
+      var qs = document.location.search;
+      if (qs !== ""){
+        var results = jQuery(".result");
+        googleAnalytics.sendResults(ga, results);
+        console.log("before function call", results);
+      }
+    });
+
     jQuery("input:submit[value='Apply filters']").click(function() {
       var qs = document.location.search;
       var result = sidebar.extractKeysAndValuesFromUrl(qs);
@@ -7,9 +17,6 @@
       var uniqueValues = sidebar.groupBy(values);
       googleAnalytics.sendFilters(ga, uniqueValues);
 
-      var results = jQuery(".result");
-      console.log("before function call", results);
-      googleAnalytics.sendResults(ga, results);
     });
 
     jQuery("a[type='reset']").click(function() {

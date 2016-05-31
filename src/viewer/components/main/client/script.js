@@ -7,10 +7,55 @@
         var results = jQuery(".result");
         googleAnalytics.sendResults(ga, results);
       }
+
+      var scrollTracker = [];
+      function getEventValue(percentage) {
+        if (percentage < 25) {
+          return 0;
+        }
+        if (percentage > 25 && percentage < 50) {
+          return 1;
+        }
+        if (percentage > 50 && percentage < 75) {
+          return 2;
+        }
+        if (percentage > 75 && percentage < 100) {
+          return 3;
+        }
+        if (percentage > 100) {
+          return 4;
+        }
+      } 
       $(".card-list-wrapper").on('mousewheel DOMMouseScroll', function (event) {
-          //console.log(event.originalEvent);
+          
+          var percentage = 0;
+          var eventValue = 0;
+          var scrollIndex = parseInt($(".card-list-wrapper").scrollTop());
+          var heightOfResults = parseInt($(".results").height() - 600);
+          var percentageText = "Baseline";
+
+          percentage = (scrollIndex / heightOfResults) * 100;
+          if (percentage < 25) {
+            percentageText = "Baseline";
+          }
+          if (percentage > 25 && percentage < 50) {
+            percentageText = "25%";
+          }
+          if (percentage > 50 && percentage < 75) {
+            percentageText = "50%";
+          }
+          if (percentage > 75 && percentage < 100) {
+            percentageText = "75%";
+          }
+          if (percentage > 100) {
+            percentageText = "100%";
+          }
+          if (!scrollTracker[getEventValue(percentage)]) {
+
+             googleAnalytics.sendScrollDepth(ga, percentageText, getEventValue(percentage));
+             scrollTracker[getEventValue(percentage)] = true;
+          }
       });
-      $.scrollDepth();
 
     });
 
@@ -28,26 +73,5 @@
     });
 
     sidebar.selectCheckboxes(document.location.search);
-
-    //var Frequency = 10;
-    //var _frequency = Frequency;
-    //var _repentance = 100 / Frequency;
-    //var _scrollMatrix = [];
-    //for (ix = 0; ix < _repentance; ix++) {
-        //_scrollMatrix[ix] = [_frequency, 'false'];
-        //_frequency = Frequency + _frequency;
-    //}
-    //console.log(jQuery, jQuery("div.results"));
-
-    //jQuery("div.results").scroll(function (e) {
-      //console.log(e);
-       //for (iz = 0; iz < _scrollMatrix.length; iz++) {
-         //if ((jQuery(window).scrollTop() + jQuery(window).height() >= jQuery(document).height() * _scrollMatrix[iz][0] / 100)  && (_scrollMatrix[iz][1]== 'false')) {
-           //console.log(_scrollMatrix[iz][0]);
-           //_scrollMatrix[iz][1] = 'true';
-             //ga('send', 'event', "Scroll depth", "Percetage of scroll", _scrollMatrix[iz][0]+'%');
-         //}
-       //}
-    //});
   }
 })(jQuery);

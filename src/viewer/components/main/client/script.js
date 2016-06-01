@@ -1,6 +1,6 @@
 (function() {
   if (jQuery) {
-    jQuery(document).ready(function() {
+    jQuery.ready(function() {
       //track result count 
       var qs = document.location.search;
       if (qs !== ""){
@@ -25,13 +25,13 @@
         if (percentage > 100) {
           return 4;
         }
-      } 
+          return 0;
+      }
       $(".card-list-wrapper").on('mousewheel DOMMouseScroll', function (event) {
-          
           var percentage = 0;
           var eventValue = 0;
-          var scrollIndex = parseInt($(".card-list-wrapper").scrollTop());
-          var heightOfResults = parseInt($(".results").height() - 600);
+          var scrollIndex = parseInt(jQuery("card-list-wrapper").scrollTop());
+          var heightOfResults = parseInt(jQuery(".results").height() - 600);
           var percentageText = "Baseline";
 
           percentage = (scrollIndex / heightOfResults) * 100;
@@ -41,7 +41,7 @@
           if (percentage > 25 && percentage < 50) {
             percentageText = "25%";
           }
-          if (percentage > 50 && percentage < 75) {
+          if (percentage > 51 && percentage < 75) {
             percentageText = "50%";
           }
           if (percentage > 75 && percentage < 100) {

@@ -22,16 +22,16 @@ var googleAnalytics = (function googleAnalytics() {
   }
   return {
     sendFilters : function send(ga, events) {
-      for (var i=0; i<events.length; i++) {
-
-          var eventObj = {
+        var eventObj = {
             category : 'Filters',
             action : 'Applied',
-            label : events[i]
-          };
+            label : "" 
+        };
 
-          ga('send', 'event', eventObj.category, eventObj.action, eventObj.label);
+        for (var i=0; i<events.length; i++) {
+            eventObj.label += events[i].split("%23")[1] + ",";
         }
+        ga('send', 'event', eventObj.category, eventObj.action, eventObj.label);
       },
     sendClearFilters : function send(ga) {
       ga('send', 'event', 'Filters', 'Cleared');

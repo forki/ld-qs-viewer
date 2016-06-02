@@ -46,8 +46,11 @@ var googleAnalytics = (function googleAnalytics() {
         ga('send', 'event', 'Results provided', 'With results', resultCountText);
       };
     },
-    sendScrollDepth: function send(ga, label, value){
+    sendScrollDepth : function send(ga, label, value){
       ga('send', 'event', 'Scroll depth', 'Percentage of scroll', label, value);
+    },
+    sendOutboundLink : function send (ga, label) {
+        ga('send', 'event', 'Outbound links', 'clicked', label);
     }
   };
 })();

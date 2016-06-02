@@ -71,6 +71,13 @@
       googleAnalytics.sendClearFilters(ga);
     });
 
+    jQuery("#old-standards").click(function() {
+        googleAnalytics.sendOutboundLink("Previous QS NICE website");
+    });
+    jQuery("#mailFeedback").click(function() {
+        googleAnalytics.sendOutboundLink("Feedback");
+    });
+
     sidebar.selectCheckboxes(document.location.search);
   }
 })(jQuery);

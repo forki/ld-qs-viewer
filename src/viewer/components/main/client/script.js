@@ -71,6 +71,16 @@
       googleAnalytics.sendClearFilters(ga);
     });
 
+<<<<<<< Updated upstream
+=======
+    jQuery("#old-standards").click(function() {
+        googleAnalytics.sendOutboundLink(ga, "Previous QS NICE website");
+    });
+    jQuery("#mailFeedback").click(function() {
+        googleAnalytics.sendOutboundLink(ga, "Feedback");
+    });
+
+>>>>>>> Stashed changes
     sidebar.selectCheckboxes(document.location.search);
   }
 })(jQuery);

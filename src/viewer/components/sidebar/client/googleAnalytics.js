@@ -22,16 +22,16 @@ var googleAnalytics = (function googleAnalytics() {
   }
   return {
     sendFilters : function send(ga, events) {
-      for (var i=0; i<events.length; i++) {
-
-          var eventObj = {
+        var eventObj = {
             category : 'Filters',
             action : 'Applied',
-            label : events[i]
-          };
+            label : "" 
+        };
 
-          ga('send', 'event', eventObj.category, eventObj.action, eventObj.label);
+        for (var i=0; i<events.length; i++) {
+            eventObj.label += events[i].split("%23")[1] + ",";
         }
+        ga('send', 'event', eventObj.category, eventObj.action, eventObj.label);
       },
     sendClearFilters : function send(ga) {
       ga('send', 'event', 'Filters', 'Cleared');
@@ -46,8 +46,11 @@ var googleAnalytics = (function googleAnalytics() {
         ga('send', 'event', 'Results provided', 'With results', resultCountText);
       };
     },
-    sendScrollDepth: function send(ga, label, value){
+    sendScrollDepth : function send(ga, label, value){
       ga('send', 'event', 'Scroll depth', 'Percentage of scroll', label, value);
+    },
+    sendOutboundLink : function send (ga, label) {
+        ga('send', 'event', 'Outbound links', 'clicked', label);
     }
   };
 })();

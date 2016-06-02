@@ -72,10 +72,10 @@
     });
 
     jQuery("#old-standards").click(function() {
-        googleAnalytics.sendOutboundLink("Previous QS NICE website");
+        googleAnalytics.sendOutboundLink(ga, "Previous QS NICE website");
     });
     jQuery("#mailFeedback").click(function() {
-        googleAnalytics.sendOutboundLink("Feedback");
+        googleAnalytics.sendOutboundLink(ga, "Feedback");
     });
 
     sidebar.selectCheckboxes(document.location.search);

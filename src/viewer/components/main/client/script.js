@@ -1,6 +1,6 @@
 (function() {
   if (jQuery) {
-    jQuery.ready(function() {
+      jQuery(document).ready(function() {
       //track result count 
       var qs = document.location.search;
       if (qs !== ""){
@@ -64,7 +64,6 @@
       var values = sidebar.extractValues(result);
       var uniqueValues = sidebar.groupBy(values);
       googleAnalytics.sendFilters(ga, uniqueValues);
-
     });
 
     jQuery("a[type='reset']").click(function() {

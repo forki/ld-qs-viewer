@@ -14,12 +14,17 @@
     <script src="vendor/sinon-1.17.2.js"></script>
     <script type="text/javascript">
       var jQuery = sinon.stub();
+      var document = new Object();
+      jQuery.withArgs(document).returns(sinon.stub({ready:function(){}}));
       jQuery.withArgs("input:submit[value='Apply filters']").returns(sinon.stub({click: function(){}}));
       jQuery.withArgs("a[type='reset']").returns(sinon.stub({click: function(){}}));
+      jQuery.withArgs("#old-standards").returns(sinon.stub({click:function(){}}));
+      jQuery.withArgs("#mailFeedback").returns(sinon.stub({click:function(){}}));
     </script>
     <script src="../../../src/viewer/components/sidebar/client/checkboxesFromUrlFilter.js"></script>
     <script src="../../../src/viewer/components/sidebar/client/googleAnalytics.js"></script>
     <script src="../../../src/viewer/components/main/client/script.js"></script>
+
     <script>mocha.setup('bdd')</script>
     <script src="googleAnalytics.js"></script>
     <script src="checkboxes.js"></script>

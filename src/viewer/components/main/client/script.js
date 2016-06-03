@@ -1,6 +1,6 @@
 (function() {
   if (jQuery) {
-    jQuery.ready(function() {
+      jQuery(document).ready(function() {
       //track result count 
       var qs = document.location.search;
       if (qs !== ""){

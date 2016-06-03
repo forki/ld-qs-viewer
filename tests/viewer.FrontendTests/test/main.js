@@ -2,7 +2,6 @@ chai.should();
 
 describe("Given there has been a filter selected", function(){
   it("should send an event for each filter selected", function() {
-      console.log("here", jQuery);
     jQuery.withArgs("input:submit[value='Apply filters']").calledOnce.should.be.true;
   });
 });

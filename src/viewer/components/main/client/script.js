@@ -64,7 +64,6 @@
       var values = sidebar.extractValues(result);
       var uniqueValues = sidebar.groupBy(values);
       googleAnalytics.sendFilters(ga, uniqueValues);
-
     });
 
     jQuery("a[type='reset']").click(function() {

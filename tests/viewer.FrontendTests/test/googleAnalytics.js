@@ -1,7 +1,7 @@
 chai.should()
 
-describe("Given there has been a filter selected", function(){
-  it("should send an event for each filter selected", function() {
+describe("Given filters have been selected and the apply filter button has been clicked", function(){
+  it("should send one event with each filter aggregrated into one label", function() {
     var qs = "?key1=value&key1=value";
     var result = sidebar.extractKeysAndValuesFromUrl(qs);
     var keys = sidebar.extractKeys(result);
@@ -17,7 +17,7 @@ describe("Given there has been a filter selected", function(){
     noOfArgumentsPassed.should.equal(5); 
     ga.getCalls()[0].args[0].should.equal("send");
     ga.getCalls()[0].args[1].should.equal("event");
-    ga.calledTwice.should.be.true; 
+    ga.calledOnce.should.be.true; 
 
   });
 });

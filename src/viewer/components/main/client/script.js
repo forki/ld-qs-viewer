@@ -30,27 +30,15 @@
       $(".card-list-wrapper").on('mousewheel DOMMouseScroll', function (event) {
           var percentage = 0;
           var eventValue = 0;
-          var scrollIndex = parseInt(jQuery("card-list-wrapper").scrollTop());
+          var scrollIndex = parseInt(jQuery(".card-list-wrapper").scrollTop());
           var heightOfResults = parseInt(jQuery(".results").height() - 600);
           var percentageText = "Baseline";
 
-          percentage = (scrollIndex / heightOfResults) * 100;
-          if (percentage < 25) {
-            percentageText = "Baseline";
-          }
-          if (percentage > 25 && percentage < 50) {
-            percentageText = "25%";
-          }
-          if (percentage > 51 && percentage < 75) {
-            percentageText = "50%";
-          }
-          if (percentage > 75 && percentage < 100) {
-            percentageText = "75%";
-          }
-          if (percentage > 100) {
-            percentageText = "100%";
-          }
+          percentageText = googleAnalytics.getPercentageText(scrollIndex, heightOfResults);
+
+          console.log(percentageText);
           if (!scrollTracker[getEventValue(percentage)] && qs !== "") {
+              console.log(percentageText);
              googleAnalytics.sendScrollDepth(ga, percentageText, getEventValue(percentage));
              scrollTracker[getEventValue(percentage)] = true;
           }

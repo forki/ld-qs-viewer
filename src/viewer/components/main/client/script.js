@@ -34,7 +34,7 @@
           var heightOfResults = parseInt(jQuery(".results").height() - 600);
           var percentageText = "Baseline";
 
-          percentageText = googleAnalytics.getPercentageText(scrollIndex, heightOfResults);
+          // percentageText = googleAnalytics.getPercentageText(scrollIndex, heightOfResults);
 
           console.log(percentageText);
           if (!scrollTracker[getEventValue(percentage)] && qs !== "") {

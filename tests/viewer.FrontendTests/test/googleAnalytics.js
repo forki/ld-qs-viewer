@@ -79,14 +79,17 @@ describe("Scroll index, page height to percentage value function", function() {
         { args: [4,4], expected: "100%" },
         { args: [NaN,4], expected: "No value due to error" },
         { args: [undefined,4], expected: "No value due to error" },
-        // { args: [1,NaN], expected: "No value due to error" },
-        // { args: [1,undefined], expected: "No value due to error" },
-        // { args: [0,0], expected: "Baseline" },
+        { args: [1,NaN], expected: "No value due to error" },
+        { args: [1,undefined], expected: "No value due to error" },
+        { args: [0,0], expected: "Baseline" },
     ];
 
     tests.forEach(function(test) {
         it(test.args[0] + " and " + test.args[1] + " should return the " + test.expected, function() {
-            var result = googleAnalytics.getPercentageText(test.args[0], test.args[1]).text;
+            var result = "";
+            var arg1 = test.args[0];
+            var arg2 = test.args[1];
+            result = googleAnalytics.getScrollDepth(arg1, arg2);
             result.should.equal(test.expected);
         });
     });

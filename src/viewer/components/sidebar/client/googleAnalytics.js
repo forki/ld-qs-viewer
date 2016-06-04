@@ -25,10 +25,12 @@ var googleAnalytics = (function googleAnalytics() {
     var percentage = (scrollIndex / heightOfResults) * 100;
     var percentageText = "Baseline";
     if (scrollIndex === 0 || heightOfResults === 0)  {
-        return  { text: percentageText};
+        return  percentageText;
     }
     if (isNaN(scrollIndex) || isNaN(heightOfResults) || !scrollIndex || !heightOfResults) {
-        return { text: "No value due to error"};
+        return "No value due to error";
+    }
+        
     if (percentage < 25) {
         percentageText = "Baseline";
     }
@@ -44,8 +46,8 @@ var googleAnalytics = (function googleAnalytics() {
     if (percentage > 99) {
         percentageText = "100%";
     }
-    return { text: percentageText};
-  }
+    return percentageText;
+    }
 
   return {
     sendFilters : function send(ga, events) {
@@ -79,7 +81,7 @@ var googleAnalytics = (function googleAnalytics() {
     sendOutboundLink : function send (ga, label) {
       ga('send', 'event', 'Outbound links', 'clicked', label);
     },
-    getPercentageText : function getPercentageText(scrollIndex, pageHeight) {
+    getScrollDepth : function getPercentageText(scrollIndex, pageHeight) {
       return figureOutPercentageText(scrollIndex, pageHeight);
     }
   };

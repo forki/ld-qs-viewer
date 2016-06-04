@@ -89,7 +89,7 @@ describe("Scroll index, page height to percentage value function", function() {
             var result = "";
             var arg1 = test.args[0];
             var arg2 = test.args[1];
-            result = googleAnalytics.getScrollDepth(arg1, arg2);
+            result = googleAnalytics.getScrollDepth(arg1, arg2).text;
             result.should.equal(test.expected);
         });
     });

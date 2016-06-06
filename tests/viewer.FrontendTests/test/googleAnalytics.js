@@ -71,3 +71,28 @@ describe("Given there has been a filter selected and I click the apply filter bu
   });
 });
 
+describe("Scroll index, page height to percentage value function", function() {
+    var tests = [
+        { args: [0,4], expected: { text: "Baseline", value: 0 } },
+        { args: [1,4], expected: { text: "25%", value: 1 } },
+        { args: [2,4], expected: { text: "50%", value: 2 }},
+        { args: [3,4], expected: { text: "75%", value: 3 }},
+        { args: [4,4], expected: { text: "100%", value: 4 }},
+        { args: [NaN,4], expected: { text: "No value due to error", value: 0 }},
+        { args: [undefined,4], expected:{ text: "No value due to error", value: 0 }},
+        { args: [1,NaN], expected: { text: "No value due to error", value: 0 }},
+        { args: [1,undefined], expected:{ text: "No value due to error", value: 0 }},
+        { args: [0,0], expected: { text: "Baseline", value: 0 }},
+    ];
+
+    tests.forEach(function(test) {
+        it(test.args[0] + " and " + test.args[1] + " should return the " + test.expected, function() {
+            var result = "";
+            var arg1 = test.args[0];
+            var arg2 = test.args[1];
+            result = googleAnalytics.getScrollDepth(arg1, arg2);
+            result.text.should.equal(test.expected.text);
+            result.value.should.equal(test.expected.value);
+        });
+    });
+})

@@ -20,6 +20,43 @@ var googleAnalytics = (function googleAnalytics() {
     }
     return '1 - 50 results';
   }
+
+  function figureOutPercentageText(scrollIndex, heightOfResults) {
+    var percentage = (scrollIndex / heightOfResults) * 100;
+    var percentageText = "Baseline";
+    var value = 0;
+
+    if (scrollIndex === 0 || heightOfResults === 0)  {
+        return {text: percentageText, value: 0};
+    }
+    if (isNaN(scrollIndex) || isNaN(heightOfResults) || !scrollIndex || !heightOfResults) {
+        return {text: "No value due to error", value: 0};
+    }
+        
+    if (percentage < 25) {
+        percentageText = "Baseline";
+        value = 0;
+    }
+    if (percentage > 24 && percentage < 49) {
+        percentageText = "25%";
+        value = 1;
+    }
+    if (percentage > 49 && percentage < 74) {
+        percentageText = "50%";
+        value = 2;
+    }
+    if (percentage > 74 && percentage < 99) {
+        percentageText = "75%";
+        value = 3;
+    }
+    if (percentage > 99) {
+        percentageText = "100%";
+        value = 4;
+    }
+      return {text: percentageText, value: value};
+  }
+
+
   return {
     sendFilters : function send(ga, events) {
         var eventObj = {
@@ -50,7 +87,10 @@ var googleAnalytics = (function googleAnalytics() {
       ga('send', 'event', 'Scroll depth', 'Percentage of scroll', label, value);
     },
     sendOutboundLink : function send (ga, label) {
-        ga('send', 'event', 'Outbound links', 'clicked', label);
+      ga('send', 'event', 'Outbound links', 'clicked', label);
+    },
+    getScrollDepth : function getPercentageText(scrollIndex, pageHeight) {
+      return figureOutPercentageText(scrollIndex, pageHeight);
     }
   };
-})();
+  })();

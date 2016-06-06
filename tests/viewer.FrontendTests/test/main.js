@@ -18,3 +18,9 @@ describe("Links in the site", function(){
         jQuery.withArgs("#old-standards").calledOnce.should.be.true;
     });
 });
+
+describe("scroll in results div", function(){
+    it("should send an event to GA", function() {
+        jQuery.withArgs(".card-list-wrapper").calledOnce.should.be.true;
+    });
+});

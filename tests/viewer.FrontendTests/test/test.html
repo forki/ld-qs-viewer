@@ -20,6 +20,7 @@
       jQuery.withArgs("a[type='reset']").returns(sinon.stub({click: function(){}}));
       jQuery.withArgs("#old-standards").returns(sinon.stub({click:function(){}}));
       jQuery.withArgs("#mailFeedback").returns(sinon.stub({click:function(){}}));
+      jQuery.withArgs(".card-list-wrapper").returns(sinon.stub({on:function(){}}));
     </script>
     <script src="../../../src/viewer/components/sidebar/client/checkboxesFromUrlFilter.js"></script>
     <script src="../../../src/viewer/components/sidebar/client/googleAnalytics.js"></script>

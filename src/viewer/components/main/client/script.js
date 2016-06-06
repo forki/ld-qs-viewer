@@ -1,51 +1,31 @@
 (function() {
   if (jQuery) {
       jQuery(document).ready(function() {
-      //track result count 
-      var qs = document.location.search;
-      if (qs !== ""){
-        var results = jQuery(".result");
-        googleAnalytics.sendResults(ga, results);
-      }
+        //track result count 
+        var qs = document.location.search;
+        if (qs !== ""){
+            var results = jQuery(".result");
+            googleAnalytics.sendResults(ga, results);
+        }
 
-      var scrollTracker = [];
-      function getEventValue(percentage) {
-        if (percentage < 25) {
-          return 0;
-        }
-        if (percentage > 25 && percentage < 50) {
-          return 1;
-        }
-        if (percentage > 50 && percentage < 75) {
-          return 2;
-        }
-        if (percentage > 75 && percentage < 100) {
-          return 3;
-        }
-        if (percentage > 100) {
-          return 4;
-        }
-          return 0;
-      }
-      $(".card-list-wrapper").on('mousewheel DOMMouseScroll', function (event) {
-          var percentage = 0;
-          var eventValue = 0;
-          var scrollIndex = parseInt(jQuery(".card-list-wrapper").scrollTop());
-          var heightOfResults = parseInt(jQuery(".results").height() - 600);
-          var percentageText = "Baseline";
-
-          // percentageText = googleAnalytics.getPercentageText(scrollIndex, heightOfResults);
-
-          console.log(percentageText);
-          if (!scrollTracker[getEventValue(percentage)] && qs !== "") {
-              console.log(percentageText);
-             googleAnalytics.sendScrollDepth(ga, percentageText, getEventValue(percentage));
-             scrollTracker[getEventValue(percentage)] = true;
-          }
-      });
 
     });
 
+    var scrollTracker = [];
+    jQuery(".card-list-wrapper").on('mousewheel DOMMouseScroll', function (event) {
+        var percentage = 0;
+        var eventValue = 0;
+        var scrollIndex = parseInt(jQuery(".card-list-wrapper").scrollTop());
+        var heightOfResults = parseInt(jQuery(".results").height() - 600);
+        var percentageText = "Baseline";
+        var scrollDepth = googleAnalytics.getScrollDepth(scrollIndex, heightOfResults);
+        var qs = document.location.search;
+        if (scrollDepth && !scrollTracker[scrollDepth.value] && qs !== "") {
+            console.log(scrollDepth);
+            googleAnalytics.sendScrollDepth(ga, scrollDepth.text, scrollDepth.value); 
+            scrollTracker[scrollDepth.value] = true;
+        }
+    });
     jQuery("input:submit[value='Apply filters']").click(function() {
       var qs = document.location.search;
       var result = sidebar.extractKeysAndValuesFromUrl(qs);

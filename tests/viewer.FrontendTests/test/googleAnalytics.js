@@ -71,7 +71,7 @@ describe("Given there has been a filter selected and I click the apply filter bu
   });
 });
 
-describe.only("Scroll index, page height to percentage value function", function() {
+describe("Scroll index, page height to percentage value function", function() {
     var tests = [
         { args: [0,4], expected: { text: "Baseline", value: 0 } },
         { args: [1,4], expected: { text: "25%", value: 1 } },

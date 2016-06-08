@@ -1,0 +1,9 @@
+discoverytool:
+  image: "${IMAGE_NAME}:${IMAGE_VERSION}"
+  ports:
+    - "8083:8083"
+  environment:
+    - HOTJARID
+  external_links:
+    - elasticsearch/elastic:elastic
+    - resourceapi/resourceapi:resourceapi

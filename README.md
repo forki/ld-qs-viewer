@@ -33,15 +33,13 @@ fsharpi bin/viewer/RunServer.fsx "dev"
 
 Now visit localhost:8083/qs in a browser of your choice.
 
-### Running in production
 
-This requires that you link/dns resolve the running docker container to the following containers
-
-
-* elastic - container running elastic search on port 9200 (see src/viewer/data/Elastic.fs)
-* resourceapi - container running http resource api on port 8082 (see src/viewer/pages/Resource.fs)
-
-See docker-compose file in https://github.com/nhsevidence/ld-kb-qs for usage..
+## Deploying to Rancher
+There is a docker-compose file that is compatible with the rancher-compose tool for deploying to the rancher container service.
+i.e:
+```
+rancher-compose -p resourceapi up
+```
 
 ## Tracking
 This app using hotjar and google analytics for capturing user behaviour.  To use these you need to provide the following account ids as environment variables:

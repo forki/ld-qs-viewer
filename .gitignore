@@ -192,3 +192,6 @@ paket-files
 docs/content/license.md
 docs/content/release-notes.md
 .fake
+
+# node stuff
+node_modules

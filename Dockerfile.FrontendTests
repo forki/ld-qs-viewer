@@ -1,0 +1,11 @@
+FROM nice/frontend-testing
+
+#Add files we need
+RUN mkdir /src
+ADD tests/viewer.FrontendTests /tests/viewer.FrontendTests
+ADD src/viewer/components /src/viewer/components
+
+#run tests
+RUN cd /tests/viewer.FrontendTests && \
+    mocha-phantomjs -R spec test/test.html
+

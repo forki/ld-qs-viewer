@@ -12,7 +12,7 @@ open Viewer.AppConfig
 let mode = if fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev" then Mode.Dev else Mode.Prod
 
 
-setTemplatesDir (System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer"))
+setTemplatesDir (System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/web/qs"))
 
 let defaultConfig = { defaultConfig with
                                     bindings = [ HttpBinding.mkSimple HTTP "0.0.0.0" 8083 ]

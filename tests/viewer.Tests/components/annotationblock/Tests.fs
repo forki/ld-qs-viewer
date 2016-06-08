@@ -11,12 +11,12 @@ open FSharp.RDF
 
 [<SetUp>]
 let ``Run before tests`` () =
-  setTemplatesDir "../../../../src/viewer/bin/Release/"
+  setTemplatesDir "../../../../bin/viewer/web/qs/"
 
 let vocabs = [{Property = "vocab:property";
-                      Root = Term {t with Label = "Vocab Label";
-                                         Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
-                                                     Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}
+               Root = Term {t with Label = "Vocab Label";
+                                   Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
+                                               Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}
                Label = ""}]
     
 [<Test>]

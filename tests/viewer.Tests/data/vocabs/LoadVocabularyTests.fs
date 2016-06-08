@@ -5,6 +5,7 @@ open FsUnit
 open FSharp.RDF
 open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Types
+open Viewer.Tests.Utils
 
 let graph = """@base <http://ld.nice.org.uk/ns/qualitystandard/setting>.
 
@@ -155,3 +156,90 @@ let ``Should have unselected checkboxes when no search term in url`` () =
                  {Vocab = ""; TermUri = "http://testing.com/Uri3"}]
   let actualVocabs = getVocabsWithState vocabs filters 
   actualVocabs |> should equal expectedVocabs
+
+
+[<Test>]
+let ``Should present a vocabulary with a single term as an input checkbox`` () =
+  let vocabs = [{Property = "vocab"
+                 Root = Term {t with Label = "Vocab 1"
+                                     Children = [Term {t with Label = "Term1"; Uri = uri "http://testing.com/Uri1"; ShortenedUri="Uri1"}]};
+                 Label = "Vocab 1"}]
+
+  let html = renderVocabs vocabs |> parseHtml
+
+  html
+  |> CQ.select ".vocab"
+  |> CQ.first
+  |> CQ.text
+  |> should contain "Vocab 1"
+
+  let checkboxes =
+    html
+    |> CQ.select "input[type='checkbox']"
+    |> CQ.select ".term"
+
+  checkboxes
+  |> CQ.first
+  |> CQ.attr "value"
+  |> should equal "Uri1"
+
+  checkboxes
+  |> CQ.first
+  |> CQ.attr "name"
+  |> should equal "vocab"
+
+  html
+  |> CQ.select ".checkbox > label"
+  |> CQ.first
+  |> CQ.text
+  |> should equal "Term1"
+    
+[<Test>]
+let ``Should present the multiple vocabulary containing multiple terms`` () =
+  let vocabs = [{Property = ""
+                 Root = Term {t with Children = [Term t
+                                                 Term t]};
+                 Label = ""}]
+
+  renderVocabs vocabs
+  |> parseHtml
+  |> CQ.select "input[type='checkbox']"
+  |> CQ.select ".term"
+  |> CQ.length
+  |> should equal 2
+    
+[<Test>]
+let ``Should present the vocabulary term checkboxes unselected by default`` () =
+  let vocabs = [{Property = ""
+                 Root = Term {t with Children = [Term t]};
+                 Label = ""}]
+
+  renderVocabs vocabs
+  |> parseHtml
+  |> CQ.select "input[checked]"
+  |> CQ.length
+  |> should equal 0
+
+[<Test>]
+let ``Should present the vocabulary collapsed by default`` () =
+  let vocabs = [{Property = ""
+                 Root = Term {t with Children = []}
+                 Label = ""}]
+
+  renderVocabs vocabs
+  |> parseHtml
+  |> CQ.select ".accordion.closed"
+  |> CQ.length
+  |> should equal 1
+
+[<Test>]
+let ``Should render the vocabs with vocabulary property embedded in dom`` () =
+  let vocabs = [{Property = "vocab:property"
+                 Root = Term t
+                 Label = ""}]
+
+  renderVocabs vocabs
+  |> parseHtml
+  |> CQ.select ".accordion-trigger"
+  |> CQ.attr "id"
+  |> should equal "vocab:property"

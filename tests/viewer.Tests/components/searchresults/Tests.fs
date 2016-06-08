@@ -10,7 +10,7 @@ open Viewer.SuaveExtensions
 
 [<SetUp>]
 let ``Run before tests`` () =
-  setTemplatesDir "../../../../src/viewer/bin/Release/"
+  setTemplatesDir "../../../../bin/viewer/web/qs/"
 
 let private defaultArgs = {
   Qs = []

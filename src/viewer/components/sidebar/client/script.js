@@ -1,5 +1,8 @@
   var sidebar = (function () {
  return {
+     getSearchLocation : function () {
+         return document.location.search;  
+     },
    extractKeysAndValuesFromUrl : function (searchOptions) {
       searchOptions = searchOptions.slice(1); //take out the ? mark from the beginning
       return searchOptions.split(/=([^&#]*)/); 

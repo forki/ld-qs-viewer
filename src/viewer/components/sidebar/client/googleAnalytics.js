@@ -64,7 +64,6 @@ var googleAnalytics = (function googleAnalytics() {
             action : 'Applied',
             label : "" 
         };
-
         for (var i=0; i<events.length; i++) {
             eventObj.label += events[i].split("%23")[1] + ",";
         }

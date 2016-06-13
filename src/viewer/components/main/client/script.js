@@ -1,8 +1,9 @@
 (function() {
+    var qs ="";
   if (jQuery) {
       jQuery(document).ready(function() {
         //track result count 
-        var qs = document.location.search;
+        qs = document.location.search;
         if (qs !== ""){
             var results = jQuery(".result");
             googleAnalytics.sendResults(ga, results);
@@ -26,8 +27,8 @@
             scrollTracker[scrollDepth.value] = true;
         }
     });
-    jQuery("input:submit[value='Apply filters']").click(function() {
-      var qs = document.location.search;
+    jQuery("input:submit[value='Apply filters']").click(function(evt) {
+      var qs = sidebar.getSearchLocation(); 
       var result = sidebar.extractKeysAndValuesFromUrl(qs);
       var values = sidebar.extractValues(result);
       var uniqueValues = sidebar.groupBy(values);

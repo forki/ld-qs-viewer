@@ -34,13 +34,12 @@ let private buildContent (req:HttpRequest) config showOverview =
   |> Seq.fold (fun acc comp -> acc + comp) ""
 
 let private buildScripts =
-  """<script src="/qs/components/sidebar/client/script.js?version=1"></script>
+  """<script src="/qs/components/sidebar/client/script.js?version=2"></script>
      <script src="/qs/components/sidebar/client/googleAnalytics.js"></script>
-     <script src="/qs/components/nojs/client/script.js?version=1"></script>
-     <script src="/qs/components/jquery/client/script.js?version=1"></script>
-     <script src="/qs/components/nestedcheckboxes/client/script.js?version=1"></script>
-     <script src="/qs/components/main/client/script.js?version=1"></script>
-     <script src="/qs/components/main/client/jquery.scrolldepth.min.js?version=1"></script>
+     <script src="/qs/components/nojs/client/script.js?version=2"></script>
+     <script src="/qs/components/jquery/client/script.js?version=2"></script>
+     <script src="/qs/components/nestedcheckboxes/client/script.js?version=2"></script>
+     <script src="/qs/components/main/client/script.js?version=2"></script>
   """
 
 let page (req:HttpRequest) config showOverview =

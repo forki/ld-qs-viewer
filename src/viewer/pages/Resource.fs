@@ -20,7 +20,7 @@ let private buildScripts config =
   |> Seq.fold (fun acc comp -> acc + comp) ""
 
 let page config resourceId =
-  let url = sprintf "http://resourceapi:8082/resource/%s" resourceId
+  let url = sprintf "http://resourceapi.resourceapi:8082/resource/%s" resourceId
   let content =
     try
       Http.RequestString(url)

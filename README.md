@@ -48,3 +48,4 @@ This app using hotjar and google analytics for capturing user behaviour.  To use
 * GAID (google analytics id)
 
 The server will still run if you dont provide these (dev mode or test)
+

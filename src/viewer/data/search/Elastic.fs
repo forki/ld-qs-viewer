@@ -26,7 +26,7 @@ let GetKBCount testing =
     match testing with
     | true -> "kb_test"
     | false -> "kb"
-  let url = sprintf "http://elastic.elasticsearch:9200/%s/_count?" indexName
+  let url = sprintf "http://elastic:9200/%s/_count?" indexName
   try
     Http.RequestString(url)
   with

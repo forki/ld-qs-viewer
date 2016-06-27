@@ -5,3 +5,7 @@ discoverytool:
   environment:
     - HOTJARID
     - GAID
+  external_links:
+    - elasticsearch/elastic:elastic
+    - resourceapi/resourceapi:resourceapi
+    - ontologies/schema:schema

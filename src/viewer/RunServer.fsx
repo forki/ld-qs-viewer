@@ -8,6 +8,7 @@ open Suave.Http
 open Viewer.SuaveExtensions
 open Viewer.App
 open Viewer.AppConfig
+open System.Net
 
 let mode = if fsi.CommandLineArgs.Length = 2 && fsi.CommandLineArgs.[1] = "dev" then Mode.Dev else Mode.Prod
 
@@ -19,5 +20,6 @@ let defaultConfig = { defaultConfig with
                                     homeFolder = Some (__SOURCE_DIRECTORY__ + "/web")}
 
 //printf "Running with server config:\n%A\n" defaultConfig
+ServicePointManager.DnsRefreshTimeout = 0
 let appConfig = getAppConfig mode
 startWebServer defaultConfig (createApp appConfig)

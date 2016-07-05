@@ -1,13 +1,26 @@
-FROM nice/alpine-fsharp:2f00052c29ce34a5ce8e765b287b6e5072c1b22e	
+FROM ocelotuproar/docker-alpine-fsharp:4.0
 
 MAINTAINER James Kirk <james.kirk84@gmail.com>
 
-ADD . /usr/share/ld-viewer/
+RUN mkdir /discoverytool
 
-RUN /usr/share/ld-viewer/build.sh &&\
-    cd /usr/share/ld-viewer &&\
+# Keep package management separate from code
+ADD paket.dependencies paket.lock .paket/ /discoverytool/
+ADD .paket/ /discoverytool/.paket/
+
+WORKDIR /discoverytool
+
+RUN mono .paket/paket.bootstrapper.exe && mono .paket/paket.exe install
+
+ADD RELEASE_NOTES.md build.sh build.fsx viewer.sln /discoverytool/
+ADD src /discoverytool/src
+ADD tests /discoverytool/tests
+
+RUN /discoverytool/build.sh &&\
+    cd /discoverytool && \
     ls -a . | grep -v "bin" | xargs -i rm -rf {}
 
-CMD cd /usr/share/ld-viewer/ && fsharpi bin/viewer/RunServer.fsx
+CMD fsharpi bin/viewer/RunServer.fsx $SERVER_MODE
 
 EXPOSE 8083
+	

@@ -31,7 +31,7 @@ let GetKBCount testing =
     Http.RequestString(url)
   with
     ex ->
-      printf "%s\n" (ex.ToString())
+      printf "ELASTICSEARCH_ERROR - unable to get count check index%s\n"
       ""
 
 let RunElasticQuery testing (query: string) =
@@ -47,7 +47,7 @@ let RunElasticQuery testing (query: string) =
                        headers = [ "Content-Type", "application/json;charset=utf-8" ])
   with
     | ex ->
-      printf "%s\n" (ex.ToString())
+      printf "ELASTICSEARCH_ERROR - unable to execute query%s\n"
       ""
 
 let ParseCountResponse resp =
@@ -56,7 +56,7 @@ let ParseCountResponse resp =
     json.Count
   with
     | ex ->
-      printf "%s\n" (ex.ToString())
+      printf "ELASTICSEARCH_ERROR - unable to parse response for count\n"
       0
 
 let ParseResponse response =
@@ -76,7 +76,7 @@ let ParseResponse response =
     json.Hits.Hits |> Seq.map createResult |> Seq.toList
   with
     | ex ->
-      printf "%s\n" (ex.ToString())
+      printf "UNABLE TO PARSE ELASTIC SEARCH RESPONSE\n"
       []
 
 let GetSearchResults runSearch testing query =

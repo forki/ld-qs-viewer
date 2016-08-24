@@ -14,6 +14,7 @@ type SearchResult = {
   Uri: string
   Title: string
   Abstract: string
+  FirstIssuedDate: System.DateTime 
 }
 
 type Tag = {

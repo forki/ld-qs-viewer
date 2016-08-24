@@ -140,7 +140,7 @@ let ``ParseResponse should map a single result`` () =
 
   let results = ParseResponse stubbedResponse
 
-  results |> should equal [{Uri = "This is the Uri"; Abstract = "This is the abstract"; Title = "This is the title"}]
+  results |> should equal [{Uri = "This is the Uri"; Abstract = "This is the abstract"; Title = "This is the title"; FirstIssuedDate = new System.DateTime()}]
 
     
 [<Test>]

@@ -57,41 +57,41 @@ let vocabs = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qualitysta
               Property = "qualitystandard:serviceArea";
               Label = "Service Area"}]
 
-let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title"};
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
-                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"}
+let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
+                            {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "This is the title"; FirstIssuedDate = new System.DateTime()};
 
 ]
 

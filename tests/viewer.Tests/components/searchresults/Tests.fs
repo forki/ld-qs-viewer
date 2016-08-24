@@ -33,8 +33,8 @@ let ``Should show message when attempting to search with no filters`` () =
     
 [<Test>]
 let ``Should present search results`` () =
-  let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""};
-                              {Uri = "";Abstract = ""; Title = ""}]
+  let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; FirstIssuedDate = new System.DateTime()};
+                              {Uri = "";Abstract = ""; Title = ""; FirstIssuedDate = new System.DateTime()}]
   let getKBCount _ = 0
   let results =
     SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; GetKBCount=getKBCount}
@@ -47,8 +47,8 @@ let ``Should present search results`` () =
     
 [<Test>]
 let ``Should present a result count`` () =
-  let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""};
-                              {Uri = "";Abstract = ""; Title = ""}]
+  let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; FirstIssuedDate = new System.DateTime()};
+                              {Uri = "";Abstract = ""; Title = ""; FirstIssuedDate = new System.DateTime()}]
 
   let totalCount =
     SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
@@ -72,7 +72,7 @@ let ``Should present a total KB Quality statement count`` () =
     
 [<Test>]
 let ``Should present abstract and link for each result`` () =
-  let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"}]
+  let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"; FirstIssuedDate = new System.DateTime()}]
 
   let html =
     SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}

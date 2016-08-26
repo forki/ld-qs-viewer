@@ -131,7 +131,7 @@ let ``ParseResponse should map a single result`` () =
               "@id":"This is the Uri",
               "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is the abstract",
               "http://ld.nice.org.uk/ns/qualitystandard#title": "This is the title",
-              "http://ld.nice.org.uk/ns/qualitystandard#firstissueddate": "01/01/0001 00:00:00"
+              "http://ld.nice.org.uk/ns/qualitystandard#firstissueddate": "01/01/0001"
             }
           }
         ]

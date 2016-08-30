@@ -33,8 +33,8 @@ let ``Should show message when attempting to search with no filters`` () =
     
 [<Test>]
 let ``Should present search results`` () =
-  let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; FirstIssuedDate = new System.DateTime()};
-                              {Uri = "";Abstract = ""; Title = ""; FirstIssuedDate = new System.DateTime()}]
+  let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()};
+                              {Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()}]
   let getKBCount _ = 0
   let results =
     SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; GetKBCount=getKBCount}
@@ -47,8 +47,8 @@ let ``Should present search results`` () =
     
 [<Test>]
 let ``Should present a result count`` () =
-  let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; FirstIssuedDate = new System.DateTime()};
-                              {Uri = "";Abstract = ""; Title = ""; FirstIssuedDate = new System.DateTime()}]
+  let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()};
+                              {Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()}]
 
   let totalCount =
     SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
@@ -72,7 +72,7 @@ let ``Should present a total KB Quality statement count`` () =
     
 [<Test>]
 let ``Should render search results with correct components`` () =
-  let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"; FirstIssuedDate = new System.DateTime()}]
+  let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"; FirstIssued = new System.DateTime()}]
 
   let html =
     SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
@@ -86,12 +86,12 @@ let ``Should render search results with correct components`` () =
 
   let title = html |> CQ.select ".card-source span" |>  CQ.first |> CQ.text
 
-  let firstIssuedDate = html |> CQ.select ".card-right-align" |> CQ.first |> CQ.text
+  let firstIssued = html |> CQ.select ".card-right-align" |> CQ.first |> CQ.text
 
   abstract1 |> should equal "Abstract1"
   link1 |> should equal "Uri1"
   title |> should equal "Title1"
-  firstIssuedDate |> should equal "First issued date: January 0001"
+  firstIssued |> should equal "First issued date: January 0001"
 
     
 [<Test>]

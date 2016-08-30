@@ -7,7 +7,7 @@
             "@id":"http://ld.nice.org.uk/prov/entity#f178fc5:qualitystandards/qs1/st1/Statement.md",
             "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is an abstract",
             "http://ld.nice.org.uk/ns/qualitystandard#title": "Quality statement x: Such and such",
-            "http://ld.nice.org.uk/ns/qualitystandard#firstissueddate": "0001-01-01"
+            "http://ld.nice.org.uk/ns/qualitystandard#firstissued": "0001-01-01"
         }
       }
     ],

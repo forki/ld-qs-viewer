@@ -67,12 +67,16 @@ let ParseResponse response =
       | ex -> url
 
   let createResult (hit:JsonProvider<"data/search/elasticResponseSchema.json">.Hit) =
-    {Uri = chopPath hit.Source.Id;
+    {
+     Uri = chopPath hit.Source.Id;
      Abstract = hit.Source.HttpLdNiceOrgUkNsQualitystandardAbstract;
-     Title = hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle}
+     Title = hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle;
+     FirstIssuedDate = hit.Source.HttpLdNiceOrgUkNsQualitystandardFirstissueddate;
+    }
 
   try
     let json = JsonProvider<"data/search/elasticResponseSchema.json">.Parse(response)
+    printf "%A" json.Hits
     json.Hits.Hits |> Seq.map createResult |> Seq.toList
   with
     | ex ->

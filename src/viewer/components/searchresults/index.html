@@ -27,7 +27,10 @@
     <div class="card result">
         <a class="card" href="{{item.Uri}}">
             <div class="card-excerpt abstract">{{item.Abstract}}</div>
-            <div class="card-source">{{item.Title}}</div>
+            <div class="card-source">
+              <span >{{item.Title}}</span>
+              <span class="card-right-align">First issued date: {{item.first_issued_date | date: "MMMM yyyy"}}</span>
+            </div>
         </a>
     </div>
     {% endfor -%}

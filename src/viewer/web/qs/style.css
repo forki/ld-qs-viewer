@@ -925,6 +925,16 @@ th {
 .pull-left {
 	float:left !important
 }
+.card-right-align {
+	float:right;
+  display: block;
+}
+@media (max-width:767px) {
+  .card-right-align {
+    float:none;
+  }
+}
+
 .text-center,.text-centre {
 	text-align:center
 }

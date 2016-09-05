@@ -179,8 +179,6 @@
     <Compile Include="pages\AnnotationTool.fs" />
     <Compile Include="pages\Resource.fs" />
     <Compile Include="App.fs" />
-    <None Include="data\search\elasticCountSchema.json" />
-    <None Include="data\search\elasticResponseSchema.json" />
     <None Include="Script.fsx" />
     <None Include="RunServer.fsx" />
     <None Include="paket.references" />

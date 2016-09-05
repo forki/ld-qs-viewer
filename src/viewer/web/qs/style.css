@@ -2490,3 +2490,17 @@ ul.checkbox-list ul li:before {
 		padding-top:4.5rem
 	}
 }
+
+table#metadata {
+  margin-top: 1.5rem;
+  border-left: none;
+  border-right: none;
+  border-collapse: collapse;
+  border-color: #bbb4b4;
+  color: #737070;
+  width: 100%;  
+}
+
+table#metadata .col1 {
+  width: 20%;
+}

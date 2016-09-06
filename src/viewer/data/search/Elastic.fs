@@ -71,7 +71,7 @@ let ParseResponse response =
      Uri = chopPath hit.Source.Id;
      Abstract = hit.Source.HttpLdNiceOrgUkNsQualitystandardAbstract;
      Title = hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle;
-     FirstIssued = hit.Source.HttpLdNiceOrgUkNsQualitystandardFirstissued;
+     FirstIssued = hit.Source.HttpLdNiceOrgUkNsQualitystandardWasFirstIssuedOn;
     }
 
   try

@@ -131,7 +131,7 @@ let ``ParseResponse should map a single result`` () =
               "@id":"This is the Uri",
               "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is the abstract",
               "http://ld.nice.org.uk/ns/qualitystandard#title": "This is the title",
-              "http://ld.nice.org.uk/ns/qualitystandard#firstissued": "01/01/0001"
+              "http://ld.nice.org.uk/ns/qualitystandard#wasFirstIssuedOn": "01/01/0001"
             }
           }
         ]
@@ -157,7 +157,7 @@ let ``ParseResponse should map results`` () =
               "@id":"notused",
               "http://ld.nice.org.uk/ns/qualitystandard#abstract": "notused",
               "http://ld.nice.org.uk/ns/qualitystandard#title": "notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#firstissued": "01/01/1900"
+              "http://ld.nice.org.uk/ns/qualitystandard#wasFirstIssuedOn": "01/01/1900"
             }
           },
           {
@@ -166,7 +166,7 @@ let ``ParseResponse should map results`` () =
               "@id":"notused",
               "http://ld.nice.org.uk/ns/qualitystandard#abstract": "notused",
               "http://ld.nice.org.uk/ns/qualitystandard#title": "notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#firstissued": "01/01/1900"
+              "http://ld.nice.org.uk/ns/qualitystandard#wasFirstIssuedOn": "01/01/1900"
             }
           }
         ]

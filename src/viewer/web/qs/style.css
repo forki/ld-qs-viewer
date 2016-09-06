@@ -2500,7 +2500,9 @@ table#metadata {
   color: #737070;
   width: 100%;  
 }
-
+table#metadata td {
+  border:none;
+}
 table#metadata .col1 {
   width: 20%;
 }

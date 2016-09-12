@@ -135,27 +135,27 @@ let readVocabsFromFiles () =
     [
       {
         Root = vocabLookup "http://schema/ns/qualitystandard/setting.ttl" "Setting"
-        Property = "qualitystandard:setting"
+        Property = "qualitystandard:appliesToSetting"
         Label = "Setting"
       }
       {
         Root = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl" "Age group"
-        Property = "qualitystandard:age"
+        Property = "qualitystandard:appliesToAgeGroup"
         Label = "Age group"
       }
       {
         Root = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl" "Service area"
-        Property = "qualitystandard:serviceArea"
-        Label = "Service Area"
+        Property = "qualitystandard:appliesToServiceArea"
+        Label = "Service area"
       }
       {
-        Root = vocabLookup "http://schema/ns/qualitystandard/lifestylecondition.ttl" "Lifestyle condition"
-        Property = "qualitystandard:lifestyleCondition"
+        Root = vocabLookup "http://schema/ns/qualitystandard/factorsaffectinghealthandwellbeing.ttl" "Lifestyle condition"
+        Property = "qualitystandard:appliesToFactorAffectingHealthAndWellbeing"
         Label = "Factors affecting health or wellbeing"
       }
       {
         Root = vocabLookup "http://schema/ns/qualitystandard/conditionordisease.ttl" "Condition or disease"
-        Property = "qualitystandard:condition"
+        Property = "qualitystandard:appliesToConditionOrDisease"
         Label = "Condition or disease"
       }
     ]

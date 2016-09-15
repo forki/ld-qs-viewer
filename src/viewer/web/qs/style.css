@@ -2501,8 +2501,20 @@ table#metadata {
   width: 100%;  
 }
 table#metadata td {
-  border:none;
+    border: none;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: #737070;
+    padding: 6px;
 }
 table#metadata .col1 {
   width: 20%;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #737070;
+    padding: 0; 
 }

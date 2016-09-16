@@ -2,3 +2,5 @@ Suave
 Suave.DotLiquid
 FSharp.Data
 FSharp.RDF
+NICE.Logging
+RabbitMQ.Client

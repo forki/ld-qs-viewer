@@ -1,12 +1,15 @@
 module Viewer.Program
 
 open Suave
+open Suave.Logging
 open Suave.Web
 open Suave.Http
 open Viewer.SuaveExtensions
 open Viewer.App
 open Viewer.AppConfig
 open System.Net
+open Serilog
+open NICE.Logging
 
 
 [<EntryPoint>]
@@ -21,7 +24,10 @@ let main argv =
                                       homeFolder = Some (__SOURCE_DIRECTORY__ + "/web")}
 
   //printf "Running with server config:\n%A\n" defaultConfig
-  ServicePointManager.DnsRefreshTimeout = 0
+  Log.Logger <- LoggerConfiguration()
+      .WriteTo.Nice()
+        .CreateLogger()
+  Log.Information("blah");
   let appConfig = getAppConfig mode
   startWebServer defaultConfig (createApp appConfig)
 

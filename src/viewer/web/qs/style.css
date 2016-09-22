@@ -2522,10 +2522,10 @@ hr {
 div.withdrawn-label {
     font-size-adjust: 1.1;
     font-weight: 700;
-    color: #bb0000;
+    color: #cc0000;
 }
 
 div.withdrawn-message {
     font-size-adjust: 1.1;
-    color: #bb0000;
+    color: #cc0000;
 }

@@ -2508,7 +2508,7 @@ table#metadata td {
     padding: 6px;
 }
 table#metadata .col1 {
-  width: 20%;
+  width: 33%;
 }
 
 hr {
@@ -2517,4 +2517,15 @@ hr {
     border: 0;
     border-top: 1px solid #737070;
     padding: 0; 
+}
+
+div.withdrawn-label {
+    font-size-adjust: 1.1;
+    font-weight: 700;
+    color: #cc0000;
+}
+
+div.withdrawn-message {
+    font-size-adjust: 1.1;
+    color: #cc0000;
 }

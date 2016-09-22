@@ -2526,6 +2526,13 @@ div.withdrawn-label {
 }
 
 div.withdrawn-message {
-    font-size-adjust: 1.1;
     color: #cc0000;
+}
+
+div.replaced-label {
+    font-weight: 700;
+}
+
+div.replaced-message {
+    font-style: italic
 }

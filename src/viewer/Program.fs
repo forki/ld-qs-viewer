@@ -27,7 +27,8 @@ let main argv =
   Log.Logger <- LoggerConfiguration()
       .WriteTo.Nice()
         .CreateLogger()
-  Log.Information("blah");
+
+  Log.Information("Starting up");
   let appConfig = getAppConfig mode
   startWebServer defaultConfig (createApp appConfig)
 

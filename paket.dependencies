@@ -1,13 +1,16 @@
 source https://nuget.org/api/v2
+source http://nuget.nice.org.uk/nuget
 
 nuget CsQuery
 nuget FSharp.Data
 nuget FSharp.Formatting
 nuget FSharp.RDF
 nuget FsUnit
+nuget NICE.Logging
 nuget NUnit 2.6.4
 nuget NUnit.Runners 2.6.4
 nuget FAKE
+nuget RabbitMQ.Client 3.3.2.0
 nuget SourceLink.Fake
 nuget Suave
 nuget Suave.DotLiquid

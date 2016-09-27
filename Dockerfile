@@ -20,7 +20,7 @@ RUN /discoverytool/build.sh &&\
     cd /discoverytool && \
     ls -a . | grep -v "bin" | xargs -i rm -rf {}
 
-CMD fsharpi bin/viewer/RunServer.fsx $SERVER_MODE
+CMD mono bin/viewer/viewer.exe $SERVER_MODE
 
 EXPOSE 8083
 	

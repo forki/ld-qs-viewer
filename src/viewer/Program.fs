@@ -14,7 +14,7 @@ open NICE.Logging
 
 let printAppSetting (key:string) =
   let value = ConfigurationManager.AppSettings.Get(key)
-  printf "%s is %s" key value
+  printf "%s is %s\n" key value
 
 [<EntryPoint>]
 let main argv = 

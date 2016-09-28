@@ -12,7 +12,7 @@ WORKDIR /discoverytool
 
 RUN mono .paket/paket.bootstrapper.exe && mono .paket/paket.exe install
 
-ADD RELEASE_NOTES.md build.sh build.fsx viewer.sln /discoverytool/
+ADD RELEASE_NOTES.md build.sh populateAppSettings.sh build.fsx viewer.sln /discoverytool/
 ADD src /discoverytool/src
 ADD tests /discoverytool/tests
 
@@ -20,7 +20,7 @@ RUN /discoverytool/build.sh &&\
     cd /discoverytool && \
     ls -a . | grep -v "bin" | xargs -i rm -rf {}
 
-CMD mono bin/viewer/viewer.exe $SERVER_MODE
+CMD populateAppSettings.sh && mono bin/viewer/viewer.exe $SERVER_MODE
 
 EXPOSE 8083
 	

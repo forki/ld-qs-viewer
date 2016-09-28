@@ -37,8 +37,9 @@ let ``aggregateQueryStringValues should group by keys`` () =
     
 [<Test>]
 let ``createFilterTags should create filter tags from filters`` () =
-  let filters = [{Vocab = "vocab"; TermUri = "http://somelink.com/Uri#Term1"}
-                 {Vocab = "vocab"; TermUri = "http://somelink.com/Uri#Term2"}]
+  let filters = [{Vocab = "vocab"; TermUri = "vocabLabel/long-guid2"}
+                 {Vocab = "vocab"; TermUri = "vocabLabel/long-guid1"}
+                ]
   let filterTags = createFilterTags filters
-  filterTags |> should equal [{Label = "Term1"; RemovalQueryString = "vocab=http%3A%2F%2Fsomelink.com%2FUri%23Term2"}
-                              {Label = "Term2"; RemovalQueryString = "vocab=http%3A%2F%2Fsomelink.com%2FUri%23Term1"}] 
+  filterTags |> should equal [{Label = "long-guid2"; RemovalQueryString = "vocab=vocabLabel%2Flong-guid1"}
+                              {Label = "long-guid1"; RemovalQueryString = "vocab=vocabLabel%2Flong-guid2"}] 

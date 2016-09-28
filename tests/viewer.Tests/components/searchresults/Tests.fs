@@ -96,8 +96,8 @@ let ``Should render search results with correct components`` () =
     
 [<Test>]
 let ``Should show multiple active filters when they exist on qs`` () =
-  let qsWithTwoActiveFilters = [("key", Some "http://testing.com/Uri#Term1")
-                                ("key", Some "http://testing.com/Uri#Term2")]
+  let qsWithTwoActiveFilters = [("key", Some "vocabLabel/long-guid1")
+                                ("key", Some "vocabLabel/long-guid2")]
   let tags =
     SearchResults.render {defaultArgs with Qs=qsWithTwoActiveFilters}
     |> parseHtml
@@ -108,25 +108,25 @@ let ``Should show multiple active filters when they exist on qs`` () =
     
 [<Test>]
 let ``Should show active filter as tag with label`` () =
-  let qs = [("key", Some "http://testing.com/Uri#Term1")]
+  let qs = [("key", Some "vocabLabel/long-guid1")]
 
   let tags =
     SearchResults.render {defaultArgs with Qs=qs}
     |> parseHtml
     |> CQ.select ".tag-label"
 
-  tags |> CQ.first |> CQ.text |> should equal "Term1"
+  tags |> CQ.first |> CQ.text |> should equal "long-guid1"
 
     
 [<Test>]
 let ``Should show active filter as tag with removal link`` () =
-  let qsWithTwoActiveFilters = [("key", Some "http://testing.com/Uri#Term1")
-                                ("key", Some "http://testing.com/Uri#Term2")]
+  let qsWithTwoActiveFilters = [("key", Some "vocabLabel/long-guid1")
+                                ("key", Some "vocabLabel/long-guid2")]
 
   let tags =
     SearchResults.render {defaultArgs with Qs=qsWithTwoActiveFilters}
     |> parseHtml
     |> CQ.select ".tag-remove-link"
-
-  tags |> CQ.first |> CQ.attr "href" |> should equal "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term2"
-  tags |> CQ.last |> CQ.attr "href" |> should equal "/qs/search?key=http%3A%2F%2Ftesting.com%2FUri%23Term1"
+  
+  tags |> CQ.first |> CQ.attr "href" |> should equal "/qs/search?key=vocabLabel%2Flong-guid2"
+  tags |> CQ.last |> CQ.attr "href" |> should equal "/qs/search?key=vocabLabel%2Flong-guid1"

@@ -47,13 +47,14 @@ let stripAllButFragment (uri:string) =
 let createFilterTags (filters:Filter list) =
 
   let createRemovalQS x =
+    printf "TermUri %A" x
     filters
     |> Seq.filter (fun y -> y.TermUri <> x)
     |> Seq.map (fun y -> sprintf "%s=%s" y.Vocab (Uri.EscapeDataString(y.TermUri)))
     |> concatToStringWithDelimiter "&"
 
   filters
-  |> Seq.map (fun x -> {Label = try x.TermUri.Split('#').[1] with _ -> ""
+  |> Seq.map (fun x -> {Label = try x.TermUri.Split('/').[1] with _ -> ""
                         RemovalQueryString = createRemovalQS x.TermUri})
   |> Seq.filter (fun x -> x.Label <> "")
   |> Seq.toList

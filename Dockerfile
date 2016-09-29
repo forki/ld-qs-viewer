@@ -20,7 +20,9 @@ RUN /discoverytool/build.sh &&\
     cd /discoverytool && \
     ls -a . | grep -v "bin" | xargs -i rm -rf {}
 
-CMD mono bin/viewer/viewer.exe $SERVER_MODE
+ADD populateAppConfig.sh /discoverytool/
+
+CMD ./populateAppConfig.sh && mono bin/viewer/viewer.exe $SERVER_MODE
 
 EXPOSE 8083
 	

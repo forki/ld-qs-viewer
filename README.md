@@ -31,15 +31,14 @@ i.e:
 rancher-compose -p resourceapi up
 ```
 
-## Tracking
-This app using hotjar and google analytics for capturing user behaviour.  To use these you need to provide the following account ids as environment variables:
+## Environment variables
+The environment variables can be set.  For a full list of variables see the docker-compose.rml environment section.
 
 * HOTJARID (hot jar id)
 * GAID (google analytics id)
+* LOGGING_ENVIRONMENT (dev,test,prod)
 
 The server will still run if you dont provide these (dev mode or test)
-
-
 
 ## Code structure
 There is a component-oriented structure to the codebase with components found in src/viewer/components.  Data related functions that shuold be refactored out to APIs are found in src/viewer/data.   (currently retrieving vocabs and searching elasticsearch)

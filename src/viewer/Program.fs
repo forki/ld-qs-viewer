@@ -16,12 +16,12 @@ open NICE.Logging
 let main argv = 
   let mode = if argv.Length = 1 && argv.[0] = "dev" then Mode.Dev else Mode.Prod
 
-
+  let rootDir = (System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/web"))
   setTemplatesDir (System.IO.Path.Combine(System.Environment.CurrentDirectory, "bin/viewer/web/qs"))
-
+  
   let defaultConfig = { defaultConfig with
                                       bindings = [ HttpBinding.mkSimple HTTP "0.0.0.0" 8083 ]
-                                      homeFolder = Some (__SOURCE_DIRECTORY__ + "/web")}
+                                      homeFolder = Some rootDir}
 
   //printf "Running with server config:\n%A\n" defaultConfig
   Log.Logger <- LoggerConfiguration()

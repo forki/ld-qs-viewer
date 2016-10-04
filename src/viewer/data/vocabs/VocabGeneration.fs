@@ -150,7 +150,7 @@ let readVocabsFromFiles () =
       }
       {
         Root = vocabLookup "http://schema/ns/qualitystandard/factorsaffectinghealthorwellbeing.ttl" "Factors affecting health or wellbeing"
-        Property = "qualitystandard:appliesToFactorAffectingHealthOrWellbeing"
+        Property = "qualitystandard:appliesToFactorsAffectingHealthOrWellbeing"
         Label = "Factors affecting health or wellbeing"
       }
       {

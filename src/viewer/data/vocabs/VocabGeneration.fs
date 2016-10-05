@@ -184,6 +184,28 @@ let getVocabsWithState vocabs (filters: Filter list) =
   |> Seq.map (fun v -> setSelectedIfFiltered filterUris v)
   |> Seq.toList
 
+let private findTheLabel vocabs filterUris =
+  let rec getTerm f = function
+    | [] -> []
+    | x::xs -> match x with
+                | Term x -> if f x then 
+                              [x]; 
+                            else 
+                              match xs with
+                              | [] -> getTerm f x.Children
+                              | _ -> getTerm f xs
+                | Empty -> []
+  vocabs
+  |> List.map (fun v -> getTerm (fun t->filterUris=t.ShortenedUri) [v.Root]) 
+  |> List.concat
+  |> List.map (fun t -> t.Label) 
+
+
+let getLabelsByGuid vocabs (filters: Filter list) =
+  filters 
+  |>Seq.map(fun x-> findTheLabel vocabs x.TermUri)
+  |>Seq.map (fun x-> Seq.head x)
+
 type VocabModel = {
   Vocabularies: Vocabulary list
 }

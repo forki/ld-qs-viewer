@@ -110,13 +110,8 @@ let ``Should build query correctly for a multiple terms with different keys`` ()
 
     
 [<Test>]
-let ``GetSearchResults should return an empty list on zero results`` () =
-  let StubbedQueryResponse _ _ = "{}"
-  let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse false
-  let results = DoSearchWith query
-
-  results |> should equal []
+let ``ParseResponse should return an empty list on zero results`` () =
+  ParseResponse "" |> should equal []
 
 [<Test>]
 let ``ParseResponse should map a single result`` () =
@@ -216,3 +211,4 @@ let ``Should build query correctly for an encoded single term key`` () =
 ]
 }"""
   query |> should equal expectedQuery
+

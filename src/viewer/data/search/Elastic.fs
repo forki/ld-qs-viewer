@@ -68,7 +68,7 @@ let GetKBCount testing =
     Http.RequestString(url)
   with
     ex ->
-      printf "ELASTICSEARCH_ERROR - unable to get count check index%s\n"
+      printf "ELASTICSEARCH_ERROR - unable to get count check index\n"
       ""
 
 let RunElasticQuery testing (query: string) =
@@ -122,8 +122,8 @@ let ParseResponse response =
       printf "UNABLE TO PARSE ELASTIC SEARCH RESPONSE\n"
       []
 
-let GetSearchResults runSearch testing query =
-  query |> runSearch testing |> ParseResponse
-
 let KnowledgeBaseCount testing =
   GetKBCount testing |> ParseCountResponse
+
+let search : (Filter list -> SearchResult list) =
+  BuildQuery >> RunElasticQuery false >> ParseResponse

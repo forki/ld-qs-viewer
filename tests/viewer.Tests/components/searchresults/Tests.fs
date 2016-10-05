@@ -12,18 +12,12 @@ open Viewer.SuaveExtensions
 let ``Run before tests`` () =
   setTemplatesDir "../../../../bin/viewer/web/qs/"
 
-let private defaultArgs = {
-  Qs = []
-  GetSearchResults = (fun _ _ -> [])
-  GetKBCount = (fun _ -> 0)
-  ShowOverview = false
-  Testing = false
-}
+
 
 [<Test>]
 let ``Should show message when attempting to search with no filters`` () =
   let message =
-    SearchResults.render defaultArgs
+    SearchResults.render SearchResultsParameters.Empty
     |> parseHtml
     |> CQ.select ".message"
     |> CQ.text 
@@ -33,11 +27,11 @@ let ``Should show message when attempting to search with no filters`` () =
     
 [<Test>]
 let ``Should present search results`` () =
-  let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()};
-                              {Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()}]
+  let performSearch _ = [{Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()};
+                         {Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()}]
   let getKBCount _ = 0
   let results =
-    SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; GetKBCount=getKBCount}
+    SearchResults.render {SearchResultsParameters.Empty with PerformSearch=performSearch; GetKBCount=getKBCount}
     |> parseHtml
     |> CQ.select ".results > .result"
     |> CQ.length
@@ -47,11 +41,11 @@ let ``Should present search results`` () =
     
 [<Test>]
 let ``Should present a result count`` () =
-  let getSearchResults _ _ = [{Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()};
-                              {Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()}]
+  let performSearch _ = [{Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()};
+                         {Uri = "";Abstract = ""; Title = ""; FirstIssued = new System.DateTime()}]
 
   let totalCount =
-    SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
+    SearchResults.render {SearchResultsParameters.Empty with PerformSearch=performSearch; Qs = [("notused", Some "notused")]}
     |> parseHtml
     |> CQ.select ".card-list-header > .counter"
     |> CQ.text
@@ -63,7 +57,7 @@ let ``Should present a total KB Quality statement count`` () =
   let getKBCount _ = 3
 
   let totalCount =
-    SearchResults.render {defaultArgs with GetKBCount=getKBCount; ShowOverview=true; Qs=[("", Some "")]}
+    SearchResults.render {SearchResultsParameters.Empty with GetKBCount=getKBCount; ShowOverview=true; Qs=[("", Some "")]}
     |> parseHtml
     |> CQ.select ".counter"
     |> CQ.text
@@ -72,10 +66,10 @@ let ``Should present a total KB Quality statement count`` () =
     
 [<Test>]
 let ``Should render search results with correct components`` () =
-  let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"; FirstIssued = new System.DateTime()}]
+  let performSearch _ = [{Uri = "Uri1"; Abstract = "Abstract1"; Title = "Title1"; FirstIssued = new System.DateTime()}]
 
   let html =
-    SearchResults.render {defaultArgs with GetSearchResults=getSearchResults; Qs = [("notused", Some "notused")]}
+    SearchResults.render {SearchResultsParameters.Empty with PerformSearch=performSearch; Qs = [("notused", Some "notused")]}
     |> parseHtml
 
   let abstracts = html |> CQ.select ".abstract"
@@ -99,7 +93,7 @@ let ``Should show multiple active filters when they exist on qs`` () =
   let qsWithTwoActiveFilters = [("key", Some "http://testing.com/Uri#Term1")
                                 ("key", Some "http://testing.com/Uri#Term2")]
   let tags =
-    SearchResults.render {defaultArgs with Qs=qsWithTwoActiveFilters}
+    SearchResults.render {SearchResultsParameters.Empty with Qs=qsWithTwoActiveFilters}
     |> parseHtml
     |> CQ.select ".tag-label"
 
@@ -111,7 +105,7 @@ let ``Should show active filter as tag with label`` () =
   let qs = [("key", Some "http://testing.com/Uri#Term1")]
 
   let tags =
-    SearchResults.render {defaultArgs with Qs=qs}
+    SearchResults.render {SearchResultsParameters.Empty with Qs=qs}
     |> parseHtml
     |> CQ.select ".tag-label"
 
@@ -124,7 +118,7 @@ let ``Should show active filter as tag with removal link`` () =
                                 ("key", Some "http://testing.com/Uri#Term2")]
 
   let tags =
-    SearchResults.render {defaultArgs with Qs=qsWithTwoActiveFilters}
+    SearchResults.render {SearchResultsParameters.Empty with Qs=qsWithTwoActiveFilters}
     |> parseHtml
     |> CQ.select ".tag-remove-link"
 

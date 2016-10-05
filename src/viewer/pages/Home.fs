@@ -25,7 +25,7 @@ let private buildContent (req:HttpRequest) config showOverview =
 
   [Sidebar.render config.RenderedVocabs 
    SearchResults.render {Qs=req.query
-                         GetSearchResults = config.GetSearchResults
+                         PerformSearch = config.PerformSearch
                          GetKBCount = config.GetKBCount
                          ShowOverview = showOverview
                          Testing = testing}

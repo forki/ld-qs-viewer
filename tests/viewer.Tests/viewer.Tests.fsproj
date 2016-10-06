@@ -54,17 +54,16 @@
   <Import Project="$(FSharpTargetsPath)" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
-    <Folder Include="..\..\src\viewer\templates\" />
     <Compile Include="Utils.fs" />
     <Compile Include="data\search\ElasticTests.fs" />
     <Compile Include="data\search\SearchTests.fs" />
     <Compile Include="data\vocabs\LoadVocabularyTests.fs" />
-    <Compile Include="UtilsTests.fs" />
     <Compile Include="components\sidebar\Tests.fs" />
     <Compile Include="components\searchresults\Tests.fs" />
     <Compile Include="components\annotationblock\Tests.fs" />
     <Compile Include="components\hotjar\Tests.fs" />
     <Compile Include="components\googleanalytics\Tests.fs" />
+    <Compile Include="UtilsTests.fs" />
     <None Include="paket.references" />
     <None Include="Script.fsx" />
   </ItemGroup>
@@ -103,6 +102,24 @@
     </When>
   </Choose>
   <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="DotLiquid">
+          <HintPath>..\..\packages\DotLiquid\lib\NET35\DotLiquid.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.0'">
+      <ItemGroup>
+        <Reference Include="DotLiquid">
+          <HintPath>..\..\packages\DotLiquid\lib\NET40\DotLiquid.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="DotLiquid">

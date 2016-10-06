@@ -14,7 +14,7 @@ type Mode =
 type AppConfiguration = {
   Vocabs : Vocabulary list
   RenderedVocabs : string
-  PerformSearch : Filter list -> SearchResult list
+  PerformSearch : AggregatedFilter list -> SearchResult list
   GetKBCount : bool -> int
   HotjarId : string
   GAId : string

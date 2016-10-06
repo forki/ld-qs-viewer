@@ -7,7 +7,7 @@ open Viewer.Data.Search.Search
 
 [<Test>]
 let ``PerformSearch should return a search result from the search provider`` () =
-  let searchFilters = [{Vocab="key%3akey"; TermUri="val"}]
+  let searchFilters = []
   let testing = false
 
   let expectedSearchResults = 

@@ -33,9 +33,12 @@ let main argv =
    "NiceLogging/Application"] |> List.iter printAppSetting
   
   //printf "Running with server config:\n%A\n" defaultConfig
-  Log.Logger <- LoggerConfiguration()
-      .WriteTo.Nice()
-        .CreateLogger()
+  let logConfig = 
+    match mode with
+    | Dev -> LoggerConfiguration().WriteTo.Console()
+    | Prod -> LoggerConfiguration().WriteTo.Nice()
+
+  Log.Logger <- logConfig.CreateLogger()
 
   Log.Information("Starting up");
 

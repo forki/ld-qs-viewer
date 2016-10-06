@@ -9,7 +9,7 @@ open Viewer.Config
 
 type SearchResultsParameters = {
   Qs : (string * string option) list
-  PerformSearch : (Filter list -> SearchResult list)
+  PerformSearch : (AggregatedFilter list -> SearchResult list)
   GetKBCount : (bool -> int)
   ShowOverview : bool
   Testing : bool
@@ -43,16 +43,14 @@ let createModel args =
        ShowHelp = if args.ShowOverview then true else false}
     | _ ->
       let reAddBaseUrlToFilters = prefixFiltersWithBaseUrl BaseUrl
-      let results = args.Qs 
-                    |> extractFilters 
+      let filters = extractFilters args.Qs
+      let results = filters 
                     |> reAddBaseUrlToFilters 
+                    |> aggregateFiltersByVocab  
                     |> args.PerformSearch
 
-      let filters = extractFilters args.Qs
-      let filterTags = createFilterTags filters
-
       {Results = results
-       Tags = filterTags
+       Tags = createFilterTags filters
        totalCount = results.Length
        ShowHelp = false}
 

@@ -11,6 +11,7 @@ nuget NUnit 2.6.4
 nuget NUnit.Runners 2.6.4
 nuget FAKE
 nuget RabbitMQ.Client 3.3.2.0
+nuget Serilog.Sinks.Console
 nuget SourceLink.Fake
 nuget Suave
 nuget Suave.DotLiquid

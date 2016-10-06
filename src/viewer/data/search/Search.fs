@@ -5,8 +5,8 @@ open Serilog
 
 let logSearch filters (results:SearchResult list) = 
   let vocabs = filters |> List.map (fun {Vocab=v} -> v)
-  let terms = filters |> List.map (fun {TermUri=t} -> t)
-  Log.Information("vocabs: {@vocabs}, terms: {@terms}, resultCount: {@resultCount}", vocabs, terms, results.Length)
+  let terms = filters |> List.collect (fun {TermUris=t} -> t)
+  Log.Information("Search with vocabs: {@vocabs}, terms: {@terms}, resultCount: {@resultCount}", vocabs, terms, results.Length)
   results
 
 let performSearchWithProvider searchProviderFn filters =

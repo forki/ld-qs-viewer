@@ -54,13 +54,12 @@ let createFilterTags (filters:Filter list) vocabs =
     |> Seq.map (fun y -> sprintf "%s=%s" y.Vocab (Uri.EscapeDataString(y.TermUri)))
     |> concatToStringWithDelimiter "&"
 
-  printf "vocabs-->%A" vocabs
-
-  filters
-  |> Seq.map (fun x -> {Label = try x.TermUri.Split('/').[1] with _ -> ""
-                        RemovalQueryString = createRemovalQS x.TermUri})
+  filters 
+  |> Seq.map (fun x->{ Label = try Seq.head (findTheLabel vocabs (x.TermUri.Split('/').[1]) ) with _ -> ""
+                       RemovalQueryString = createRemovalQS x.TermUri})
   |> Seq.filter (fun x -> x.Label <> "")
   |> Seq.toList
+
 
 let shouldExpandVocab vocabProperty (filters:Filter list) =
   filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocabProperty)

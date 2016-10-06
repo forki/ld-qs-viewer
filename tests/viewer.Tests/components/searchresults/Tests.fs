@@ -7,16 +7,45 @@ open Viewer.Tests.Utils
 open Viewer.Components
 open Viewer.Components.SearchResults
 open Viewer.SuaveExtensions
+open FSharp.RDF
 
 [<SetUp>]
 let ``Run before tests`` () =
   setTemplatesDir "../../../../bin/viewer/web/qs/"
 
+let vocabs = [{Root = Term {
+                            Uri = Uri.from "http://testing.com/Uri3"
+                            ShortenedUri = "unknown"
+                            Label = "Care home"
+                            Selected = false
+                            Children = [
+                                         Term { 
+                                                Uri = Uri.from "http://testing.com/Uri3"
+                                                ShortenedUri = "long-guid-1"
+                                                Label = "Term1"
+                                                Selected = false
+                                                Children = []};
+                                         Term { 
+                                                Uri = Uri.from "http://testing.com/Uri3"
+                                                ShortenedUri = "long-guid-2"
+                                                Label = "Term2"
+                                                Selected = false
+                                                Children = []};
+                                         Term { 
+                                                Uri = Uri.from "http://testing.com/Uri3"
+                                                ShortenedUri = "long-guid-3"
+                                                Label = "Term3"
+                                                Selected = false
+                                                Children = []}]};
+               Property = "v1";
+               Label = ""}]
+    
+
 let private defaultArgs = {
   Qs = []
   GetSearchResults = (fun _ _ -> [])
   GetKBCount = (fun _ -> 0)
-  Vocabs = []
+  Vocabs = vocabs
   ShowOverview = false
   Testing = false
 }
@@ -97,8 +126,8 @@ let ``Should render search results with correct components`` () =
     
 [<Test>]
 let ``Should show multiple active filters when they exist on qs`` () =
-  let qsWithTwoActiveFilters = [("key", Some "vocabLabel/long-guid1")
-                                ("key", Some "vocabLabel/long-guid2")]
+  let qsWithTwoActiveFilters = [("key", Some "vocabLabel/long-guid-1")
+                                ("key", Some "vocabLabel/long-guid-2")]
   let tags =
     SearchResults.render {defaultArgs with Qs=qsWithTwoActiveFilters}
     |> parseHtml
@@ -109,25 +138,25 @@ let ``Should show multiple active filters when they exist on qs`` () =
     
 [<Test>]
 let ``Should show active filter as tag with label`` () =
-  let qs = [("key", Some "vocabLabel/long-guid1")]
+  let qs = [("key", Some "vocabLabel/long-guid-1")]
 
   let tags =
     SearchResults.render {defaultArgs with Qs=qs}
     |> parseHtml
     |> CQ.select ".tag-label"
 
-  tags |> CQ.first |> CQ.text |> should equal "long-guid1"
+  tags |> CQ.first |> CQ.text |> should equal "Term1"
 
     
 [<Test>]
 let ``Should show active filter as tag with removal link`` () =
-  let qsWithTwoActiveFilters = [("key", Some "vocabLabel/long-guid1")
-                                ("key", Some "vocabLabel/long-guid2")]
+  let qsWithTwoActiveFilters = [("key", Some "vocabLabel/long-guid-1")
+                                ("key", Some "vocabLabel/long-guid-2")]
 
   let tags =
     SearchResults.render {defaultArgs with Qs=qsWithTwoActiveFilters}
     |> parseHtml
     |> CQ.select ".tag-remove-link"
   
-  tags |> CQ.first |> CQ.attr "href" |> should equal "/qs/search?key=vocabLabel%2Flong-guid2"
-  tags |> CQ.last |> CQ.attr "href" |> should equal "/qs/search?key=vocabLabel%2Flong-guid1"
+  tags |> CQ.first |> CQ.attr "href" |> should equal "/qs/search?key=vocabLabel%2Flong-guid-2"
+  tags |> CQ.last |> CQ.attr "href" |> should equal "/qs/search?key=vocabLabel%2Flong-guid-1"

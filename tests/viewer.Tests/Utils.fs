@@ -4,6 +4,7 @@ open Suave
 open Suave.Web
 open Suave.Http
 open Suave.Testing
+open Suave.Logging
 open Viewer.App
 open Viewer.AppConfig
 open Viewer.Types
@@ -32,7 +33,8 @@ let baseConfig = {
 }
 
 let startServerWith config =
-  runWith defaultConfig (createApp config)
+  let suaveConfig = {defaultConfig with logger = Loggers.ConsoleWindowLogger LogLevel.Info}
+  runWith suaveConfig (createApp config)
 let get path testCtx = reqQuery HttpMethod.GET path "" testCtx |> parseHtml
 let getQuery path qs testCtx = reqQuery HttpMethod.GET path qs testCtx |> parseHtml
 

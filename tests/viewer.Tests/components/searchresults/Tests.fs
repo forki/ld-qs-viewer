@@ -16,6 +16,7 @@ let private defaultArgs = {
   Qs = []
   GetSearchResults = (fun _ _ -> [])
   GetKBCount = (fun _ -> 0)
+  Vocabs = []
   ShowOverview = false
   Testing = false
 }

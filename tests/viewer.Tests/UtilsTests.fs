@@ -40,6 +40,6 @@ let ``createFilterTags should create filter tags from filters`` () =
   let filters = [{Vocab = "vocab"; TermUri = "vocabLabel/long-guid2"}
                  {Vocab = "vocab"; TermUri = "vocabLabel/long-guid1"}
                 ]
-  let filterTags = createFilterTags filters
+  let filterTags = createFilterTags filters []
   filterTags |> should equal [{Label = "long-guid2"; RemovalQueryString = "vocab=vocabLabel%2Flong-guid1"}
                               {Label = "long-guid1"; RemovalQueryString = "vocab=vocabLabel%2Flong-guid2"}] 

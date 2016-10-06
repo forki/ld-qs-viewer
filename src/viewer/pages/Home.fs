@@ -27,6 +27,7 @@ let private buildContent (req:HttpRequest) config showOverview =
    SearchResults.render {Qs=req.query
                          GetSearchResults = config.GetSearchResults
                          GetKBCount = config.GetKBCount
+                         Vocabs = config.Vocabs
                          ShowOverview = showOverview
                          Testing = testing}
    Hotjar.render config.HotjarId

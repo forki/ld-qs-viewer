@@ -2,6 +2,7 @@ module Viewer.Utils
 
 open System
 open Viewer.Types
+open Viewer.Data.Vocabs.VocabGeneration
 
 let extractFilters qs =
   qs
@@ -44,7 +45,7 @@ let stripAllButFragment (uri:string) =
     uri.Substring(from, toEnd)
 
 
-let createFilterTags (filters:Filter list) =
+let createFilterTags (filters:Filter list) vocabs =
 
   let createRemovalQS x =
     printf "TermUri %A" x
@@ -52,6 +53,8 @@ let createFilterTags (filters:Filter list) =
     |> Seq.filter (fun y -> y.TermUri <> x)
     |> Seq.map (fun y -> sprintf "%s=%s" y.Vocab (Uri.EscapeDataString(y.TermUri)))
     |> concatToStringWithDelimiter "&"
+
+  printf "vocabs-->%A" vocabs
 
   filters
   |> Seq.map (fun x -> {Label = try x.TermUri.Split('/').[1] with _ -> ""

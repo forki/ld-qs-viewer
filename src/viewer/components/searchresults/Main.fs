@@ -11,6 +11,7 @@ type SearchResultsParameters = {
   Qs : (string * string option) list
   GetSearchResults : (bool -> string -> SearchResult list)
   GetKBCount : (bool -> int)
+  Vocabs : Vocabulary list
   ShowOverview : bool
   Testing : bool
 }
@@ -37,7 +38,7 @@ let createModel args =
       let results = args.Qs |> extractFilters |> reAddBaseUrlToFilters |> BuildQuery |> args.GetSearchResults args.Testing
 
       let filters = extractFilters args.Qs
-      let filterTags = createFilterTags filters
+      let filterTags = createFilterTags filters args.Vocabs
 
       {Results = results
        Tags = filterTags

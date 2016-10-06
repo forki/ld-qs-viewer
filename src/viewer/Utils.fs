@@ -59,6 +59,28 @@ let createFilterTags (filters:Filter list) vocabs =
   |> Seq.filter (fun x -> x.Label <> "")
   |> Seq.toList
 
+let findTheGuid vocabs filterUris =
+  let rec getTerm f = function
+    | [] -> []
+    | x::xs -> match x with
+                | Term x -> if f x then 
+                              [x]; 
+                            else 
+                              match xs with
+                              | [] -> getTerm f x.Children
+                              | _ -> getTerm f xs
+                | Empty -> []
+  vocabs
+  |> List.map (fun v -> getTerm (fun t->t.Label=filterUris) [v.Root]) 
+  |> List.concat
+  |> List.map (fun t ->try  t.ShortenedUri.Split('/').[1] with _ -> "") 
+
+let getGuids (labels:string list) vocabs =
+
+  labels 
+  |> Seq.map (fun x-> try Seq.head (findTheGuid vocabs (x) ) with _ -> "")
+  |> Seq.filter (fun x -> x <> "")
+  |> Seq.toList
 
 let shouldExpandVocab vocabProperty (filters:Filter list) =
   filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocabProperty)

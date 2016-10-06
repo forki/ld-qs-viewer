@@ -5,6 +5,35 @@ open Viewer.Utils
 open Viewer.Types
 open FsUnit
 open FSharp.RDF
+
+
+let private vocabs = [{Root = Term {
+                            Uri = Uri.from "http://testing.com/Uri3"
+                            ShortenedUri = "unknown"
+                            Label = "Care home"
+                            Selected = false
+                            Children = [
+                                         Term { 
+                                                Uri = Uri.from "http://testing.com/Uri3"
+                                                ShortenedUri = "vocabLabel/long-guid-1"
+                                                Label = "Term1"
+                                                Selected = false
+                                                Children = []};
+                                         Term { 
+                                                Uri = Uri.from "http://testing.com/Uri3"
+                                                ShortenedUri = "vocabLabel/long-guid-2"
+                                                Label = "Term2"
+                                                Selected = false
+                                                Children = []};
+                                         Term { 
+                                                Uri = Uri.from "http://testing.com/Uri3"
+                                                ShortenedUri = "vocabLabel/long-guid-3"
+                                                Label = "Term3"
+                                                Selected = false
+                                                Children = []}]};
+               Property = "v1";
+               Label = ""}]
+
     
 [<Test>]
 let ``extractFilters should return empty list given an empty querystring`` () =
@@ -109,4 +138,19 @@ let ``Should return an empty array when labels are not found`` () =
   let filterTags = createFilterTags filters vocabs
   filterTags |> should equal [] 
 
+[<Test>]
+let ``Should return guid when label given`` () =
+    
+  let labels = [ "Term1"; "Term2" ]
+
+  let guids = getGuids labels vocabs
+  guids |> should equal ["long-guid-1"; "long-guid-2"] 
+
+[<Test>]
+let ``Should return empty array when label not found`` () =
+    
+  let labels = [ "Label not found 1"; "Label not found 2" ]
+
+  let guids = getGuids labels vocabs
+  guids |> should equal [] 
 

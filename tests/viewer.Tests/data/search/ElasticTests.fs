@@ -7,9 +7,9 @@ open Viewer.Types
 open Viewer.Components.SearchResults
 
 [<Test>]
-let ``Should build query correctly for a single term`` () =
-  let qs = [{Vocab="key"; TermUri="val"}]
-  let query = BuildQuery qs
+let ``Should build query correctly for a single vocab and term term`` () =
+  let filters = [{Vocab="vocab"; TermUris=["term"]}]
+  let query = BuildQuery filters
   let expectedQuery = """{
 "from": 0, "size": 1500,
 "query": {
@@ -19,7 +19,7 @@ let ``Should build query correctly for a single term`` () =
         "must" : [
           {"bool" : {
             "should" : [
-              {"term" : {"key" : "val"}}
+              {"term" : {"vocab" : "term"}}
             ]
           }}
         ]
@@ -36,13 +36,10 @@ let ``Should build query correctly for a single term`` () =
 
     
 [<Test>]
-let ``Should build query correctly for a multiple terms with same key`` () =
-  let qs = [
-      {Vocab="key"; TermUri="val1"}
-      {Vocab="key"; TermUri="val2"}
-      ]
+let ``Should build query correctly for a multiple terms with same vocab`` () =
+  let filters = [{Vocab="vocab"; TermUris=["term1";"term2"]}]
 
-  let query = BuildQuery qs
+  let query = BuildQuery filters
   let expectedQuery = """{
 "from": 0, "size": 1500,
 "query": {
@@ -52,7 +49,7 @@ let ``Should build query correctly for a multiple terms with same key`` () =
         "must" : [
           {"bool" : {
             "should" : [
-              {"term" : {"key" : "val1"}},{"term" : {"key" : "val2"}}
+              {"term" : {"vocab" : "term1"}},{"term" : {"vocab" : "term2"}}
             ]
           }}
         ]
@@ -69,16 +66,11 @@ let ``Should build query correctly for a multiple terms with same key`` () =
 
     
 [<Test>]
-let ``Should build query correctly for a multiple terms with different keys`` () =
-  let qs = [
-      {Vocab="key"; TermUri="val1"}
-      {Vocab="key"; TermUri="val2"}
-      {Vocab="key2"; TermUri="val3"}
-      {Vocab="key2"; TermUri="val4"}
+let ``Should build query correctly for a multiple terms across multiple vocabs`` () =
+  let filters = [{Vocab="vocab"; TermUris=["term1";"term2"]}
+                 {Vocab="vocab2"; TermUris=["term3";"term4"]}]
 
-      ]
-
-  let query = BuildQuery qs
+  let query = BuildQuery filters
   let expectedQuery = """{
 "from": 0, "size": 1500,
 "query": {
@@ -88,11 +80,11 @@ let ``Should build query correctly for a multiple terms with different keys`` ()
         "must" : [
           {"bool" : {
             "should" : [
-              {"term" : {"key" : "val1"}},{"term" : {"key" : "val2"}}
+              {"term" : {"vocab" : "term1"}},{"term" : {"vocab" : "term2"}}
             ]
           }},{"bool" : {
             "should" : [
-              {"term" : {"key2" : "val3"}},{"term" : {"key2" : "val4"}}
+              {"term" : {"vocab2" : "term3"}},{"term" : {"vocab2" : "term4"}}
             ]
           }}
         ]
@@ -110,13 +102,8 @@ let ``Should build query correctly for a multiple terms with different keys`` ()
 
     
 [<Test>]
-let ``GetSearchResults should return an empty list on zero results`` () =
-  let StubbedQueryResponse _ _ = "{}"
-  let query = "{}"
-  let DoSearchWith = GetSearchResults StubbedQueryResponse false
-  let results = DoSearchWith query
-
-  results |> should equal []
+let ``ParseResponse should return an empty list on zero results`` () =
+  ParseResponse "" |> should equal []
 
 [<Test>]
 let ``ParseResponse should map a single result`` () =
@@ -189,30 +176,4 @@ let ``ParseResponse should map results`` () =
 
       [{Vocab = "vocab"; TermUri = prefix+"uri"}] |> should equal results
     
-[<Test>]
-let ``Should build query correctly for an encoded single term key`` () =
-  let qs = [{Vocab="key%3akey"; TermUri="val"}]
-  let query = BuildQuery qs
-  let expectedQuery = """{
-"from": 0, "size": 1500,
-"query": {
-  "filtered": {
-    "filter" : {
-      "bool" : {
-        "must" : [
-          {"bool" : {
-            "should" : [
-              {"term" : {"key:key" : "val"}}
-            ]
-          }}
-        ]
-      }
-    }
-  }
-},
-"sort": [
-  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "desc" }},
-  { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
-]
-}"""
-  query |> should equal expectedQuery
+

@@ -2,6 +2,7 @@ module Viewer.AppConfig
 
 open System
 open Viewer.Types
+open Viewer.Data.Search.Search
 open Viewer.Data.Search.Elastic
 open Viewer.Data.Vocabs.VocabGeneration
 open FSharp.RDF
@@ -13,7 +14,7 @@ type Mode =
 type AppConfiguration = {
   Vocabs : Vocabulary list
   RenderedVocabs : string
-  GetSearchResults : (bool -> string -> SearchResult list)
+  PerformSearch : AggregatedFilter list -> SearchResult list
   GetKBCount : bool -> int
   HotjarId : string
   GAId : string
@@ -25,7 +26,7 @@ let getAppConfig mode =
     printf "RUNNING DEV MODE: Using stubbed data\n"
     {Vocabs = Stubs.vocabs
      RenderedVocabs = renderVocabs Stubs.vocabs
-     GetSearchResults = Stubs.getSearchResults
+     PerformSearch = performSearchWithProvider Stubs.search
      GetKBCount = Stubs.getKBCount
      HotjarId = "whoisjaridanyway"
      GAId = "whoisjaridanyway"}
@@ -33,7 +34,7 @@ let getAppConfig mode =
     let vocabs = readVocabsFromFiles ()
     {Vocabs = vocabs
      RenderedVocabs = renderVocabs vocabs
-     GetSearchResults = GetSearchResults RunElasticQuery
+     PerformSearch = performSearchWithProvider Viewer.Data.Search.Elastic.search 
      GetKBCount = KnowledgeBaseCount
      HotjarId = Environment.GetEnvironmentVariable "HOTJARID"
      GAId = Environment.GetEnvironmentVariable "GAID"}

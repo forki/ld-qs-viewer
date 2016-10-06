@@ -10,6 +10,11 @@ type Filter = {
   TermUri: string
 }
 
+type AggregatedFilter = {
+  Vocab: string
+  TermUris: string list
+}
+
 type LabelledFilter = {
   VocabLabel: string
   TermUri: string

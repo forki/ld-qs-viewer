@@ -12,18 +12,18 @@ let extractFilters qs =
               )
   |> Seq.toList
 
-let aggregateQueryStringValues filters =
-  let getTerms (k, vals) = 
-    let aggregatedVals = vals
-                         |> Seq.map (fun (v:Filter) -> v.TermUri)
+let aggregateFiltersByVocab (filters:Filter list) =
+  let getTerms (v, terms) = 
+    let aggregatedVals = terms
+                         |> Seq.map (fun (f:Filter) -> f.TermUri)
                          |> Seq.toList
-    (k, aggregatedVals)
+    {Vocab=v
+     TermUris=aggregatedVals}
 
   filters
-  |> Seq.groupBy (fun k -> k.Vocab)
+  |> Seq.groupBy (fun f -> f.Vocab)
   |> Seq.map getTerms
   |> Seq.toList
-
 
 let insertItemsInto query item1 item2 =
   sprintf (Printf.StringFormat<string->string->string>(query)) item1 item2
@@ -60,3 +60,4 @@ let createFilterTags (filters:Filter list) =
 
 let shouldExpandVocab vocabProperty (filters:Filter list) =
   filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocabProperty)
+

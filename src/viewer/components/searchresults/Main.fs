@@ -9,11 +9,20 @@ open Viewer.Config
 
 type SearchResultsParameters = {
   Qs : (string * string option) list
-  GetSearchResults : (bool -> string -> SearchResult list)
+  PerformSearch : (AggregatedFilter list -> SearchResult list)
   GetKBCount : (bool -> int)
   ShowOverview : bool
   Testing : bool
 }
+with
+    static member Empty = 
+        {
+          Qs = []
+          PerformSearch = (fun _ -> [])
+          GetKBCount = (fun _ -> 0)
+          ShowOverview = false
+          Testing = false
+        }
 
 type SearchResultsModel = {
   Results: SearchResult list
@@ -34,13 +43,14 @@ let createModel args =
        ShowHelp = if args.ShowOverview then true else false}
     | _ ->
       let reAddBaseUrlToFilters = prefixFiltersWithBaseUrl BaseUrl
-      let results = args.Qs |> extractFilters |> reAddBaseUrlToFilters |> BuildQuery |> args.GetSearchResults args.Testing
-
       let filters = extractFilters args.Qs
-      let filterTags = createFilterTags filters
+      let results = filters 
+                    |> reAddBaseUrlToFilters 
+                    |> aggregateFiltersByVocab  
+                    |> args.PerformSearch
 
       {Results = results
-       Tags = filterTags
+       Tags = createFilterTags filters
        totalCount = results.Length
        ShowHelp = false}
 

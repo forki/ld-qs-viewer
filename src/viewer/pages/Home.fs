@@ -1,5 +1,6 @@
 module Viewer.Pages.Home
 
+open System
 open Suave
 open Suave.Cookie
 open Viewer.Utils
@@ -16,7 +17,13 @@ type HomeModel = {
   Scripts: string
 }
 
+let private decode qs = 
+  match qs with
+  | (key,Some v) -> (Uri.UnescapeDataString key, Some v)
+  | _ | (_,None) -> qs
+
 let private buildContent (req:HttpRequest) config showOverview =
+  let qs = req.query |> List.map decode
   let testing = req.cookies |> Map.containsKey "test"
   let config = 
     match testing with
@@ -24,8 +31,8 @@ let private buildContent (req:HttpRequest) config showOverview =
     | false -> config
 
   [Sidebar.render config.RenderedVocabs 
-   SearchResults.render {Qs=req.query
-                         GetSearchResults = config.GetSearchResults
+   SearchResults.render {Qs=qs
+                         PerformSearch = config.PerformSearch
                          GetKBCount = config.GetKBCount
                          ShowOverview = showOverview
                          Testing = testing}

@@ -30,9 +30,9 @@ let ``aggregateQueryStringValues should group by keys`` () =
       {Vocab="key1"; TermUri="val2"}
       {Vocab="key2"; TermUri="val3"}
       ] 
-  let aggs = aggregateQueryStringValues qs
-  aggs |> should equal [("key1",["val1";"val2"])
-                        ("key2",["val3"])]
+  let aggs = aggregateFiltersByVocab qs
+  aggs |> should equal [{Vocab="key1";TermUris=["val1";"val2"]}
+                        {Vocab="key2";TermUris=["val3"]}]
 
     
 [<Test>]

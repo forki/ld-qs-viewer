@@ -44,15 +44,16 @@ let formatDisplayMessage (e:Exception) =
     printException e 1
     sb.ToString()
 
-let BuildQuery qsPairs =
-  let aggregatedKeyValues = aggregateQueryStringValues qsPairs 
-
-  let shouldQuery = aggregatedKeyValues
-                    |> Seq.map (fun (k, vals) -> vals
-                                                 |> Seq.map (fun v -> insertItemsInto termQuery (Uri.UnescapeDataString k) v)
-                                                 |> concatToStringWithDelimiter ",")
-                    |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)
-                    |> concatToStringWithDelimiter ","
+let BuildQuery filters =
+  
+  let shouldQuery = 
+    filters
+    |> Seq.map (fun {Vocab=v; TermUris=terms} -> 
+                    terms
+                    |> Seq.map (fun t -> insertItemsInto termQuery (Uri.UnescapeDataString v) t)
+                    |> concatToStringWithDelimiter ",")
+    |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)
+    |> concatToStringWithDelimiter ","
 
   let fullQuery = insertItemInto mustQuery shouldQuery
 
@@ -68,7 +69,7 @@ let GetKBCount testing =
     Http.RequestString(url)
   with
     ex ->
-      printf "ELASTICSEARCH_ERROR - unable to get count check index%s\n"
+      printf "ELASTICSEARCH_ERROR - unable to get count check index\n"
       ""
 
 let RunElasticQuery testing (query: string) =
@@ -122,8 +123,8 @@ let ParseResponse response =
       printf "UNABLE TO PARSE ELASTIC SEARCH RESPONSE\n"
       []
 
-let GetSearchResults runSearch testing query =
-  query |> runSearch testing |> ParseResponse
-
 let KnowledgeBaseCount testing =
   GetKBCount testing |> ParseCountResponse
+
+let search : (AggregatedFilter list -> SearchResult list) =
+  BuildQuery >> RunElasticQuery false >> ParseResponse

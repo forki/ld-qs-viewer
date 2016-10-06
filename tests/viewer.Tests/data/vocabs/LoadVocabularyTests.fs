@@ -177,6 +177,44 @@ let ``Should retrieve more than one label from several filters provided`` () =
   let actualResult = getLabelsByGuid vocabs filters
   actualResult |> should equal expectedLabels
 
+[<Test>]
+let ``Should return an empty string when guid is not found`` () =
+  let vocabs = [{Root = Term {
+                              Uri = Uri.from "http://testing.com/Uri3"
+                              ShortenedUri = "unknown"
+                              Label = "Care home"
+                              Selected = false
+                              Children = [
+                                           Term { 
+                                                  Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "long-guid-1"
+                                                  Label = "Term1"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { 
+                                                  Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "long-guid-2"
+                                                  Label = "Term2"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { 
+                                                  Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "long-guid-3"
+                                                  Label = "Term3"
+                                                  Selected = false
+                                                  Children = []}]};
+                 Property = "v1";
+                 Label = ""}]
+    
+  let filters = [ 
+                {Vocab = "notused"; TermUri = "guid-does-not-exist-1"};
+                {Vocab = "notused"; TermUri = "guid-does-not-exist-2"}
+                ]
+
+  let expectedLabels = [""; "";]
+  let actualResult = getLabelsByGuid vocabs filters
+  actualResult |> should equal expectedLabels
+
 
 [<Test>]
 let ``Should have unselected checkboxes when no search term in url`` () =

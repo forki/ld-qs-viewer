@@ -204,7 +204,9 @@ let private findTheLabel vocabs filterUris =
 let getLabelsByGuid vocabs (filters: Filter list) =
   filters 
   |>Seq.map(fun x-> findTheLabel vocabs x.TermUri)
-  |>Seq.map (fun x-> Seq.head x)
+  |>Seq.map (fun x->match x with
+                    | [] -> ""
+                    | _ -> Seq.head x)
 
 type VocabModel = {
   Vocabularies: Vocabulary list

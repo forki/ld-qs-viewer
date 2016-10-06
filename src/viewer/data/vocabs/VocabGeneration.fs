@@ -87,13 +87,6 @@ let findTheLabel vocabs filteruris =
   |> List.map (fun t -> t.Label) 
   |> List.filter (fun l->l <> "")
 
-let getLabelsByGuid vocabs (filters: Filter list) =
-  filters 
-  |>Seq.map(fun x-> findTheLabel vocabs x.TermUri)
-  |>Seq.map (fun x->match x with
-                    | [] -> ""
-                    | _ -> Seq.head x)
-
 let renderVocabs vocabs =
   {Vocabularies = vocabs}
   |> template "templates/filters.html"

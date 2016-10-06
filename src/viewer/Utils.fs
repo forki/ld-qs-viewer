@@ -48,7 +48,6 @@ let stripAllButFragment (uri:string) =
 let createFilterTags (filters:Filter list) vocabs =
 
   let createRemovalQS x =
-    printf "TermUri %A" x
     filters
     |> Seq.filter (fun y -> y.TermUri <> x)
     |> Seq.map (fun y -> sprintf "%s=%s" y.Vocab (Uri.EscapeDataString(y.TermUri)))

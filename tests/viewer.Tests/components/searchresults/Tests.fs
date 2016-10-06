@@ -21,19 +21,19 @@ let vocabs = [{Root = Term {
                             Children = [
                                          Term { 
                                                 Uri = Uri.from "http://testing.com/Uri3"
-                                                ShortenedUri = "long-guid-1"
+                                                ShortenedUri = "vocabLabel/long-guid-1"
                                                 Label = "Term1"
                                                 Selected = false
                                                 Children = []};
                                          Term { 
                                                 Uri = Uri.from "http://testing.com/Uri3"
-                                                ShortenedUri = "long-guid-2"
+                                                ShortenedUri = "vocabLabel/long-guid-2"
                                                 Label = "Term2"
                                                 Selected = false
                                                 Children = []};
                                          Term { 
                                                 Uri = Uri.from "http://testing.com/Uri3"
-                                                ShortenedUri = "long-guid-3"
+                                                ShortenedUri = "vocabLabel/long-guid-3"
                                                 Label = "Term3"
                                                 Selected = false
                                                 Children = []}]};

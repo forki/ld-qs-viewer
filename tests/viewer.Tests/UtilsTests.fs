@@ -39,25 +39,25 @@ let ``aggregateQueryStringValues should group by keys`` () =
 let ``createFilterTags should create filter tags from filters`` () =
   let vocabs = [{Root = Term {
                               Uri = Uri.from "http://testing.com/Uri3"
-                              ShortenedUri = "unknown"
+                              ShortenedUri = "unknown/unknown"
                               Label = "Care home"
                               Selected = false
                               Children = [
                                            Term { 
                                                   Uri = Uri.from "http://testing.com/Uri3"
-                                                  ShortenedUri = "long-guid-1"
+                                                  ShortenedUri = "vocabLabel/long-guid-1"
                                                   Label = "Term1"
                                                   Selected = false
                                                   Children = []};
                                            Term { 
                                                   Uri = Uri.from "http://testing.com/Uri3"
-                                                  ShortenedUri = "long-guid-2"
+                                                  ShortenedUri = "vocabLabel/long-guid-2"
                                                   Label = "Term2"
                                                   Selected = false
                                                   Children = []};
                                            Term { 
                                                   Uri = Uri.from "http://testing.com/Uri3"
-                                                  ShortenedUri = "long-guid-3"
+                                                  ShortenedUri = "vocabLabel/long-guid-3"
                                                   Label = "Term3"
                                                   Selected = false
                                                   Children = []}]};
@@ -82,19 +82,19 @@ let ``Should return an empty array when labels are not found`` () =
                               Children = [
                                            Term { 
                                                   Uri = Uri.from "http://testing.com/Uri3"
-                                                  ShortenedUri = "long-guid-1"
+                                                  ShortenedUri = "vocabLabel/long-guid-1"
                                                   Label = "Term1"
                                                   Selected = false
                                                   Children = []};
                                            Term { 
                                                   Uri = Uri.from "http://testing.com/Uri3"
-                                                  ShortenedUri = "long-guid-2"
+                                                  ShortenedUri = "vocabLabel/long-guid-2"
                                                   Label = "Term2"
                                                   Selected = false
                                                   Children = []};
                                            Term { 
                                                   Uri = Uri.from "http://testing.com/Uri3"
-                                                  ShortenedUri = "long-guid-3"
+                                                  ShortenedUri = "vocabLabel/long-guid-3"
                                                   Label = "Term3"
                                                   Selected = false
                                                   Children = []}]};

@@ -70,7 +70,7 @@ let getVocabsWithState vocabs (filters: Filter list) =
   |> Seq.map (fun v -> setSelectedIfFiltered filterUris v)
   |> Seq.toList
 
-let findTheLabel vocabs filteruris =
+let findTheLabel vocabs filterUris =
   let rec getTerm f = function
     | [] -> []
     | x::xs -> match x with
@@ -82,7 +82,7 @@ let findTheLabel vocabs filteruris =
                               | _ -> getTerm f xs
                 | Empty -> []
   vocabs
-  |> List.map (fun v -> getTerm (fun t->filteruris=t.ShortenedUri) [v.Root]) 
+  |> List.map (fun v -> getTerm (fun t->t.ShortenedUri.Contains(filterUris)) [v.Root]) 
   |> List.concat
   |> List.map (fun t -> t.Label) 
   |> List.filter (fun l->l <> "")

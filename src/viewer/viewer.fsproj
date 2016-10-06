@@ -59,6 +59,7 @@
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
     <Compile Include="Types.fs" />
+    <Compile Include="SuaveSerilogAdapter.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="Config.fs" />
     <Compile Include="SuaveExtensions.fs" />

@@ -2,17 +2,24 @@ module Viewer.App
 
 
 open Viewer.Pages
+open Viewer.SuaveSerilogAdapter
 open Suave
 open Suave.Filters
 open Suave.Operators
 open Suave.Files
+open Suave.Logging
+open Serilog
 
 let buildPath pathLocation =
     (path pathLocation <|> path (pathLocation + "/") )
 
+let logRequest context =
+  sprintf "Received request %A %A" context.request.``method`` context.request.url.PathAndQuery
+
 let createApp config =
   choose
-        [GET >=> buildPath "/qs" >=> request(fun req -> Home.page req config true)
+        [log (SuaveSerilogAdapter Log.Logger) logRequest >=> never
+         GET >=> buildPath "/qs" >=> request(fun req -> Home.page req config true)
          GET >=> path "/qs/search" >=> request(fun req -> Home.page req config false)
          GET >=> pathScan "/resource/%s" (fun resourceId -> Resource.page config resourceId)
          GET >=> pathScan "/things/%s" (fun resourceId -> Resource.page config resourceId)

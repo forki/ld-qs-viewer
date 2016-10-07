@@ -1,10 +1,10 @@
 module Viewer.Tests.UtilsTests
 
+open NUnit.Framework
 open Viewer.Utils
 open Viewer.Types
-open NUnit.Framework
 open FsUnit
-
+open FSharp.RDF
     
 [<Test>]
 let ``extractFilters should return empty list given an empty querystring`` () =
@@ -37,8 +37,76 @@ let ``aggregateQueryStringValues should group by keys`` () =
     
 [<Test>]
 let ``createFilterTags should create filter tags from filters`` () =
-  let filters = [{Vocab = "vocab"; TermUri = "http://somelink.com/Uri#Term1"}
-                 {Vocab = "vocab"; TermUri = "http://somelink.com/Uri#Term2"}]
-  let filterTags = createFilterTags filters
-  filterTags |> should equal [{Label = "Term1"; RemovalQueryString = "vocab=http%3A%2F%2Fsomelink.com%2FUri%23Term2"}
-                              {Label = "Term2"; RemovalQueryString = "vocab=http%3A%2F%2Fsomelink.com%2FUri%23Term1"}] 
+  let vocabs = [{Root = Term {
+                              Uri = Uri.from "http://testing.com/Uri3"
+                              ShortenedUri = "unknown/unknown"
+                              Label = "Care home"
+                              Selected = false
+                              Children = [
+                                           Term { 
+                                                  Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "vocabLabel/long-guid-1"
+                                                  Label = "Term1"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { 
+                                                  Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "vocabLabel/long-guid-2"
+                                                  Label = "Term2"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { 
+                                                  Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "vocabLabel/long-guid-3"
+                                                  Label = "Term3"
+                                                  Selected = false
+                                                  Children = []}]};
+                 Property = "v1";
+                 Label = ""}]
+    
+  let filters = [{Vocab = "vocab"; TermUri = "vocabLabel/long-guid-2"}
+                 {Vocab = "vocab"; TermUri = "vocabLabel/long-guid-1"}
+                ]
+  let filterTags = createFilterTags filters vocabs
+  filterTags |> should equal [{Label = "Term2"; RemovalQueryString = "vocab=vocabLabel%2Flong-guid-1"}
+                              {Label = "Term1"; RemovalQueryString = "vocab=vocabLabel%2Flong-guid-2"}] 
+
+
+[<Test>]
+let ``Should return an empty array when labels are not found`` () =
+  let vocabs = [{Root = Term {
+                              Uri = Uri.from "http://testing.com/Uri3"
+                              ShortenedUri = "unknown"
+                              Label = "Care home"
+                              Selected = false
+                              Children = [
+                                           Term { 
+                                                  Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "vocabLabel/long-guid-1"
+                                                  Label = "Term1"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { 
+                                                  Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "vocabLabel/long-guid-2"
+                                                  Label = "Term2"
+                                                  Selected = false
+                                                  Children = []};
+                                           Term { 
+                                                  Uri = Uri.from "http://testing.com/Uri3"
+                                                  ShortenedUri = "vocabLabel/long-guid-3"
+                                                  Label = "Term3"
+                                                  Selected = false
+                                                  Children = []}]};
+                 Property = "v1";
+                 Label = ""}]
+    
+  let filters = [ 
+                {Vocab = "notused"; TermUri = "guid-does-not-exist-1"};
+                {Vocab = "notused"; TermUri = "guid-does-not-exist-2"}
+                ]
+
+  let filterTags = createFilterTags filters vocabs
+  filterTags |> should equal [] 
+
+

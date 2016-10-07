@@ -2,6 +2,7 @@ module Viewer.Utils
 
 open System
 open Viewer.Types
+//open Viewer.Data.Vocabs.VocabGeneration
 
 let extractFilters qs =
   qs
@@ -43,8 +44,24 @@ let stripAllButFragment (uri:string) =
     let toEnd = uri.Length - from
     uri.Substring(from, toEnd)
 
+let findTheLabel vocabs filterUris =
+  let rec getTerm f = function
+    | [] -> []
+    | x::xs -> match x with
+                | Term x -> if f x then 
+                              [x]; 
+                            else 
+                              match xs with
+                              | [] -> getTerm f x.Children
+                              | _ -> getTerm f xs
+                | Empty -> []
+  vocabs
+  |> List.map (fun v -> getTerm (fun t->t.ShortenedUri.Contains(filterUris)) [v.Root]) 
+  |> List.concat
+  |> List.map (fun t -> t.Label) 
+  |> List.filter (fun l->l <> "")
 
-let createFilterTags (filters:Filter list) =
+let createFilterTags (filters:Filter list) vocabs =
 
   let createRemovalQS x =
     filters
@@ -52,11 +69,12 @@ let createFilterTags (filters:Filter list) =
     |> Seq.map (fun y -> sprintf "%s=%s" y.Vocab (Uri.EscapeDataString(y.TermUri)))
     |> concatToStringWithDelimiter "&"
 
-  filters
-  |> Seq.map (fun x -> {Label = try x.TermUri.Split('#').[1] with _ -> ""
-                        RemovalQueryString = createRemovalQS x.TermUri})
+  filters 
+  |> Seq.map (fun x->{ Label = try Seq.head (findTheLabel vocabs (x.TermUri.Split('/').[1]) ) with _ -> ""
+                       RemovalQueryString = createRemovalQS x.TermUri})
   |> Seq.filter (fun x -> x.Label <> "")
   |> Seq.toList
+
 
 let shouldExpandVocab vocabProperty (filters:Filter list) =
   filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocabProperty)

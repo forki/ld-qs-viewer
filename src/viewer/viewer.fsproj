@@ -58,10 +58,10 @@
   -->
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
-    <Compile Include="Types.fs" />
-    <Compile Include="Utils.fs" />
     <Compile Include="Config.fs" />
     <Compile Include="SuaveExtensions.fs" />
+    <Compile Include="Types.fs" />
+    <Compile Include="Utils.fs" />
     <Compile Include="data\vocabs\VocabGeneration.fs" />
     <Compile Include="data\search\Queries.fs" />
     <Compile Include="data\search\Elastic.fs" />

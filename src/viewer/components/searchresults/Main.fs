@@ -11,6 +11,7 @@ type SearchResultsParameters = {
   Qs : (string * string option) list
   PerformSearch : (AggregatedFilter list -> SearchResult list)
   GetKBCount : (bool -> int)
+  Vocabs : Vocabulary list
   ShowOverview : bool
   Testing : bool
 }
@@ -20,6 +21,7 @@ with
           Qs = []
           PerformSearch = (fun _ -> [])
           GetKBCount = (fun _ -> 0)
+          Vocabs = []
           ShowOverview = false
           Testing = false
         }
@@ -44,13 +46,14 @@ let createModel args =
     | _ ->
       let reAddBaseUrlToFilters = prefixFiltersWithBaseUrl BaseUrl
       let filters = extractFilters args.Qs
+      let filterTags = createFilterTags filters args.Vocabs
       let results = filters 
                     |> reAddBaseUrlToFilters 
                     |> aggregateFiltersByVocab  
                     |> args.PerformSearch
 
       {Results = results
-       Tags = createFilterTags filters
+       Tags = filterTags 
        totalCount = results.Length
        ShowHelp = false}
 

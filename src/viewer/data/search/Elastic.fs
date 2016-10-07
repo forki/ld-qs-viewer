@@ -113,7 +113,6 @@ let ParseResponse response =
     }
 
   try
-    printfn "%s" response
     let json = JsonProvider<"data/search/elasticResponseSchema.json">.Parse(response)
     printf "%A" json.Hits
     json.Hits.Hits |> Seq.map createResult |> Seq.toList

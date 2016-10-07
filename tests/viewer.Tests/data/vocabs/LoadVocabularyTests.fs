@@ -104,6 +104,7 @@ let ``Should set vocab term as selected if url exists in filters`` () =
   let actualVocabs = getVocabsWithState vocabs filters 
   actualVocabs |> should equal expectedVocabs
 
+
 [<Test>]
 let ``Should have unselected checkboxes when no search term in url`` () =
   let vocabs = [{Root = Term {Uri = (Uri.from "http://testing.com/Vocab1")

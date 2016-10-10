@@ -60,6 +60,12 @@ let findTheLabel vocabs filterUris =
   |> List.map (fun t -> t.Label) 
   |> List.filter (fun l->l <> "")
 
+let getGuidFromFilter (filter:Filter) =
+  try filter.TermUri.Split('/').[1] with _ -> ""
+
+let getLabelFromGuid vocabs (filter:Filter) = 
+  try Seq.head (findTheLabel vocabs (getGuidFromFilter filter)) with _ -> ""
+
 let createFilterTags (filters:Filter list) vocabs =
 
   let createRemovalQS x =

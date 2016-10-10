@@ -44,15 +44,15 @@ let stripAllButFragment (uri:string) =
     uri.Substring(from, toEnd)
 
 let findTheLabel vocabs filterUris =
-  let rec getTerm f = function
+  let rec getTerm fn = function
     | [] -> []
     | x::xs -> match x with
-                | Term x -> if f x then 
+                | Term x -> if fn x then 
                               [x]; 
                             else 
                               match xs with
-                              | [] -> getTerm f x.Children
-                              | _ -> getTerm f xs
+                              | [] -> getTerm fn x.Children
+                              | _ -> if x.Children = [] then getTerm fn xs else getTerm fn x.Children
                 | Empty -> []
   vocabs
   |> List.map (fun v -> getTerm (fun t->t.ShortenedUri.Contains(filterUris)) [v.Root]) 
@@ -80,7 +80,7 @@ let createFilterTags (filters:Filter list) vocabs =
   |> Seq.filter (fun x -> x.Label <> "")
   |> Seq.toList
 
-let findTheGuid vocabs filterUris =
+let findTheGuid vocabs filterUri =
   let rec getTerm f = function
     | [] -> []
     | x::xs -> match x with
@@ -92,9 +92,9 @@ let findTheGuid vocabs filterUris =
                               | _ -> getTerm f xs
                 | Empty -> []
   vocabs
-  |> List.map (fun v -> getTerm (fun t->t.Label=filterUris) [v.Root]) 
+  |> List.map (fun v -> getTerm (fun t->t.Label=filterUri) [v.Root]) 
   |> List.concat
-  |> List.map (fun t ->try  t.ShortenedUri.Split('/').[1] with _ -> "") 
+  |> List.map (fun t -> try t.ShortenedUri.Split('/').[1] with _ -> "") 
 
 let getGuids (labels:string list) vocabs =
 

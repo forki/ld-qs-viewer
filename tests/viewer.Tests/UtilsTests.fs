@@ -101,6 +101,7 @@ let ``createFilterTags should create filter tags from filters`` () =
                               {Label = "Term1"; RemovalQueryString = "vocab=vocabLabel%2Flong-guid-2"}] 
 
 
+[<Category("RunOnly")>]
 [<Test>]
 let ``Should return an empty array when labels are not found`` () =
   let vocabs = [{Root = Term {
@@ -138,6 +139,7 @@ let ``Should return an empty array when labels are not found`` () =
   let filterTags = createFilterTags filters vocabs
   filterTags |> should equal [] 
 
+[<Category("RunOnly")>]
 [<Test>]
 let ``Should return guid when label given`` () =
     

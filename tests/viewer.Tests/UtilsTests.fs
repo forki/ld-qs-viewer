@@ -113,21 +113,18 @@ let ``Should return an empty array when labels are not found`` () =
   let filterTags = createFilterTags filters vocabs
   filterTags |> should equal [] 
 
-[<Test>]
-let ``Should return guid when label given`` () =
-
-  let vocabs = [{Root = Term {
-                              Uri = Uri.from "http://testing.com/agegroup"
-                              ShortenedUri = "unknown/unknown"
-                              Label = "Age group"
-                              Selected = false
-                              Children = [
-                                           Term { 
-                                                  Uri = Uri.from "http://testing.com/qualitystandard/agegroup/aa4da4d7_b934_4d03_b556_f7b97381953f"
-                                                  ShortenedUri = "agegroup/aa4da4d7_b934_4d03_b556_f7b97381953f"
-                                                  Label = "All age groups"
-                                                  Selected = false
-                                                  Children = [
+let vocabAgeGroup = [{Root = Term {
+                             Uri = Uri.from "http://testing.com/agegroup"
+                             ShortenedUri = "unknown/unknown"
+                             Label = "Age group"
+                             Selected = false
+                             Children = [
+                                          Term { 
+                                                 Uri = Uri.from "http://testing.com/qualitystandard/agegroup/aa4da4d7_b934_4d03_b556_f7b97381953f"
+                                                 ShortenedUri = "agegroup/aa4da4d7_b934_4d03_b556_f7b97381953f"
+                                                 Label = "All age groups"
+                                                 Selected = false
+                                                 Children = [
                                                               Term {
                                                                      Uri = Uri.from "http://testing.com/qualitystandard/agegroup/d3326f46_c734_4ab7_9e41_923256bd7d0b"
                                                                      ShortenedUri = "agegroup/d3326f46_c734_4ab7_9e41_923256bd7d0b"
@@ -191,17 +188,24 @@ let ``Should return guid when label given`` () =
                                            ]};
                  Property = "v1";
                  Label = ""}]
-    
 
-  getGuids [//"All age groups"
-            //"Adults"
-            //"Adults 18-24 years"
-            "Children 1-15 years"] vocabs
-  |> should equal [//"aa4da4d7_b934_4d03_b556_f7b97381953f"
-                  // "d3326f46_c734_4ab7_9e41_923256bd7d0b"
-                  // "c4347520_adf4_4ddb_9926_8f6c3132525e"
+[<Test>]
+let ``Should return guid when label given`` () =
+
+  getGuids ["All age groups"
+            "Adults"
+            "Adults 18-24 years"
+            "Children 1-15 years"] vocabAgeGroup
+  |> should equal ["aa4da4d7_b934_4d03_b556_f7b97381953f"
+                   "d3326f46_c734_4ab7_9e41_923256bd7d0b"
+                   "c4347520_adf4_4ddb_9926_8f6c3132525e"
                    "5d69430f_dace_4c7e_bc70_70b02cd3d965" ] 
 
+//[<Test>]
+//let ``STEWTEST: Doing the shit with the thing`` () =
+//
+//  let stewtest = flatternVocab vocabAgeGroup
+//  true |> should equal false
 
 [<Test>]
 let ``Should return empty array when label not found`` () =

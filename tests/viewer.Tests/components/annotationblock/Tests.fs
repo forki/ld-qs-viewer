@@ -57,23 +57,25 @@ let ``Should generate annotations and human readable annotation block from query
 let ``Should generate multiple level annotations and human readable annotation block from querystring`` () =
   let vocabs = [{Property = "vocab:property"
                  Root = Term {t with 
+                                  Uri = Uri.from "http://testing.com/unknown/unknown"
+                                  ShortenedUri = "unknown/unknown"
                                   Label = "Vocab Label";
                                   Children = [Term {t with 
                                                       ShortenedUri = "vocabLabel/long-guid-1"
                                                       Label = "Term1"
-                                                      Uri = uri "http://testing.com/Uri#Term1"
+                                                      Uri = uri "http://testing.com/vocabLabel/long-guid-1"
                                                       Children = [Term { t with
-                                                                          ShortenedUri = "vocablabel/long-guid-1-1"
+                                                                          ShortenedUri = "vocabLabel/long-guid-1-1"
                                                                           Label = "Term 1-1"
-                                                                          Uri = uri "http://testing.com/Uri#Term1-1"};
+                                                                          Uri = uri "http://testing.com/vocabLabel/long-guid-1-1"};
                                                       ]};
                                              Term {t with 
                                                       ShortenedUri = "vocabLabel/long-guid-2"
                                                       Label = "Term2"
-                                                      Uri = uri "http://testing.com/Uri#Term2"}]}
+                                                      Uri = uri "http://testing.com/vocabLabel/long-guid-2"}]}
                  Label = ""}]
 
-  let qsWithTwoVocabTerms = "vocab%3Aproperty=Uri%2Flong-guid-1&vocab%3Aproperty=Uri%2Flong-guid-1-1"
+  let qsWithTwoVocabTerms = "vocab%3Aproperty=vocabLabel%2Flong-guid-1&vocab%3Aproperty=vocabLabel%2Flong-guid-1-1"
 
   let yaml = startServerWith {baseConfig with Vocabs = vocabs}
              |> getQuery "/annotationtool/toyaml" qsWithTwoVocabTerms

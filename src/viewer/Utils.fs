@@ -1,5 +1,7 @@
 module Viewer.Utils
 
+open Serilog
+open NICE.Logging
 open System
 open Viewer.Types
 
@@ -42,8 +44,11 @@ let stripAllButFragment (uri:string) =
     let from = uri.LastIndexOf("#") + 1
     let toEnd = uri.Length - from
     uri.Substring(from, toEnd)
+    
+let getGuidFromShortUri (shortUri:string) =
+  try shortUri.Split('/').[1] with _ -> ""
 
-let private flatternVocab f (vocabs:Vocabulary List) =
+let flatternVocab (vocabs:Vocabulary List) =
   let getTerms (vocab:Vocabulary) =
     match vocab.Root with
     | Term t -> [Term t]
@@ -62,15 +67,15 @@ let private flatternVocab f (vocabs:Vocabulary List) =
          |> List.concat
          |> flatternTerms
          |> List.map (fun x -> match x with
-                               | Term t -> [{ Label = t.Label; Value = f t.ShortenedUri }]
+                               | Term t -> [{ Label = t.Label; ShortUri = t.ShortenedUri; Guid = getGuidFromShortUri t.ShortenedUri }]
                                | _ -> [])
          |> List.concat
 
 let private getVocabLookup flatvocab shortUri =
   flatvocab
-  |> List.tryFind (fun x -> x.Value = shortUri)
+  |> List.tryFind (fun x -> x.ShortUri = shortUri)
   |> (fun x -> match x with
-                          | None -> { Label = ""; Value = shortUri }
+                          | None -> { Label = ""; ShortUri = shortUri; Guid = "" }
                           | _ -> x.Value)
 
 //let findTheLabel vocabs (filterUris:string) =
@@ -101,11 +106,17 @@ let findTheLabel vocabs filterUris =
 let getGuidFromFilter (filter:Filter) =
   try filter.TermUri.Split('/').[1] with _ -> ""
 
-let getLabelFromGuid vocabs (filter:Filter) = 
-  try Seq.head (findTheLabel vocabs (getGuidFromFilter filter)) with _ -> ""
+let getLabelFromGuid (vocabs:vocabLookup List) (filter:Filter) = 
+  //try Seq.head (findTheLabel vocabs (getGuidFromFilter filter)) with _ -> ""
+  printf "HELLO!!!!!!!! %A" filter.TermUri
+  vocabs
+  |> List.tryFind( fun x -> x.ShortUri = filter.TermUri)
+  |> fun x -> match x with
+              | None -> "NO MATCH FOUND"
+              | Some v -> v.Label
 
 let createFilterTags (filters:Filter list) vocabs =
-  let flatVocabLookup = getVocabLookup (flatternVocab (fun x -> x) vocabs)
+  let flatVocabLookup = getVocabLookup (flatternVocab vocabs)
   let createRemovalQS x =
     filters
     |> Seq.filter (fun y -> y.TermUri <> x)
@@ -117,8 +128,6 @@ let createFilterTags (filters:Filter list) vocabs =
   |> Seq.filter (fun x -> x.Label <> "")
   |> Seq.toList
 
-<<<<<<< HEAD
-=======
 let findTheGuid vocabs filterUri =
   let rec getTerm f = function
     | [] -> []
@@ -135,18 +144,14 @@ let findTheGuid vocabs filterUri =
   |> List.concat
   |> List.map (fun t -> try t.ShortenedUri.Split('/').[1] with _ -> "") 
 
->>>>>>> 6f444cffbbdc31eb6973c74bad71aec8e6f52ad3
 let getGuids (labels:string list) vocabs =
-  let getGuidFromShortUri (shortUri:string) =
-    try shortUri.Split('/').[1] with _ -> ""
-
-  let flatVocabs = flatternVocab getGuidFromShortUri vocabs 
+  let flatVocabs = flatternVocab vocabs 
 
   let getGuid label =
      flatVocabs |> List.tryFind (fun x -> x.Label = label)
                 |> (fun x -> match x with
                              | None -> ""
-                             | _ -> x.Value.Value)
+                             | _ -> x.Value.Guid)
 
   labels 
   |> Seq.map getGuid

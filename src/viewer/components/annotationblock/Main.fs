@@ -29,6 +29,7 @@ let private getVocabLabel (filter:Filter) vocabs getTermUri =
       | Term t -> {VocabLabel = t.Label + ":"; TermUri = getTermUri}
 
 let createModel (req:HttpRequest) vocabs convert =
+  let flatVocab = flatternVocab vocabs
   match convert with
     | true ->
         if (req.rawQuery <> "") then
@@ -41,7 +42,7 @@ let createModel (req:HttpRequest) vocabs convert =
 
             let humanReadableYaml =
                 filters
-                |> List.map (fun f -> getVocabLabel f vocabs (getLabelFromGuid vocabs f))
+                |> List.map (fun f -> getVocabLabel f vocabs (getLabelFromGuid flatVocab f))
                 |> serialiseYaml
             
             {AnnotationBlock = yaml; HumanReadable=humanReadableYaml; ErrorMessage = ""}

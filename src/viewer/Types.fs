@@ -154,5 +154,6 @@ type VocabModel = {
 
 type vocabLookup = {
   Label : string
-  Value : string
+  Guid : string
+  ShortUri : string
 }

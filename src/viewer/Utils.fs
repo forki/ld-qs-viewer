@@ -83,7 +83,7 @@ let findTheGuid vocabs filterUris =
                             else 
                               match xs with
                               | [] -> getTerm f x.Children
-                              | _ -> getTerm f xs
+                              | _ -> if x.Children <> [] then getTerm f x.Children else getTerm f xs
                 | Empty -> []
   vocabs
   |> List.map (fun v -> getTerm (fun t->t.Label=filterUris) [v.Root]) 

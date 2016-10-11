@@ -76,6 +76,7 @@ let ``createFilterTags should create filter tags from filters`` () =
                              ] 
 
 
+[<Category("RunOnly")>]
 [<Test>]
 let ``Should return an empty array when labels are not found`` () =
   let vocabs = [{Root = Term {

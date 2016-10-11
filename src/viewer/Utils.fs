@@ -73,13 +73,36 @@ let private getVocabLookup flatvocab shortUri =
                           | None -> { Label = ""; Value = shortUri }
                           | _ -> x.Value)
 
-let findTheLabel vocabs (filterUris:string) =
-  let flatVocabLookup = getVocabLookup (flatternVocab (fun x -> x) vocabs)
+//let findTheLabel vocabs (filterUris:string) =
+//  let flatVocabLookup = getVocabLookup (flatternVocab (fun x -> x) vocabs)
+//
+//  [filterUris]
+//  |> List.map flatVocabLookup
+//  |> List.filter (fun x -> x.Label <> "")
+//  |> List.map (fun x -> x.Label)
 
-  [filterUris]
-  |> List.map flatVocabLookup
-  |> List.filter (fun x -> x.Label <> "")
-  |> List.map (fun x -> x.Label)
+let findTheLabel vocabs filterUris =
+  let rec getTerm fn = function
+    | [] -> []
+    | x::xs -> match x with
+                | Term x -> if fn x then 
+                              [x]; 
+                            else 
+                              match xs with
+                              | [] -> getTerm fn x.Children
+                              | _ -> if x.Children = [] then getTerm fn xs else getTerm fn x.Children
+                | Empty -> []
+  vocabs
+  |> List.map (fun v -> getTerm (fun t->t.ShortenedUri.Contains(filterUris)) [v.Root]) 
+  |> List.concat
+  |> List.map (fun t -> t.Label) 
+  |> List.filter (fun l->l <> "")
+
+let getGuidFromFilter (filter:Filter) =
+  try filter.TermUri.Split('/').[1] with _ -> ""
+
+let getLabelFromGuid vocabs (filter:Filter) = 
+  try Seq.head (findTheLabel vocabs (getGuidFromFilter filter)) with _ -> ""
 
 let createFilterTags (filters:Filter list) vocabs =
   let flatVocabLookup = getVocabLookup (flatternVocab (fun x -> x) vocabs)
@@ -94,6 +117,25 @@ let createFilterTags (filters:Filter list) vocabs =
   |> Seq.filter (fun x -> x.Label <> "")
   |> Seq.toList
 
+<<<<<<< HEAD
+=======
+let findTheGuid vocabs filterUri =
+  let rec getTerm f = function
+    | [] -> []
+    | x::xs -> match x with
+                | Term x -> if f x then 
+                              [x]; 
+                            else 
+                              match xs with
+                              | [] -> getTerm f x.Children
+                              | _ -> if x.Children <> [] then getTerm f x.Children else getTerm f xs
+                | Empty -> []
+  vocabs
+  |> List.map (fun v -> getTerm (fun t->t.Label=filterUri) [v.Root]) 
+  |> List.concat
+  |> List.map (fun t -> try t.ShortenedUri.Split('/').[1] with _ -> "") 
+
+>>>>>>> 6f444cffbbdc31eb6973c74bad71aec8e6f52ad3
 let getGuids (labels:string list) vocabs =
   let getGuidFromShortUri (shortUri:string) =
     try shortUri.Split('/').[1] with _ -> ""

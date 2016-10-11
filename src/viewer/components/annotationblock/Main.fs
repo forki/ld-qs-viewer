@@ -22,35 +22,29 @@ let private serialiseYaml (selected:LabelledFilter list) =
   |> Seq.groupBy(fun g -> g.VocabLabel)
   |> Seq.fold (fun acc section -> createYamlVocabSection acc section) ""
 
-let private getVocabLabel (filter:Filter) vocabs =
+let private getVocabLabel (filter:Filter) vocabs getTermUri =
   let v = vocabs |> List.find (fun v -> v.Property = (System.Uri.UnescapeDataString filter.Vocab))
   match v.Root with
       | Empty -> {VocabLabel = ""; TermUri = filter.TermUri}
-      | Term t -> {VocabLabel = t.Label + ":"; TermUri = filter.TermUri.Split('/').[1]}
+      | Term t -> {VocabLabel = t.Label + ":"; TermUri = getTermUri}
 
-let private getVocabLabelByGuid (filter:Filter) vocabs =
-  let v = vocabs |> List.find (fun v -> v.Property = (System.Uri.UnescapeDataString filter.Vocab))
-  match v.Root with
-      | Empty -> {VocabLabel = ""; TermUri = filter.TermUri}
-      | Term t -> {VocabLabel = t.Label + ":"; TermUri = Seq.head (findTheLabel vocabs (filter.TermUri.Split('/').[1]))}
-
- 
 let createModel (req:HttpRequest) vocabs convert =
   match convert with
     | true ->
         if (req.rawQuery <> "") then
             let filters = extractFilters req.query
+
             let yaml =
                 filters
-                |> List.map (fun f -> getVocabLabel f vocabs)
+                |> List.map (fun f -> getVocabLabel f vocabs (getGuidFromFilter f))
                 |> serialiseYaml
 
-            let hr_yaml =
+            let humanReadableYaml =
                 filters
-                |> List.map (fun f -> getVocabLabelByGuid f vocabs)
+                |> List.map (fun f -> getVocabLabel f vocabs (getLabelFromGuid vocabs f))
                 |> serialiseYaml
             
-            {AnnotationBlock = yaml; HumanReadable=hr_yaml; ErrorMessage = ""}
+            {AnnotationBlock = yaml; HumanReadable=humanReadableYaml; ErrorMessage = ""}
         else
             {AnnotationBlock = ""; HumanReadable=""; ErrorMessage = "Please select an annotation from vocabulary."}
 

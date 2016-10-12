@@ -18,25 +18,74 @@ let vocabs = [{Property = "vocab:property";
                                    Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
                                                Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}
                Label = ""}]
-    
+[<Category("RunOnly")>]    
 [<Test>]
-let ``Should generate annotation block from querystring`` () =
+let ``Should generate annotations and human readable annotation block from querystring`` () =
   let vocabs = [{Property = "vocab:property"
-                 Root = Term {t with Label = "Vocab Label"
-                                     Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
-                                                 Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}
+                 Root = Term {t with 
+                                  ShortenedUri = "some/thing"
+                                  Label = "Vocab Label";
+                                  Children = [Term {t with 
+                                                      ShortenedUri = "vocabLabel/long-guid-1"
+                                                      Label = "Term1"
+                                                      Uri = uri "http://testing.com/vocabLabel/long-guid-1"};
+                                             Term {t with 
+                                                      ShortenedUri = "vocabLabel/long-guid-2"
+                                                      Label = "Term2"
+                                                      Uri = uri "http://testing.com/vocabLabel/long-guid-2"}]}
                  Label = ""}]
 
-  let qsWithTwoVocabTerms = "vocab%3Aproperty=http%3A%2F%2Ftesting.com%2FUri%23Term1&vocab%3Aproperty=http%3A%2F%2Ftesting.com%2FUri%23Term2"
+  let qsWithTwoVocabTerms = "vocab%3Aproperty=vocabLabel%2Flong-guid-1&vocab%3Aproperty=vocabLabel%2Flong-guid-2"
 
   let yaml = startServerWith {baseConfig with Vocabs = vocabs}
              |> getQuery "/annotationtool/toyaml" qsWithTwoVocabTerms
-             |> CQ.select ".yaml-content"
-             |> CQ.text
+  let annotations =
+       yaml
+       |> CQ.select "#annotations"
+       |> CQ.text
+      
+  let human_readable =
+       yaml
+       |> CQ.select "#human-readable-annotations"
+       |> CQ.text
 
-  yaml |> should equal "Vocab Label:\n  - \"Term1\"\n  - \"Term2\"\n"
+  human_readable |> should equal "Vocab Label:\n  - \"Term1\"\n  - \"Term2\"\n"
+  annotations |> should equal "Vocab Label:\n  - \"long-guid-1\"\n  - \"long-guid-2\"\n"
 
-    
+[<Category("RunOnly")>]    
+[<Test>]
+let ``Should generate multiple level annotations and human readable annotation block from querystring`` () =
+  let vocabs = [{Property = "vocab:property"
+                 Root = Term {t with 
+                                  Uri = Uri.from "http://testing.com/unknown/unknown"
+                                  ShortenedUri = "unknown/unknown"
+                                  Label = "Vocab Label";
+                                  Children = [Term {t with 
+                                                      ShortenedUri = "vocabLabel/long-guid-1"
+                                                      Label = "Term1"
+                                                      Uri = uri "http://testing.com/vocabLabel/long-guid-1"
+                                                      Children = [Term { t with
+                                                                          ShortenedUri = "vocabLabel/long-guid-1-1"
+                                                                          Label = "Term 1-1"
+                                                                          Uri = uri "http://testing.com/vocabLabel/long-guid-1-1"};
+                                                      ]};
+                                             Term {t with 
+                                                      ShortenedUri = "vocabLabel/long-guid-2"
+                                                      Label = "Term2"
+                                                      Uri = uri "http://testing.com/vocabLabel/long-guid-2"}]}
+                 Label = ""}]
+
+  let qsWithTwoVocabTerms = "vocab%3Aproperty=vocabLabel%2Flong-guid-1&vocab%3Aproperty=vocabLabel%2Flong-guid-1-1"
+
+  let yaml = startServerWith {baseConfig with Vocabs = vocabs}
+             |> getQuery "/annotationtool/toyaml" qsWithTwoVocabTerms
+  let human_readable =
+       yaml
+       |> CQ.select "#human-readable-annotations"
+       |> CQ.text
+
+  human_readable |> should equal "Vocab Label:\n  - \"Term1\"\n  - \"Term 1-1\"\n"
+
 [<Test>]
 let ``Should produce error upon no vocabulary selection`` () =
   let errorMessage = startServerWith {baseConfig with Vocabs = vocabs}

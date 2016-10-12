@@ -1,8 +1,9 @@
 module Viewer.Utils
 
+open Serilog
+open NICE.Logging
 open System
 open Viewer.Types
-//open Viewer.Data.Vocabs.VocabGeneration
 
 let extractFilters qs =
   qs
@@ -43,8 +44,90 @@ let stripAllButFragment (uri:string) =
     let from = uri.LastIndexOf("#") + 1
     let toEnd = uri.Length - from
     uri.Substring(from, toEnd)
+    
+let getGuidFromShortUri (shortUri:string) =
+  try shortUri.Split('/').[1] with _ -> ""
+
+let flatternVocab (vocabs:Vocabulary List) =
+  let getTerms (vocab:Vocabulary) =
+    match vocab.Root with
+    | Term t -> [Term t]
+    | _ -> []
+
+  let rec flatternTerms (terms:Term List) =
+    terms
+    |> List.map (fun x -> match x with
+                          | Term t -> match t.Children with
+                                      | [] -> [Term t]
+                                      | _ -> flatternTerms ([Term {t with Children = []}] @ t.Children)
+                          | _ -> [] )
+    |> List.concat
+      
+  vocabs |> List.map getTerms
+         |> List.concat
+         |> flatternTerms
+         |> List.map (fun x -> match x with
+                               | Term t -> [{ Label = t.Label; ShortUri = t.ShortenedUri; Guid = getGuidFromShortUri t.ShortenedUri }]
+                               | _ -> [])
+         |> List.concat
+
+let private getVocabLookup flatvocab shortUri =
+  flatvocab
+  |> List.tryFind (fun x -> x.ShortUri = shortUri)
+  |> (fun x -> match x with
+                          | None -> { Label = ""; ShortUri = shortUri; Guid = "" }
+                          | _ -> x.Value)
+
+//let findTheLabel vocabs (filterUris:string) =
+//  let flatVocabLookup = getVocabLookup (flatternVocab (fun x -> x) vocabs)
+//
+//  [filterUris]
+//  |> List.map flatVocabLookup
+//  |> List.filter (fun x -> x.Label <> "")
+//  |> List.map (fun x -> x.Label)
 
 let findTheLabel vocabs filterUris =
+  let rec getTerm fn = function
+    | [] -> []
+    | x::xs -> match x with
+                | Term x -> if fn x then 
+                              [x]; 
+                            else 
+                              match xs with
+                              | [] -> getTerm fn x.Children
+                              | _ -> if x.Children = [] then getTerm fn xs else getTerm fn x.Children
+                | Empty -> []
+  vocabs
+  |> List.map (fun v -> getTerm (fun t->t.ShortenedUri.Contains(filterUris)) [v.Root]) 
+  |> List.concat
+  |> List.map (fun t -> t.Label) 
+  |> List.filter (fun l->l <> "")
+
+let getGuidFromFilter (filter:Filter) =
+  try filter.TermUri.Split('/').[1] with _ -> ""
+
+let getLabelFromGuid (vocabs:vocabLookup List) (filter:Filter) = 
+  //try Seq.head (findTheLabel vocabs (getGuidFromFilter filter)) with _ -> ""
+  vocabs
+  |> List.tryFind( fun x -> x.ShortUri = filter.TermUri)
+  |> fun x -> match x with
+              | None -> "NO MATCH FOUND"
+              | Some v -> v.Label
+
+let createFilterTags (filters:Filter list) vocabs =
+  let flatVocabLookup = getVocabLookup (flatternVocab vocabs)
+  let createRemovalQS x =
+    filters
+    |> Seq.filter (fun y -> y.TermUri <> x)
+    |> Seq.map (fun y -> sprintf "%s=%s" y.Vocab (Uri.EscapeDataString(y.TermUri)))
+    |> concatToStringWithDelimiter "&"
+
+  filters 
+  |> Seq.map (fun x -> flatVocabLookup x.TermUri |> fun y -> { Label = y.Label; RemovalQueryString = createRemovalQS x.TermUri})
+  |> Seq.filter (fun x -> x.Label <> "")
+  |> Seq.toList
+
+let findTheGuid vocabs filterUri =
   let rec getTerm f = function
     | [] -> []
     | x::xs -> match x with
@@ -53,28 +136,26 @@ let findTheLabel vocabs filterUris =
                             else 
                               match xs with
                               | [] -> getTerm f x.Children
-                              | _ -> getTerm f xs
+                              | _ -> if x.Children <> [] then getTerm f x.Children else getTerm f xs
                 | Empty -> []
   vocabs
-  |> List.map (fun v -> getTerm (fun t->t.ShortenedUri.Contains(filterUris)) [v.Root]) 
+  |> List.map (fun v -> getTerm (fun t->t.Label=filterUri) [v.Root]) 
   |> List.concat
-  |> List.map (fun t -> t.Label) 
-  |> List.filter (fun l->l <> "")
+  |> List.map (fun t -> try t.ShortenedUri.Split('/').[1] with _ -> "") 
 
-let createFilterTags (filters:Filter list) vocabs =
+let getGuids (labels:string list) vocabs =
+  let flatVocabs = flatternVocab vocabs 
 
-  let createRemovalQS x =
-    filters
-    |> Seq.filter (fun y -> y.TermUri <> x)
-    |> Seq.map (fun y -> sprintf "%s=%s" y.Vocab (Uri.EscapeDataString(y.TermUri)))
-    |> concatToStringWithDelimiter "&"
+  let getGuid label =
+     flatVocabs |> List.tryFind (fun x -> x.Label = label)
+                |> (fun x -> match x with
+                             | None -> ""
+                             | _ -> x.Value.Guid)
 
-  filters 
-  |> Seq.map (fun x->{ Label = try Seq.head (findTheLabel vocabs (x.TermUri.Split('/').[1]) ) with _ -> ""
-                       RemovalQueryString = createRemovalQS x.TermUri})
-  |> Seq.filter (fun x -> x.Label <> "")
+  labels 
+  |> Seq.map getGuid
+  |> Seq.filter (fun x -> x <> "")
   |> Seq.toList
-
 
 let shouldExpandVocab vocabProperty (filters:Filter list) =
   filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocabProperty)

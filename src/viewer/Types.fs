@@ -151,3 +151,9 @@ type Vocabulary = {
 type VocabModel = {
   Vocabularies: Vocabulary list
 }
+
+type vocabLookup = {
+  Label : string
+  Guid : string
+  ShortUri : string
+}

@@ -1,7 +1,10 @@
 <form action="/annotationtool/fromyaml" class="filters" id="fromyaml">
     <div class="yaml-wrapper">
         <div class="yaml-editor" >
-        <textarea placeholder="Start adding YAML &hellip;" id="text-selected" class="yaml-content" name="yaml">{{ model.annotation_block }}</textarea>
+        <textarea placeholder="" id="human-readable-annotations" class="yaml-content" name="yaml">{{ model.human_readable }}</textarea>
+        <button type="button" data-clipboard-target="#human-readable-annotations" class="btn">Copy readable annotations</button>        
+        <textarea placeholder="Start adding YAML &hellip;" id="annotations" class="yaml-content" name="yaml">{{ model.annotation_block }}</textarea>
+        <button type="button" data-clipboard-target="#annotations" class="btn">Copy annotations</button>        
         {% if model.error_message != empty %}
             <div class="alert alert-important"><div class="message">{{ model.error_message }}</div></div>
         {% endif %}

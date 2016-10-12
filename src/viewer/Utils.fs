@@ -108,7 +108,6 @@ let getGuidFromFilter (filter:Filter) =
 
 let getLabelFromGuid (vocabs:vocabLookup List) (filter:Filter) = 
   //try Seq.head (findTheLabel vocabs (getGuidFromFilter filter)) with _ -> ""
-  printf "HELLO!!!!!!!! %A" filter.TermUri
   vocabs
   |> List.tryFind( fun x -> x.ShortUri = filter.TermUri)
   |> fun x -> match x with

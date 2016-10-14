@@ -32,7 +32,7 @@ let main argv =
 
   let logConfig = 
     match mode with
-    | Dev -> LoggerConfiguration().WriteTo.Nice().WriteTo.Console()
+    | Dev -> LoggerConfiguration().WriteTo.Nice()
     | Prod -> LoggerConfiguration().WriteTo.Nice()
 
   Log.Logger <- logConfig.MinimumLevel.Debug().CreateLogger()

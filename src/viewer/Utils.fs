@@ -5,6 +5,7 @@ open NICE.Logging
 open System
 open Viewer.Types
 open Viewer.YamlParser
+open Suave
 
 let extractFilters qs =
   qs
@@ -161,16 +162,29 @@ let getGuids (labels:string list) vocabs =
 let shouldExpandVocab vocabProperty (filters:Filter list) =
   filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocabProperty)
 
+let appendRootUrl queryString =
+  "/annotationtool/toyaml" + queryString
+
 let transformYamlToUrl (yaml:string) =
-  let y = parseYaml yaml
-  let escapeString s =
-    System.Uri.EscapeDataString s
+  let key (name:string) =
+    "qualitystandard:" + name.ToLower().Trim() 
 
-  let mapFields  start fields = 
-    Seq.fold (fun acc x -> x + acc) start fields
+  let getValue (name:string) field =
+    printf "IN GET VALUE -> name %A and field %A" name field
+    name.ToLower().Trim() + "/" + field 
 
-  y |> Seq.fold (fun _ x -> 
-                      let key = escapeString ("qualitystandard:appliesTo" + x.Name)
-                      let value = escapeString (x.Name.ToLower() + "/" + (mapFields "" x.Fields)) 
-                      key + "=" + value) ""
+  let doItAll ( name:string ) fields =
+    List.fold (fun acc field -> acc + key name + "=" + (getValue name field) + "&" ) "?" fields
 
+  yaml
+  |> parseYaml 
+  |> Seq.map (fun x->doItAll x.Name x.Fields )
+  |> Seq.concat
+  |> Seq.toArray
+  |> System.String
+  |> fun x->x.[0..x.Length-2]
+
+let getRedirectUrl req:string =
+    req
+    |> transformYamlToUrl 
+    |> appendRootUrl 

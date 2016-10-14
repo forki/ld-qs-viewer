@@ -74,4 +74,16 @@ List.fold (fun acc x->
 
 List.fold (fun acc x -> acc + "qs=" + x + "&") "?" b
 
+type temp = {
+  Name: string
+  Fields: string list
+}
+
+let expected = [{Name = "Section1"; Fields = ["Field"]}
+                {Name = "Section2"; Fields = ["Field"]}]
+
+
+List.fold (fun acc x -> acc + x.Name; x.Fields @ acc) "" expected
+
+
 

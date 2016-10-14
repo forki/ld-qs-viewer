@@ -6,7 +6,7 @@ open FSharp.RDF
 
 let vocabs = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting")
                             ShortenedUri = "setting"
-                            Label = "Settings"
+                            Label = "Setting"
                             Selected = false
                             Children = [
                                          Term { Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/TestSetting/long-guid-1"

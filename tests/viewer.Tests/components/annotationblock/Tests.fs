@@ -110,7 +110,6 @@ Section2:
   let actual = parseYaml yaml
   expected |> should equal actual
 
-[<Category("RunOnly")>]
 [<Test>]
 let ``Should produce query string when given guid annotations`` () =
   let yaml = """
@@ -121,9 +120,8 @@ Setting:
   let result = transformYamlToUrl yaml
 
   result
-  |> should equal "qualitystandard%3AappliesToSetting=setting%2Flong-guid-1"
+  |> should equal "?qualitystandard:appliesToSetting=setting/long-guid-1"
 
-[<Category("RunOnly")>]
 [<Test>]
 let ``Should produce query string when given two guid annotations`` () =
   let yaml = """
@@ -135,4 +133,14 @@ Setting:
   let result = transformYamlToUrl yaml
 
   result
-  |> should equal "qualitystandard%3AappliesToSetting=setting%2Flong-guid-1&qualitystandard%3AappliesToSetting=setting%2Flong-guid-2"
+  |> should equal "?qualitystandard:appliesToSetting=setting/long-guid-1&qualitystandard:appliesToSetting=setting/long-guid-2"
+
+[<Test>]
+let ``Should got toYaml page when posted yaml`` () =
+  let errorMessage = startServerWith {baseConfig with Vocabs = vocabs}
+                     |> getQuery "/annotationtool/toyaml" ""
+                     |> CQ.select ".message"
+                     |> CQ.text
+
+  errorMessage |> should equal "Please select an annotation from vocabulary."
+

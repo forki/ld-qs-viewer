@@ -53,5 +53,5 @@ let createModel (req:HttpRequest) vocabs convert =
       match  Seq.head req.multiPartFields with
       | (_, value) -> printf "%A" value
 
-      {AnnotationBlock = ""; HumanReadable=""; ErrorMessage = ""}
+      {AnnotationBlock = ""; HumanReadable=""; ErrorMessage = "Please select an annotation from vocabulary."}
 

@@ -4,6 +4,7 @@ open Serilog
 open NICE.Logging
 open System
 open Viewer.Types
+open Viewer.YamlParser
 
 let extractFilters qs =
   qs
@@ -48,24 +49,24 @@ let stripAllButFragment (uri:string) =
 let getGuidFromShortUri (shortUri:string) =
   try shortUri.Split('/').[1] with _ -> ""
 
-let flatternVocab (vocabs:Vocabulary List) =
+let flattenVocab (vocabs:Vocabulary List) =
   let getTerms (vocab:Vocabulary) =
     match vocab.Root with
     | Term t -> [Term t]
     | _ -> []
 
-  let rec flatternTerms (terms:Term List) =
+  let rec flattenTerms (terms:Term List) =
     terms
     |> List.map (fun x -> match x with
                           | Term t -> match t.Children with
                                       | [] -> [Term t]
-                                      | _ -> flatternTerms ([Term {t with Children = []}] @ t.Children)
+                                      | _ -> flattenTerms ([Term {t with Children = []}] @ t.Children)
                           | _ -> [] )
     |> List.concat
       
   vocabs |> List.map getTerms
          |> List.concat
-         |> flatternTerms
+         |> flattenTerms
          |> List.map (fun x -> match x with
                                | Term t -> [{ Label = t.Label; ShortUri = t.ShortenedUri; Guid = getGuidFromShortUri t.ShortenedUri }]
                                | _ -> [])
@@ -115,7 +116,7 @@ let getLabelFromGuid (vocabs:vocabLookup List) (filter:Filter) =
               | Some v -> v.Label
 
 let createFilterTags (filters:Filter list) vocabs =
-  let flatVocabLookup = getVocabLookup (flatternVocab vocabs)
+  let flatVocabLookup = getVocabLookup (flattenVocab vocabs)
   let createRemovalQS x =
     filters
     |> Seq.filter (fun y -> y.TermUri <> x)
@@ -144,7 +145,7 @@ let findTheGuid vocabs filterUri =
   |> List.map (fun t -> try t.ShortenedUri.Split('/').[1] with _ -> "") 
 
 let getGuids (labels:string list) vocabs =
-  let flatVocabs = flatternVocab vocabs 
+  let flatVocabs = flattenVocab vocabs 
 
   let getGuid label =
      flatVocabs |> List.tryFind (fun x -> x.Label = label)
@@ -159,4 +160,17 @@ let getGuids (labels:string list) vocabs =
 
 let shouldExpandVocab vocabProperty (filters:Filter list) =
   filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocabProperty)
+
+let transformYamlToUrl (yaml:string) =
+  let y = parseYaml yaml
+  let escapeString s =
+    System.Uri.EscapeDataString s
+
+  let mapFields  start fields = 
+    Seq.fold (fun acc x -> x + acc) start fields
+
+  y |> Seq.fold (fun _ x -> 
+                      let key = escapeString ("qualitystandard:appliesTo" + x.Name)
+                      let value = escapeString (x.Name.ToLower() + "/" + (mapFields "" x.Fields)) 
+                      key + "=" + value) ""
 

@@ -8,6 +8,8 @@ open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Tests.Utils
 open Viewer.SuaveExtensions
 open FSharp.RDF
+open Viewer.YamlParser
+open Viewer.Utils
 
 [<SetUp>]
 let ``Run before tests`` () =
@@ -18,7 +20,7 @@ let vocabs = [{Property = "vocab:property";
                                    Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
                                                Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}
                Label = ""}]
-[<Category("RunOnly")>]    
+
 [<Test>]
 let ``Should generate annotations and human readable annotation block from querystring`` () =
   let vocabs = [{Property = "vocab:property"
@@ -52,7 +54,6 @@ let ``Should generate annotations and human readable annotation block from query
   human_readable |> should equal "Vocab Label:\n  - \"Term1\"\n  - \"Term2\"\n"
   annotations |> should equal "Vocab Label:\n  - \"long-guid-1\"\n  - \"long-guid-2\"\n"
 
-[<Category("RunOnly")>]    
 [<Test>]
 let ``Should generate multiple level annotations and human readable annotation block from querystring`` () =
   let vocabs = [{Property = "vocab:property"
@@ -94,3 +95,30 @@ let ``Should produce error upon no vocabulary selection`` () =
                      |> CQ.text
 
   errorMessage |> should equal "Please select an annotation from vocabulary."
+
+[<Test>]
+let ``YamlParserTests: Should extract multiple sections`` () =
+  let yaml = """
+Section1:
+    - "Field"
+Section2:
+    - "Field"
+"""
+
+  let expected = [{Name = "Section1"; Fields = ["Field"]}
+                  {Name = "Section2"; Fields = ["Field"]}]
+  let actual = parseYaml yaml
+  expected |> should equal actual
+
+[<Category("RunOnly")>]
+[<Test>]
+let ``Should produce query string when given guid annotations`` () =
+  let yaml = """
+Setting:
+    - "long-guid-1"
+"""
+
+  let result = transformYamlToUrl yaml
+
+  result
+  |> should equal "qualitystandard%3AappliesToSetting=setting%2Flong-guid-1"

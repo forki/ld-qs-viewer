@@ -2187,6 +2187,9 @@ a.card:hover .card-excerpt {
   display: inline-block;
   margin: 1.5rem;
 }
+.float-right {
+  float:right;
+}
 @media (min-width: 992px) {
   .filter-definitions {
     float: right !important;
@@ -2305,12 +2308,12 @@ a.card:hover .card-excerpt {
   appearance: none;
   background-color: transparent;
   border: none;
-  width: 100%;
+  width: 75%;
   min-height: 360px;
   font-family: "Roboto Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
   color: white;
   padding: 1.5rem;
-  width: 100%!important;
+  width: 75%!important;
   max-width: 864px!important;
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
@@ -2384,7 +2387,7 @@ a.card:hover .card-excerpt {
 }
 .actions-vertical .action {
   display: block;
-  height: 100%;/* was 50% when other button exists */
+  height: 50%;
   width: 100%; 
   background-color: #43b581;
   position: relative;

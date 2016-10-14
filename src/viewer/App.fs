@@ -26,5 +26,6 @@ let createApp config =
          GET >=> path "/ontologies" >=> (Successful.OK "Welcome to ontologies")
          GET >=> buildPath "/annotationtool" >=> request(fun req -> AnnotationTool.page req config false)
          GET >=> path "/annotationtool/toyaml" >=> request(fun req -> AnnotationTool.page req config true)
+         POST >=> path "/annotationtool/fromyaml" >=> request(fun req -> AnnotationTool.page req config false)
          GET >=> browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]

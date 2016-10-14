@@ -4,6 +4,7 @@ open Suave
 open Viewer.Utils
 open Viewer.Types
 open Viewer.Data.Vocabs.VocabGeneration
+open FSharp.Data
 
 type AnnotationBlockModel = {
   AnnotationBlock : string
@@ -29,7 +30,7 @@ let private getVocabLabel (filter:Filter) vocabs getTermUri =
       | Term t -> {VocabLabel = t.Label + ":"; TermUri = getTermUri}
 
 let createModel (req:HttpRequest) vocabs convert =
-  let flatVocab = flatternVocab vocabs
+  let flatVocab = flattenVocab vocabs
   match convert with
     | true ->
         if (req.rawQuery <> "") then
@@ -48,7 +49,9 @@ let createModel (req:HttpRequest) vocabs convert =
             {AnnotationBlock = yaml; HumanReadable=humanReadableYaml; ErrorMessage = ""}
         else
             {AnnotationBlock = ""; HumanReadable=""; ErrorMessage = "Please select an annotation from vocabulary."}
-
     | false ->
+      match  Seq.head req.multiPartFields with
+      | (_, value) -> printf "%A" value
+
       {AnnotationBlock = ""; HumanReadable=""; ErrorMessage = ""}
 

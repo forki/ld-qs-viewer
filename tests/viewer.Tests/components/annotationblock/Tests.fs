@@ -122,3 +122,17 @@ Setting:
 
   result
   |> should equal "qualitystandard%3AappliesToSetting=setting%2Flong-guid-1"
+
+[<Category("RunOnly")>]
+[<Test>]
+let ``Should produce query string when given two guid annotations`` () =
+  let yaml = """
+Setting:
+    - "long-guid-1"
+    - "long-guid-2"
+"""
+
+  let result = transformYamlToUrl yaml
+
+  result
+  |> should equal "qualitystandard%3AappliesToSetting=setting%2Flong-guid-1&qualitystandard%3AappliesToSetting=setting%2Flong-guid-2"

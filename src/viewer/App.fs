@@ -10,7 +10,6 @@ open Suave.Files
 open Suave.Logging
 open Serilog
 open Viewer.Utils
-open Viewer.Types
 
 let buildPath pathLocation =
     (path pathLocation <|> path (pathLocation + "/") )

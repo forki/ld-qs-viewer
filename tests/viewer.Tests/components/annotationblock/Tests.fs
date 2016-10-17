@@ -150,7 +150,6 @@ Setting:
   result
   |> should equal "/annotationtool/toyaml?vocab:property=vocabLabel/long-guid-1&vocab:property=vocabLabel2/long-guid-2"
 
-[<Category("RunOnly")>]
 [<Test>]
 let ``Should produce query string when given two guid annotations from different vocabs`` () =
 

@@ -37,7 +37,7 @@ let vocabs = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qualitysta
                                                 Selected = false
                                                 Children = []};
                                        ]};
-              Property = "qualitystandard:setting";
+              Property = "qualitystandard:appliesToSetting";
               Label = "Setting"}
               {Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qualitystandard/ServiceArea")
                             ShortenedUri = "area"
@@ -54,7 +54,7 @@ let vocabs = [{Root = Term {Uri = (Uri.from "http://ld.nice.org.uk/ns/qualitysta
                                                  Label = "Term4"
                                                  Selected = false
                                                  Children = []};]};
-              Property = "qualitystandard:serviceArea";
+              Property = "qualitystandard:appliesToServiceArea";
               Label = "Service Area"}]
 
 let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title"; FirstIssued = new System.DateTime()};

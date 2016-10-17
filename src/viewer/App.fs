@@ -10,6 +10,7 @@ open Suave.Files
 open Suave.Logging
 open Serilog
 open Viewer.Utils
+open Viewer.Types
 
 let buildPath pathLocation =
     (path pathLocation <|> path (pathLocation + "/") )
@@ -27,11 +28,6 @@ let createApp config =
          GET >=> path "/ontologies" >=> (Successful.OK "Welcome to ontologies")
          GET >=> buildPath "/annotationtool" >=> request(fun req -> AnnotationTool.page req config false)
          GET >=> path "/annotationtool/toyaml" >=> request(fun req -> AnnotationTool.page req config true)
-         POST >=> path "/annotationtool/fromyaml" >=> request(fun req -> 
-                                                            List.head req.multiPartFields 
-                                                            |> (fun x-> snd x) 
-                                                            |> getRedirectUrl 
-                                                            |> Redirection.redirect
-                                                            ) 
+         POST >=> path "/annotationtool/fromyaml" >=> request(fun req -> getQueryStringFromYaml config.Vocabs req |> Redirection.redirect) 
          GET >=> browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]

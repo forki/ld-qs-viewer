@@ -17,9 +17,21 @@ let ``Run before tests`` () =
 
 let vocabs = [{Property = "vocab:property";
                Root = Term {t with Label = "Vocab Label";
+                                   ShortenedUri = "vocabLabel/long-guid-1";
                                    Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
-                                               Term {t with Uri = uri "http://testing.com/Uri#Term2"}]}
-               Label = ""}]
+                                               Term {t with Label = "Vocab Label 2";
+                                                            ShortenedUri = "vocabLabel2/long-guid-2";
+                                                            Uri = uri "http://testing.com/Uri#Term2"}]}
+               Label = "Setting"};
+              {Property = "vocab:propertyServiceArea";
+               Root = Term {t with Label = "Vocab Label";
+                                   ShortenedUri = "vocabLabel/long-guid-1";
+                                   Children = [Term {t with Uri = uri "http://testing.com/Uri#Term1"}
+                                               Term {t with Label = "Vocab Label 3";
+                                                            ShortenedUri = "vocabLabel3/long-guid-3";
+                                                            Uri = uri "http://testing.com/Uri#Term3"}]}
+               Label = "Service Area"}
+]
 
 [<Test>]
 let ``Should generate annotations and human readable annotation block from querystring`` () =
@@ -110,37 +122,48 @@ Section2:
   let actual = parseYaml yaml
   expected |> should equal actual
 
+
 [<Test>]
 let ``Should produce query string when given guid annotations`` () =
+
   let yaml = """
 Setting:
     - "long-guid-1"
 """
 
-  let result = transformYamlToUrl yaml
+  let result = getRedirectUrl vocabs yaml
 
   result
-  |> should equal "?qualitystandard:appliesToSetting=setting/long-guid-1"
+  |> should equal "/annotationtool/toyaml?vocab:property=vocabLabel/long-guid-1"
 
 [<Test>]
 let ``Should produce query string when given two guid annotations`` () =
+
   let yaml = """
 Setting:
     - "long-guid-1"
     - "long-guid-2"
 """
 
-  let result = transformYamlToUrl yaml
+  let result = getRedirectUrl vocabs yaml
 
   result
-  |> should equal "?qualitystandard:appliesToSetting=setting/long-guid-1&qualitystandard:appliesToSetting=setting/long-guid-2"
+  |> should equal "/annotationtool/toyaml?vocab:property=vocabLabel/long-guid-1&vocab:property=vocabLabel2/long-guid-2"
 
+[<Category("RunOnly")>]
 [<Test>]
-let ``Should got toYaml page when posted yaml`` () =
-  let errorMessage = startServerWith {baseConfig with Vocabs = vocabs}
-                     |> getQuery "/annotationtool/toyaml" ""
-                     |> CQ.select ".message"
-                     |> CQ.text
+let ``Should produce query string when given two guid annotations from different vocabs`` () =
 
-  errorMessage |> should equal "Please select an annotation from vocabulary."
+  let yaml = """
+Setting:
+  - "long-guid-1"
+Service Area:
+  - "long-guid-3"
+"""
+
+  let result = getRedirectUrl vocabs yaml
+
+  result
+  |> should equal "/annotationtool/toyaml?vocab:property=vocabLabel/long-guid-1&vocab:propertyServiceArea=vocabLabel3/long-guid-3"
+
 

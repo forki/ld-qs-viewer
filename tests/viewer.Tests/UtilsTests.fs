@@ -202,12 +202,6 @@ let ``Should return guid when label given`` () =
                    "c4347520_adf4_4ddb_9926_8f6c3132525e"
                    "5d69430f_dace_4c7e_bc70_70b02cd3d965" ] 
 
-//[<Test>]
-//let ``STEWTEST: Doing the shit with the thing`` () =
-//
-//  let stewtest = flatternVocab vocabAgeGroup
-//  true |> should equal false
-
 [<Test>]
 let ``Should return empty array when label not found`` () =
     

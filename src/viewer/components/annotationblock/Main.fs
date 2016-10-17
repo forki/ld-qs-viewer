@@ -24,10 +24,12 @@ let private serialiseYaml (selected:LabelledFilter list) =
   |> Seq.fold (fun acc section -> createYamlVocabSection acc section) ""
 
 let private getVocabLabel (filter:Filter) vocabs getTermUri =
-  let v = vocabs |> List.find (fun v -> v.Property = (System.Uri.UnescapeDataString filter.Vocab))
-  match v.Root with
-      | Empty -> {VocabLabel = ""; TermUri = filter.TermUri}
-      | Term t -> {VocabLabel = t.Label + ":"; TermUri = getTermUri}
+  let v = vocabs |> List.tryFind (fun v -> v.Property = (System.Uri.UnescapeDataString filter.Vocab))
+  match v with
+  | None -> {VocabLabel = "NO VOCABULARY FOUND"; TermUri = "PARENT NOT FOUND"}
+  | Some v -> match v.Root with
+              | Empty -> {VocabLabel = ""; TermUri = filter.TermUri}
+              | Term t -> {VocabLabel = t.Label + ":"; TermUri = getTermUri}
 
 let createModel (req:HttpRequest) vocabs convert =
   let flatVocab = flattenVocab vocabs
@@ -50,8 +52,5 @@ let createModel (req:HttpRequest) vocabs convert =
         else
             {AnnotationBlock = ""; HumanReadable=""; ErrorMessage = "Please select an annotation from vocabulary."}
     | false ->
-      match  Seq.head req.multiPartFields with
-      | (_, value) -> printf "%A" value
-
-      {AnnotationBlock = ""; HumanReadable=""; ErrorMessage = "Please select an annotation from vocabulary."}
+      {AnnotationBlock = ""; HumanReadable=""; ErrorMessage = ""}
 

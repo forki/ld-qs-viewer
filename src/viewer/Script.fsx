@@ -19,29 +19,29 @@ and Term =
 
 let Term1 = Term {
             Label = "d"
-            Property = "Property D"
+            Property = "Property D/PropD"
             Children= []}
 
 let terms = [Term {
               Label = "a"
-              Property = "Property A"
+              Property = "Property A/PropA"
               Children = [
                             Term {
                               Label = "b"
-                              Property = "Property B"
+                              Property = "Property B/PropB"
                               Children = [
-                                         Term { Label = "c"; Property = "C"; Children=[]} 
-                                         Term { Label = "c"; Property = "C"; Children=[]} 
-                                         Term { Label = "c"; Property = "C"; Children=[]} 
+                                         Term { Label = "c"; Property = "C/PropC"; Children=[]} 
+                                         Term { Label = "c"; Property = "C/PropC"; Children=[]} 
+                                         Term { Label = "c"; Property = "C/PropC"; Children=[]} 
                               ]
                             };
                             Term {
                               Label = "bb"
-                              Property = "BB"; 
+                              Property = "BB/PropBB"; 
                               Children = [
-                                         Term { Label = "cc"; Property = "CC"; Children=[]} 
-                                         Term { Label = "cc"; Property = "CC"; Children=[]} 
-                                         Term { Label = "cc"; Property = "CC"; Children=[]} 
+                                         Term { Label = "cc"; Property = "CC/PropCC"; Children=[]} 
+                                         Term { Label = "cc"; Property = "CC/PropCC"; Children=[]} 
+                                         Term { Label = "cc"; Property = "CC/PropCC"; Children=[]} 
                               ]
                             };
                             
@@ -68,10 +68,10 @@ let getItems searchByProperty getProperty searchTerms =
 
   recurseTree [] terms
 
-let propertyToSearchFor term = term.Property 
-let propertyToRetrieve term = term.Property 
+let propertyToSearchFor term = term.Property.Split('/').[1] 
+let propertyToRetrieve term = term.Label 
 
-getItems propertyToSearchFor propertyToRetrieve ["a";"c"]
+getItems propertyToSearchFor propertyToRetrieve ["PropA";"PropC"]
 
 (* basic recursion *)
 

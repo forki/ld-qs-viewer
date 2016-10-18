@@ -2412,9 +2412,11 @@ a.card:hover .card-excerpt {
   bottom: 12px;
 }
 */
+
 .actions-vertical .action .material-icons.yaml-to-vocab {
-  top: 12px;
+  transform: translateY(-50%);
 }
+
 .actions-vertical .action:hover .material-icons {
   color: white;
 }

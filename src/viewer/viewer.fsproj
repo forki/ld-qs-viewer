@@ -2,19 +2,6 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-
-let rec loopChildren start children =
-  let test x filters=
-    Seq.exists (fun a -> a=x) filters
-
-  List.fold (fun acc x -> match x with 
-                          | Term x -> if (test x.Label ["a";"c"]) then
-                                         acc
-                                      else
-                                         acc @ loopChildren [x.Label] x.Children
-                          | Empty -> []) start children
-    
-loopChildren [] terms
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{15D3E111-F657-4FF9-A895-BC1BD5D39FAE}</ProjectGuid>

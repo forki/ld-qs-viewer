@@ -4,6 +4,8 @@ open Serilog
 open NICE.Logging
 open System
 open Viewer.Types
+open Viewer.YamlParser
+open Suave
 
 let extractFilters qs =
   qs
@@ -48,24 +50,24 @@ let stripAllButFragment (uri:string) =
 let getGuidFromShortUri (shortUri:string) =
   try shortUri.Split('/').[1] with _ -> ""
 
-let flatternVocab (vocabs:Vocabulary List) =
+let flattenVocab (vocabs:Vocabulary List) =
   let getTerms (vocab:Vocabulary) =
     match vocab.Root with
     | Term t -> [Term t]
     | _ -> []
 
-  let rec flatternTerms (terms:Term List) =
+  let rec flattenTerms (terms:Term List) =
     terms
     |> List.map (fun x -> match x with
                           | Term t -> match t.Children with
                                       | [] -> [Term t]
-                                      | _ -> flatternTerms ([Term {t with Children = []}] @ t.Children)
+                                      | _ -> flattenTerms ([Term {t with Children = []}] @ t.Children)
                           | _ -> [] )
     |> List.concat
       
   vocabs |> List.map getTerms
          |> List.concat
-         |> flatternTerms
+         |> flattenTerms
          |> List.map (fun x -> match x with
                                | Term t -> [{ Label = t.Label; ShortUri = t.ShortenedUri; Guid = getGuidFromShortUri t.ShortenedUri }]
                                | _ -> [])
@@ -77,31 +79,6 @@ let private getVocabLookup flatvocab shortUri =
   |> (fun x -> match x with
                           | None -> { Label = ""; ShortUri = shortUri; Guid = "" }
                           | _ -> x.Value)
-
-//let findTheLabel vocabs (filterUris:string) =
-//  let flatVocabLookup = getVocabLookup (flatternVocab (fun x -> x) vocabs)
-//
-//  [filterUris]
-//  |> List.map flatVocabLookup
-//  |> List.filter (fun x -> x.Label <> "")
-//  |> List.map (fun x -> x.Label)
-
-let findTheLabel vocabs filterUris =
-  let rec getTerm fn = function
-    | [] -> []
-    | x::xs -> match x with
-                | Term x -> if fn x then 
-                              [x]; 
-                            else 
-                              match xs with
-                              | [] -> getTerm fn x.Children
-                              | _ -> if x.Children = [] then getTerm fn xs else getTerm fn x.Children
-                | Empty -> []
-  vocabs
-  |> List.map (fun v -> getTerm (fun t->t.ShortenedUri.Contains(filterUris)) [v.Root]) 
-  |> List.concat
-  |> List.map (fun t -> t.Label) 
-  |> List.filter (fun l->l <> "")
 
 let getGuidFromFilter (filter:Filter) =
   try filter.TermUri.Split('/').[1] with _ -> ""
@@ -115,7 +92,7 @@ let getLabelFromGuid (vocabs:vocabLookup List) (filter:Filter) =
               | Some v -> v.Label
 
 let createFilterTags (filters:Filter list) vocabs =
-  let flatVocabLookup = getVocabLookup (flatternVocab vocabs)
+  let flatVocabLookup = getVocabLookup (flattenVocab vocabs)
   let createRemovalQS x =
     filters
     |> Seq.filter (fun y -> y.TermUri <> x)
@@ -144,7 +121,7 @@ let findTheGuid vocabs filterUri =
   |> List.map (fun t -> try t.ShortenedUri.Split('/').[1] with _ -> "") 
 
 let getGuids (labels:string list) vocabs =
-  let flatVocabs = flatternVocab vocabs 
+  let flatVocabs = flattenVocab vocabs 
 
   let getGuid label =
      flatVocabs |> List.tryFind (fun x -> x.Label = label)
@@ -159,4 +136,73 @@ let getGuids (labels:string list) vocabs =
 
 let shouldExpandVocab vocabProperty (filters:Filter list) =
   filters |> List.exists (fun x -> (System.Uri.UnescapeDataString x.Vocab) = vocabProperty)
+
+let appendRootUrl queryString =
+  "/annotationtool/toyaml?" + queryString
+
+let getItems searchByProperty getProperty searchTerms vocabs =
+  let searchFn filters searchByProperty x =
+    Seq.exists (fun a ->a = searchByProperty x) filters
+
+  let search currentTerm =
+   searchFn searchTerms searchByProperty currentTerm
+  
+  let rec recurseTree start children =
+    List.fold (fun acc term ->  match term with
+                                | Term term -> if (search term) then
+                                                  [getProperty term] @ acc @ recurseTree start term.Children
+                                                else
+                                                  acc @ recurseTree start term.Children
+                                | Empty -> []) start children
+
+  recurseTree [] vocabs
+
+let private getKey (vocabs: Vocabulary list) (name:string) =
+
+  let foundVocabs =
+    vocabs
+    |> Seq.filter (fun x->x.Label=name.Trim())
+    |> Seq.toList
+
+  match foundVocabs with
+  | [] -> "NO MATCH FOUND"
+  | _ -> foundVocabs |> List.head |> (fun v -> v.Property)
+    
+let private getValue vocabs field =
+
+  let foundTerms = 
+    vocabs
+    |> Seq.map (fun v->v.Root)
+    |> Seq.toList
+    |> getItems (fun v->try v.ShortenedUri.Split('/').[1] with _ -> v.ShortenedUri) (fun t->t.ShortenedUri) [field]
+
+  match foundTerms with
+  | [] -> ""
+  | _ -> Seq.head foundTerms
+
+let private transformYamlToUrl getKeyFn getValueFn yaml =
+
+  let buildUrl (name:string) fields =
+    List.fold (fun acc field -> acc + getKeyFn name + "=" + getValueFn field + "&" ) "" fields
+
+  yaml
+  |> parseYaml 
+  |> Seq.map (fun x->buildUrl x.Name x.Fields )
+  |> Seq.concat
+  |> Seq.toArray
+  |> System.String
+  |> fun x->x.[0..x.Length-2]
+
+let getRedirectUrl (vocabs:Vocabulary list) yaml =
+    yaml
+    |> transformYamlToUrl (getKey vocabs) (getValue vocabs)
+    |> appendRootUrl 
+
+let getQueryStringFromYaml (vocabs: Vocabulary list) req =
+  let getYamlFromPostedData formData = 
+    snd formData
+
+  List.head req.multiPartFields 
+  |> getYamlFromPostedData  
+  |> getRedirectUrl vocabs
 

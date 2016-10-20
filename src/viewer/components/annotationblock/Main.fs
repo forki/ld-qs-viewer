@@ -4,6 +4,7 @@ open Suave
 open Viewer.Utils
 open Viewer.Types
 open Viewer.Data.Vocabs.VocabGeneration
+open FSharp.Data
 
 type AnnotationBlockModel = {
   AnnotationBlock : string
@@ -23,13 +24,15 @@ let private serialiseYaml (selected:LabelledFilter list) =
   |> Seq.fold (fun acc section -> createYamlVocabSection acc section) ""
 
 let private getVocabLabel (filter:Filter) vocabs getTermUri =
-  let v = vocabs |> List.find (fun v -> v.Property = (System.Uri.UnescapeDataString filter.Vocab))
-  match v.Root with
-      | Empty -> {VocabLabel = ""; TermUri = filter.TermUri}
-      | Term t -> {VocabLabel = t.Label + ":"; TermUri = getTermUri}
+  let v = vocabs |> List.tryFind (fun v -> v.Property = (System.Uri.UnescapeDataString filter.Vocab))
+  match v with
+  | None -> {VocabLabel = "NO VOCABULARY FOUND"; TermUri = "PARENT NOT FOUND"}
+  | Some v -> match v.Root with
+              | Empty -> {VocabLabel = ""; TermUri = filter.TermUri}
+              | Term t -> {VocabLabel = t.Label + ":"; TermUri = getTermUri}
 
 let createModel (req:HttpRequest) vocabs convert =
-  let flatVocab = flatternVocab vocabs
+  let flatVocab = flattenVocab vocabs
   match convert with
     | true ->
         if (req.rawQuery <> "") then
@@ -48,7 +51,6 @@ let createModel (req:HttpRequest) vocabs convert =
             {AnnotationBlock = yaml; HumanReadable=humanReadableYaml; ErrorMessage = ""}
         else
             {AnnotationBlock = ""; HumanReadable=""; ErrorMessage = "Please select an annotation from vocabulary."}
-
     | false ->
       {AnnotationBlock = ""; HumanReadable=""; ErrorMessage = ""}
 

@@ -76,7 +76,6 @@ let ``createFilterTags should create filter tags from filters`` () =
                              ] 
 
 
-[<Category("RunOnly")>]
 [<Test>]
 let ``Should return an empty array when labels are not found`` () =
   let vocabs = [{Root = Term {
@@ -201,12 +200,6 @@ let ``Should return guid when label given`` () =
                    "d3326f46_c734_4ab7_9e41_923256bd7d0b"
                    "c4347520_adf4_4ddb_9926_8f6c3132525e"
                    "5d69430f_dace_4c7e_bc70_70b02cd3d965" ] 
-
-//[<Test>]
-//let ``STEWTEST: Doing the shit with the thing`` () =
-//
-//  let stewtest = flatternVocab vocabAgeGroup
-//  true |> should equal false
 
 [<Test>]
 let ``Should return empty array when label not found`` () =

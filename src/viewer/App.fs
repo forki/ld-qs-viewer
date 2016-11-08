@@ -20,7 +20,9 @@ let logRequest context =
 let createApp config =
   choose
         [log (SuaveSerilogAdapter Log.Logger) logRequest >=> never
+         GET >=> buildPath "/" >=> request(fun req -> Home.page req config true)
          GET >=> buildPath "/qs" >=> request(fun req -> Home.page req config true)
+         GET >=> path "/search" >=> request(fun req -> Home.page req config false)
          GET >=> path "/qs/search" >=> request(fun req -> Home.page req config false)
          GET >=> pathScan "/resource/%s" (fun resourceId -> Resource.page config resourceId)
          GET >=> pathScan "/things/%s" (fun resourceId -> Resource.page config resourceId)

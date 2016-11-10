@@ -150,5 +150,5 @@ let ``Should show active filter as tag with removal link`` () =
     |> parseHtml
     |> CQ.select ".tag-remove-link"
   
-  tags |> CQ.first |> CQ.attr "href" |> should equal "/qs/search?key=vocabLabel%2Flong-guid-2"
-  tags |> CQ.last |> CQ.attr "href" |> should equal "/qs/search?key=vocabLabel%2Flong-guid-1"
+  tags |> CQ.first |> CQ.attr "href" |> should equal "/search?key=vocabLabel%2Flong-guid-2"
+  tags |> CQ.last |> CQ.attr "href" |> should equal "/search?key=vocabLabel%2Flong-guid-1"

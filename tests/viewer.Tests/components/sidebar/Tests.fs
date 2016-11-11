@@ -20,7 +20,7 @@ let ``Should add form with search action`` () =
   |> parseHtml
   |> CQ.select "form"
   |> CQ.attr "action"
-  |> should equal "/qs/search"
+  |> should equal "/search"
 
 [<Test>]
 let ``Should have an apply filters button`` () =

@@ -61,6 +61,7 @@
     <Compile Include="Config.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="SuaveSerilogAdapter.fs" />
+    <Compile Include="YamlParser.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="SuaveExtensions.fs" />
     <Compile Include="data\vocabs\VocabGeneration.fs" />

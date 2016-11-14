@@ -7,6 +7,6 @@ discoverytool:
     - GAID
     - LOGGING_ENVIRONMENT
   external_links:
-    - elasticsearch/elastic:elastic
-    - resourceapi/resourceapi:resourceapi
-    - ontologies/schema:schema
+    - knowledgebase/elastic:elastic
+    - knowledgebase/resourceapi:resourceapi
+    - knowledgebase/schema:schema

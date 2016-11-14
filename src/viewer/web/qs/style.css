@@ -1073,6 +1073,7 @@ th {
 	padding:.75rem 0;
 	text-align:center;
 	display:block
+  float:right;
 }
 .button:hover {
 	background:#dfdfdf

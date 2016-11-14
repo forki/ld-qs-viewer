@@ -1,5 +1,5 @@
 module Viewer.Config
 
-  let BaseUrl= "http://ld.nice.org.uk/ns/qualitystandard/" 
+  let BaseUrl= "https://nice.org.uk/ontologies/" 
 
 

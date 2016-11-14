@@ -28,8 +28,8 @@ let ``Should build query correctly for a single vocab and term term`` () =
   }
 },
 "sort": [
-  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "desc" }},
-  { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
+  { "https://nice.org.uk/ontologies/qualitystandard#qsidentifier" : { "order": "desc" }},
+  { "https://nice.org.uk/ontologies/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""
   query |> should equal expectedQuery
@@ -58,8 +58,8 @@ let ``Should build query correctly for a multiple terms with same vocab`` () =
   }
 },
 "sort": [
-  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "desc" }},
-  { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
+  { "https://nice.org.uk/ontologies/qualitystandard#qsidentifier" : { "order": "desc" }},
+  { "https://nice.org.uk/ontologies/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""
   query |> should equal expectedQuery
@@ -93,8 +93,8 @@ let ``Should build query correctly for a multiple terms across multiple vocabs``
   }
 },
 "sort": [
-  { "http://ld.nice.org.uk/ns/qualitystandard#qsidentifier" : { "order": "desc" }},
-  { "http://ld.nice.org.uk/ns/qualitystandard#stidentifier" : { "order": "asc" }}
+  { "https://nice.org.uk/ontologies/qualitystandard#qsidentifier" : { "order": "desc" }},
+  { "https://nice.org.uk/ontologies/qualitystandard#stidentifier" : { "order": "asc" }}
 ]
 }"""
 
@@ -116,9 +116,9 @@ let ``ParseResponse should map a single result`` () =
             "_id":"st1_1",
             "_source":{
               "@id":"This is the Uri",
-              "http://ld.nice.org.uk/ns/qualitystandard#abstract": "This is the abstract",
-              "http://ld.nice.org.uk/ns/qualitystandard#title": "This is the title",
-              "http://ld.nice.org.uk/ns/qualitystandard#wasFirstIssuedOn": "01/01/0001"
+              "https://nice.org.uk/ontologies/qualitystandard#abstract": "This is the abstract",
+              "https://nice.org.uk/ontologies/qualitystandard#title": "This is the title",
+              "https://nice.org.uk/ontologies/qualitystandard#wasFirstIssuedOn": "01/01/0001"
             }
           }
         ]
@@ -142,18 +142,18 @@ let ``ParseResponse should map results`` () =
             "_id": "st1_sd1",
             "_source":{
               "@id":"notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#abstract": "notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#title": "notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#wasFirstIssuedOn": "01/01/1900"
+              "https://nice.org.uk/ontologies/qualitystandard#abstract": "notused",
+              "https://nice.org.uk/ontologies/qualitystandard#title": "notused",
+              "https://nice.org.uk/ontologies/qualitystandard#wasFirstIssuedOn": "01/01/1900"
             }
           },
           {
             "_id": "st1_sd2",
             "_source":{
               "@id":"notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#abstract": "notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#title": "notused",
-              "http://ld.nice.org.uk/ns/qualitystandard#wasFirstIssuedOn": "01/01/1900"
+              "https://nice.org.uk/ontologies/qualitystandard#abstract": "notused",
+              "https://nice.org.uk/ontologies/qualitystandard#title": "notused",
+              "https://nice.org.uk/ontologies/qualitystandard#wasFirstIssuedOn": "01/01/1900"
             }
           }
         ]

@@ -107,14 +107,13 @@ let ParseResponse response =
   let createResult (hit:JsonProvider<"data/search/elasticResponseSchema.json">.Hit) =
     {
      Uri = chopPath hit.Source.Id;
-     Abstract = hit.Source.HttpLdNiceOrgUkNsQualitystandardAbstract;
-     Title = hit.Source.HttpLdNiceOrgUkNsQualitystandardTitle;
-     FirstIssued = hit.Source.HttpLdNiceOrgUkNsQualitystandardWasFirstIssuedOn;
+     Abstract = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardAbstract;
+     Title = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardTitle;
+     FirstIssued = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardWasFirstIssuedOn;
     }
 
   try
     let json = JsonProvider<"data/search/elasticResponseSchema.json">.Parse(response)
-    printf "%A" json.Hits
     json.Hits.Hits |> Seq.map createResult |> Seq.toList
   with
     | ex ->

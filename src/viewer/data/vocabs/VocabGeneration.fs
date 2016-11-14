@@ -20,27 +20,27 @@ let readVocabsFromFiles () =
   try
     [
       {
-        Root = vocabLookup "http://schema/ns/qualitystandard/setting.ttl" "Setting"
+        Root = vocabLookup "http://schema/ontologies/setting.ttl" "Setting"
         Property = "qualitystandard:appliesToSetting"
         Label = "Setting"
       }
       {
-        Root = vocabLookup "http://schema/ns/qualitystandard/agegroup.ttl" "Age group"
+        Root = vocabLookup "http://schema/ontologies/agegroup.ttl" "Age group"
         Property = "qualitystandard:appliesToAgeGroup"
         Label = "Age group"
       }
       {
-        Root = vocabLookup "http://schema/ns/qualitystandard/servicearea.ttl" "Service area"
+        Root = vocabLookup "http://schema/ontologies/servicearea.ttl" "Service area"
         Property = "qualitystandard:appliesToServiceArea"
         Label = "Service area"
       }
       {
-        Root = vocabLookup "http://schema/ns/qualitystandard/factorsaffectinghealthorwellbeing.ttl" "Factors affecting health or wellbeing"
+        Root = vocabLookup "http://schema/ontologies/factorsaffectinghealthorwellbeing.ttl" "Factors affecting health or wellbeing"
         Property = "qualitystandard:appliesToFactorsAffectingHealthOrWellbeing"
         Label = "Factors affecting health or wellbeing"
       }
       {
-        Root = vocabLookup "http://schema/ns/qualitystandard/conditionordisease.ttl" "Condition or disease"
+        Root = vocabLookup "http://schema/ontologies/conditionordisease.ttl" "Condition or disease"
         Property = "qualitystandard:appliesToConditionOrDisease"
         Label = "Condition or disease"
       }

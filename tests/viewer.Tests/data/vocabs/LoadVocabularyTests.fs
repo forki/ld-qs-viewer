@@ -7,44 +7,44 @@ open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.Types
 open Viewer.Tests.Utils
 
-let graph = """@base <http://ld.nice.org.uk/ns/qualitystandard/setting>.
+let graph = """@base <https://nice.org.uk/ontologies/setting>.
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix base: <http://ld.nice.org.uk/ns/qualitystandard/setting>.
+@prefix base: <https://nice.org.uk/ontologies/setting>.
 @prefix owl: <http://www.w3.org/2002/07/owl#>.
 
-<http://ld.nice.org.uk/ns/qualitystandard/setting#Primary%20care%20setting> a owl:Class,
+<https://nice.org.uk/ontologies/setting#Primary%20care%20setting> a owl:Class,
                                                                               owl:NamedIndividual;
                                                                             rdfs:label "Primary care setting"^^xsd:string;
-                                                                            rdfs:subClassOf <http://ld.nice.org.uk/ns/qualitystandard/setting#Setting>.
-<http://ld.nice.org.uk/ns/qualitystandard/setting#Hospital> a owl:Class,
+                                                                            rdfs:subClassOf <https://nice.org.uk/ontologies/setting#Setting>.
+<https://nice.org.uk/ontologies/setting#Hospital> a owl:Class,
                                                               owl:NamedIndividual;
                                                             rdfs:label "Hospital"^^xsd:string;
-                                                            rdfs:subClassOf <http://ld.nice.org.uk/ns/qualitystandard/setting#Primary%20care%20setting>.
+                                                            rdfs:subClassOf <https://nice.org.uk/ontologies/setting#Primary%20care%20setting>.
 
-<http://ld.nice.org.uk/ns/qualitystandard/setting#Community> a owl:Class,
+<https://nice.org.uk/ontologies/setting#Community> a owl:Class,
                                                                owl:NamedIndividual;
                                                              rdfs:label "Community"^^xsd:string;
-                                                             rdfs:subClassOf <http://ld.nice.org.uk/ns/qualitystandard/setting#Primary%20care%20setting>.
+                                                             rdfs:subClassOf <https://nice.org.uk/ontologies/setting#Primary%20care%20setting>.
   """
 
 [<Test>]
 let ``When parsing graph will return sorted tree`` () =
   let output = vocabGeneration graph "Setting"
   output
-  |> should equal ( Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Primary%20care%20setting"
+  |> should equal ( Term {Uri = Uri.from "https://nice.org.uk/ontologies/setting#Primary%20care%20setting"
                           ShortenedUri = "setting#Primary care setting"
                           Label = "Primary care setting"
                           Selected = false
                           Children = [
-                                       Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Community"
+                                       Term {Uri = Uri.from "https://nice.org.uk/ontologies/setting#Community"
                                              ShortenedUri = "setting#Community"
                                              Label = "Community"
                                              Selected = false
                                              Children = []}
-                                       Term {Uri = Uri.from "http://ld.nice.org.uk/ns/qualitystandard/setting#Hospital"
+                                       Term {Uri = Uri.from "https://nice.org.uk/ontologies/setting#Hospital"
                                              ShortenedUri = "setting#Hospital"
                                              Label = "Hospital"
                                              Selected = false

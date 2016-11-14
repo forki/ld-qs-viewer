@@ -7,7 +7,7 @@
                     {% for tag in model.Tags -%}
                     <span class="tag">
                         <span class="tag-label">{{tag.Label}}</span>
-                        <a class="tag-remove-link" href="/qs/search?{{tag.removal_query_string}}" title="Removing tag">x</a>
+                        <a class="tag-remove-link" href="/search?{{tag.removal_query_string}}" title="Removing tag">x</a>
                     </span>
                     {% endfor -%}
                 </div>

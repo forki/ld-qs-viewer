@@ -23,6 +23,24 @@ docker run --rm -e SERVER_MODE=dev -p 8083:8083 discoverytooldev
 
 Now visit localhost:8083/qs in a browser of your choice.
 
+#### Fast front end development
+If you want fast feedback for front end development (HTML/CSS) work you will need to run the app from its development environment.  Create the environment using:
+```
+sh devenv.sh
+```
+
+Now build and run the app first using (you only need to do this once)
+```
+./build.sh && mono bin/viewer/viewer.exe dev
+```
+
+Server should be running on localhost:8083.  Now after changing any HTML/CSS/JS just run: 
+```
+./build.sh CopyClient
+```
+
+You should see your changes updating whilst the server is running
+
 
 ## Deploying to Rancher
 There is a docker-compose file that is compatible with the rancher-compose tool for deploying to the rancher container service.

@@ -1,0 +1,27 @@
+version: "2"
+services:
+  schema:
+    image: nice/ontologies
+    expose:
+      - 80
+    ports:
+      - "20002:80"
+  elastic:
+    image: nice/ld-docker-elasticsearch
+    ports:
+      - "9200:9200"
+  discoverytool:
+    image: nice/ld-suave-viewer:dev
+    ports:
+      - "8083:8083"
+    links:
+      - elastic
+      - schema
+  tests:
+    build: tests/
+    depends_on:
+      - elastic
+    entrypoint: ./wait-for-it.sh elastic:9200 -- ./node_modules/.bin/cucumber.js
+    links:
+      - elastic:elastic
+      - discoverytool:discoverytool

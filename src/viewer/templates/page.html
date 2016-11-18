@@ -19,30 +19,30 @@
   <!--[if lte IE 9]><link href="/qs/oldie.css" rel="stylesheet" type="text/css" /><![endif]-->
   <link href="//fonts.googleapis.com/css?family=Lato:400,700|Merriweather:400,700,400italic,700italic|Material+Icons" rel="stylesheet" type="text/css" />
 
+  <link rel="stylesheet" media="screen" href="http://cdn.nice.org.uk/V2/Content/NICE.bootstrap.css" >
+  <link href="https://www.nice.org.uk/Themes/NICE.Bootstrap/styles/nice/NICE.base-v1.10.4895.0.css" rel="stylesheet" type="text/css" />
+
   {% block head %}
 
   {% endblock %}
 
 </head>
 <body class="app">
-    <nav>
-        <div class="top-hat">
-            <!--<div class="nav-link"><a href="#">Menu</a></div>-->
-            <div class="logo"><a href=""><svg width="92" height="30"><image xlink:href="/qs/Images/nice-logo.svg" src="/qs/Images/nice-logo.png" width="92" height="30" /></svg><div class="app-title">A new way to find quality statements</div></a></div>
-            <!--<div class="nav-link"><a href="#">Sign in</a></div>-->
-        </div>
-    </nav>
+  {% include "templates/tophat.html" %}
+  <div class="layout">
+    <div class="row">
+      <div class="span4 filter-sidebar">
+          <input class="filters-toggle-input" id="filters-toggle-input" type="checkbox">
 
-    <main role="main">
-        <div class="main" id="content">
-            <input class="filters-toggle-input" id="filters-toggle-input" type="checkbox">
+          <label for="filters-toggle-input" id="filters-toggle" class="filters-toggle-label">Filter menu</label>
+          {% block content %}
 
-            <label for="filters-toggle-input" id="filters-toggle" class="filters-toggle-label">Filter menu</label>
-            {% block content %}
+          {% endblock %}
+      </div>
+    </div>
+  </div>
+  {% include "templates/footer.html" %}
 
-            {% endblock %}
-        </div>
-    </main>
   {% block scripts %}
   {% endblock %}
 </body>

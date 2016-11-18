@@ -16,7 +16,11 @@ type ResourceModel = {
 
 let private buildScripts config =
   [Hotjar.render config.HotjarId
-   GoogleAnalytics.render config.GAId]
+   GoogleAnalytics.render config.GAId
+   """<script src="//cdn.nice.org.uk/V3/Scripts/nice/NICE.TopHat.dev.js" data-environment="live" async=""></script>
+      <script src="//cdn.nice.org.uk/V2/Scripts/twitter.bootstrap.min.js" type="text/javascript"></script>
+      <script src="//cdn.nice.org.uk/V2/Scripts/NICE.bootstrap.min.js" type="text/javascript"></script>
+   """]
   |> Seq.fold (fun acc comp -> acc + comp) ""
 
 let page config resourceId =

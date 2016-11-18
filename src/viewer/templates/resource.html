@@ -7,24 +7,20 @@
     
   <link rel="stylesheet" type="text/css" href="/qs/style.css">
   <!--[if lte IE 9]><link href="/qs/oldie.css" rel="stylesheet" type="text/css" /><![endif]-->
+
+  <link rel="stylesheet" media="screen" href="http://cdn.nice.org.uk/V2/Content/NICE.bootstrap.css" >
+  <link href="https://www.nice.org.uk/Themes/NICE.Bootstrap/styles/nice/NICE.base-v1.10.4895.0.css" rel="stylesheet" type="text/css" />
 </head>
 <style>
-    code { display: none; }
+    pre,code { display: none; }
 </style>
 
 <body class="app">
-    <nav>
-        <div class="top-hat">
-            <div class="logo"><a href="/"><svg width="92" height="30"><image xlink:href="/qs/Images/nice-logo.svg" src="/qs/Images/nice-logo.png" width="92" height="30" /></svg></a></div>
-        </div>
-    </nav>
+    {% include "templates/tophat.html" %}
     <main role="main">
         <div class="main detail" id="content">
             <div class="content-list-wrapper">
                 <div class="card-list user-styles">
-                    <div style="banner">
-                        {% include "templates/disclaimer.html" %}
-                    </div>
                     <div id="resource-content">
                         {{model.Content}}
                     </div>
@@ -32,7 +28,10 @@
             </div>
         </div>
     </main>
+    {% include "templates/footer.html" %}
 </body>
+
+
 {% block scripts %}
     {{ model.Scripts }}
 {% endblock %}

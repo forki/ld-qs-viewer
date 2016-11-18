@@ -24,17 +24,20 @@ module.exports = function () {
 
     es.createStatement(esStatement)
       .then(es.createStatement(esStatement2))
+      .then(es.refreshIndex())
       .then(done());
   });
 
-  this.Given(/^I have published a quality statement annotated with vocabulary term 2$/, function () {
+  this.Given(/^I have published a quality statement annotated with vocabulary term 2$/, function (done) {
     var createStatement = new this.createStatement();
     createStatement.addqsidentifier("1");
     createStatement.addstidentifier("3");
     createStatement.addserviceArea("https://nice.org.uk/ontologies/servicearea/81bc76de_3bdd_48bc_ac3c_3381f45875a4");
     var esStatement = createStatement.build();
 
-    es.createStatement(esStatement);
+    es.createStatement(esStatement)
+      .then(es.refreshIndex())
+      .then(done());
 
   });
 
@@ -64,6 +67,7 @@ module.exports = function () {
     es.createStatement(esStatement)
       .then(es.createStatement(esStatement2))
       .then(es.createStatement(esStatement3))
+      .then(es.refreshIndex())
       .then(done());
   });
 
@@ -93,20 +97,19 @@ this.Given(/^I have published some Quality Statements with different Standard an
     es.createStatement(esStatement)
       .then(es.createStatement(esStatement2))
       .then(es.createStatement(esStatement3))
+      .then(es.refreshIndex())
       .then(done());
   });
 
   this.When(/^I visit the statement finder homepage$/, function (done) {
     var url = this.statementFinderUrl;
-    return this.visit(url).then(done());
+    return this.driver.sleep(1000)  // Had to wait here, think it's elastic not being ready yet ERE BE DRAGINS!!
+                  .then(this.visit(url))
+                  .then(done());
   });
 
   this.When(/^I refresh the index$/, function (done) {
     return es.refreshIndex().then(done());
-  });
-
-  this.When(/^I wait$/, function () {
-    return this.driver.sleep(2000);
   });
 
   this.When(/^I select the vocabulary Service Area$/, function () {

@@ -1,7 +1,7 @@
 var elasticsearch = require('elasticsearch');
 var config = require("../config.json");
 
-var elasticClient = new elasticsearch.Client({  
+var elasticClient = new elasticsearch.Client({
     host: config.elasticUrl,
     log: 'info'
 });
@@ -11,8 +11,7 @@ var indexName = "kb";
 /**
 * Delete an existing index
 */
-function deleteIndex() {  
-  console.log("deleted index")
+function deleteIndex() {
   return elasticClient.indices.delete({
     index: indexName
   });
@@ -27,8 +26,7 @@ exports.createStatement = createStatement;
 /**
 * create the index
 */
-function initIndex() {  
-  console.log("init index");
+function initIndex() {
     return elasticClient.indices.create({
       index: indexName,
          body: {
@@ -61,14 +59,14 @@ exports.initIndex = initIndex;
 /**
 * check if the index exists
 */
-function indexExists() {  
+function indexExists() {
     return elasticClient.indices.exists({
         index: indexName
     });
 }
-exports.indexExists = indexExists;  
+exports.indexExists = indexExists;
 
-function initMapping() {  
+function initMapping() {
     return elasticClient.indices.putMapping({
          index: indexName,
          body: {

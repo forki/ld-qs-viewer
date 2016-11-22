@@ -48,6 +48,9 @@ let private buildScripts =
      <script src="/qs/components/jquery/client/script.js?version=2"></script>
      <script src="/qs/components/nestedcheckboxes/client/script.js?version=2"></script>
      <script src="/qs/components/main/client/script.js?version=2"></script>
+     <script src="//cdn.nice.org.uk/V3/Scripts/nice/NICE.TopHat.dev.js" data-environment="live" async=""></script>
+     <script src="//cdn.nice.org.uk/V2/Scripts/twitter.bootstrap.min.js" type="text/javascript"></script>
+     <script src="//cdn.nice.org.uk/V2/Scripts/NICE.bootstrap.min.js" type="text/javascript"></script>
   """
 
 let page (req:HttpRequest) config showOverview =

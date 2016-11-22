@@ -18,7 +18,6 @@
             <div class="counter">{{model.total_count}} filtered items</div>
             {% endif %}
     </div>
-    {% include "templates/disclaimer.html" %}
     {% if model.Tags == empty and model.show_help == false %}
         <div class="message">Please select one or more filters.</div>
     {% endif %}

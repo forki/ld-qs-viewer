@@ -2,6 +2,7 @@ module Viewer.App
 
 
 open Viewer.Pages
+open Viewer.Data.Annotations
 open Viewer.SuaveSerilogAdapter
 open Suave
 open Suave.Filters
@@ -30,5 +31,9 @@ let createApp config =
          GET >=> buildPath "/annotationtool" >=> request(fun req -> AnnotationTool.page req config false)
          GET >=> path "/annotationtool/toyaml" >=> request(fun req -> AnnotationTool.page req config true)
          POST >=> path "/annotationtool/fromyaml" >=> request(fun req -> getQueryStringFromYaml config.Vocabs req |> Redirection.redirect) 
+         GET >=> path "/annotationtool/toguidblock" >=>
+           request(fun req ->
+                    let block = AnnotationEndpoint.toGuidBlock req config.Vocabs
+                    Successful.OK block)
          GET >=> browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]

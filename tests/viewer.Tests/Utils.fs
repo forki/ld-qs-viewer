@@ -37,6 +37,7 @@ let startServerWith config =
   runWith suaveConfig (createApp config)
 let get path testCtx = reqQuery HttpMethod.GET path "" testCtx |> parseHtml
 let getQuery path qs testCtx = reqQuery HttpMethod.GET path qs testCtx |> parseHtml
+let getQ path qs testCtx = reqQuery HttpMethod.GET path qs testCtx
 
 let uri (s:string) =
   Uri.from s

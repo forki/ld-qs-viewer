@@ -157,3 +157,20 @@ type vocabLookup = {
   Guid : string
   ShortUri : string
 }
+
+type Result<'TSuccess> = 
+  | Success of 'TSuccess
+  | Failure of string
+
+type OntologyReference = {
+  Uri : string
+  SourceTtl : string
+}
+
+type AnnotationConfig = {
+  TtlRoot : string
+  CoreTtl : string
+  ContextLabel : string
+  ContextValue : string
+  Predicates : OntologyReference list
+}

@@ -68,6 +68,7 @@
     <Compile Include="data\search\Queries.fs" />
     <Compile Include="data\search\Elastic.fs" />
     <Compile Include="data\search\Search.fs" />
+    <Compile Include="AnnotationApi.fs" />
     <Compile Include="Stubs.fs" />
     <Compile Include="AppConfig.fs" />
     <Compile Include="components\sidebar\Main.fs" />

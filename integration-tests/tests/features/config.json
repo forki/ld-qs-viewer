@@ -1,0 +1,4 @@
+{
+  "elasticUrl": "elastic:9200",
+  "statementFinderUrl": "discoverytool:8083"
+}

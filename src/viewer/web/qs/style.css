@@ -1298,7 +1298,12 @@ a.card .card-excerpt {
 }
 a.card:hover .card-excerpt {
 	color:#333
+
 }
+a.card:hover {
+	text-decoration: none;
+}
+
 .card-source {
 	font-style:italic;
 	margin-top:1.5rem;

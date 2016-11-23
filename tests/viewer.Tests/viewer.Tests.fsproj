@@ -216,6 +216,7 @@
     <None Include="paket.references" />
     <None Include="Script.fsx" />
     <Content Include="app.config" />
+    <Compile Include="components\annotationapi\Tests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

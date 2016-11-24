@@ -10,6 +10,11 @@ type Filter = {
   TermUri: string
 }
 
+let rep a (b:string) (c:string) =
+  let aa = a.ToString()
+  let aaa = aa.Replace(b, c)
+  aaa
+
 type AggregatedFilter = {
   Vocab: string
   TermUris: string list
@@ -93,7 +98,7 @@ and Term =
         (uri, label) :: walk xs
     walk xs |> List.fold (fun c (uri, label) ->
                  Term { Uri = uri
-                        ShortenedUri = uri.ToString().Replace(BaseUrl, "")
+                        ShortenedUri = rep uri BaseUrl ""
                         Label = label
                         Selected = false
                         Children =
@@ -162,9 +167,13 @@ type Result<'TSuccess> =
   | Success of 'TSuccess
   | Failure of string
 
+type Ttl =
+  | Uri of string
+  | Content of string
+
 type OntologyReference = {
   Uri : string
-  SourceTtl : string
+  SourceTtl : Ttl
 }
 
 type Context = {
@@ -174,9 +183,9 @@ type Context = {
 
 type OntologyConfig = {
   TtlRoot : string
-  CoreTtl : string
+  CoreTtl : Ttl
   Contexts : Context list
   Predicates : OntologyReference list
 }
 
-let emptyOC = { TtlRoot = ""; CoreTtl = ""; Contexts= []; Predicates=[] }
+let emptyOC = { TtlRoot = ""; CoreTtl = Content ""; Contexts= []; Predicates=[] }

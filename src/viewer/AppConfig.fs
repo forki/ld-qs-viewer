@@ -6,6 +6,7 @@ open Viewer.Data.Search.Search
 open Viewer.Data.Search.Elastic
 open Viewer.Data.Vocabs.VocabGeneration
 open FSharp.RDF
+open Viewer.Config
 
 type Mode =
   | Dev

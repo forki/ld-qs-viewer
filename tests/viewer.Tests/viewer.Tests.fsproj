@@ -210,13 +210,13 @@
     <Compile Include="components\sidebar\Tests.fs" />
     <Compile Include="components\searchresults\Tests.fs" />
     <Compile Include="components\annotationblock\Tests.fs" />
+    <Compile Include="components\annotationapi\Tests.fs" />
     <Compile Include="components\hotjar\Tests.fs" />
     <Compile Include="components\googleanalytics\Tests.fs" />
     <Compile Include="UtilsTests.fs" />
     <None Include="paket.references" />
     <None Include="Script.fsx" />
     <Content Include="app.config" />
-    <Compile Include="components\annotationapi\Tests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

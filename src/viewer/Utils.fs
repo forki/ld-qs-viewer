@@ -41,11 +41,6 @@ let concatToStringWithDelimiter delimiter items =
                match acc with
                  | "" -> item
                  | _ -> acc + delimiter + item) ""
-
-let stripAllButFragment (uri:string) =
-    let from = uri.LastIndexOf("#") + 1
-    let toEnd = uri.Length - from
-    uri.Substring(from, toEnd)
     
 let getGuidFromShortUri (shortUri:string) =
   try shortUri.Split('/').[1] with _ -> ""

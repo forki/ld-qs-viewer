@@ -65,6 +65,7 @@
     <Compile Include="Utils.fs" />
     <Compile Include="SuaveExtensions.fs" />
     <Compile Include="data\vocabs\VocabGeneration.fs" />
+    <Compile Include="data\annotations\AnnotationEndpoint.fs" />
     <Compile Include="data\search\Queries.fs" />
     <Compile Include="data\search\Elastic.fs" />
     <Compile Include="data\search\Search.fs" />
@@ -75,7 +76,6 @@
     <Compile Include="components\annotationblock\Main.fs" />
     <Compile Include="components\hotjar\Main.fs" />
     <Compile Include="components\googleanalytics\Main.fs" />
-    <Compile Include="data\annotations\AnnotationEndpoint.fs" />
     <Compile Include="pages\Home.fs" />
     <Compile Include="pages\AnnotationTool.fs" />
     <Compile Include="pages\Resource.fs" />

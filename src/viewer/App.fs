@@ -33,7 +33,9 @@ let createApp config =
          POST >=> path "/annotationtool/fromyaml" >=> request(fun req -> getQueryStringFromYaml config.Vocabs req |> Redirection.redirect) 
          GET >=> path "/annotationtool/toguidblock" >=>
            request(fun req ->
-                    let block = AnnotationEndpoint.toGuidBlock req config.Vocabs
-                    Successful.OK block)
+                     match req.rawQuery with
+                     | "" -> RequestErrors.BAD_REQUEST "Please provide query string parameters"
+                     | _ -> Successful.OK (AnnotationEndpoint.toGuidBlock req.query ))
+           >=> Writers.setMimeType "application/x-yaml"
          GET >=> browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]

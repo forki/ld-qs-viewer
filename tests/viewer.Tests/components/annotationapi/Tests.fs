@@ -44,6 +44,6 @@ let vocabs = [{Property = "vocab:property";
 
 [<Test>]
 let ``AnnotationApi: what the fuck do I gethere?`` () = 
-  let r = getVocabList Stubs.ontologyConfig Stubs.corettl
+  let r = getVocabList Stubs.ontologyConfig
 
   r |> should equal "Hello world!!"

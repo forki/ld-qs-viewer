@@ -4,34 +4,34 @@ open Viewer.Data.Vocabs.VocabGeneration
 open FSharp.RDF
 
 
-let vocabs = [{Root = Term {Uri = (Uri.from "https://nice.org.uk/ontologies/qualitystandard/setting")
+let vocabs = [{Root = Term {Uri = (Uri.from "https://nice.org.uk/ontologies/core/setting")
                             ShortenedUri = "setting"
                             Label = "Setting"
                             Selected = false
                             Children = [
-                                         Term { Uri = Uri.from "https://nice.org.uk/ontologies/qualitystandard/TestSetting/long-guid-1"
+                                         Term { Uri = Uri.from "https://nice.org.uk/ontologies/core/TestSetting/long-guid-1"
                                                 ShortenedUri = "TestSetting/long-guid-1"
                                                 Label = "Term1"
                                                 Selected = false
                                                 Children = [
-                                                             Term { Uri = Uri.from "https://nice.org.uk/ontologies/qualitystandard/TestSetting#long-guid-1A"
+                                                             Term { Uri = Uri.from "https://nice.org.uk/ontologies/core/TestSetting#long-guid-1A"
                                                                     ShortenedUri = "TestSetting/long-guid-1A"
                                                                     Label = "Term1A"
                                                                     Selected = false
                                                                     Children = [
-                                                                                 Term { Uri = Uri.from "https://nice.org.uk/ontologies/qualitystandard/TestSetting#long-guid-AA"
+                                                                                 Term { Uri = Uri.from "https://nice.org.uk/ontologies/core/TestSetting#long-guid-AA"
                                                                                         ShortenedUri = "TestSetting/long-guid-AA"
                                                                                         Label = "Term1 A A"
                                                                                         Selected = false
                                                                                         Children = []};
                                                                    ]};
-                                                      Term { Uri = Uri.from "https://nice.org.uk/ontologies/qualitystandard/TestSetting1#long-guid-1B"
+                                                      Term { Uri = Uri.from "https://nice.org.uk/ontologies/core/TestSetting1#long-guid-1B"
                                                              ShortenedUri = "TestSetting/long-guid-1B"
                                                              Label = "Term1+ B"
                                                              Selected = false
                                                              Children = []};
                                                 ]};
-                                         Term { Uri = Uri.from "https://nice.org.uk/ontologies/qualitystandard/TestSetting#long-guid-2"
+                                         Term { Uri = Uri.from "https://nice.org.uk/ontologies/core/TestSetting#long-guid-2"
                                                 ShortenedUri = "TestSetting/long-guid-2"
                                                 Label = "Term2"
                                                 Selected = false
@@ -39,17 +39,17 @@ let vocabs = [{Root = Term {Uri = (Uri.from "https://nice.org.uk/ontologies/qual
                                        ]};
               Property = "qualitystandard:appliesToSetting";
               Label = "Setting"}
-              {Root = Term {Uri = (Uri.from "https://nice.org.uk/ontologies/qualitystandard/ServiceArea")
+              {Root = Term {Uri = (Uri.from "https://nice.org.uk/ontologies/core/ServiceArea")
                             ShortenedUri = "area"
                             Label = "Service Area"
                             Selected = false
                             Children = [
-                                          Term { Uri = Uri.from "https://nice.org.uk/ontologies/qualitystandard/TestArea#long-guid-3"
+                                          Term { Uri = Uri.from "https://nice.org.uk/ontologies/core/TestArea#long-guid-3"
                                                  ShortenedUri = "TestArea/long-guid-3"
                                                  Label = "Term3"
                                                  Selected = false
                                                  Children = []};
-                                          Term { Uri = Uri.from "https://nice.org.uk/ontologies/qualitystandard/TestArea#long-guid-4"
+                                          Term { Uri = Uri.from "https://nice.org.uk/ontologies/core/TestArea#long-guid-4"
                                                  ShortenedUri = "TestArea/long-guid-4"
                                                  Label = "Term4"
                                                  Selected = false
@@ -65,17 +65,7 @@ let search _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Tit
 
 let getKBCount _ = 0
 
-let ontologyConfig = { //TtlRoot= "http://schema/ontologies/"
-                       TtlRoot= "http://192.168.99.100/ontologies/"
-                       CoreTtl= "qualitystandard.ttl"
-                       Contexts= [ { Prefix="qualitystandard"; Value= "https://nice.org.uk/ontologies/qualitystandard/" } ]
-                       Predicates = [
-                         { Uri= "qualitystandard:62496684_7027_4f37_bd0e_264c9ff727fd"; SourceTtl= "setting.ttl" }
-                         { Uri= "qualitystandard:4e7a368e_eae6_411a_8167_97127b490f99"; SourceTtl= "agegroup.ttl" }
-                       ]
-                     }
-
-let corettl = """@prefix : <https://nice.org.uk/ontologies/qualitystandard/> .
+let private corettl = """@prefix : <https://nice.org.uk/ontologies/core/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
@@ -106,37 +96,79 @@ xsd:date a rdfs:Datatype .
 # #################################################################
 # 
 # 
-# https://nice.org.uk/ontologies/qualitystandard/d828e6c0_40e0_4699_9ec2_d7accf601bc8
 
-:d828e6c0_40e0_4699_9ec2_d7accf601bc8 a owl:ObjectProperty ;
-	owl:inverseOf :2a41e426_8990_4c18_a4f3_7f82e42e3d3c ;
-	rdfs:label "is replaced by"@en ;
-	<http://www.w3.org/2004/02/skos/core#prefLabel> "is replaced by"@en .
+# https://nice.org.uk/ontologies/core/applies_to_thingy
+:applies_to_thingy a owl:ObjectProperty ;
+	rdfs:subPropertyOf :applies_to ;
+	rdfs:label "Thingy"@en ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "applies to thingy"@en .
 # 
-# https://nice.org.uk/ontologies/qualitystandard/2a41e426_8990_4c18_a4f3_7f82e42e3d3c
+# https://nice.org.uk/ontologies/core/applies_to
 
-:2a41e426_8990_4c18_a4f3_7f82e42e3d3c a owl:ObjectProperty ;
-	rdfs:label "replaces"@en ;
-	<http://www.w3.org/2004/02/skos/core#prefLabel> "replaces"@en .
-# 
-# https://nice.org.uk/ontologies/qualitystandard/4e7a368e_eae6_411a_8167_97127b490f99
-
-:4e7a368e_eae6_411a_8167_97127b490f99 a owl:ObjectProperty ;
-	rdfs:subPropertyOf :693a50d5_304a_4e97_97f3_8f047429ae85 ;
-	rdfs:label "Age group"@en ;
-	<http://www.w3.org/2004/02/skos/core#prefLabel> "applies to age group"@en .
-# 
-# https://nice.org.uk/ontologies/qualitystandard/62496684_7027_4f37_bd0e_264c9ff727fd
-
-:62496684_7027_4f37_bd0e_264c9ff727fd a owl:ObjectProperty ;
-	rdfs:subPropertyOf :693a50d5_304a_4e97_97f3_8f047429ae85 ;
-	rdfs:label "Setting"@en ;
-	<http://www.w3.org/2004/02/skos/core#prefLabel> "applies to setting"@en .
-# 
-# https://nice.org.uk/ontologies/qualitystandard/693a50d5_304a_4e97_97f3_8f047429ae85
-
-:693a50d5_304a_4e97_97f3_8f047429ae85 a owl:ObjectProperty ;
+:applies_to a owl:ObjectProperty ;
 	rdfs:label "applies to"@en ;
 	<http://www.w3.org/2004/02/skos/core#prefLabel> "applies to"@en .
 # 
 """
+
+let private thingyttl = """@prefix : <https://nice.org.uk/ontologies/thingy/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://nice.org.uk/ontologies/thingy> a owl:Ontology ;
+	owl:imports <http://www.w3.org/2004/02/skos/core> .
+# 
+# 
+# #################################################################
+# #
+# #    Classes
+# #
+# #################################################################
+# 
+# 
+# https://nice.org.uk/ontologies/thingy/thingy_class
+
+:thingy_class a owl:Class ;
+	rdfs:label "Thingy Class"@en ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "Thingy Class"@en .
+# 
+# https://nice.org.uk/ontologies/thingy/thingy_level_1
+:thingy_level_1 a owl:Class ;
+	rdfs:subClassOf :thingy_class ;
+	rdfs:label "Thingy Level 1"@en ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "Thingy Level 1 PREF"@en .
+# 
+# https://nice.org.uk/ontologies/thingy/thingy_level_2
+
+:thingy_level_2 a owl:Class ;
+	rdfs:subClassOf :thingy_class ;
+	rdfs:label "Thingy Level 2"@en ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "Thingy Level 2 PREF"@en .
+# 
+# https://nice.org.uk/ontologies/thingy/thingy_level_1_1
+:thingy_level_1_1 a owl:Class ;
+	rdfs:subClassOf :thingy_level_1 ;
+	rdfs:label "Thingy Level 1.1"@en ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "Thingy Level 1.1 PREF"@en .
+# 
+# https://nice.org.uk/ontologies/thingy/thingy_level_1_2
+
+:thingy_level_1_2 a owl:Class ;
+	rdfs:subClassOf :thingy_level_1 ;
+	rdfs:label "Thingy Level 1.2"@en ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "Thingy Level 1.2 PREF"@en .
+# 
+# Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi
+"""
+
+let ontologyConfig = { TtlRoot= "http://schema/ontologies/"
+                       CoreTtl= Content corettl
+                       Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" } ]
+                       Predicates = [
+                         { Uri= "core:applies_to_thingy"; SourceTtl= Content thingyttl }
+                       ]
+                     }
+

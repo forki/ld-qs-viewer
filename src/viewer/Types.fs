@@ -167,10 +167,16 @@ type OntologyReference = {
   SourceTtl : string
 }
 
-type AnnotationConfig = {
+type Context = {
+  Prefix : string
+  Value: string
+}
+
+type OntologyConfig = {
   TtlRoot : string
   CoreTtl : string
-  ContextLabel : string
-  ContextValue : string
+  Contexts : Context list
   Predicates : OntologyReference list
 }
+
+let emptyOC = { TtlRoot = ""; CoreTtl = ""; Contexts= []; Predicates=[] }

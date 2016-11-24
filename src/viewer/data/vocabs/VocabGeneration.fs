@@ -15,7 +15,41 @@ let vocabGeneration ttl lbl =
 
 let vocabLookup uri lbl = vocabGeneration (Http.RequestString uri) lbl
 
-let readVocabsFromFiles () =
+let replacePrefix  (prefixes:Context list) ttlRoot predicate =
+  let uri = predicate.Uri
+  prefixes
+  |> List.filter (fun x -> uri.StartsWith(x.Prefix) = true)
+  |> List.head
+  |> fun x -> { Uri = uri.Replace((sprintf "%s:" x.Prefix), x.Value); SourceTtl = (sprintf "%s%s" ttlRoot predicate.SourceTtl) }
+
+let replacePrefixes ontologyConfig =
+  ontologyConfig.Predicates
+  |> List.map (fun p -> replacePrefix ontologyConfig.Contexts ontologyConfig.TtlRoot p )
+
+
+let getMatchedResource (terms:InverseTerm list) ontologyReference =
+  terms
+  |> List.filter (fun x -> x.Uri = Uri.from(ontologyReference.Uri))
+  |> List.head
+  |> (fun x -> { Root = vocabLookup ontologyReference.SourceTtl x.Label; Property = x.Uri.ToString(); Label= x.Label} )
+
+let mapResourceToConfig ontologyConfig resources =
+  ontologyConfig
+  |> replacePrefixes
+  |> List.map (fun x -> getMatchedResource resources x )
+
+
+let getVocabList ontologyConfig corettl =
+//  let corettl1 = sprintf "%s%s" ontologyConfig.TtlRoot ontologyConfig.CoreTtl |> Http.RequestString
+  let graph = Graph.loadTtl (fromString corettl)
+  
+  let resources = Resource.fromType (Uri.from "http://www.w3.org/2002/07/owl#ObjectProperty") graph
+//  let resources = Resource.fromSubject (Uri.from "https://nice.org.uk/ontologies/qualitystandard/62496684_7027_4f37_bd0e_264c9ff727fd") graph
+  resources
+  |> List.map (InverseTerm.from "")
+  |> mapResourceToConfig ontologyConfig
+
+let readVocabsFromFiles ontologyConfig =
   printf "reading vocabs"
   try
     [

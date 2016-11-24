@@ -10,6 +10,8 @@ open Viewer.SuaveExtensions
 open FSharp.RDF
 open Viewer.YamlParser
 open Viewer.Utils
+open Stubs
+open Viewer.Data.Vocabs.VocabGeneration
 
 [<SetUp>]
 let ``Run before tests`` () =
@@ -32,12 +34,16 @@ let vocabs = [{Property = "vocab:property";
                                                             Uri = uri "http://testing.com/Uri#Term3"}]}
                Label = "Service Area"}
 ]
+//
+//[<Test>]
+//let ``AnnotationAPI: Should generate annotation ontology tree json from get`` () =
+//  let response = startServerWith baseConfig
+//                 |> get "/annotationtool/formdata"
+//                 
+//  response |> CQ.text |> should equal "Hello world!"
 
 [<Test>]
-let ``AnnotationAPI: Should generate annotation ontology tree json from get`` () =
-  let response = startServerWith baseConfig
-                 |> get "/annotationtool/formdata"
-                 
-  response |> CQ.text |> should equal "Hello world!"
+let ``AnnotationApi: what the fuck do I gethere?`` () = 
+  let r = getVocabList Stubs.ontologyConfig Stubs.corettl
 
-
+  r |> should equal "Hello world!!"

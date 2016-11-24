@@ -30,6 +30,7 @@ let baseConfig = {
   GetKBCount = (fun _ -> 0)
   HotjarId = ""
   GAId = ""
+  OntologyConfig = emptyOC
 }
 
 let startServerWith config =

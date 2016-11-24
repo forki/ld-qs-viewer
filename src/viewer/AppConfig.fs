@@ -18,6 +18,7 @@ type AppConfiguration = {
   GetKBCount : bool -> int
   HotjarId : string
   GAId : string
+  OntologyConfig : OntologyConfig
 }
 
 let getAppConfig mode =
@@ -29,12 +30,14 @@ let getAppConfig mode =
      PerformSearch = performSearchWithProvider Stubs.search
      GetKBCount = Stubs.getKBCount
      HotjarId = "whoisjaridanyway"
-     GAId = "whoisjaridanyway"}
+     GAId = "whoisjaridanyway"
+     OntologyConfig = Stubs.ontologyConfig}
   | Prod ->
-    let vocabs = readVocabsFromFiles ()
+    let vocabs = readVocabsFromFiles Stubs.ontologyConfig
     {Vocabs = vocabs
      RenderedVocabs = renderVocabs vocabs
      PerformSearch = performSearchWithProvider Viewer.Data.Search.Elastic.search 
      GetKBCount = KnowledgeBaseCount
      HotjarId = Environment.GetEnvironmentVariable "HOTJARID"
-     GAId = Environment.GetEnvironmentVariable "GAID"}
+     GAId = Environment.GetEnvironmentVariable "GAID"
+     OntologyConfig = Stubs.ontologyConfig}

@@ -22,11 +22,10 @@ let getTtlContent ttl =
   | Content c -> c
   | Uri u -> Http.RequestString u
 
-let replacePrefix  (prefixes:Context list) predicate =
+let replacePrefix (prefixes:Context list) predicate =
   let uri = predicate.Uri
   prefixes
-  |> List.filter (fun x -> uri.StartsWith(x.Prefix) = true)
-  |> List.head
+  |> List.find (fun x -> uri.StartsWith(x.Prefix) = true)
   |> fun x -> { Uri = uri.Replace((sprintf "%s:" x.Prefix), x.Value); SourceTtl = predicate.SourceTtl }
 
 let replacePrefixes ontologyConfig =

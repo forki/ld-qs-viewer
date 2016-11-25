@@ -188,3 +188,20 @@ type OntologyConfig = {
 }
 
 let emptyOC = { CoreTtl = Content ""; Contexts= []; Predicates=[] }
+
+type OntologyTreeOption = {
+  id: string
+  label: string
+  children: OntologyTreeOption List
+}
+
+type OntologyResponseProperty = {
+  id: string
+  label: string
+  options: OntologyTreeOption list
+}
+
+type OntologyResponse = {
+  contexts : Context List
+  properties : OntologyResponseProperty list
+}

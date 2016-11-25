@@ -42,8 +42,52 @@ let vocabs = [{Property = "vocab:property";
 //                 
 //  response |> CQ.text |> should equal "Hello world!"
 
+let termdResponse = [
+  {
+    Root = Term {
+      Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_class"
+      ShortenedUri = "thingy/thingy_class"
+      Label = "Thingy Class"
+      Selected = false
+      Children = [
+        Term {
+          Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_1"
+          ShortenedUri = "thingy/thingy_level_1"
+          Label = "Thingy Level 1"
+          Selected = false
+          Children = [
+            Term {
+              Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_1_1"
+              ShortenedUri = "thingy/thingy_level_1_1"
+              Label = "Thingy Level 1.1"
+              Selected = false
+              Children = []
+            }
+            Term {
+              Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_1_2"
+              ShortenedUri = "thingy/thingy_level_1_2"
+              Label = "Thingy Level 1.2"
+              Selected = false
+              Children = []
+            }
+          ]
+        }
+        Term {
+          Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_2"
+          ShortenedUri = "thingy/thingy_level_2"
+          Label = "Thingy Level 2"
+          Selected = false
+          Children = []
+        }
+      ]
+    }
+    Property = "https://nice.org.uk/ontologies/core/applies_to_thingy";
+    Label = "Thingy"
+  }
+]
+
 [<Test>]
-let ``AnnotationApi: what the fuck do I gethere?`` () = 
+let ``AnnotationApi: When I call getVocab with an Ontology config I am returned the expected termd structure?`` () = 
   let r = getVocabList Stubs.ontologyConfig
 
-  r |> should equal "Hello world!!"
+  r |> should equal termdResponse

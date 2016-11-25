@@ -17,12 +17,12 @@ let vocabGeneration ttl lbl =
 
 let vocabLookup content lbl = vocabGeneration content lbl
 
-let getTtlContent ttl root =
+let getTtlContent ttl =
   match ttl with
   | Content c -> c
-  | Uri u -> Http.RequestString (sprintf "%s%s" root u)
+  | Uri u -> Http.RequestString u
 
-let replacePrefix  (prefixes:Context list) ttlRoot predicate =
+let replacePrefix  (prefixes:Context list) predicate =
   let uri = predicate.Uri
   prefixes
   |> List.filter (fun x -> uri.StartsWith(x.Prefix) = true)
@@ -31,14 +31,14 @@ let replacePrefix  (prefixes:Context list) ttlRoot predicate =
 
 let replacePrefixes ontologyConfig =
   ontologyConfig.Predicates
-  |> List.map (fun p -> replacePrefix ontologyConfig.Contexts ontologyConfig.TtlRoot p )
+  |> List.map (fun p -> replacePrefix ontologyConfig.Contexts p )
 
 
 let getMatchedResource (terms:InverseTerm list) ontologyReference =
   terms
   |> List.filter (fun x -> x.Uri = Uri.from(ontologyReference.Uri))
   |> List.head
-  |> (fun x -> { Root = vocabLookup (getTtlContent ontologyReference.SourceTtl "") x.Label; Property = x.Uri.ToString(); Label= x.Label} )
+  |> (fun x -> { Root = vocabLookup (getTtlContent ontologyReference.SourceTtl) x.Label; Property = x.Uri.ToString(); Label= x.Label} )
 
 let mapResourceToConfig ontologyConfig resources=
   ontologyConfig
@@ -46,7 +46,7 @@ let mapResourceToConfig ontologyConfig resources=
   |> List.map (fun x -> getMatchedResource resources x)
   
 let getVocabList ontologyConfig =
-  let ttlContent = getTtlContent ontologyConfig.CoreTtl ontologyConfig.TtlRoot
+  let ttlContent = getTtlContent ontologyConfig.CoreTtl
 
   let graph = Graph.loadTtl (fromString ttlContent)
   

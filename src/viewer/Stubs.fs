@@ -3,7 +3,7 @@ open Viewer.Types
 open Viewer.Data.Vocabs.VocabGeneration
 open FSharp.RDF
 
-let vocabs = [{Root = Term {Uri = (Uri.from "https://nice.org.uk/ontologies/core/setting")
+let vocabs = [{Root = Term {Uri = (Uri.from "https://nice.org.uk/ontologies/qualitystandard/setting")
                             ShortenedUri = "setting"
                             Label = "Setting"
                             Selected = false
@@ -207,8 +207,75 @@ let thingyVocabulary = [
   }
 ]
 
+let thingyResponse = {
+  contexts = [
+    { Prefix = "core"
+      Value = "https://nice.org.uk/ontologies/core/" }
+    { Prefix = "thingy"
+      Value = "https://nice.org.uk/ontologies/thingy/" }
+  ]
+  properties = [
+    { id = "core:applies_to_thingy"
+      label = "Thingy";
+      options = [
+        { id = "thingy:thingy_level_1"
+          label = "Thingy Level 1"
+          children = [
+            { id = "thingy:thingy_level_1_1"
+              label = "Thingy Level 1.1"
+              children = [] }
+            { id = "thingy:thingy_level_1_2"
+              label = "Thingy Level 1.2"
+              children = [] }
+          ]
+        }
+        { id = "thingy:thingy_level_2"
+          label = "Thingy Level 2"
+          children = [] }
+      ]
+    }
+  ]
+}
+
+let thingyJsonResponse = """{
+  "@contexts" {
+    "core": "https://nice.org.uk/ontologies/core/",
+    "thingy": "https://nice.org.uk/ontologies/thingy/"
+  },
+  "properties":
+  [
+    { 
+      "@id": "core:applies_to_thingy",
+      "rdfs:label": "Thingy",
+      options =
+      [
+        {
+          "@id": "thingy:thingy_level_1",
+          "rdfs:label": "Thingy Level 1",
+          "children":
+          [
+            { 
+              "@id": "thingy:thingy_level_1_1",
+              "rdfs:label": "Thingy Level 1.1"
+            }
+            {
+              "@id": "thingy:thingy_level_1_2",
+              "rdfs:label": "Thingy Level 1.2"
+            }
+          ]
+        }
+        { 
+          "@id": "thingy:thingy_level_2"
+          "rdfs:label": "Thingy Level 2"
+        }
+      ]
+    }
+  ]
+}"""
+
 let thingyOntologyConfig = { CoreTtl= Content thingycorettl
-                             Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" } ]
+                             Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
+                                         { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" } ]
                              Predicates = [
                                { Uri= "core:applies_to_thingy"; SourceTtl= Content thingychildttl }
                              ]

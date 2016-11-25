@@ -182,10 +182,9 @@ type Context = {
 }
 
 type OntologyConfig = {
-  TtlRoot : string
   CoreTtl : Ttl
   Contexts : Context list
   Predicates : OntologyReference list
 }
 
-let emptyOC = { TtlRoot = ""; CoreTtl = Content ""; Contexts= []; Predicates=[] }
+let emptyOC = { CoreTtl = Content ""; Contexts= []; Predicates=[] }

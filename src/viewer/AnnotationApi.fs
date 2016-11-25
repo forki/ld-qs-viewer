@@ -2,5 +2,8 @@
 
 open Viewer.Types
 
+//let stripVocabulary (vocab:Vocabulary) =
+  
+
 let GetAnnotationToolJson (vocabs: Vocabulary list) config =
-  Success "Hello world!"
+  Success "Hello World!"

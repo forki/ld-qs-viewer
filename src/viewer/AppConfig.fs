@@ -44,7 +44,7 @@ let getAppConfig mode =
      GetKBCount = Stubs.getKBCount
      HotjarId = "whoisjaridanyway"
      GAId = "whoisjaridanyway"
-     OntologyConfig = Stubs.ontologyConfig}
+     OntologyConfig = Stubs.thingyOntologyConfig}
   | Prod ->
     let vocabs = readVocabsFromFiles prodOntologyConfig
     {Vocabs = vocabs

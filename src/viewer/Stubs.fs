@@ -204,7 +204,7 @@ let thingyVocabulary = [
         }
       ]
     }
-    Property = "https://nice.org.uk/ontologies/core/applies_to_thingy";
+    Property = "core:applies_to_thingy";
     Label = "Thingy"
   }
 ]

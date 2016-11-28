@@ -106,6 +106,7 @@
     <Content Include="app.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="data\config\configSchema.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

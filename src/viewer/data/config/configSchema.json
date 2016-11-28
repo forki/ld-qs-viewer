@@ -1,0 +1,21 @@
+﻿{
+  "basettl": "http://schema/ontologies/",
+  "baseontology": "https://nice.org.uk/ontologies/",
+  "details":[
+    { "core":  true,
+      "prefix": "core",
+      "ontology": "core/",
+      "ttl": "corethingy.ttl"
+    },
+    { "core":  false,
+      "prefix": "thingy",
+      "ontology": "thingy/",
+      "ttl": "thingy.ttl",
+      "corereference": "appliesTothingy"
+    },
+    { "core":  false,
+      "prefix": "whatsit",
+      "ontology": "whatsit/"
+    }
+  ]
+ }

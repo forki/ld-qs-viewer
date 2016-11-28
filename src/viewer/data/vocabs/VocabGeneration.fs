@@ -16,8 +16,6 @@ let vocabGeneration ttl lbl =
   |> List.map (Term.from)
   |> List.fold (++) Empty
 
-let vocabLookup content lbl = vocabGeneration content lbl
-
 let getTtlContent ttl =
   match ttl with
   | Content c -> c
@@ -38,7 +36,7 @@ let getMatchedResource (terms:InverseTerm list) ontologyReference =
   terms
   |> List.filter (fun x -> x.Uri = Uri.from(ontologyReference.Uri))
   |> List.head
-  |> (fun x -> { Root = vocabLookup (getTtlContent ontologyReference.SourceTtl) x.Label; Property = x.Uri.ToString(); Label= x.Label} )
+  |> (fun x -> { Root = vocabGeneration (getTtlContent ontologyReference.SourceTtl) x.Label; Property = x.Uri.ToString(); Label= x.Label} )
 
 let mapResourceToConfig ontologyConfig resources=
   ontologyConfig

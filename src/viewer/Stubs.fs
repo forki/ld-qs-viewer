@@ -1,8 +1,9 @@
 module Stubs
+
+open FSharp.RDF
 open Viewer.Types
 open Viewer.ApiTypes
 open Viewer.Data.Vocabs.VocabGeneration
-open FSharp.RDF
 
 let vocabs = [{Root = Term {Uri = (Uri.from "https://nice.org.uk/ontologies/qualitystandard/setting")
                             ShortenedUri = "setting"
@@ -210,8 +211,6 @@ let thingyVocabulary = [
 
 let thingyResponse = {
   contexts = [
-    { Prefix = "rdfs"
-      Value="http://www.w3.org/2000/01/rdf-schema#"}
     { Prefix = "core"
       Value = "https://nice.org.uk/ontologies/core/" }
     { Prefix = "thingy"
@@ -277,13 +276,42 @@ let thingyJsonResponse = """{
   ]
 }"""
 
-let thingyOntologyConfig = { CoreTtl= Content thingycorettl
-                             Contexts= [ { Prefix="rdfs"; Value="http://www.w3.org/2000/01/rdf-schema#" }
-                                         { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
-                                         { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }
-                                         { Prefix="whatsit"; Value= "https://nice.org.uk/ontologies/whatsit/" } ]
-                             Predicates = [
-                               { Uri= "core:applies_to_thingy"; SourceTtl= Content thingychildttl }
-                             ]
-                           }
+let thingyConfigFile = """{
+  "basettl": "http://schema/ontologies/",
+  "baseontology": "https://nice.org.uk/ontologies/",
+  "details":[
+    { "core":  true,
+      "prefix": "core",
+      "ontology": "core/",
+      "ttl": "core.ttl"
+    },
+    { "core":  false,
+      "prefix": "thingy",
+      "ontology": "thingy/",
+      "ttl": "thingy.ttl",
+      "corereference": "applies_to_thingy"
+    },
+    { "core":  false,
+      "prefix": "whatsit",
+      "ontology": "whatsit/"
+    }
+  ]
+ }
+"""
+let thingyOntologyConfigUri = { CoreTtl= Uri "http://schema/ontologies/core.ttl"
+                                Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
+                                            { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }
+                                            { Prefix="whatsit"; Value= "https://nice.org.uk/ontologies/whatsit/" } ]
+                                Predicates = [
+                                  { Uri= "core:applies_to_thingy"; SourceTtl= Uri "http://schema/ontologies/thingy.ttl" }
+                                ]
+                              }
+let thingyOntologyConfigFull = { CoreTtl= Content thingycorettl
+                                 Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
+                                             { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }
+                                             { Prefix="whatsit"; Value= "https://nice.org.uk/ontologies/whatsit/" } ]
+                                 Predicates = [
+                                   { Uri= "core:applies_to_thingy"; SourceTtl= Content thingychildttl }
+                                 ]
+                               }
 

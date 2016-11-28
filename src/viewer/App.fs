@@ -11,7 +11,7 @@ open Suave.Logging
 open Serilog
 open Viewer.Utils
 open Viewer.AnnotationApi
-open Viewer.Types
+open Viewer.ApiTypes
 
 let buildPath pathLocation =
     (path pathLocation <|> path (pathLocation + "/") )

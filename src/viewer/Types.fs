@@ -2,7 +2,6 @@ module Viewer.Types
 
 open FSharp.RDF
 open FSharp.Data
-//open Viewer.SuaveExtensions
 open Viewer.Config
 
 type Filter = {
@@ -161,47 +160,4 @@ type vocabLookup = {
   Label : string
   Guid : string
   ShortUri : string
-}
-
-type Result<'TSuccess> = 
-  | Success of 'TSuccess
-  | Failure of string
-
-type Ttl =
-  | Uri of string
-  | Content of string
-
-type OntologyReference = {
-  Uri : string
-  SourceTtl : Ttl
-}
-
-type Context = {
-  Prefix : string
-  Value: string
-}
-
-type OntologyConfig = {
-  CoreTtl : Ttl
-  Contexts : Context list
-  Predicates : OntologyReference list
-}
-
-let emptyOC = { CoreTtl = Content ""; Contexts= []; Predicates=[] }
-
-type OntologyTreeOption = {
-  id: string
-  label: string
-  children: OntologyTreeOption List
-}
-
-type OntologyResponseProperty = {
-  id: string
-  label: string
-  options: OntologyTreeOption list
-}
-
-type OntologyResponse = {
-  contexts : Context List
-  properties : OntologyResponseProperty list
 }

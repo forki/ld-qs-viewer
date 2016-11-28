@@ -3,7 +3,9 @@
 open Serilog
 open NICE.Logging
 open Viewer.Types
+open Viewer.ApiTypes
 open Viewer.Data.Vocabs.VocabGeneration
+open Chiron
 
 let reinstatePrefix (prefixes:Context list) (uri:string) =
   prefixes
@@ -49,7 +51,8 @@ let getAnnotationToolData (vocabs: Vocabulary list) (config:OntologyConfig) =
 
 let getAnnotationToolJson (vocabs: Vocabulary list) (config:OntologyConfig) =
   try
-    Success ((getAnnotationToolData vocabs config).ToString())
+    let data = getAnnotationToolData vocabs config
+    Success (data |> Json.serialize |> Json.formatWith JsonFormattingOptions.Pretty)
   with
     ex -> Log.Error(sprintf "Exception encountered getting annotation data\n%s" ( ex.ToString() ) )
           Failure (ex.ToString())

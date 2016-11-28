@@ -2,6 +2,7 @@ module Viewer.Data.Vocabs.VocabGeneration
 
 open FSharp.RDF
 open Viewer.Types
+open Viewer.ApiTypes
 open FSharp.Data
 open Viewer.SuaveExtensions
 open Serilog

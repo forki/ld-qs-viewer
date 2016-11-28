@@ -1,5 +1,6 @@
 module Stubs
 open Viewer.Types
+open Viewer.ApiTypes
 open Viewer.Data.Vocabs.VocabGeneration
 open FSharp.RDF
 
@@ -238,34 +239,34 @@ let thingyResponse = {
 }
 
 let thingyJsonResponse = """{
-  "@contexts" {
+  "@contexts": {
     "core": "https://nice.org.uk/ontologies/core/",
     "thingy": "https://nice.org.uk/ontologies/thingy/"
   },
   "properties":
   [
-    { 
+    {
       "@id": "core:applies_to_thingy",
       "rdfs:label": "Thingy",
-      options =
+      "options":
       [
         {
           "@id": "thingy:thingy_level_1",
           "rdfs:label": "Thingy Level 1",
           "children":
           [
-            { 
+            {
               "@id": "thingy:thingy_level_1_1",
               "rdfs:label": "Thingy Level 1.1"
-            }
+            },
             {
               "@id": "thingy:thingy_level_1_2",
               "rdfs:label": "Thingy Level 1.2"
             }
           ]
-        }
-        { 
-          "@id": "thingy:thingy_level_2"
+        },
+        {
+          "@id": "thingy:thingy_level_2",
           "rdfs:label": "Thingy Level 2"
         }
       ]

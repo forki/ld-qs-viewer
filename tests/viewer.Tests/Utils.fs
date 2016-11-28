@@ -8,6 +8,7 @@ open Suave.Logging
 open Viewer.App
 open Viewer.AppConfig
 open Viewer.Types
+open Viewer.ApiTypes
 open Viewer.Data.Vocabs.VocabGeneration
 open FSharp.RDF
 open CsQuery

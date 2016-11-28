@@ -7,6 +7,7 @@ open Viewer.Data.Vocabs.VocabGeneration
 open FSharp.RDF
 open Viewer.Config
 open Viewer.Types
+open Viewer.ApiTypes
 
 type Mode =
   | Dev

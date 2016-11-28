@@ -23,7 +23,6 @@ type Context =
   }
   static member ToJson (x:Context) =
     Json.write x.Prefix x.Value
-    
 
 type OntologyConfig = {
   CoreTtl : Ttl
@@ -55,11 +54,23 @@ type OntologyResponseProperty =
     *> Json.write "rdfs:label" x.label
     *> Json.writeUnlessDefault "options" [] x.options
 
+type Contexts (contexts:Context list)=
+  member this.Contexts = contexts
+  with
+    static member ToJson (x:Contexts) =
+      let ToJson x = Json.write x.Prefix x.Value
+      let rec ConstructJson acc (contexts:Context list) =
+        match contexts with
+        | [] -> acc
+        | _ -> ConstructJson (acc *> (contexts.Head |> ToJson)) contexts.Tail
+      let rdfs = { Prefix = "rdfs"; Value="http://www.w3.org/2000/01/rdf-schema#" }
+      ConstructJson (ToJson rdfs) x.Contexts
+
 type OntologyResponse =
   {
     contexts : Context List
     properties : OntologyResponseProperty list
-  }
+  }  
   static member ToJson (x:OntologyResponse) =
-    Json.write "@context" x.contexts
+    Json.write "@context" (Contexts(x.contexts))
     *> Json.write "properties" x.properties

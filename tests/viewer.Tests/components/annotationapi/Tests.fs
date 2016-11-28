@@ -34,4 +34,4 @@ let ``AnnotationAPI: Should generate annotation ontology tree json from get`` ()
   let response = startServerWith { baseConfig with Vocabs = Stubs.thingyVocabulary; OntologyConfig = Stubs.thingyOntologyConfig }
                  |> get "/annotationtool/formdata"
                  
-  response |> CQ.text |> should equal Stubs.thingyJsonResponse
+  response |> CQ.text |> (fun x -> x.ToString().Replace("\r", "")) |> should equal (Stubs.thingyJsonResponse.Replace("\r", ""))

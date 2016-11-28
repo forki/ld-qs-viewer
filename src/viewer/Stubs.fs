@@ -210,10 +210,14 @@ let thingyVocabulary = [
 
 let thingyResponse = {
   contexts = [
+    { Prefix = "rdfs"
+      Value="http://www.w3.org/2000/01/rdf-schema#"}
     { Prefix = "core"
       Value = "https://nice.org.uk/ontologies/core/" }
     { Prefix = "thingy"
       Value = "https://nice.org.uk/ontologies/thingy/" }
+    { Prefix = "whatsit"
+      Value = "https://nice.org.uk/ontologies/whatsit/" }
   ]
   properties = [
     { id = "core:applies_to_thingy"
@@ -239,22 +243,19 @@ let thingyResponse = {
 }
 
 let thingyJsonResponse = """{
-  "@contexts": {
+  "@context": {
     "core": "https://nice.org.uk/ontologies/core/",
-    "thingy": "https://nice.org.uk/ontologies/thingy/"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "thingy": "https://nice.org.uk/ontologies/thingy/",
+    "whatsit": "https://nice.org.uk/ontologies/whatsit/"
   },
-  "properties":
-  [
+  "properties": [
     {
       "@id": "core:applies_to_thingy",
-      "rdfs:label": "Thingy",
-      "options":
-      [
+      "options": [
         {
           "@id": "thingy:thingy_level_1",
-          "rdfs:label": "Thingy Level 1",
-          "children":
-          [
+          "children": [
             {
               "@id": "thingy:thingy_level_1_1",
               "rdfs:label": "Thingy Level 1.1"
@@ -263,20 +264,24 @@ let thingyJsonResponse = """{
               "@id": "thingy:thingy_level_1_2",
               "rdfs:label": "Thingy Level 1.2"
             }
-          ]
+          ],
+          "rdfs:label": "Thingy Level 1"
         },
         {
           "@id": "thingy:thingy_level_2",
           "rdfs:label": "Thingy Level 2"
         }
-      ]
+      ],
+      "rdfs:label": "Thingy"
     }
   ]
 }"""
 
 let thingyOntologyConfig = { CoreTtl= Content thingycorettl
-                             Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
-                                         { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" } ]
+                             Contexts= [ { Prefix="rdfs"; Value="http://www.w3.org/2000/01/rdf-schema#" }
+                                         { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
+                                         { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }
+                                         { Prefix="whatsit"; Value= "https://nice.org.uk/ontologies/whatsit/" } ]
                              Predicates = [
                                { Uri= "core:applies_to_thingy"; SourceTtl= Content thingychildttl }
                              ]

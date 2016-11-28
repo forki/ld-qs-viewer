@@ -21,27 +21,27 @@ let readVocabsFromFiles () =
     [
       {
         Root = vocabLookup "http://schema/ontologies/setting.ttl" "Setting"
-        Property = "qualitystandard:appliesToSetting"
+        Property = "qualitystandard:62496684_7027_4f37_bd0e_264c9ff727fd"
         Label = "Setting"
       }
       {
         Root = vocabLookup "http://schema/ontologies/agegroup.ttl" "Age group"
-        Property = "qualitystandard:appliesToAgeGroup"
+        Property = "qualitystandard:4e7a368e_eae6_411a_8167_97127b490f99"
         Label = "Age group"
       }
       {
         Root = vocabLookup "http://schema/ontologies/servicearea.ttl" "Service area"
-        Property = "qualitystandard:appliesToServiceArea"
+        Property = "qualitystandard:7ae8413a_2811_4a09_a655_eff8d276ec87"
         Label = "Service area"
       }
       {
         Root = vocabLookup "http://schema/ontologies/factorsaffectinghealthorwellbeing.ttl" "Factors affecting health or wellbeing"
-        Property = "qualitystandard:appliesToFactorsAffectingHealthOrWellbeing"
+        Property = "qualitystandard:18aa6468_de94_4f9f_bd7a_0075fba942a5"
         Label = "Factors affecting health or wellbeing"
       }
       {
         Root = vocabLookup "http://schema/ontologies/conditionordisease.ttl" "Condition or disease"
-        Property = "qualitystandard:appliesToConditionOrDisease"
+        Property = "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9"
         Label = "Condition or disease"
       }
     ]

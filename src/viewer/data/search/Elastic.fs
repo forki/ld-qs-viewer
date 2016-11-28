@@ -56,6 +56,7 @@ let BuildQuery filters =
     |> concatToStringWithDelimiter ","
 
   let fullQuery = insertItemInto mustQuery shouldQuery
+  printf "full query: %A" fullQuery
 
   fullQuery
 
@@ -103,13 +104,13 @@ let ParseResponse response =
       ( System.Uri url ).LocalPath
     with
       | ex -> url
-
+  
   let createResult (hit:JsonProvider<"data/search/elasticResponseSchema.json">.Hit) =
     {
-     Uri = chopPath hit.Source.Id;
-     Abstract = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardAbstract;
-     Title = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardTitle;
-     FirstIssued = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardWasFirstIssuedOn;
+      Uri = chopPath hit.Source.Id;
+      Abstract = hit.Source.HttpsNiceOrgUkOntologiesQualitystandard1efaaa6aC81a4bd6B598C626b21c71fd
+      Title = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardBc8e0db05d8a410098f6774ac0eb1758
+      FirstIssued = hit.Source.HttpsNiceOrgUkOntologiesQualitystandard0886da592c5f41249f466be4537a4099
     }
 
   try
@@ -117,7 +118,8 @@ let ParseResponse response =
     json.Hits.Hits |> Seq.map createResult |> Seq.toList
   with
     | ex ->
-      printf "%s" (ex|>formatDisplayMessage) 
+      printf "%s\n" response 
+      printf "%s\n" (ex|>formatDisplayMessage) 
       printf "UNABLE TO PARSE ELASTIC SEARCH RESPONSE\n"
       []
 

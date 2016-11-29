@@ -7,11 +7,6 @@ open Viewer.ApiTypes
 open Viewer.Data.Vocabs.VocabGeneration
 open Chiron
 
-let reinstatePrefix (prefixes:Context list) (uri:string) =
-  prefixes
-  |> List.find (fun x -> uri.StartsWith(x.Value) = true)
-  |> fun x -> uri.Replace(x.Value, (sprintf "%s:" x.Prefix))
-
 let rec private transformTermsToOntologyOption prefix (terms:Term list) =
   let consolidateTermd terms =
     terms
@@ -29,14 +24,14 @@ let generateResponseFromVocab prefix (vocab:Vocabulary) =
   let terms = match vocab.Root with
               | Term t -> t.Children
               | _ -> []
-  { id = prefix vocab.Property
+  { id = vocab.Property
     label = vocab.Label
     options = transformTermsToOntologyOption prefix terms
   }
 
 let private matchVocab (vocabs: Vocabulary list) prefix (predicate:OntologyReference)  = 
   vocabs
-  |> List.tryFind (fun v -> prefix v.Property = predicate.Uri)
+  |> List.tryFind (fun v -> v.Property = predicate.Uri)
   |> (fun r -> match r with
                | Some v -> [generateResponseFromVocab prefix v]
                | _ -> [] )

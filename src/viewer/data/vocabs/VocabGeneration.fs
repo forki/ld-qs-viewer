@@ -31,17 +31,22 @@ let replacePrefixes ontologyConfig =
   ontologyConfig.Predicates
   |> List.map (fun p -> replacePrefix ontologyConfig.Contexts p )
 
+let reinstatePrefix (prefixes:Context list) (uri:string) =
+  prefixes
+  |> List.find (fun x -> uri.StartsWith(x.Value) = true)
+  |> fun x -> uri.Replace(x.Value, (sprintf "%s:" x.Prefix))
 
-let getMatchedResource (terms:InverseTerm list) ontologyReference =
+let getMatchedResource prefix (terms:InverseTerm list) ontologyReference =
   terms
   |> List.filter (fun x -> x.Uri = Uri.from(ontologyReference.Uri))
   |> List.head
-  |> (fun x -> { Root = vocabGeneration (getTtlContent ontologyReference.SourceTtl) x.Label; Property = x.Uri.ToString(); Label= x.Label} )
+  |> (fun x -> { Root = vocabGeneration (getTtlContent ontologyReference.SourceTtl) x.Label; Property = prefix (x.Uri.ToString()) ; Label= x.Label} )
 
-let mapResourceToConfig ontologyConfig resources=
+let mapResourceToConfig (ontologyConfig:OntologyConfig) resources=
+  let prefix = reinstatePrefix ontologyConfig.Contexts
   ontologyConfig
   |> replacePrefixes
-  |> List.map (fun x -> getMatchedResource resources x)
+  |> List.map (fun x -> getMatchedResource prefix resources x)
   
 let getVocabList ontologyConfig =
   let ttlContent = getTtlContent ontologyConfig.CoreTtl

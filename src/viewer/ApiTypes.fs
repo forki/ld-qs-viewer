@@ -36,15 +36,26 @@ type OntologyConfig =
       match x with
       | Some v -> v
       | _ -> ""
-
+    
     let d = JsonProvider<"data/config/configSchema.json">.Parse(data)
-    let core = d.Details |> Array.find (fun x -> x.Core)
-    let prefixes = d.Details |> Array.toList
-    let predicates = prefixes |> List.filter (fun x -> match x.Corereference with | Some _ -> true | _ -> false && x.Core = false)
+    
+    let getContexts = 
+      let ontologyUri x = (sprintf "%s%s" d.Baseontologyuri x)
+      [{ Prefix = d.Coreontology.Prefix; Value = ontologyUri d.Coreontology.Ontology }] @ 
+      ( d.Childontologies
+        |> Array.toList
+        |> List.map ( fun x -> { Prefix = x.Prefix; Value = ontologyUri x.Ontology }))
+    let getPredicates =
+      d.Childontologies
+      |> Array.toList
+      |> List.filter (fun x -> x.Corereference.IsSome)
+      |> List.map (fun x -> { Uri=(sprintf "%s:%s" d.Coreontology.Prefix (getvalue x.Corereference));
+                              SourceTtl = Uri (sprintf "%s%s" d.Basettluri (getvalue x.Ttl))
+                            })
     {
-      CoreTtl = Uri (sprintf "%s%s" d.Basettl ( core |> (fun x -> getvalue x.Ttl)))
-      Contexts = prefixes |> List.map (fun x -> { Prefix = x.Prefix; Value = (sprintf "%s%s" d.Baseontology x.Ontology)})
-      Predicates = predicates |> List.map (fun x -> { Uri=(sprintf "%s:%s" core.Prefix (getvalue x.Corereference)); SourceTtl = Uri (sprintf "%s%s" d.Basettl (getvalue x.Ttl))})
+      CoreTtl = Uri (sprintf "%s%s" d.Basettluri d.Coreontology.Ttl)
+      Contexts = getContexts
+      Predicates = getPredicates
     }
 
 let emptyOC = { CoreTtl = Content ""; Contexts= []; Predicates=[] }

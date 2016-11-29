@@ -277,26 +277,24 @@ let thingyJsonResponse = """{
 }"""
 
 let thingyConfigFile = """{
-  "basettl": "http://schema/ontologies/",
-  "baseontology": "https://nice.org.uk/ontologies/",
-  "details":[
-    { "core":  true,
-      "prefix": "core",
-      "ontology": "core/",
-      "ttl": "core.ttl"
-    },
-    { "core":  false,
-      "prefix": "thingy",
+  "basettluri": "http://schema/ontologies/",
+  "baseontologyuri": "https://nice.org.uk/ontologies/",
+  "coreontology": {
+    "prefix": "core",
+    "ontology": "core/",
+    "ttl": "core.ttl"
+  },
+  "childontologies": [ 
+    { "prefix": "thingy",
       "ontology": "thingy/",
       "ttl": "thingy.ttl",
       "corereference": "applies_to_thingy"
     },
-    { "core":  false,
-      "prefix": "whatsit",
+    { "prefix": "whatsit",
       "ontology": "whatsit/"
     }
   ]
- }
+}
 """
 let thingyOntologyConfigUri = { CoreTtl= Uri "http://schema/ontologies/core.ttl"
                                 Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }

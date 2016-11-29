@@ -15,15 +15,18 @@ open Stubs
 open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.AnnotationApi
 
-[<SetUp>]
-let ``Run before tests`` () =
-  setTemplatesDir "../../../../bin/viewer/web/qs/"
 
 [<Test>]
-let ``AnnotationApi: When I call getVocab with an Ontology config I am returned the expected termd structure?`` () = 
-  let r = getVocabList Stubs.thingyOntologyConfigFull
+let ``AnnotationApi: Should serialize the config json`` () =
+  let response = Stubs.thingyConfigFile |> OntologyConfig.build
 
-  r |> should equal Stubs.thingyVocabulary
+  response |> should equal Stubs.thingyOntologyConfigUri 
+
+[<Test>]
+let ``AnnotationApi: When I call getVocab with an Ontology config I am returned the expected termd structure`` () = 
+  let vocabTree = getVocabList Stubs.thingyOntologyConfigFull
+
+  vocabTree |> should equal Stubs.thingyVocabulary
 
 [<Test>]
 let ``AnnotationApi: When I call GetAnnotationToolData I am returned a response class structure `` () =
@@ -32,13 +35,12 @@ let ``AnnotationApi: When I call GetAnnotationToolData I am returned a response 
 
 [<Test>]
 let ``AnnotationAPI: Should generate annotation ontology tree json from get`` () =
-  let response = startServerWith { baseConfig with Vocabs = Stubs.thingyVocabulary; OntologyConfig = Stubs.thingyOntologyConfigFull }
+  let response = startServerWith { baseConfig with 
+                                    Vocabs = Stubs.thingyVocabulary 
+                                    OntologyConfig = Stubs.thingyOntologyConfigFull }
                  |> get "/annotationtool/formdata"
                  
-  response |> CQ.text |> (fun x -> x.ToString().Replace("\r", "")) |> should equal (Stubs.thingyJsonResponse.Replace("\r", ""))
-
-[<Test>]
-let ``AnnotationApi: Should genetate the expected config from the config json`` () =
-  let response = Stubs.thingyConfigFile |> OntologyConfig.build
-
-  response |> should equal Stubs.thingyOntologyConfigUri 
+  response 
+  |> CQ.text 
+  |> (fun x -> x.ToString().Replace("\r", "")) 
+  |> should equal (Stubs.thingyJsonResponse.Replace("\r", ""))

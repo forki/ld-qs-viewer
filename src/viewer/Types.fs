@@ -9,11 +9,6 @@ type Filter = {
   TermUri: string
 }
 
-let rep a (b:string) (c:string) =
-  let aa = a.ToString()
-  let aaa = aa.Replace(b, c)
-  aaa
-
 type AggregatedFilter = {
   Vocab: string
   TermUris: string list
@@ -97,7 +92,7 @@ and Term =
         (uri, label) :: walk xs
     walk xs |> List.fold (fun c (uri, label) ->
                  Term { Uri = uri
-                        ShortenedUri = rep uri BaseUrl ""
+                        ShortenedUri = uri.ToString().Replace(BaseUrl, "")
                         Label = label
                         Selected = false
                         Children =

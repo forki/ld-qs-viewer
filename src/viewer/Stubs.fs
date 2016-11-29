@@ -173,35 +173,35 @@ let thingyVocabulary = [
       Label = "Thingy Class"
       Selected = false
       Children = [
-        Term {
-          Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_1"
-          ShortenedUri = "thingy/thingy_level_1"
-          Label = "Thingy Level 1"
-          Selected = false
-          Children = [
-            Term {
-              Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_1_1"
-              ShortenedUri = "thingy/thingy_level_1_1"
-              Label = "Thingy Level 1.1"
-              Selected = false
-              Children = []
-            }
-            Term {
-              Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_1_2"
-              ShortenedUri = "thingy/thingy_level_1_2"
-              Label = "Thingy Level 1.2"
-              Selected = false
-              Children = []
-            }
-          ]
-        }
-        Term {
-          Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_2"
-          ShortenedUri = "thingy/thingy_level_2"
-          Label = "Thingy Level 2"
-          Selected = false
-          Children = []
-        }
+                  Term {
+                    Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_1"
+                    ShortenedUri = "thingy/thingy_level_1"
+                    Label = "Thingy Level 1"
+                    Selected = false
+                    Children = [
+                                Term {
+                                  Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_1_1"
+                                  ShortenedUri = "thingy/thingy_level_1_1"
+                                  Label = "Thingy Level 1.1"
+                                  Selected = false
+                                  Children = []
+                                }
+                                Term {
+                                  Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_1_2"
+                                  ShortenedUri = "thingy/thingy_level_1_2"
+                                  Label = "Thingy Level 1.2"
+                                  Selected = false
+                                  Children = []
+                                }
+                    ]
+                  }
+                  Term {
+                    Uri = Uri.from "https://nice.org.uk/ontologies/thingy/thingy_level_2"
+                    ShortenedUri = "thingy/thingy_level_2"
+                    Label = "Thingy Level 2"
+                    Selected = false
+                    Children = []
+                  }
       ]
     }
     Property = "core:applies_to_thingy";
@@ -211,33 +211,33 @@ let thingyVocabulary = [
 
 let thingyResponse = {
   contexts = [
-    { Prefix = "core"
-      Value = "https://nice.org.uk/ontologies/core/" }
-    { Prefix = "thingy"
-      Value = "https://nice.org.uk/ontologies/thingy/" }
-    { Prefix = "whatsit"
-      Value = "https://nice.org.uk/ontologies/whatsit/" }
+              { Prefix = "core"
+                Value = "https://nice.org.uk/ontologies/core/" }
+              { Prefix = "thingy"
+                Value = "https://nice.org.uk/ontologies/thingy/" }
+              { Prefix = "whatsit"
+                Value = "https://nice.org.uk/ontologies/whatsit/" }
   ]
   properties = [
-    { id = "core:applies_to_thingy"
-      label = "Thingy";
-      options = [
-        { id = "thingy:thingy_level_1"
-          label = "Thingy Level 1"
-          children = [
-            { id = "thingy:thingy_level_1_1"
-              label = "Thingy Level 1.1"
-              children = [] }
-            { id = "thingy:thingy_level_1_2"
-              label = "Thingy Level 1.2"
-              children = [] }
-          ]
-        }
-        { id = "thingy:thingy_level_2"
-          label = "Thingy Level 2"
-          children = [] }
-      ]
-    }
+                { id = "core:applies_to_thingy"
+                  label = "Thingy";
+                  options = [
+                            { id = "thingy:thingy_level_1"
+                              label = "Thingy Level 1"
+                              children = [
+                                          { id = "thingy:thingy_level_1_1"
+                                            label = "Thingy Level 1.1"
+                                            children = [] }
+                                          { id = "thingy:thingy_level_1_2"
+                                            label = "Thingy Level 1.2"
+                                            children = [] }
+                              ]
+                            }
+                            { id = "thingy:thingy_level_2"
+                              label = "Thingy Level 2"
+                              children = [] }
+                  ]
+                }
   ]
 }
 
@@ -300,16 +300,12 @@ let thingyOntologyConfigUri = { CoreTtl= Uri "http://schema/ontologies/core.ttl"
                                 Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
                                             { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }
                                             { Prefix="whatsit"; Value= "https://nice.org.uk/ontologies/whatsit/" } ]
-                                Predicates = [
-                                  { Uri= "core:applies_to_thingy"; SourceTtl= Uri "http://schema/ontologies/thingy.ttl" }
-                                ]
+                                Predicates = [ { Uri= "core:applies_to_thingy"; SourceTtl= Uri "http://schema/ontologies/thingy.ttl" } ]
                               }
 let thingyOntologyConfigFull = { CoreTtl= Content thingycorettl
                                  Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
                                              { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }
                                              { Prefix="whatsit"; Value= "https://nice.org.uk/ontologies/whatsit/" } ]
-                                 Predicates = [
-                                   { Uri= "core:applies_to_thingy"; SourceTtl= Content thingychildttl }
-                                 ]
+                                 Predicates = [ { Uri= "core:applies_to_thingy"; SourceTtl= Content thingychildttl } ]
                                }
 

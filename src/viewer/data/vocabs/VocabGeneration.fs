@@ -2,51 +2,70 @@ module Viewer.Data.Vocabs.VocabGeneration
 
 open FSharp.RDF
 open Viewer.Types
+open Viewer.ApiTypes
 open FSharp.Data
 open Viewer.SuaveExtensions
+open Serilog
+open NICE.Logging
 
 ///Load all resources from uri and make a map of rdfs:label -> resource uri
 let vocabGeneration ttl lbl =
   let gcd = Graph.loadTtl (fromString ttl)
   Resource.fromType (Uri.from "http://www.w3.org/2002/07/owl#Class") gcd
   |> List.map (InverseTerm.from lbl)
-  |> List.map Term.from
+  |> List.map (Term.from)
   |> List.fold (++) Empty
 
-let vocabLookup uri lbl = vocabGeneration (Http.RequestString uri) lbl
+let getTtlContent ttl =
+  match ttl with
+  | Content c -> c
+  | Uri u -> Http.RequestString u
 
-let readVocabsFromFiles () =
+let replacePrefix (prefixes:Context list) predicate =
+  let uri = predicate.Uri
+  prefixes
+  |> List.find (fun x -> uri.StartsWith(x.Prefix) = true)
+  |> fun x -> { Uri = uri.Replace((sprintf "%s:" x.Prefix), x.Value); SourceTtl = predicate.SourceTtl }
+
+let replacePrefixes ontologyConfig =
+  ontologyConfig.Predicates
+  |> List.map (fun p -> replacePrefix ontologyConfig.Contexts p )
+
+let reinstatePrefix (prefixes:Context list) (uri:string) =
+  prefixes
+  |> List.find (fun x -> uri.StartsWith(x.Value) = true)
+  |> fun x -> uri.Replace(x.Value, (sprintf "%s:" x.Prefix))
+
+let getMatchedResource prefix (terms:InverseTerm list) ontologyReference =
+  terms
+  |> List.filter (fun x -> x.Uri = Uri.from(ontologyReference.Uri))
+  |> List.head
+  |> (fun x -> { Root = vocabGeneration (getTtlContent ontologyReference.SourceTtl) x.Label; Property = prefix (x.Uri.ToString()) ; Label= x.Label} )
+
+let mapResourceToConfig (ontologyConfig:OntologyConfig) resources=
+  let prefix = reinstatePrefix ontologyConfig.Contexts
+  ontologyConfig
+  |> replacePrefixes
+  |> List.map (fun x -> getMatchedResource prefix resources x)
+  
+let getVocabList ontologyConfig =
+  let ttlContent = getTtlContent ontologyConfig.CoreTtl
+
+  let graph = Graph.loadTtl (fromString ttlContent)
+  
+  let resources = Resource.fromType (Uri.from "http://www.w3.org/2002/07/owl#ObjectProperty") graph
+  resources
+  |> List.map (InverseTerm.from "")
+  |> mapResourceToConfig ontologyConfig
+
+
+let readVocabsFromFiles ontologyConfig =
   printf "reading vocabs"
   try
-    [
-      {
-        Root = vocabLookup "http://schema/ontologies/setting.ttl" "Setting"
-        Property = "qualitystandard:62496684_7027_4f37_bd0e_264c9ff727fd"
-        Label = "Setting"
-      }
-      {
-        Root = vocabLookup "http://schema/ontologies/agegroup.ttl" "Age group"
-        Property = "qualitystandard:4e7a368e_eae6_411a_8167_97127b490f99"
-        Label = "Age group"
-      }
-      {
-        Root = vocabLookup "http://schema/ontologies/servicearea.ttl" "Service area"
-        Property = "qualitystandard:7ae8413a_2811_4a09_a655_eff8d276ec87"
-        Label = "Service area"
-      }
-      {
-        Root = vocabLookup "http://schema/ontologies/factorsaffectinghealthorwellbeing.ttl" "Factors affecting health or wellbeing"
-        Property = "qualitystandard:18aa6468_de94_4f9f_bd7a_0075fba942a5"
-        Label = "Factors affecting health or wellbeing"
-      }
-      {
-        Root = vocabLookup "http://schema/ontologies/conditionordisease.ttl" "Condition or disease"
-        Property = "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9"
-        Label = "Condition or disease"
-      }
-    ]
+    getVocabList ontologyConfig
   with
-    _ -> []
+    ex -> Log.Error(sprintf "Exception encountered reading ontologies\n%s" ( ex.ToString() ) )
+          []
 
 let setSelectedIfFiltered filters vocab =
 

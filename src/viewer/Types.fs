@@ -2,13 +2,17 @@ module Viewer.Types
 
 open FSharp.RDF
 open FSharp.Data
-//open Viewer.SuaveExtensions
 open Viewer.Config
 
 type Filter = {
   Vocab: string
   TermUri: string
 }
+
+let rep a (b:string) (c:string) =
+  let aa = a.ToString()
+  let aaa = aa.Replace(b, c)
+  aaa
 
 type AggregatedFilter = {
   Vocab: string
@@ -93,7 +97,7 @@ and Term =
         (uri, label) :: walk xs
     walk xs |> List.fold (fun c (uri, label) ->
                  Term { Uri = uri
-                        ShortenedUri = uri.ToString().Replace(BaseUrl, "")
+                        ShortenedUri = rep uri BaseUrl ""
                         Label = label
                         Selected = false
                         Children =

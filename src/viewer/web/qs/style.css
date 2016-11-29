@@ -268,8 +268,8 @@ th {
 	padding-right:.75rem
 }
 .row {
-	margin-left:-0.75rem;
-	margin-right:-0.75rem
+	margin-left: inherit;
+	margin-right: inherit;
 }
 .col, .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
 	position:relative;
@@ -1157,7 +1157,7 @@ p {
 	margin-bottom:1.5rem
 }
 .card-list-wrapper {
-	position:fixed;
+	/*position:fixed;*/
 	top:6rem;
 	overflow:auto;
 	bottom:0;
@@ -1180,7 +1180,7 @@ p {
 	}
 }
 .content-list-wrapper {
-	position:fixed;
+	/*position:fixed;*/
 	top:6rem;
 	overflow:auto;
 	bottom:0;
@@ -1528,7 +1528,7 @@ a.card:hover .card-excerpt {
 	box-shadow:0 0 1.5rem rgba(0, 0, 0, 0.3);
 	z-index:3003;
 	left:0;
-	position:fixed;
+	/*position:fixed;*/
 	top:3rem
 }
 @media (min-width:992px) {
@@ -1574,7 +1574,7 @@ a.card:hover .card-excerpt {
 }
 .filter-tools {
 	width:100%;
-	position:fixed;
+	/*position:fixed;*/
 	top:4.5rem
 }
 @media (min-width:992px) {
@@ -1590,8 +1590,9 @@ a.card:hover .card-excerpt {
 .filter-groups {
 	overflow:auto;
 	width:100%;
-	position:fixed;
-	top:6rem;
+	height: 600px;
+	/*position:fixed;*/
+	top:3rem;
 	bottom:3rem;
 	left:auto;
 	right:auto;
@@ -1619,8 +1620,8 @@ a.card:hover .card-excerpt {
 @media (min-width:992px) {
 	.filter-groups {
 		max-width:360px;
-		top:4.5rem;
-		padding-top:1.5rem
+		top:3rem;
+		position:static;
 	}
 }
 .filter-groups .header {
@@ -1644,7 +1645,7 @@ a.card:hover .card-excerpt {
 	}
 }
 .button-group {
-	position:fixed;
+	/*position:fixed;*/
 	bottom:0;
 	left:auto;
 	right:auto;
@@ -2484,11 +2485,11 @@ ul.checkbox-list ul li:before {
 	background:#4bbc89
 }
 .main {
-	padding-top:3rem
+	/*padding-top:3rem*/
 }
 @media (min-width:992px) {
 	.main {
-		padding-top:4.5rem
+		/*padding-top:4.5rem*/
 	}
 }
 
@@ -2536,4 +2537,75 @@ div.replaced-label {
 
 div.replaced-message {
     font-style: italic
+}
+/* PHASE BANNER */
+.phase-banner {
+    border-bottom: 1px solid #ccc;
+    display: table;
+    margin: 0 0 5px;
+    width: 100%;
+}
+.phase-banner__tag {
+    display: table-cell;
+    padding: 0 8px 0 0;
+}
+.phase-banner__label {
+    display: table-cell;
+    line-height: 1.5;
+    vertical-align: middle;
+    width: 100%;
+}
+/* PHASE TAG */
+.phase-tag {
+    background-color: #555;
+    color: #fff;
+    display: inline-block;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+.phase-tag--alpha {
+    background-color: #d53880;
+    color: #fff;
+}
+.phase-tag--beta {
+    background-color: #f47738;
+    color: #fff;
+}
+.phase-tag--live {
+    background-color: #4caf50;
+    color: #fff;
+}
+/* TOPHAT */
+.nice-global {
+    background-color: #f6f6f6 !important;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+body {
+  /*background: #eceff1 !important;*/
+  color:#333 !important;
+  background-color:#ececec !important;
+}
+
+.tool-brand {
+	font-style: normal;
+    font-variant: normal;
+    font-weight: 700;
+    font-stretch: normal;
+    /*font-size: 30px;*/
+    /*line-height: normal;*/
+    font-family: inherit;
+
+    font-size:1.25rem;
+    line-height:1.5;
+    /*margin-bottom:1.5rem*/
+}
+@media (min-width:992px) {
+	.tool-brand {
+		font-size:1.75rem
+	}
 }

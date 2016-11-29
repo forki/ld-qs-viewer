@@ -8,6 +8,7 @@ open Suave.Logging
 open Viewer.App
 open Viewer.AppConfig
 open Viewer.Types
+open Viewer.ApiTypes
 open Viewer.Data.Vocabs.VocabGeneration
 open FSharp.RDF
 open CsQuery
@@ -30,6 +31,7 @@ let baseConfig = {
   GetKBCount = (fun _ -> 0)
   HotjarId = ""
   GAId = ""
+  OntologyConfig = emptyOC
 }
 
 let startServerWith config =

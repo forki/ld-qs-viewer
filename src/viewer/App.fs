@@ -10,12 +10,19 @@ open Suave.Files
 open Suave.Logging
 open Serilog
 open Viewer.Utils
+open Viewer.AnnotationApi
+open Viewer.ApiTypes
 
 let buildPath pathLocation =
     (path pathLocation <|> path (pathLocation + "/") )
 
 let logRequest context =
   sprintf "Received request %A %A" context.request.``method`` context.request.url.PathAndQuery
+
+let successOrFail response =
+  match response with
+  | Success s -> s |> Successful.OK
+  | Failure f -> f |> ServerErrors.INTERNAL_ERROR
 
 let createApp config =
   choose
@@ -29,6 +36,7 @@ let createApp config =
          GET >=> path "/ontologies" >=> (Successful.OK "Welcome to ontologies")
          GET >=> buildPath "/annotationtool" >=> request(fun req -> AnnotationTool.page req config false)
          GET >=> path "/annotationtool/toyaml" >=> request(fun req -> AnnotationTool.page req config true)
-         POST >=> path "/annotationtool/fromyaml" >=> request(fun req -> getQueryStringFromYaml config.Vocabs req |> Redirection.redirect) 
+         POST >=> path "/annotationtool/fromyaml" >=> request(fun req -> getQueryStringFromYaml config.Vocabs req |> Redirection.redirect)
+         GET >=> path "/annotationtool/formdata" >=> request(fun req -> (getAnnotationToolJson config.Vocabs config.OntologyConfig) |> successOrFail)
          GET >=> browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]

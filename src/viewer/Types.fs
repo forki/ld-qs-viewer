@@ -2,7 +2,6 @@ module Viewer.Types
 
 open FSharp.RDF
 open FSharp.Data
-//open Viewer.SuaveExtensions
 open Viewer.Config
 
 type Filter = {

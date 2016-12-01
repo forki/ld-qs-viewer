@@ -5,3 +5,4 @@ FSharp.RDF
 NICE.Logging
 RabbitMQ.Client
 Serilog.Sinks.Console
+Chiron

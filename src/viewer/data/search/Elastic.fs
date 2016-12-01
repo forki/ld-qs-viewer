@@ -5,44 +5,8 @@ open Viewer.Types
 open Viewer.Data.Search.Queries
 open System
 open FSharp.Data
-open System.Text.RegularExpressions
-open System.Reflection
-open System.Text
-open Microsoft.FSharp.Core.Printf
-
-let formatDisplayMessage (e:Exception) =
-    let sb = StringBuilder()
-    let delimeter = String.replicate 50 "*"
-    let nl = Environment.NewLine
-    let rec printException (e:Exception) count =
-        if (e :? TargetException && e.InnerException <> null)
-        then printException (e.InnerException) count
-        else
-            if (count = 1) then bprintf sb "%s%s%s" e.Message nl delimeter
-            else bprintf sb "%s%s%d)%s%s%s" nl nl count e.Message nl delimeter
-            bprintf sb "%sType: %s" nl (e.GetType().FullName)
-            // Loop through the public properties of the exception object
-            // and record their values.
-            e.GetType().GetProperties()
-            |> Array.iter (fun p ->
-                // Do not log information for the InnerException or StackTrace.
-                // This information is captured later in the process.
-                if (p.Name <> "InnerException" && p.Name <> "StackTrace" &&
-                    p.Name <> "Message" && p.Name <> "Data") then
-                    try
-                        let value = p.GetValue(e, null)
-                        if (value <> null)
-                        then bprintf sb "%s%s: %s" nl p.Name (value.ToString())
-                    with
-                    | e2 -> bprintf sb "%s%s: %s" nl p.Name e2.Message
-            )
-            if (e.StackTrace <> null) then
-                bprintf sb "%s%sStackTrace%s%s%s" nl nl nl delimeter nl
-                bprintf sb "%s%s" nl e.StackTrace
-            if (e.InnerException <> null)
-            then printException e.InnerException (count+1)
-    printException e 1
-    sb.ToString()
+open Serilog
+open NICE.Logging
 
 let BuildQuery filters =
   
@@ -85,7 +49,7 @@ let RunElasticQuery testing (query: string) =
                        headers = [ "Content-Type", "application/json;charset=utf-8" ])
   with
     | ex ->
-      printf "ELASTICSEARCH_ERROR - unable to execute query%s\n"
+      Log.Error "ELASTICSEARCH_ERROR - unable to execute query%s\n"
       ""
 
 let ParseCountResponse resp =
@@ -94,7 +58,7 @@ let ParseCountResponse resp =
     json.Count
   with
     | ex ->
-      printf "ELASTICSEARCH_ERROR - unable to parse response for count\n"
+      Log.Error "ELASTICSEARCH_ERROR - unable to parse response for count\n"
       0
 
 let ParseResponse response =
@@ -103,13 +67,13 @@ let ParseResponse response =
       ( System.Uri url ).LocalPath
     with
       | ex -> url
-
+  
   let createResult (hit:JsonProvider<"data/search/elasticResponseSchema.json">.Hit) =
     {
-     Uri = chopPath hit.Source.Id;
-     Abstract = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardAbstract;
-     Title = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardTitle;
-     FirstIssued = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardWasFirstIssuedOn;
+      Uri = chopPath hit.Source.Id;
+      Abstract = hit.Source.HttpsNiceOrgUkOntologiesQualitystandard1efaaa6aC81a4bd6B598C626b21c71fd
+      Title = hit.Source.HttpsNiceOrgUkOntologiesQualitystandardBc8e0db05d8a410098f6774ac0eb1758
+      FirstIssued = hit.Source.HttpsNiceOrgUkOntologiesQualitystandard0886da592c5f41249f466be4537a4099
     }
 
   try
@@ -117,8 +81,8 @@ let ParseResponse response =
     json.Hits.Hits |> Seq.map createResult |> Seq.toList
   with
     | ex ->
-      printf "%s" (ex|>formatDisplayMessage) 
-      printf "UNABLE TO PARSE ELASTIC SEARCH RESPONSE\n"
+      let errorDump = sprintf "Message: %s\n Response: %s\n Exception: %s\n"  "UNABLE TO PARSE ELASTIC SEARCH RESPONSE" response (ex |> formatDisplayMessage) 
+      Log.Error errorDump
       []
 
 let KnowledgeBaseCount testing =

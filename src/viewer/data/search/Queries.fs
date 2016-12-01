@@ -24,7 +24,7 @@ let mustQuery = """{
   }
 },
 "sort": [
-  { "https://nice.org.uk/ontologies/qualitystandard#qsidentifier" : { "order": "desc" }},
-  { "https://nice.org.uk/ontologies/qualitystandard#stidentifier" : { "order": "asc" }}
+  { "https://nice.org.uk/ontologies/qualitystandard/3ff270e4_655a_4884_b186_e033f58759de" : { "order": "desc" }},
+  { "https://nice.org.uk/ontologies/qualitystandard/9fcb3758_a4d3_49d7_ab10_6591243caa67" : { "order": "asc" }}
 ]
 }"""

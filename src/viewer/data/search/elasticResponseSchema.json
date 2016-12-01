@@ -4,10 +4,10 @@
       {
         "_id":"qs1_st1",
         "_source":{
-            "@id":"http://ld.nice.org.uk/prov/entity#f178fc5:qualitystandards/qs1/st1/Statement.md",
-            "https://nice.org.uk/ontologies/qualitystandard#abstract": "This is an abstract",
-            "https://nice.org.uk/ontologies/qualitystandard#title": "Quality statement x: Such and such",
-            "https://nice.org.uk/ontologies/qualitystandard#wasFirstIssuedOn": "0001-01-01"
+            "@id":"http://ld.nice.org.uk/things/4e67e352-6c3e-46c7-b3a5-490c0b5c3e7c",
+            "https://nice.org.uk/ontologies/qualitystandard/1efaaa6a_c81a_4bd6_b598_c626b21c71fd": "This is an abstract",
+            "https://nice.org.uk/ontologies/qualitystandard/bc8e0db0_5d8a_4100_98f6_774ac0eb1758": "Quality statement x: Such and such",
+            "https://nice.org.uk/ontologies/qualitystandard/0886da59_2c5f_4124_9f46_6be4537a4099": "0001-01-01"
         }
       }
     ],

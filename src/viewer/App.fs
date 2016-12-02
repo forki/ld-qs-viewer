@@ -24,6 +24,9 @@ let successOrFail response =
   | Success s -> s |> Successful.OK
   | Failure f -> f |> ServerErrors.INTERNAL_ERROR
 
+let jsonContentType =
+  Writers.setMimeType "application/json;charset=utf-8"
+
 let createApp config =
   choose
         [log (SuaveSerilogAdapter Log.Logger) logRequest >=> never
@@ -37,6 +40,6 @@ let createApp config =
          GET >=> buildPath "/annotationtool" >=> request(fun req -> AnnotationTool.page req config false)
          GET >=> path "/annotationtool/toyaml" >=> request(fun req -> AnnotationTool.page req config true)
          POST >=> path "/annotationtool/fromyaml" >=> request(fun req -> getQueryStringFromYaml config.Vocabs req |> Redirection.redirect)
-         GET >=> path "/annotationtool/formdata" >=> request(fun req -> (getAnnotationToolJson config.Vocabs config.OntologyConfig) |> successOrFail)
+         GET >=> path "/annotationtool/formdata" >=> request(fun req -> (getAnnotationToolJson config.Vocabs config.OntologyConfig) |> successOrFail) >=> jsonContentType
          GET >=> browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]

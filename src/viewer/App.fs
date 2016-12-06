@@ -24,6 +24,9 @@ let successOrFail response =
   | Success s -> s |> Successful.OK
   | Failure f -> f |> ServerErrors.INTERNAL_ERROR
 
+let jsonContentType =
+  Writers.setMimeType "application/json;charset=utf-8"
+
 let createApp config =
   choose
         [log (SuaveSerilogAdapter Log.Logger) logRequest >=> never

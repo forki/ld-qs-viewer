@@ -52,7 +52,7 @@ let ``Should generate annotations and human readable annotation block from query
   let qsWithTwoVocabTerms = "vocab%3Aproperty=vocabLabel%2Flong-guid-1&vocab%3Aproperty=vocabLabel%2Flong-guid-2"
 
   let yaml = startServerWith {baseConfig with Vocabs = vocabs}
-             |> getQuery "/annotationtool/toyaml" qsWithTwoVocabTerms
+             |> getQuery "/annotationtool-old/toyaml" qsWithTwoVocabTerms
   let annotations =
        yaml
        |> CQ.select "#annotations"
@@ -91,7 +91,7 @@ let ``Should generate multiple level annotations and human readable annotation b
   let qsWithTwoVocabTerms = "vocab%3Aproperty=vocabLabel%2Flong-guid-1&vocab%3Aproperty=vocabLabel%2Flong-guid-1-1"
 
   let yaml = startServerWith {baseConfig with Vocabs = vocabs}
-             |> getQuery "/annotationtool/toyaml" qsWithTwoVocabTerms
+             |> getQuery "/annotationtool-old/toyaml" qsWithTwoVocabTerms
   let human_readable =
        yaml
        |> CQ.select "#human-readable-annotations"
@@ -102,7 +102,7 @@ let ``Should generate multiple level annotations and human readable annotation b
 [<Test>]
 let ``Should produce error upon no vocabulary selection`` () =
   let errorMessage = startServerWith {baseConfig with Vocabs = vocabs}
-                     |> getQuery "/annotationtool/toyaml" ""
+                     |> getQuery "/annotationtool-old/toyaml" ""
                      |> CQ.select ".message"
                      |> CQ.text
 

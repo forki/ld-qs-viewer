@@ -34,9 +34,9 @@ let createApp config =
          GET >=> pathScan "/resource/%s" (fun resourceId -> Resource.page config resourceId)
          GET >=> pathScan "/things/%s" (fun resourceId -> Resource.page config resourceId)
          GET >=> path "/ontologies" >=> (Successful.OK "Welcome to ontologies")
-         GET >=> buildPath "/annotationtool" >=> request(fun req -> AnnotationTool.page req config false)
-         GET >=> path "/annotationtool/toyaml" >=> request(fun req -> AnnotationTool.page req config true)
-         POST >=> path "/annotationtool/fromyaml" >=> request(fun req -> getQueryStringFromYaml config.Vocabs req |> Redirection.redirect)
-         GET >=> path "/annotationtool/formdata" >=> request(fun req -> (getAnnotationToolJson config.Vocabs config.OntologyConfig) |> successOrFail)
+         GET >=> buildPath "/annotationtool-old" >=> request(fun req -> AnnotationTool.page req config false)
+         GET >=> path "/annotationtool-old/toyaml" >=> request(fun req -> AnnotationTool.page req config true)
+         POST >=> path "/annotationtool-old/fromyaml" >=> request(fun req -> getQueryStringFromYaml config.Vocabs req |> Redirection.redirect)
+         GET >=> path "/annotationsformschema" >=> request(fun _ -> (getAnnotationToolJson config.Vocabs config.OntologyConfig) |> successOrFail)
          GET >=> browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]

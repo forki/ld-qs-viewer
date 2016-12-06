@@ -38,7 +38,7 @@ let ``AnnotationAPI: Should generate annotation ontology tree json from get`` ()
   let response = startServerWith { baseConfig with 
                                     Vocabs = Stubs.thingyVocabulary 
                                     OntologyConfig = Stubs.thingyOntologyConfigFull }
-                 |> get "/annotationtool/formdata"
+                 |> get "/annotationsformschema"
                  
   response 
   |> CQ.text 

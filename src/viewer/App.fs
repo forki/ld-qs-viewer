@@ -40,6 +40,6 @@ let createApp config =
          GET >=> buildPath "/annotationtool-old" >=> request(fun req -> AnnotationTool.page req config false)
          GET >=> path "/annotationtool-old/toyaml" >=> request(fun req -> AnnotationTool.page req config true)
          POST >=> path "/annotationtool-old/fromyaml" >=> request(fun req -> getQueryStringFromYaml config.Vocabs req |> Redirection.redirect)
-         GET >=> path "/annotationsformschema" >=> request(fun _ -> (getAnnotationToolJson config.Vocabs config.OntologyConfig) |> successOrFail)
+         GET >=> path "/annotationsformschema" >=> request(fun _ -> (getAnnotationToolJson config.Vocabs config.OntologyConfig) |> successOrFail) >=> jsonContentType
          GET >=> browseHome
          RequestErrors.NOT_FOUND "Found no handlers"]

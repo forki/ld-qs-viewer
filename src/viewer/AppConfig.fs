@@ -30,7 +30,7 @@ let getAppConfig mode =
   match mode with
   | Dev ->
     printf "RUNNING DEV MODE: Using stubbed data\n"
-    let config = Stubs.thingyConfigFile |> OntologyConfig.build
+    let config = Stubs.dummyConfigFile |> OntologyConfig.build
     {Vocabs = Stubs.vocabs
      RenderedVocabs = renderVocabs Stubs.vocabs
      PerformSearch = performSearchWithProvider Stubs.search

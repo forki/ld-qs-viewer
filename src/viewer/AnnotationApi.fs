@@ -19,6 +19,7 @@ let rec private transformTermsToOntologyOption prefix (terms:Term list) =
   match terms with
   | [] -> []
   | _ -> consolidateTermd terms
+   
 
 let generateResponseFromVocab prefix (vocab:Vocabulary) =
   let terms = match vocab.Root with
@@ -26,7 +27,7 @@ let generateResponseFromVocab prefix (vocab:Vocabulary) =
               | _ -> []
   { id = vocab.Property
     label = vocab.Label
-    options = transformTermsToOntologyOption prefix terms
+    details = Tree (transformTermsToOntologyOption prefix terms)
   }
 
 let private matchVocab (vocabs: Vocabulary list) prefix (predicate:OntologyReference)  = 

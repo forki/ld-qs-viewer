@@ -4,7 +4,28 @@
   "coreontology": {
     "prefix": "core",
     "ontology": "core/",
-    "ttl": "corethingy.ttl"
+    "ttl": "corethingy.ttl",
+    "dataproperties": [
+      { "property": "GUID_stringProperty",
+        "validation": {
+          "mandatory": true,
+          "pattern": "^qs[1-9]\\d*-st[1-9]\\d*$"
+        }
+      },
+      { "property": "GUID_boolProperty",
+        "validation": {
+          "mandatory": true
+        }
+      },
+      { "property": "GUID_conditionalProperty",
+        "validation": {
+          "condition": {
+            "onproperty": "GUID_boolProperty",
+            "value": "no"
+          }
+        }
+      }
+    ]
   },
   "childontologies": [ 
     { "prefix": "thingy",

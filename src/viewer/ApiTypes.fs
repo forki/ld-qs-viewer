@@ -45,17 +45,22 @@ type OntologyConfig =
       ( d.Childontologies
         |> Array.toList
         |> List.map ( fun x -> { Prefix = x.Prefix; Value = ontologyUri x.Ontology }))
-    let getPredicates =
+    let getPredicates_ontologies =
       d.Childontologies
       |> Array.toList
       |> List.filter (fun x -> x.Corereference.IsSome)
       |> List.map (fun x -> { Uri=(sprintf "%s:%s" d.Coreontology.Prefix (getvalue x.Corereference));
                               SourceTtl = Uri (sprintf "%s%s" d.Basettluri (getvalue x.Ttl))
                             })
+    let getPredicates_properties =
+      d.Coreontology.Dataproperties
+      |> Array.toList
+      |> List.map (fun x -> x.Validation.Pattern )
+
     {
       CoreTtl = Uri (sprintf "%s%s" d.Basettluri d.Coreontology.Ttl)
       Contexts = getContexts
-      Predicates = getPredicates
+      Predicates = getPredicates_ontologies
     }
 
 let emptyOC = { CoreTtl = Content ""; Contexts= []; Predicates=[] }
@@ -71,16 +76,36 @@ type OntologyTreeOption =
     *> Json.write "rdfs:label" x.label
     *> Json.writeUnlessDefault "children" [] x.children
 
+type propertyCondition = {
+  onproperty: string
+  value: string
+}
+
+type OntologyPropertyValidation = {
+  mandatory: bool
+  pattern: string option
+  condition: propertyCondition option
+}
+
+type OntologyResponseType =
+  | Tree of OntologyTreeOption list
+  | Validation of OntologyPropertyValidation
+
 type OntologyResponseProperty =
   {
     id: string
     label: string
-    options: OntologyTreeOption list
+    details: OntologyResponseType
+//    options: OntologyTreeOption list
+//    validation: OntologyPropertyValidation
   }
   static member ToJson (x:OntologyResponseProperty) =
-    Json.write "@id" x.id
-    *> Json.write "rdfs:label" x.label
-    *> Json.writeUnlessDefault "options" [] x.options
+    let ret = Json.write "@id" x.id
+              *> Json.write "rdfs:label" x.label
+    
+    match x.details with
+    | Tree t -> ret *> Json.writeUnlessDefault "options" [] t
+    | _ -> ret
 
 type Contexts =
   {

@@ -40,7 +40,7 @@ let private matchVocab (vocabs: Vocabulary list) prefix (predicate:OntologyRefer
 let getAnnotationToolData (vocabs: Vocabulary list) (config:OntologyConfig) =
   let prefix = reinstatePrefix config.Contexts
   
-  let trees = config.Predicates
+  let trees = config.Ontologies
               |> List.map (fun p ->  matchVocab vocabs prefix p)
               |> List.concat
   { contexts = config.Contexts; properties = trees }

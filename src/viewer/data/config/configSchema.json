@@ -21,7 +21,7 @@
         "validation": {
           "condition": {
             "onproperty": "GUID_boolProperty",
-            "value": "no"
+            "value": "value"
           }
         }
       }

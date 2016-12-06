@@ -28,7 +28,7 @@ let replacePrefix (prefixes:Context list) predicate =
   |> fun x -> { Uri = uri.Replace((sprintf "%s:" x.Prefix), x.Value); SourceTtl = predicate.SourceTtl }
 
 let replacePrefixes ontologyConfig =
-  ontologyConfig.Predicates
+  ontologyConfig.Ontologies
   |> List.map (fun p -> replacePrefix ontologyConfig.Contexts p )
 
 let reinstatePrefix (prefixes:Context list) (uri:string) =

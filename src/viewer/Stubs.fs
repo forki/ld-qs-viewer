@@ -320,12 +320,21 @@ let dummyOntologyConfigUri = { CoreTtl= Uri "http://schema/ontologies/core.ttl"
                                Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
                                            { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }
                                            { Prefix="whatsit"; Value= "https://nice.org.uk/ontologies/whatsit/" } ]
-                               Predicates = [ { Uri= "core:applies_to_thingy"; SourceTtl= Uri "http://schema/ontologies/thingy.ttl" } ]
+                               Ontologies = [ { Uri= "core:applies_to_thingy"; SourceTtl= Uri "http://schema/ontologies/thingy.ttl" } ]
+                               Properties = [ { id= "GUID_stringProperty"; mandatory=true; pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"; condition = None }
+                                              { id= "GUID_boolProperty"; mandatory=true; pattern = None; condition = None} 
+                                              { id= "GUID_conditionalProperty"; mandatory=false; pattern = None; condition = Some { onproperty = "GUID_boolProperty"; value = "no" }} ]
                              }
 let dummyOntologyConfigFull = { CoreTtl= Content dummyCoreTtl
                                 Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
                                             { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }
                                             { Prefix="whatsit"; Value= "https://nice.org.uk/ontologies/whatsit/" } ]
-                                Predicates = [ { Uri= "core:applies_to_thingy"; SourceTtl= Content dummyChildTtl } ]
+                                Ontologies = [ { Uri= "core:applies_to_thingy"; SourceTtl= Content dummyChildTtl } ]
+                                Properties = [ { id= "GUID_stringProperty"; mandatory=true; pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"; condition = None }
+                                               { id= "GUID_boolProperty"; mandatory=true; pattern = None; condition = None} 
+                                               { id= "GUID_conditionalProperty"; mandatory=false; pattern = None; condition = Some { onproperty = "GUID_boolProperty"; value = "no" }} ]
                               }
-
+//  id: string
+//  mandatory: bool
+//  pattern: string option
+//  condition: propertyCondition option

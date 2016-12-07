@@ -58,7 +58,6 @@ let getVocabList ontologyConfig =
   |> mapResourceToConfig ontologyConfig
 
 let readVocabsFromFiles ontologyConfig =
-  printf "reading vocabs"
   try
     getVocabList ontologyConfig
   with

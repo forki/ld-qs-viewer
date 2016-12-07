@@ -38,13 +38,6 @@ let private matchVocab (vocabs: Vocabulary list) prefix (predicate:OntologyRefer
                | Some v -> [generateResponseFromVocab prefix v]
                | _ -> [] )
 
-let private getLabelAndDataType (resource:Resource) =
-  let getRange x =
-    x
-    |> (|FunctionalObjectProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#range")
-
-  (getRange resource)
-
 let getPropertyList ontologyConfig =
   let ttlContent = getTtlContent ontologyConfig.CoreTtl
   let graph = Graph.loadTtl (fromString ttlContent)

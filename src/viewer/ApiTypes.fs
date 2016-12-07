@@ -137,8 +137,8 @@ type OntologyResponseProperty =
       | Some l -> l
     let getRange =
       match x.detail with
-      | Tree t -> x.range
-      | Property p -> match x.range with
+      | Tree _ -> x.range
+      | Property _ -> match x.range with
                       | None -> Some "xsd:string"
                       | _ -> x.range
     let getValidation =

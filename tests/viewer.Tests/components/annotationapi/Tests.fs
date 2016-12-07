@@ -59,7 +59,7 @@ let ``AnnotationAPI: End to End: When I make a GET to the Annotation Api it shou
   let response = startServerWith { baseConfig with 
                                     Vocabs = Stubs.dummyVocabulary 
                                     OntologyConfig = Stubs.dummyOntologyConfigFull }
-                 |> get "/annotationtool/formdata"
+                 |> get "/annotationsformschema"
                  
   response 
   |> CQ.text 

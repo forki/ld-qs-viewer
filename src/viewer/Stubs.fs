@@ -441,7 +441,3 @@ let dummyOntologyConfigUri = { CoreTtl= Uri "http://schema/ontologies/core.ttl"
 let dummyOntologyConfigFull = { dummyOntologyConfigUri with CoreTtl = Content dummyCoreTtl; Ontologies = dummyOntologies }
 let dummyOntologyConfigVocab = { dummyOntologyConfigFull with Properties = [] }
 let dummyOntologyConfigProperties = { dummyOntologyConfigFull with Ontologies = [] }
-//  id: string
-//  mandatory: bool
-//  pattern: string option
-//  condition: propertyCondition option

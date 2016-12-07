@@ -8,7 +8,7 @@ function CustomWorld() {
         .withCapabilities(webdriver.Capabilities.phantomjs())
         .build();
 
-    this.statementFinderUrl = "http://" + config.statementFinderUrl + "/qs";
+    this.statementFinderUrl = "http://" + config.statementFinderUrl;
     this.statementFinderUrlStyleSheet = this.statementFinderUrl + "/style.css";
 
     this.visit = function(url) {
@@ -23,49 +23,49 @@ function CustomWorld() {
         body: {
           "@id": "http://ld.nice.org.uk/things/0646b769-f791-4fc4-b6df-1fa421452e79",
           "@type": "qualitystandard:QualityStatement",
-          "https://nice.org.uk/ontologies/qualitystandard#abstract": "<p>This is an abstract.</p>",
-          "qualitystandard:appliesToServiceArea":  "https://nice.org.uk/ontologies/servicearea/488b1a36_ab26_4752_bc2e_1f988aae2da5",
-          "https://nice.org.uk/ontologies/qualitystandard#hasPositionalId": "qs1-st1",
-          "https://nice.org.uk/ontologies/qualitystandard#isNationalPriority": "yes",
-          "https://nice.org.uk/ontologies/qualitystandard#qsidentifier": "0",
-          "https://nice.org.uk/ontologies/qualitystandard#stidentifier": "0",
-          "https://nice.org.uk/ontologies/qualitystandard#title": "This is a title",
-          "https://nice.org.uk/ontologies/qualitystandard#wasFirstIssuedOn": "2016-04-01"
+          "https://nice.org.uk/ontologies/qualitystandard/1efaaa6a_c81a_4bd6_b598_c626b21c71fd": "<p>This is an abstract.</p>",
+          "qualitystandard:7ae8413a_2811_4a09_a655_eff8d276ec87":  "https://nice.org.uk/ontologies/servicearea/488b1a36_ab26_4752_bc2e_1f988aae2da5",
+          "https://nice.org.uk/ontologies/qualitystandard/bc8e0db0_5d8a_4100_98f6_774ac0eb1758": "qs1-st1",
+          "https://nice.org.uk/ontologies/qualitystandard/c2cb17d6_238e_437d_af64_1b6f1003bc36": "yes",
+          "https://nice.org.uk/ontologies/qualitystandard/3ff270e4_655a_4884_b186_e033f58759de": "0",
+          "https://nice.org.uk/ontologies/qualitystandard/9fcb3758_a4d3_49d7_ab10_6591243caa67": "0",
+          "https://nice.org.uk/ontologies/qualitystandard/bc8e0db0_5d8a_4100_98f6_774ac0eb1758": "This is a title",
+          "https://nice.org.uk/ontologies/qualitystandard/0886da59_2c5f_4124_9f46_6be4537a4099": "2016-04-01"
 
         }
       };
 
       return {
         addqsidentifier : function(qsidentifier) {
-          esStatement.body["https://nice.org.uk/ontologies/qualitystandard#qsidentifier"] = qsidentifier;
+          esStatement.body["https://nice.org.uk/ontologies/qualitystandard/3ff270e4_655a_4884_b186_e033f58759de"] = qsidentifier;
         },
 
         addstidentifier : function(stidentifier) {
-          esStatement.body["https://nice.org.uk/ontologies/qualitystandard#stidentifier"] = stidentifier;
+          esStatement.body["https://nice.org.uk/ontologies/qualitystandard/9fcb3758_a4d3_49d7_ab10_6591243caa67"] = stidentifier;
         },
 
         addAbstract : function(Abstract) {
-          esStatement.body["https://nice.org.uk/ontologies/qualitystandard#abstract"] = Abstract;
+          esStatement.body["https://nice.org.uk/ontologies/qualitystandard/1efaaa6a_c81a_4bd6_b598_c626b21c71fd"] = Abstract;
         },
 
         addserviceArea : function(serviceArea) {
-          esStatement.body["qualitystandard:appliesToServiceArea"] = serviceArea;
+          esStatement.body["qualitystandard:7ae8413a_2811_4a09_a655_eff8d276ec87"] = serviceArea;
         },
 
         addageGroup : function(ageGroup) {
-          esStatement.body["qualitystandard:appliesToAgeGroup"] = ageGroup;
+          esStatement.body["qualitystandard:4e7a368e_eae6_411a_8167_97127b490f99"] = ageGroup;
         },
 
         addSetting : function(Setting) {
-          esStatement.body["qualitystandard:appliesToSetting"] = Setting;
+          esStatement.body["qualitystandard:62496684_7027_4f37_bd0e_264c9ff727fd"] = Setting;
         },
 
         addconditionDiseaese : function(conditionDisease) {
-          esStatement.body["qualitystandard:appliesToConditionOrDisease"] = conditionDisease;
+          esStatement.body["qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9"] = conditionDisease;
         },
 
         addfactorsAffectingHealthOrWellbeing : function(factorsAffectingHealthOrWellbeing) {
-          esStatement.body["qualitystandard:appliesToFactorsAffectingHealthOrWellbeing"] = factorsAffectingHealthOrWellbeing;
+          esStatement.body["qualitystandard:18aa6468_de94_4f9f_bd7a_0075fba942a5"] = factorsAffectingHealthOrWellbeing;
         },
 
         build : function() {

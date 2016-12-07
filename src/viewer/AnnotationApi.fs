@@ -1,5 +1,6 @@
 ﻿module Viewer.AnnotationApi
 
+open FSharp.RDF
 open Serilog
 open NICE.Logging
 open Viewer.Types
@@ -19,7 +20,6 @@ let rec private transformTermsToOntologyOption prefix (terms:Term list) =
   match terms with
   | [] -> []
   | _ -> consolidateTermd terms
-   
 
 let generateResponseFromVocab prefix (vocab:Vocabulary) =
   let terms = match vocab.Root with
@@ -38,13 +38,57 @@ let private matchVocab (vocabs: Vocabulary list) prefix (predicate:OntologyRefer
                | Some v -> [generateResponseFromVocab prefix v]
                | _ -> [] )
 
+let private getLabelAndDataType (resource:Resource) =
+  let getRange x =
+    x
+    |> (|FunctionalObjectProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#range")
+
+  (getRange resource)
+
+let getPropertyList ontologyConfig =
+  let ttlContent = getTtlContent ontologyConfig.CoreTtl
+  let graph = Graph.loadTtl (fromString ttlContent)
+
+  let getLabel resource =
+    resource
+    |> (|FunctionalDataProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#label") (xsd.string)
+
+  let getRange resource =
+    resource
+    |> (|FunctionalObjectProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#range")
+    |> fun x -> match x with
+                | Some y -> y.ToString()
+                            |> reinstatePrefix ontologyConfig.Contexts
+                            |> Some
+                | _ -> None
+           
+
+  let getPropertyFromGraph (property:CoreProperty) =
+    let resource = Resource.fromSubject(Uri.from property.PropertyId) graph
+
+    let returnResponse resource =
+      { id = reinstatePrefix ontologyConfig.Contexts property.PropertyId
+        label = resource |> getLabel
+        range = resource |> getRange
+        detail = Property property.Detail }
+
+    match resource with
+    | x::_ -> x |> returnResponse 
+    | _ -> { id = reinstatePrefix ontologyConfig.Contexts property.PropertyId
+             label = None
+             range = None
+             detail = Property property.Detail }
+
+  ontologyConfig.Properties
+  |> List.map getPropertyFromGraph
+
 let getAnnotationToolData (vocabs: Vocabulary list) (config:OntologyConfig) =
   let prefix = reinstatePrefix config.Contexts
-  
+  let properties = getPropertyList config
   let trees = config.Ontologies
               |> List.map (fun p ->  matchVocab vocabs prefix p)
               |> List.concat
-  { contexts = config.Contexts; properties = trees }
+  { contexts = config.Contexts; properties = properties @ trees }
 
 let getAnnotationToolJson (vocabs: Vocabulary list) (config:OntologyConfig) =
   try

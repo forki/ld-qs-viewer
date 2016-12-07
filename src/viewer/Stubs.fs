@@ -240,17 +240,19 @@ let dummyVocabulary = [
   }
 ]
 
+let private dummy_contexts = [ { Prefix = "core"
+                                 Value = "https://nice.org.uk/ontologies/core/" }
+                               { Prefix = "thingy"
+                                 Value = "https://nice.org.uk/ontologies/thingy/" }
+                               { Prefix = "whatsit"
+                                 Value = "https://nice.org.uk/ontologies/whatsit/" }
+                               { Prefix = "xsd"
+                                 Value = "http://www.w3.org/2001/XMLSchema#" }
+                               { Prefix = "rdfs"
+                                 Value = "http://www.w3.org/2000/01/rdf-schema#" } ]
+
 let dummyResponse_Properties = {
-  contexts = [
-              { Prefix = "core"
-                Value = "https://nice.org.uk/ontologies/core/" }
-              { Prefix = "thingy"
-                Value = "https://nice.org.uk/ontologies/thingy/" }
-              { Prefix = "whatsit"
-                Value = "https://nice.org.uk/ontologies/whatsit/" }
-              { Prefix = "xsd"
-                Value = "http://www.w3.org/2001/XMLSchema#" }
-  ]
+  contexts = dummy_contexts
   properties = [
                 { id = "core:GUID_stringProperty"
                   label = Some "This thingy"
@@ -269,21 +271,12 @@ let dummyResponse_Properties = {
                   range = Some "xsd:date"
                   detail = Property { Mandatory = false
                                       Pattern = None
-                                      Condition = Some { OnProperty = "GUID_boolProperty"; Value = "no" } }}
+                                      Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" } }}
               ]
 }
 
 let dummyResponse_Vocabs = {
-  contexts = [
-              { Prefix = "core"
-                Value = "https://nice.org.uk/ontologies/core/" }
-              { Prefix = "thingy"
-                Value = "https://nice.org.uk/ontologies/thingy/" }
-              { Prefix = "whatsit"
-                Value = "https://nice.org.uk/ontologies/whatsit/" }
-              { Prefix = "xsd"
-                Value = "http://www.w3.org/2001/XMLSchema#" }
-  ]
+  contexts = dummy_contexts
   properties = [
                  { id = "core:applies_to_thingy"
                    label = Some "Applies to thingy"
@@ -307,7 +300,7 @@ let dummyResponse_Vocabs = {
                ]
 }
 
-let dummyJsonResponse_Vocabs = """{
+let private partialJsonResponse_contexts = """{
   "@context": {
     "core": "https://nice.org.uk/ontologies/core/",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
@@ -315,7 +308,39 @@ let dummyJsonResponse_Vocabs = """{
     "whatsit": "https://nice.org.uk/ontologies/whatsit/",
     "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
-  "properties": [
+  "properties": ["""
+
+let private partialJsonResponse_properties = """
+    {
+      "@id": "core:GUID_stringProperty",
+      "rdfs:label": "This thingy",
+      "rdfs:range": "xsd:string",
+      "validation": {
+        "mandatory": true,
+        "pattern": "^qs[1-9]\\d*-st[1-9]\\d*$"
+      }
+    },
+    {
+      "@id": "core:GUID_boolProperty",
+      "rdfs:label": "GUID_boolProperty",
+      "rdfs:range": "xsd:boolean",
+      "validation": {
+        "mandatory": true
+      }
+    },
+    {
+      "@id": "core:GUID_conditionalProperty",
+      "rdfs:label": "That thingy changed",
+      "rdfs:range": "xsd:date",
+      "validation": {
+        "condition": {
+          "@id": "core:GUID_boolProperty",
+          "value": "no"
+        }
+      }
+    }"""
+
+let private partialJsonResponse_vocab = """
     {
       "@id": "core:applies_to_thingy",
       "options": [
@@ -339,9 +364,14 @@ let dummyJsonResponse_Vocabs = """{
         }
       ],
       "rdfs:label": "Applies to thingy"
-    }
+    }"""
+let partialJsonResponse_end = """
   ]
 }"""
+
+let dummyJsonResponse_vocab = sprintf "%s%s%s" partialJsonResponse_contexts partialJsonResponse_vocab partialJsonResponse_end
+let dummyJsonResponse_properties = sprintf "%s%s%s" partialJsonResponse_contexts partialJsonResponse_properties partialJsonResponse_end
+let dummyJsonResponse_full = sprintf "%s%s,%s%s" partialJsonResponse_contexts partialJsonResponse_properties partialJsonResponse_vocab partialJsonResponse_end
 
 let dummyConfigFile = """{
   "basettluri": "http://schema/ontologies/",
@@ -365,7 +395,7 @@ let dummyConfigFile = """{
       { "property": "GUID_conditionalProperty",
         "validation": {
           "condition": {
-            "onproperty": "GUID_boolProperty",
+            "onproperty": "core:GUID_boolProperty",
             "value": "no"
           }
         }
@@ -385,6 +415,9 @@ let dummyConfigFile = """{
   "externalreferences": [
     { "prefix": "xsd",
        "uri": "http://www.w3.org/2001/XMLSchema#"
+    },
+    { "prefix": "rdfs",
+       "uri": "http://www.w3.org/2000/01/rdf-schema#"
     }
   ]
 }
@@ -393,13 +426,14 @@ let dummyConfigFile = """{
 let private dummyOntologies = [ { Uri= "core:applies_to_thingy"; SourceTtl= Content dummyChildTtl } ]
 let private dummyProperties = [ { PropertyId= "https://nice.org.uk/ontologies/core/GUID_stringProperty"; Detail = { Mandatory=true; Pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"; Condition = None }}
                                 { PropertyId= "https://nice.org.uk/ontologies/core/GUID_boolProperty"; Detail = { Mandatory=true; Pattern = None; Condition = None }}
-                                { PropertyId= "https://nice.org.uk/ontologies/core/GUID_conditionalProperty"; Detail = { Mandatory=false; Pattern = None; Condition = Some { OnProperty = "GUID_boolProperty"; Value = "no" }}} ]
+                                { PropertyId= "https://nice.org.uk/ontologies/core/GUID_conditionalProperty"; Detail = { Mandatory=false; Pattern = None; Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" }}} ]
 
 let dummyOntologyConfigUri = { CoreTtl= Uri "http://schema/ontologies/core.ttl"
                                Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
                                            { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }
                                            { Prefix="whatsit"; Value= "https://nice.org.uk/ontologies/whatsit/" }
-                                           { Prefix="xsd"; Value= "http://www.w3.org/2001/XMLSchema#" } ]
+                                           { Prefix="xsd"; Value= "http://www.w3.org/2001/XMLSchema#" }
+                                           { Prefix="rdfs"; Value= "http://www.w3.org/2000/01/rdf-schema#" } ]
                                Ontologies = [ { Uri= "core:applies_to_thingy"; SourceTtl= Uri "http://schema/ontologies/thingy.ttl" } ]
                                Properties = dummyProperties
                              }

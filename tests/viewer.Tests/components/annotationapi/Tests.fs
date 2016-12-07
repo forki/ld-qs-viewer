@@ -34,12 +34,28 @@ let ``AnnotationApi: When I call getPropertyList with an Ontology config I am re
   properties |> should equal Stubs.dummyResponse_Properties.properties
 
 [<Test>]
-let ``AnnotationApi: When I call GetAnnotationToolData with a vocab I am returned a vocabulary response class structure `` () =
+let ``AnnotationApi: When I call GetAnnotationToolData with a vocab I am returned a vocabulary response class structure`` () =
   let response = getAnnotationToolData Stubs.dummyVocabulary Stubs.dummyOntologyConfigVocab
   response |> should equal Stubs.dummyResponse_Vocabs
 
 [<Test>]
-let ``AnnotationAPI: Should generate annotation ontology tree json from get`` () =
+let ``AnnotationApi: When I call getAnnotationToolJson with a vocab config and vocabs I am returned the expected Json`` () =
+  let response = getAnnotationToolJson Stubs.dummyVocabulary Stubs.dummyOntologyConfigVocab
+  
+  match response with
+  | Success s -> s.Replace("\r", "") |> should equal (Stubs.dummyJsonResponse_vocab.Replace("\r", ""))
+  | Failure f -> f |> should equal ""
+
+[<Test>]
+let ``AnnotationApi: When I call getAnnotationToolJson with a property config and vocabs I am returned the expected Json`` () =
+  let response = getAnnotationToolJson Stubs.dummyVocabulary Stubs.dummyOntologyConfigProperties
+  
+  match response with
+  | Success s -> s.Replace("\r", "") |> should equal (Stubs.dummyJsonResponse_properties.Replace("\r", ""))
+  | Failure f -> f |> should equal ""
+
+[<Test>]
+let ``AnnotationAPI: End to End: When I make a GET to the Annotation Api it should return the annotation json from`` () =
   let response = startServerWith { baseConfig with 
                                     Vocabs = Stubs.dummyVocabulary 
                                     OntologyConfig = Stubs.dummyOntologyConfigFull }
@@ -48,5 +64,5 @@ let ``AnnotationAPI: Should generate annotation ontology tree json from get`` ()
   response 
   |> CQ.text 
   |> (fun x -> x.ToString().Replace("\r", "")) 
-  |> should equal (Stubs.dummyJsonResponse_Vocabs.Replace("\r", ""))
+  |> should equal (Stubs.dummyJsonResponse_full.Replace("\r", ""))
 

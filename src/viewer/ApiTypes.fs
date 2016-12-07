@@ -12,10 +12,11 @@ type Ttl =
   | Uri of string
   | Content of string
 
-type OntologyReference = {
-  Uri : string
-  SourceTtl : Ttl
-}
+type OntologyReference =
+  {
+    Uri : string
+    SourceTtl : Ttl
+  }
 
 type Context =
   {
@@ -25,21 +26,31 @@ type Context =
   static member ToJson (x:Context) =
     Json.write x.Prefix x.Value
 
-type propertyCondition = {
-  OnProperty: string
-  Value: string
-}
+type propertyCondition =
+  {
+    OnProperty: string
+    Value: string
+  }
+  static member ToJson (x:propertyCondition) =
+    Json.write "@id" x.OnProperty
+    *> Json.write "value" x.Value
 
-type CorePropertyDetail = {
-  Mandatory: bool
-  Pattern: string option
-  Condition: propertyCondition option
-}
+type CorePropertyDetail =
+  {
+    Mandatory: bool
+    Pattern: string option
+    Condition: propertyCondition option
+  }
+  static member  ToJson (x:CorePropertyDetail) =
+    Json.writeUnlessDefault "mandatory" false x.Mandatory
+    *> Json.writeUnlessDefault "pattern" None x.Pattern
+    *> Json.writeUnlessDefault "condition" None x.Condition
 
-type CoreProperty = {
-  PropertyId: string
-  Detail: CorePropertyDetail
-}
+type CoreProperty =
+  {
+    PropertyId: string
+    Detail: CorePropertyDetail
+  }
 
 type OntologyConfig =
   {
@@ -120,12 +131,28 @@ type OntologyResponseProperty =
     detail: OntologyResponseType
   }
   static member ToJson (x:OntologyResponseProperty) =
+    let getLabel =
+      match x.label with
+      | None -> Array.get ((x.id.Split [|':'|]) |> Array.rev) 0
+      | Some l -> l
+    let getRange =
+      match x.detail with
+      | Tree t -> x.range
+      | Property p -> match x.range with
+                      | None -> Some "xsd:string"
+                      | _ -> x.range
+    let getValidation =
+      match x.detail with
+      | Tree t -> None
+      | Property p -> Some p
+
     let ret = Json.write "@id" x.id
-              *> Json.write "rdfs:label" x.label
-    
+              *> Json.write "rdfs:label" getLabel
+              *> Json.writeUnlessDefault "rdfs:range" None getRange
+              
     match x.detail with
     | Tree t -> ret *> Json.writeUnlessDefault "options" [] t
-    | _ -> ret
+    | Property p -> ret *> Json.writeUnlessDefault "validation" None getValidation
 
 type Contexts =
   {
@@ -139,8 +166,7 @@ type Contexts =
       match contexts with
       | [] -> acc
       | _ -> ConstructJson (acc *> (contexts.Head |> ToJson)) contexts.Tail
-    let rdfs = { Prefix = "rdfs"; Value="http://www.w3.org/2000/01/rdf-schema#" }
-    ConstructJson (ToJson rdfs) x.Contexts
+    ConstructJson (ToJson x.Contexts.Head) x.Contexts.Tail
 
 type OntologyResponse =
   {

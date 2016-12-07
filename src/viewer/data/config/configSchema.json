@@ -4,7 +4,7 @@
   "coreontology": {
     "prefix": "core",
     "ontology": "core/",
-    "ttl": "corethingy.ttl",
+    "ttl": "core.ttl",
     "dataproperties": [
       { "property": "GUID_stringProperty",
         "validation": {
@@ -21,7 +21,7 @@
         "validation": {
           "condition": {
             "onproperty": "GUID_boolProperty",
-            "value": "value"
+            "value": "somevalue"
           }
         }
       }
@@ -31,10 +31,15 @@
     { "prefix": "thingy",
       "ontology": "thingy/",
       "ttl": "thingy.ttl",
-      "corereference": "appliesTothingy"
+      "corereference": "applies_to_thingy"
     },
     { "prefix": "whatsit",
       "ontology": "whatsit/"
+    }
+  ],
+  "externalreferences": [
+    { "prefix": "xsd",
+       "uri": "http://www.w3.org/2001/XMLSchema#"
     }
   ]
 }

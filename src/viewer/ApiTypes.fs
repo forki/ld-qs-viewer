@@ -26,15 +26,19 @@ type Context =
     Json.write x.Prefix x.Value
 
 type propertyCondition = {
-  onproperty: string
-  value: string
+  OnProperty: string
+  Value: string
+}
+
+type CorePropertyDetail = {
+  Mandatory: bool
+  Pattern: string option
+  Condition: propertyCondition option
 }
 
 type CoreProperty = {
-  id: string
-  mandatory: bool
-  pattern: string option
-  condition: propertyCondition option
+  PropertyId: string
+  Detail: CorePropertyDetail
 }
 
 type OntologyConfig =
@@ -62,7 +66,10 @@ type OntologyConfig =
       [{ Prefix = d.Coreontology.Prefix; Value = ontologyUri d.Coreontology.Ontology }] @ 
       ( d.Childontologies
         |> Array.toList
-        |> List.map ( fun x -> { Prefix = x.Prefix; Value = ontologyUri x.Ontology }))
+        |> List.map ( fun x -> { Prefix = x.Prefix; Value = ontologyUri x.Ontology })) @
+      ( d.Externalreferences
+        |> Array.toList
+        |> List.map ( fun x -> { Prefix = x.Prefix; Value = x.Uri } ))
     let getOntologies =
       d.Childontologies
       |> Array.toList
@@ -73,12 +80,12 @@ type OntologyConfig =
     let getProperties =
       d.Coreontology.Dataproperties
       |> Array.toList
-      |> List.map (fun x -> { id=x.Property
-                              mandatory=(getboolvalue x.Validation.Mandatory)
-                              pattern=x.Validation.Pattern
-                              condition=match x.Validation.Condition with
-                                              | Some y -> Some { onproperty = y.Onproperty; value = y.Value }
-                                              | _ -> None
+      |> List.map (fun x -> { PropertyId=(sprintf "%s%s%s" d.Baseontologyuri d.Coreontology.Ontology x.Property)
+                              Detail={ Mandatory=(getboolvalue x.Validation.Mandatory)
+                                       Pattern=x.Validation.Pattern
+                                       Condition=match x.Validation.Condition with
+                                                 | Some y -> Some { OnProperty = y.Onproperty; Value = y.Value }
+                                                 | _ -> None }
                             })
 
     {
@@ -103,21 +110,20 @@ type OntologyTreeOption =
 
 type OntologyResponseType =
   | Tree of OntologyTreeOption list
-  | Property of CoreProperty
+  | Property of CorePropertyDetail
 
 type OntologyResponseProperty =
   {
     id: string
-    label: string
-    details: OntologyResponseType
-//    options: OntologyTreeOption list
-//    validation: OntologyPropertyValidation
+    label: string option
+    range: string option
+    detail: OntologyResponseType
   }
   static member ToJson (x:OntologyResponseProperty) =
     let ret = Json.write "@id" x.id
               *> Json.write "rdfs:label" x.label
     
-    match x.details with
+    match x.detail with
     | Tree t -> ret *> Json.writeUnlessDefault "options" [] t
     | _ -> ret
 

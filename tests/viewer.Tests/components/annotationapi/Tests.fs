@@ -22,14 +22,20 @@ let ``AnnotationApi: Should serialize the config json`` () =
   response |> should equal Stubs.dummyOntologyConfigUri 
 
 [<Test>]
-let ``AnnotationApi: When I call getVocab with an Ontology config I am returned the expected termd structure`` () = 
-  let vocabTree = getVocabList Stubs.dummyOntologyConfigFull
+let ``AnnotationApi: When I call getVocabList with an Ontology config I am returned the expected termd structure`` () = 
+  let vocabTree = getVocabList Stubs.dummyOntologyConfigVocab
 
   vocabTree |> should equal Stubs.dummyVocabulary
 
 [<Test>]
+let ``AnnotationApi: When I call getPropertyList with an Ontology config I am returned the expected list of Properties`` () = 
+  let properties = getPropertyList Stubs.dummyOntologyConfigProperties
+
+  properties |> should equal Stubs.dummyResponse_Properties.properties
+
+[<Test>]
 let ``AnnotationApi: When I call GetAnnotationToolData with a vocab I am returned a vocabulary response class structure `` () =
-  let response = getAnnotationToolData Stubs.dummyVocabulary Stubs.dummyOntologyConfigFull
+  let response = getAnnotationToolData Stubs.dummyVocabulary Stubs.dummyOntologyConfigVocab
   response |> should equal Stubs.dummyResponse_Vocabs
 
 [<Test>]

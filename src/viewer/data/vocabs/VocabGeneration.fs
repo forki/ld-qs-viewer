@@ -50,7 +50,6 @@ let mapResourceToConfig (ontologyConfig:OntologyConfig) resources=
   
 let getVocabList ontologyConfig =
   let ttlContent = getTtlContent ontologyConfig.CoreTtl
-
   let graph = Graph.loadTtl (fromString ttlContent)
   
   let resources = Resource.fromType (Uri.from "http://www.w3.org/2002/07/owl#ObjectProperty") graph
@@ -58,7 +57,69 @@ let getVocabList ontologyConfig =
   |> List.map (InverseTerm.from "")
   |> mapResourceToConfig ontologyConfig
 
+let private getLabelAndDataType (resource:Resource) =
+  let getRange x =
+    x
+    |> (|FunctionalObjectProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#range")
 
+  (getRange resource)
+
+let getPropertyList ontologyConfig =
+  let ttlContent = getTtlContent ontologyConfig.CoreTtl
+  let graph = Graph.loadTtl (fromString ttlContent)
+
+  let getLabel resource =
+    resource
+    |> (|FunctionalDataProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#label") (xsd.string)
+
+  let getRange resource =
+    resource
+    |> (|FunctionalObjectProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#range")
+    |> fun x -> match x with
+                | Some y -> y.ToString()
+                            |> reinstatePrefix ontologyConfig.Contexts
+                            |> Some
+                | _ -> None
+           
+
+  let getPropertyFromGraph (property:CoreProperty) =
+    let resource = Resource.fromSubject(Uri.from property.PropertyId) graph
+
+    let returnResponse resource =
+      { id = reinstatePrefix ontologyConfig.Contexts property.PropertyId
+        label = resource |> getLabel
+        range = resource |> getRange
+        detail = Property property.Detail }
+
+    match resource with
+    | x::_ -> x |> returnResponse 
+    | _ -> { id = reinstatePrefix ontologyConfig.Contexts property.PropertyId
+             label = None
+             range = None
+             detail = Property property.Detail }
+
+  ontologyConfig.Properties
+  |> List.map getPropertyFromGraph
+
+//type OntologyResponseType =
+//  | Tree of OntologyTreeOption list
+//  | Property of CorePropertyDetail
+//
+//type OntologyResponseProperty =
+//  {
+//    id: string
+//    label: string
+//    detail: OntologyResponseType
+//  }
+
+//  let string_prop = Resource.fromSubject (Uri.from "https://nice.org.uk/ontologies/core/GUID_stringProperty") graph
+//  let string_prop_type = string_prop |> List.head |> (|FunctionalObjectProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#range")
+//  
+//  let date_prop = Resource.fromSubject (Uri.from "https://nice.org.uk/ontologies/core/GUID_conditionalProperty") graph
+//  let date_prop_type = date_prop |> List.head |> (|FunctionalObjectProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#range")
+
+//  []
+  
 let readVocabsFromFiles ontologyConfig =
   printf "reading vocabs"
   try

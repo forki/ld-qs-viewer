@@ -26,8 +26,9 @@ let generateResponseFromVocab prefix (vocab:Vocabulary) =
               | Term t -> t.Children
               | _ -> []
   { id = vocab.Property
-    label = vocab.Label
-    details = Tree (transformTermsToOntologyOption prefix terms)
+    label = Some vocab.Label
+    range = None
+    detail = Tree (transformTermsToOntologyOption prefix terms)
   }
 
 let private matchVocab (vocabs: Vocabulary list) prefix (predicate:OntologyReference)  = 

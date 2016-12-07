@@ -45,14 +45,14 @@ type InverseTerm =
   static member from lbl x =
     let parents x =
       match (|Property|_|)
-              (Uri.from "http://www.w3.org/2000/01/rdf-schema#subClassOf") x with
+            (Uri.from "http://www.w3.org/2000/01/rdf-schema#subClassOf") x with
       | None -> []
       | Some xs -> traverse xs |> List.map (InverseTerm.from lbl)
 
     let label x =
       match (|FunctionalDataProperty|_|)
-              (Uri.from "http://www.w3.org/2000/01/rdf-schema#label")
-              (xsd.string) x with
+            (Uri.from "http://www.w3.org/2000/01/rdf-schema#label")
+            (xsd.string) x with
       | Some x -> x
       | _ -> lbl
 

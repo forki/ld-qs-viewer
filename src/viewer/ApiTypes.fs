@@ -92,11 +92,13 @@ type OntologyConfig =
       d.Coreontology.Dataproperties
       |> Array.toList
       |> List.map (fun x -> { PropertyId=(sprintf "%s%s%s" d.Baseontologyuri d.Coreontology.Ontology x.Property)
-                              Detail={ Mandatory=(getboolvalue x.Validation.Mandatory)
-                                       Pattern=x.Validation.Pattern
-                                       Condition=match x.Validation.Condition with
-                                                 | Some y -> Some { OnProperty = y.Onproperty; Value = y.Value }
-                                                 | _ -> None }
+                              Detail= match x.Validation with
+                                      | None -> { Mandatory = false; Pattern = None; Condition = None }
+                                      | Some y -> { Mandatory=(getboolvalue y.Mandatory)
+                                                    Pattern=y.Pattern
+                                                    Condition=match y.Condition with
+                                                              | Some z -> Some { OnProperty = z.Onproperty; Value = z.Value }
+                                                              | _ -> None }
                             })
 
     {

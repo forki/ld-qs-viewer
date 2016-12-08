@@ -6,18 +6,21 @@
     "ontology": "core/",
     "ttl": "core.ttl",
     "dataproperties": [
-      { "property": "GUID_stringProperty",
+      {
+        "description": "// stringProperty",
+        "property": "GUID_stringProperty",
         "validation": {
           "mandatory": true,
           "pattern": "^qs[1-9]\\d*-st[1-9]\\d*$"
         }
       },
-      { "property": "GUID_boolProperty",
-        "validation": {
-          "mandatory": true
-        }
+      {
+        "description": "// boolProperty",
+        "property": "GUID_boolProperty"
       },
-      { "property": "GUID_conditionalProperty",
+      {
+        "description": "// conditionalProperty",
+        "property": "GUID_conditionalProperty",
         "validation": {
           "condition": {
             "onproperty": "GUID_boolProperty",

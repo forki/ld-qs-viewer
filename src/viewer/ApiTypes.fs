@@ -143,7 +143,7 @@ type OntologyResponseProperty =
                       | _ -> x.range
     let getValidation =
       match x.detail with
-      | Tree t -> None
+      | Tree _ -> None
       | Property p -> Some p
 
     let ret = Json.write "@id" x.id
@@ -152,7 +152,7 @@ type OntologyResponseProperty =
               
     match x.detail with
     | Tree t -> ret *> Json.writeUnlessDefault "options" [] t
-    | Property p -> ret *> Json.writeUnlessDefault "validation" None getValidation
+    | Property _ -> ret *> Json.writeUnlessDefault "validation" None getValidation
 
 type Contexts =
   {

@@ -49,7 +49,7 @@ type CorePropertyDetail =
 type CoreProperty =
   {
     PropertyId: string
-    Detail: CorePropertyDetail
+    Detail: CorePropertyDetail option
   }
 
 type OntologyConfig =
@@ -93,12 +93,12 @@ type OntologyConfig =
       |> Array.toList
       |> List.map (fun x -> { PropertyId=(sprintf "%s%s%s" d.Baseontologyuri d.Coreontology.Ontology x.Property)
                               Detail= match x.Validation with
-                                      | None -> { Mandatory = false; Pattern = None; Condition = None }
-                                      | Some y -> { Mandatory=(getboolvalue y.Mandatory)
-                                                    Pattern=y.Pattern
-                                                    Condition=match y.Condition with
-                                                              | Some z -> Some { OnProperty = z.Onproperty; Value = z.Value }
-                                                              | _ -> None }
+                                      | None -> None
+                                      | Some y -> Some { Mandatory=(getboolvalue y.Mandatory)
+                                                         Pattern=y.Pattern
+                                                         Condition=match y.Condition with
+                                                                   | Some z -> Some { OnProperty = z.Onproperty; Value = z.Value }
+                                                                   | _ -> None }
                             })
 
     {
@@ -123,7 +123,7 @@ type OntologyTreeOption =
 
 type OntologyResponseType =
   | Tree of OntologyTreeOption list
-  | Property of CorePropertyDetail
+  | Property of CorePropertyDetail option
 
 type OntologyResponseProperty =
   {
@@ -146,7 +146,7 @@ type OntologyResponseProperty =
     let getValidation =
       match x.detail with
       | Tree _ -> None
-      | Property p -> Some p
+      | Property p -> p
 
     let ret = Json.write "@id" x.id
               *> Json.write "rdfs:label" getLabel

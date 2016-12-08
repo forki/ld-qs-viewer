@@ -257,21 +257,19 @@ let dummyResponse_Properties = {
                 { id = "core:GUID_stringProperty"
                   label = Some "This thingy"
                   range = None
-                  detail = Property { Mandatory = true
-                                      Pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"
-                                      Condition = None }}
+                  detail = Property (Some { Mandatory = true
+                                            Pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"
+                                            Condition = None } ) }
                 { id = "core:GUID_boolProperty"
                   label = None
                   range = Some "xsd:boolean"
-                  detail = Property { Mandatory = true
-                                      Pattern = None
-                                      Condition = None }}
+                  detail = Property None }
                 { id = "core:GUID_conditionalProperty"
                   label = Some "That thingy changed"
                   range = Some "xsd:date"
-                  detail = Property { Mandatory = false
-                                      Pattern = None
-                                      Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" } }}
+                  detail = Property (Some { Mandatory = false
+                                            Pattern = None
+                                            Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" } } ) }
               ]
 }
 
@@ -323,10 +321,7 @@ let private partialJsonResponse_properties = """
     {
       "@id": "core:GUID_boolProperty",
       "rdfs:label": "GUID_boolProperty",
-      "rdfs:range": "xsd:boolean",
-      "validation": {
-        "mandatory": true
-      }
+      "rdfs:range": "xsd:boolean"
     },
     {
       "@id": "core:GUID_conditionalProperty",
@@ -387,11 +382,7 @@ let dummyConfigFile = """{
           "pattern": "^qs[1-9]\\d*-st[1-9]\\d*$"
         }
       },
-      { "property": "GUID_boolProperty",
-        "validation": {
-          "mandatory": true
-        }
-      },
+      { "property": "GUID_boolProperty" },
       { "property": "GUID_conditionalProperty",
         "validation": {
           "condition": {
@@ -424,9 +415,9 @@ let dummyConfigFile = """{
 """
 
 let private dummyOntologies = [ { Uri= "core:applies_to_thingy"; SourceTtl= Content dummyChildTtl } ]
-let private dummyProperties = [ { PropertyId= "https://nice.org.uk/ontologies/core/GUID_stringProperty"; Detail = { Mandatory=true; Pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"; Condition = None }}
-                                { PropertyId= "https://nice.org.uk/ontologies/core/GUID_boolProperty"; Detail = { Mandatory=true; Pattern = None; Condition = None }}
-                                { PropertyId= "https://nice.org.uk/ontologies/core/GUID_conditionalProperty"; Detail = { Mandatory=false; Pattern = None; Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" }}} ]
+let private dummyProperties = [ { PropertyId= "https://nice.org.uk/ontologies/core/GUID_stringProperty"; Detail = ( Some { Mandatory=true; Pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"; Condition = None } ) }
+                                { PropertyId= "https://nice.org.uk/ontologies/core/GUID_boolProperty"; Detail = None }
+                                { PropertyId= "https://nice.org.uk/ontologies/core/GUID_conditionalProperty"; Detail = ( Some { Mandatory=false; Pattern = None; Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" } } ) } ]
 
 let dummyOntologyConfigUri = { CoreTtl= Uri "http://schema/ontologies/core.ttl"
                                Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }

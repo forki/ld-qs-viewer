@@ -30,7 +30,7 @@ let getAppConfig mode =
   match mode with
   | Dev ->
     printf "RUNNING DEV MODE: Using stubbed data\n"
-    let config = Stubs.thingyConfigFile |> OntologyConfig.build
+    let config = Stubs.dummyConfigFile |> OntologyConfig.build
     {Vocabs = Stubs.vocabs
      RenderedVocabs = renderVocabs Stubs.vocabs
      PerformSearch = performSearchWithProvider Stubs.search
@@ -41,7 +41,7 @@ let getAppConfig mode =
   | Prod ->
     let config = try Http.RequestString "http://schema/ontologies/annotationconfig.json" |> OntologyConfig.build
                  with ex -> Log.Error(sprintf "Exception encountered reading configFile\n%s" ( ex.ToString() ) )
-                            { CoreTtl = Uri ""; Contexts = []; Predicates =[] }
+                            { CoreTtl = Uri ""; Contexts = []; Ontologies = []; Properties = []}
     let vocabs = config |> readVocabsFromFiles
     {Vocabs = vocabs
      RenderedVocabs = renderVocabs vocabs

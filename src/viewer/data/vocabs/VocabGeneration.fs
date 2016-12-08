@@ -28,7 +28,7 @@ let replacePrefix (prefixes:Context list) predicate =
   |> fun x -> { Uri = uri.Replace((sprintf "%s:" x.Prefix), x.Value); SourceTtl = predicate.SourceTtl }
 
 let replacePrefixes ontologyConfig =
-  ontologyConfig.Predicates
+  ontologyConfig.Ontologies
   |> List.map (fun p -> replacePrefix ontologyConfig.Contexts p )
 
 let reinstatePrefix (prefixes:Context list) (uri:string) =
@@ -50,7 +50,6 @@ let mapResourceToConfig (ontologyConfig:OntologyConfig) resources=
   
 let getVocabList ontologyConfig =
   let ttlContent = getTtlContent ontologyConfig.CoreTtl
-
   let graph = Graph.loadTtl (fromString ttlContent)
   
   let resources = Resource.fromType (Uri.from "http://www.w3.org/2002/07/owl#ObjectProperty") graph
@@ -58,9 +57,7 @@ let getVocabList ontologyConfig =
   |> List.map (InverseTerm.from "")
   |> mapResourceToConfig ontologyConfig
 
-
 let readVocabsFromFiles ontologyConfig =
-  printf "reading vocabs"
   try
     getVocabList ontologyConfig
   with

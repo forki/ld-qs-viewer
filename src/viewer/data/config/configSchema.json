@@ -4,16 +4,45 @@
   "coreontology": {
     "prefix": "core",
     "ontology": "core/",
-    "ttl": "corethingy.ttl"
+    "ttl": "core.ttl",
+    "dataproperties": [
+      {
+        "description": "// stringProperty",
+        "property": "GUID_stringProperty",
+        "validation": {
+          "mandatory": true,
+          "pattern": "^qs[1-9]\\d*-st[1-9]\\d*$"
+        }
+      },
+      {
+        "description": "// boolProperty",
+        "property": "GUID_boolProperty"
+      },
+      {
+        "description": "// conditionalProperty",
+        "property": "GUID_conditionalProperty",
+        "validation": {
+          "condition": {
+            "onproperty": "GUID_boolProperty",
+            "value": "somevalue"
+          }
+        }
+      }
+    ]
   },
   "childontologies": [ 
     { "prefix": "thingy",
       "ontology": "thingy/",
       "ttl": "thingy.ttl",
-      "corereference": "appliesTothingy"
+      "corereference": "applies_to_thingy"
     },
     { "prefix": "whatsit",
       "ontology": "whatsit/"
+    }
+  ],
+  "externalreferences": [
+    { "prefix": "xsd",
+       "uri": "http://www.w3.org/2001/XMLSchema#"
     }
   ]
 }

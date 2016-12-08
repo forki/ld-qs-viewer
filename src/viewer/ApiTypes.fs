@@ -12,10 +12,11 @@ type Ttl =
   | Uri of string
   | Content of string
 
-type OntologyReference = {
-  Uri : string
-  SourceTtl : Ttl
-}
+type OntologyReference =
+  {
+    Uri : string
+    SourceTtl : Ttl
+  }
 
 type Context =
   {
@@ -25,17 +26,49 @@ type Context =
   static member ToJson (x:Context) =
     Json.write x.Prefix x.Value
 
+type propertyCondition =
+  {
+    OnProperty: string
+    Value: string
+  }
+  static member ToJson (x:propertyCondition) =
+    Json.write "@id" x.OnProperty
+    *> Json.write "value" x.Value
+
+type CorePropertyDetail =
+  {
+    Mandatory: bool
+    Pattern: string option
+    Condition: propertyCondition option
+  }
+  static member  ToJson (x:CorePropertyDetail) =
+    Json.writeUnlessDefault "mandatory" false x.Mandatory
+    *> Json.writeUnlessDefault "pattern" None x.Pattern
+    *> Json.writeUnlessDefault "condition" None x.Condition
+
+type CoreProperty =
+  {
+    PropertyId: string
+    Detail: CorePropertyDetail
+  }
+
 type OntologyConfig =
   {
     CoreTtl : Ttl
     Contexts : Context list
-    Predicates : OntologyReference list
+    Ontologies : OntologyReference list
+    Properties : CoreProperty list
   }
   static member build data =
-    let getvalue x =
+    let getstringvalue x =
       match x with
       | Some v -> v
       | _ -> ""
+    
+    let getboolvalue x =
+      match x with
+      | Some v -> v
+      | _ -> false  
     
     let d = JsonProvider<"data/config/configSchema.json">.Parse(data)
     
@@ -44,21 +77,38 @@ type OntologyConfig =
       [{ Prefix = d.Coreontology.Prefix; Value = ontologyUri d.Coreontology.Ontology }] @ 
       ( d.Childontologies
         |> Array.toList
-        |> List.map ( fun x -> { Prefix = x.Prefix; Value = ontologyUri x.Ontology }))
-    let getPredicates =
+        |> List.map ( fun x -> { Prefix = x.Prefix; Value = ontologyUri x.Ontology })) @
+      ( d.Externalreferences
+        |> Array.toList
+        |> List.map ( fun x -> { Prefix = x.Prefix; Value = x.Uri } ))
+    let getOntologies =
       d.Childontologies
       |> Array.toList
       |> List.filter (fun x -> x.Corereference.IsSome)
-      |> List.map (fun x -> { Uri=(sprintf "%s:%s" d.Coreontology.Prefix (getvalue x.Corereference));
-                              SourceTtl = Uri (sprintf "%s%s" d.Basettluri (getvalue x.Ttl))
+      |> List.map (fun x -> { Uri=(sprintf "%s:%s" d.Coreontology.Prefix (getstringvalue x.Corereference));
+                              SourceTtl = Uri (sprintf "%s%s" d.Basettluri (getstringvalue x.Ttl))
                             })
+    let getProperties =
+      d.Coreontology.Dataproperties
+      |> Array.toList
+      |> List.map (fun x -> { PropertyId=(sprintf "%s%s%s" d.Baseontologyuri d.Coreontology.Ontology x.Property)
+                              Detail= match x.Validation with
+                                      | None -> { Mandatory = false; Pattern = None; Condition = None }
+                                      | Some y -> { Mandatory=(getboolvalue y.Mandatory)
+                                                    Pattern=y.Pattern
+                                                    Condition=match y.Condition with
+                                                              | Some z -> Some { OnProperty = z.Onproperty; Value = z.Value }
+                                                              | _ -> None }
+                            })
+
     {
       CoreTtl = Uri (sprintf "%s%s" d.Basettluri d.Coreontology.Ttl)
       Contexts = getContexts
-      Predicates = getPredicates
+      Ontologies = getOntologies
+      Properties = getProperties
     }
 
-let emptyOC = { CoreTtl = Content ""; Contexts= []; Predicates=[] }
+let emptyOC = { CoreTtl = Content ""; Contexts= []; Ontologies=[]; Properties=[] }
 
 type OntologyTreeOption =
   {
@@ -71,16 +121,40 @@ type OntologyTreeOption =
     *> Json.write "rdfs:label" x.label
     *> Json.writeUnlessDefault "children" [] x.children
 
+type OntologyResponseType =
+  | Tree of OntologyTreeOption list
+  | Property of CorePropertyDetail
+
 type OntologyResponseProperty =
   {
     id: string
-    label: string
-    options: OntologyTreeOption list
+    label: string option
+    range: string option
+    detail: OntologyResponseType
   }
   static member ToJson (x:OntologyResponseProperty) =
-    Json.write "@id" x.id
-    *> Json.write "rdfs:label" x.label
-    *> Json.writeUnlessDefault "options" [] x.options
+    let getLabel =
+      match x.label with
+      | None -> Array.get ((x.id.Split [|':'|]) |> Array.rev) 0
+      | Some l -> l
+    let getRange =
+      match x.detail with
+      | Tree _ -> x.range
+      | Property _ -> match x.range with
+                      | None -> Some "xsd:string"
+                      | _ -> x.range
+    let getValidation =
+      match x.detail with
+      | Tree _ -> None
+      | Property p -> Some p
+
+    let ret = Json.write "@id" x.id
+              *> Json.write "rdfs:label" getLabel
+              *> Json.writeUnlessDefault "rdfs:range" None getRange
+              
+    match x.detail with
+    | Tree t -> ret *> Json.writeUnlessDefault "options" [] t
+    | Property _ -> ret *> Json.writeUnlessDefault "validation" None getValidation
 
 type Contexts =
   {
@@ -94,8 +168,7 @@ type Contexts =
       match contexts with
       | [] -> acc
       | _ -> ConstructJson (acc *> (contexts.Head |> ToJson)) contexts.Tail
-    let rdfs = { Prefix = "rdfs"; Value="http://www.w3.org/2000/01/rdf-schema#" }
-    ConstructJson (ToJson rdfs) x.Contexts
+    ConstructJson (ToJson x.Contexts.Head) x.Contexts.Tail
 
 type OntologyResponse =
   {

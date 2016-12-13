@@ -276,6 +276,7 @@ let dummyResponse_Properties = {
                   pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"
                   example = Some "qs14-st5"
                   detail = Property (Some { Mandatory = true
+                                            Default = None
                                             Condition = None } ) }
                 { id = "core:GUID_boolProperty"
                   label = None
@@ -289,6 +290,7 @@ let dummyResponse_Properties = {
                   pattern = None
                   example = None
                   detail = Property (Some { Mandatory = false
+                                            Default = Some "14-10-1978"
                                             Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" } } ) }
               ]
 }
@@ -355,7 +357,8 @@ let private partialJsonResponse_properties = """
         "condition": {
           "@id": "core:GUID_boolProperty",
           "value": "no"
-        }
+        },
+        "default": "14-10-1978"
       }
     }"""
 
@@ -411,7 +414,8 @@ let dummyConfigFile = """{
           "condition": {
             "onproperty": "core:GUID_boolProperty",
             "value": "no"
-          }
+          },
+          "default": "14-10-1978"
         }
       }
     ]
@@ -441,9 +445,9 @@ let dummyConfigFile = """{
 """
 
 let private dummyOntologies = [ { Uri= "core:applies_to_thingy"; SourceTtl= Content dummyChildTtl } ]
-let private dummyProperties = [ { PropertyId= "https://nice.org.uk/ontologies/core/GUID_stringProperty"; Detail = ( Some { Mandatory=true; Condition = None } ) }
+let private dummyProperties = [ { PropertyId= "https://nice.org.uk/ontologies/core/GUID_stringProperty"; Detail = ( Some { Mandatory=true; Default = None; Condition = None } ) }
                                 { PropertyId= "https://nice.org.uk/ontologies/core/GUID_boolProperty"; Detail = None }
-                                { PropertyId= "https://nice.org.uk/ontologies/core/GUID_conditionalProperty"; Detail = ( Some { Mandatory=false; Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" } } ) } ]
+                                { PropertyId= "https://nice.org.uk/ontologies/core/GUID_conditionalProperty"; Detail = ( Some { Mandatory=false; Default = Some "14-10-1978"; Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" } } ) } ]
 let dummyOntologyConfigUri = { CoreTtl= Uri "http://schema/ontologies/core.ttl"
                                Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
                                            { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }

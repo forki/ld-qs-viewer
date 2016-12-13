@@ -39,10 +39,12 @@ type CorePropertyDetail =
   {
     Mandatory: bool
     Condition: propertyCondition option
+    Default: string option
   }
   static member  ToJson (x:CorePropertyDetail) =
     Json.writeUnlessDefault "mandatory" false x.Mandatory
     *> Json.writeUnlessDefault "condition" None x.Condition
+    *> Json.writeUnlessDefault "default" None x.Default
 
 type CoreProperty =
   {
@@ -93,6 +95,7 @@ type OntologyConfig =
                               Detail= match x.Validation with
                                       | None -> None
                                       | Some y -> Some { Mandatory=(getboolvalue y.Mandatory)
+                                                         Default=y.Default
                                                          Condition=match y.Condition with
                                                                    | Some z -> Some { OnProperty = z.Onproperty; Value = z.Value }
                                                                    | _ -> None }

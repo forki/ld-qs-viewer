@@ -11,7 +11,7 @@
         "property": "GUID_stringProperty",
         "validation": {
           "mandatory": true,
-          "pattern": "^qs[1-9]\\d*-st[1-9]\\d*$"
+          "default":  "somevalue" 
         }
       },
       {

@@ -38,12 +38,10 @@ type propertyCondition =
 type CorePropertyDetail =
   {
     Mandatory: bool
-    Pattern: string option
     Condition: propertyCondition option
   }
   static member  ToJson (x:CorePropertyDetail) =
     Json.writeUnlessDefault "mandatory" false x.Mandatory
-    *> Json.writeUnlessDefault "pattern" None x.Pattern
     *> Json.writeUnlessDefault "condition" None x.Condition
 
 type CoreProperty =
@@ -95,7 +93,6 @@ type OntologyConfig =
                               Detail= match x.Validation with
                                       | None -> None
                                       | Some y -> Some { Mandatory=(getboolvalue y.Mandatory)
-                                                         Pattern=y.Pattern
                                                          Condition=match y.Condition with
                                                                    | Some z -> Some { OnProperty = z.Onproperty; Value = z.Value }
                                                                    | _ -> None }
@@ -130,6 +127,8 @@ type OntologyResponseProperty =
     id: string
     label: string option
     range: string option
+    pattern: string option
+    example: string option
     detail: OntologyResponseType
   }
   static member ToJson (x:OntologyResponseProperty) =
@@ -150,6 +149,8 @@ type OntologyResponseProperty =
 
     let ret = Json.write "@id" x.id
               *> Json.write "rdfs:label" getLabel
+              *> Json.writeUnlessDefault "xsd:pattern" None x.pattern
+              *> Json.writeUnlessDefault "skos:example" None x.example
               *> Json.writeUnlessDefault "rdfs:range" None getRange
               
     match x.detail with

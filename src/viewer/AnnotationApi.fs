@@ -28,6 +28,8 @@ let generateResponseFromVocab prefix (vocab:Vocabulary) =
   { id = vocab.Property
     label = Some vocab.Label
     range = None
+    pattern = None
+    example = None
     detail = Tree (transformTermsToOntologyOption prefix terms)
   }
 
@@ -42,27 +44,53 @@ let getPropertyList ontologyConfig =
   let ttlContent = getTtlContent ontologyConfig.CoreTtl
   let graph = Graph.loadTtl (fromString ttlContent)
 
-  let getLabel resource =
+  let getDataProperty (uri:string) resource =
     resource
-    |> (|FunctionalDataProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#label") (xsd.string)
+    |> (|FunctionalDataProperty|_|) (Uri.from uri) (xsd.string)
 
-  let getRange resource =
+  let getObjectProperty (uri:string) resource =
     resource
-    |> (|FunctionalObjectProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#range")
+    |> (|FunctionalObjectProperty|_|) (Uri.from uri)
+
+  let getRange uri =
+    uri.ToString()
+    |> reinstatePrefix ontologyConfig.Contexts
+    |> Some
+
+  let traverse (uri:string) action resource =
+    match (|Traverse|_|) (Uri.from uri) resource with
+    | None -> None
+    | Some x -> x |> List.head |> action
+
+  let getPattern resource =
+    let pattern x = x |> getDataProperty "http://www.w3.org/2001/XMLSchema#pattern"
+    let first x = x |> traverse "http://www.w3.org/1999/02/22-rdf-syntax-ns#first" pattern
+    let restrictions x = x |> traverse "http://www.w3.org/2002/07/owl#withRestrictions" first
+    resource |> traverse "http://www.w3.org/2002/07/owl#equivalentClass" restrictions
+
+  let getExamplePattern uri =
+    Resource.fromSubject uri graph
     |> fun x -> match x with
-                | Some y -> y.ToString()
-                            |> reinstatePrefix ontologyConfig.Contexts
-                            |> Some
-                | _ -> None
-           
+                | [] -> None, None
+                | x::_ -> getDataProperty "http://www.w3.org/2004/02/skos/core#example" x, getPattern x
 
+  let getDataTypeDetails resource =
+    resource
+    |> getObjectProperty "http://www.w3.org/2000/01/rdf-schema#range"
+    |> fun x -> match x with
+                | Some y -> (getRange y), (getExamplePattern y)
+                | _ -> None, (None, None)
+           
   let getPropertyFromGraph (property:CoreProperty) =
     let resource = Resource.fromSubject(Uri.from property.PropertyId) graph
 
     let returnResponse resource =
+      let range, (example, pattern) = resource |> getDataTypeDetails
       { id = reinstatePrefix ontologyConfig.Contexts property.PropertyId
-        label = resource |> getLabel
-        range = resource |> getRange
+        label = resource |> getDataProperty "http://www.w3.org/2000/01/rdf-schema#label"
+        range = range
+        pattern = pattern
+        example = example
         detail = Property property.Detail }
 
     match resource with
@@ -70,6 +98,8 @@ let getPropertyList ontologyConfig =
     | _ -> { id = reinstatePrefix ontologyConfig.Contexts property.PropertyId
              label = None
              range = None
+             pattern = None
+             example = None
              detail = Property property.Detail }
 
   ontologyConfig.Properties

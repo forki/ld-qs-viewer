@@ -134,6 +134,14 @@ type OntologyResponseProperty =
     example: string option
     detail: OntologyResponseType
   }
+  static member empty =
+    { id = ""
+      label = None
+      range = None 
+      pattern = None
+      example = None
+      detail = Property None
+    }
   static member ToJson (x:OntologyResponseProperty) =
     let getLabel =
       match x.label with

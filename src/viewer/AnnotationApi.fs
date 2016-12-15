@@ -1,5 +1,6 @@
 ﻿module Viewer.AnnotationApi
 
+open FSharp.RDF.Assertion
 open FSharp.RDF
 open Serilog
 open NICE.Logging
@@ -25,11 +26,10 @@ let generateResponseFromVocab prefix (vocab:Vocabulary) =
   let terms = match vocab.Root with
               | Term t -> t.Children
               | _ -> []
-  { id = vocab.Property
-    label = Some vocab.Label
-    range = None
-    detail = Tree (transformTermsToOntologyOption prefix terms)
-  }
+  { OntologyResponseProperty.empty with
+      id = vocab.Property
+      label = Some vocab.Label
+      detail = Tree (transformTermsToOntologyOption prefix terms) }
 
 let private matchVocab (vocabs: Vocabulary list) prefix (predicate:OntologyReference)  = 
   vocabs
@@ -41,36 +41,53 @@ let private matchVocab (vocabs: Vocabulary list) prefix (predicate:OntologyRefer
 let getPropertyList ontologyConfig =
   let ttlContent = getTtlContent ontologyConfig.CoreTtl
   let graph = Graph.loadTtl (fromString ttlContent)
+  
+  let traverse (uri:string) action resource =
+    match (|Traverse|_|) (Uri.from uri) resource with
+    | None -> None
+    | Some x -> x |> List.head |> action
 
-  let getLabel resource =
-    resource
-    |> (|FunctionalDataProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#label") (xsd.string)
+  let getRange uri =
+    uri.ToString()
+    |> reinstatePrefix ontologyConfig.Contexts
+    |> Some
 
-  let getRange resource =
+  let getPattern resource =
+    let pattern x = x |> (|FunctionalDataProperty|_|) !!"http://www.w3.org/2001/XMLSchema#pattern" (xsd.string) 
+    let first x = x |> traverse "http://www.w3.org/1999/02/22-rdf-syntax-ns#first" pattern
+    let restrictions x = x |> traverse "http://www.w3.org/2002/07/owl#withRestrictions" first
+    resource |> traverse "http://www.w3.org/2002/07/owl#equivalentClass" restrictions
+
+  let getExamplePattern uri =
+    Resource.fromSubject uri graph
+    |> function
+      | [] -> None, None
+      | x::_ -> (|FunctionalDataProperty|_|) !!"http://www.w3.org/2004/02/skos/core#example" (xsd.string) x, getPattern x
+
+  let getDataTypeDetails resource =
     resource
-    |> (|FunctionalObjectProperty|_|) (Uri.from "http://www.w3.org/2000/01/rdf-schema#range")
-    |> fun x -> match x with
-                | Some y -> y.ToString()
-                            |> reinstatePrefix ontologyConfig.Contexts
-                            |> Some
-                | _ -> None
+    |> (|FunctionalObjectProperty|_|) !!"http://www.w3.org/2000/01/rdf-schema#range"
+    |> function
+      | Some y -> (getRange y), (getExamplePattern y)
+      | _ -> None, (None, None)
            
-
   let getPropertyFromGraph (property:CoreProperty) =
     let resource = Resource.fromSubject(Uri.from property.PropertyId) graph
 
     let returnResponse resource =
+      let range, (example, pattern) = resource |> getDataTypeDetails
       { id = reinstatePrefix ontologyConfig.Contexts property.PropertyId
-        label = resource |> getLabel
-        range = resource |> getRange
+        label = resource |> (|FunctionalDataProperty|_|) !!"http://www.w3.org/2000/01/rdf-schema#label" (xsd.string)
+        range = range
+        pattern = pattern
+        example = example
         detail = Property property.Detail }
 
     match resource with
     | x::_ -> x |> returnResponse 
-    | _ -> { id = reinstatePrefix ontologyConfig.Contexts property.PropertyId
-             label = None
-             range = None
-             detail = Property property.Detail }
+    | _ -> { OntologyResponseProperty.empty with 
+               id = reinstatePrefix ontologyConfig.Contexts property.PropertyId
+               detail = Property property.Detail }
 
   ontologyConfig.Properties
   |> List.map getPropertyFromGraph

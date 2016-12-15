@@ -88,6 +88,19 @@ let private dummyCoreTtl = """@prefix : <https://nice.org.uk/ontologies/core/> .
 
 xsd:date a rdfs:Datatype .
 # 
+# https://nice.org.uk/ontologies/qualitystandard/thingy_datatype
+
+:thingy_datatype a rdfs:Datatype ;
+	rdfs:label "positionalIdStringPattern"@en ;
+	<http://www.w3.org/2004/02/skos/core#example> "qs14-st5"@en ;
+	owl:equivalentClass [ rdf:type rdfs:Datatype ;
+						  owl:onDatatype xsd:string ;
+						  owl:withRestrictions ( [ xsd:pattern "^qs[1-9]\\d*-st[1-9]\\d*$"
+							  					 ]
+							  				   )
+						] .
+
+# 
 # 
 # 
 # #################################################################
@@ -113,6 +126,7 @@ xsd:date a rdfs:Datatype .
 # https://nice.org.uk/ontologies/core/GUID_stringProperty
 
 :GUID_stringProperty a owl:ObjectProperty ;
+    rdfs:range :thingy_datatype ;
 	rdfs:label "This thingy"@en ;
 	<http://www.w3.org/2004/02/skos/core#prefLabel> "has this thingy"@en .
 #
@@ -249,26 +263,34 @@ let private dummy_contexts = [ { Prefix = "core"
                                { Prefix = "xsd"
                                  Value = "http://www.w3.org/2001/XMLSchema#" }
                                { Prefix = "rdfs"
-                                 Value = "http://www.w3.org/2000/01/rdf-schema#" } ]
+                                 Value = "http://www.w3.org/2000/01/rdf-schema#" }
+                               { Prefix = "skos"
+                                 Value = "http://www.w3.org/2004/02/skos/core#" } ]
 
 let dummyResponse_Properties = {
   contexts = dummy_contexts
   properties = [
                 { id = "core:GUID_stringProperty"
                   label = Some "This thingy"
-                  range = None
+                  range = Some "core:thingy_datatype"
+                  pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"
+                  example = Some "qs14-st5"
                   detail = Property (Some { Mandatory = true
-                                            Pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"
+                                            Default = None
                                             Condition = None } ) }
                 { id = "core:GUID_boolProperty"
                   label = None
                   range = Some "xsd:boolean"
+                  pattern = None
+                  example = None
                   detail = Property None }
                 { id = "core:GUID_conditionalProperty"
                   label = Some "That thingy changed"
                   range = Some "xsd:date"
+                  pattern = None
+                  example = None
                   detail = Property (Some { Mandatory = false
-                                            Pattern = None
+                                            Default = Some "14-10-1978"
                                             Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" } } ) }
               ]
 }
@@ -279,6 +301,8 @@ let dummyResponse_Vocabs = {
                  { id = "core:applies_to_thingy"
                    label = Some "Applies to thingy"
                    range = None
+                   pattern = None
+                   example = None
                    detail = Tree [
                                    { id = "thingy:thingy_level_1"
                                      label = "Thingy Level 1"
@@ -302,6 +326,7 @@ let private partialJsonResponse_contexts = """{
   "@context": {
     "core": "https://nice.org.uk/ontologies/core/",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "thingy": "https://nice.org.uk/ontologies/thingy/",
     "whatsit": "https://nice.org.uk/ontologies/whatsit/",
     "xsd": "http://www.w3.org/2001/XMLSchema#"
@@ -312,11 +337,12 @@ let private partialJsonResponse_properties = """
     {
       "@id": "core:GUID_stringProperty",
       "rdfs:label": "This thingy",
-      "rdfs:range": "xsd:string",
+      "rdfs:range": "core:thingy_datatype",
+      "skos:example": "qs14-st5",
       "validation": {
-        "mandatory": true,
-        "pattern": "^qs[1-9]\\d*-st[1-9]\\d*$"
-      }
+        "mandatory": true
+      },
+      "xsd:pattern": "^qs[1-9]\\d*-st[1-9]\\d*$"
     },
     {
       "@id": "core:GUID_boolProperty",
@@ -331,7 +357,8 @@ let private partialJsonResponse_properties = """
         "condition": {
           "@id": "core:GUID_boolProperty",
           "value": "no"
-        }
+        },
+        "default": "14-10-1978"
       }
     }"""
 
@@ -378,8 +405,7 @@ let dummyConfigFile = """{
     "dataproperties": [
       { "property": "GUID_stringProperty",
         "validation": {
-          "mandatory": true,
-          "pattern": "^qs[1-9]\\d*-st[1-9]\\d*$"
+          "mandatory": true
         }
       },
       { "property": "GUID_boolProperty" },
@@ -388,7 +414,8 @@ let dummyConfigFile = """{
           "condition": {
             "onproperty": "core:GUID_boolProperty",
             "value": "no"
-          }
+          },
+          "default": "14-10-1978"
         }
       }
     ]
@@ -409,22 +436,25 @@ let dummyConfigFile = """{
     },
     { "prefix": "rdfs",
        "uri": "http://www.w3.org/2000/01/rdf-schema#"
+    },
+    { "prefix": "skos",
+      "uri": "http://www.w3.org/2004/02/skos/core#"
     }
   ]
 }
 """
 
 let private dummyOntologies = [ { Uri= "core:applies_to_thingy"; SourceTtl= Content dummyChildTtl } ]
-let private dummyProperties = [ { PropertyId= "https://nice.org.uk/ontologies/core/GUID_stringProperty"; Detail = ( Some { Mandatory=true; Pattern = Some "^qs[1-9]\\d*-st[1-9]\\d*$"; Condition = None } ) }
+let private dummyProperties = [ { PropertyId= "https://nice.org.uk/ontologies/core/GUID_stringProperty"; Detail = ( Some { Mandatory=true; Default = None; Condition = None } ) }
                                 { PropertyId= "https://nice.org.uk/ontologies/core/GUID_boolProperty"; Detail = None }
-                                { PropertyId= "https://nice.org.uk/ontologies/core/GUID_conditionalProperty"; Detail = ( Some { Mandatory=false; Pattern = None; Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" } } ) } ]
-
+                                { PropertyId= "https://nice.org.uk/ontologies/core/GUID_conditionalProperty"; Detail = ( Some { Mandatory=false; Default = Some "14-10-1978"; Condition = Some { OnProperty = "core:GUID_boolProperty"; Value = "no" } } ) } ]
 let dummyOntologyConfigUri = { CoreTtl= Uri "http://schema/ontologies/core.ttl"
                                Contexts= [ { Prefix="core"; Value= "https://nice.org.uk/ontologies/core/" }
                                            { Prefix="thingy"; Value= "https://nice.org.uk/ontologies/thingy/" }
                                            { Prefix="whatsit"; Value= "https://nice.org.uk/ontologies/whatsit/" }
                                            { Prefix="xsd"; Value= "http://www.w3.org/2001/XMLSchema#" }
-                                           { Prefix="rdfs"; Value= "http://www.w3.org/2000/01/rdf-schema#" } ]
+                                           { Prefix="rdfs"; Value= "http://www.w3.org/2000/01/rdf-schema#" }
+                                           { Prefix="skos"; Value= "http://www.w3.org/2004/02/skos/core#" } ]
                                Ontologies = [ { Uri= "core:applies_to_thingy"; SourceTtl= Uri "http://schema/ontologies/thingy.ttl" } ]
                                Properties = dummyProperties
                              }

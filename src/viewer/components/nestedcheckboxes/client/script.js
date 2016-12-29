@@ -46,4 +46,8 @@ $(function() {
 
     }
 
+    $('.filter-checkbox:checked').each(function(){
+      ShowInferenceInTree(this);
+    });
+
 });

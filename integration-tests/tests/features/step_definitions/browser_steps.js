@@ -74,22 +74,22 @@ module.exports = function () {
 this.Given(/^I have published some Quality Statements with different Standard and Statement numbers$/, function (done) {
 
     var createStatement = new this.createStatement();
-    createStatement.addqsidentifier("1");
-    createStatement.addstidentifier("1");
+    createStatement.addqsidentifier("4");
+    createStatement.addstidentifier("4");
     createStatement.addserviceArea("https://nice.org.uk/ontologies/servicearea/41def0db_ac59_4e68_a61b_ad1183bced27");
     createStatement.addAbstract("Third");
     var esStatement = createStatement.build();
 
     var createStatement2 = new this.createStatement();
-    createStatement2.addqsidentifier("2");
-    createStatement2.addstidentifier("1");
+    createStatement2.addqsidentifier("21");
+    createStatement2.addstidentifier("4");
     createStatement2.addserviceArea("https://nice.org.uk/ontologies/servicearea/41def0db_ac59_4e68_a61b_ad1183bced27");
     createStatement2.addAbstract("First");
     var esStatement2 = createStatement2.build();
 
     var createStatement3 = new this.createStatement();
-    createStatement3.addqsidentifier("2");
-    createStatement3.addstidentifier("2");
+    createStatement3.addqsidentifier("21");
+    createStatement3.addstidentifier("21");
     createStatement3.addserviceArea("https://nice.org.uk/ontologies/servicearea/41def0db_ac59_4e68_a61b_ad1183bced27");
     createStatement3.addAbstract("Second");
     var esStatement3 = createStatement3.build();

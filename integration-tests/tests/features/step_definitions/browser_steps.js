@@ -7,7 +7,7 @@ chai.should();
 var es = require('../support/elasticsearch.js');
 
 module.exports = function () {
-  this.Given(/^I have published quality statements annotated with vocabulary term 1$/, function (done) {
+  this.Given(/^I have published quality statements annotated with vocabulary term Community health care$/, function (done) {
 
     var createStatement = new this.createStatement();
     createStatement.addqsidentifier("1");
@@ -28,7 +28,7 @@ module.exports = function () {
       .then(done());
   });
 
-  this.Given(/^I have published a quality statement annotated with vocabulary term 2$/, function (done) {
+  this.Given(/^I have published a quality statement annotated with vocabulary term Critical care$/, function (done) {
     var createStatement = new this.createStatement();
     createStatement.addqsidentifier("1");
     createStatement.addstidentifier("3");

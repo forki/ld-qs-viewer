@@ -6,7 +6,3 @@ discoverytool:
     - HOTJARID
     - GAID
     - LOGGING_ENVIRONMENT
-  external_links:
-    - knowledgebase/elastic:elastic
-    - knowledgebase/resourceapi:resourceapi
-    - knowledgebase/schema:schema

@@ -82,7 +82,7 @@ describe("Given I have searched and retrieved some results, When I select a resu
     noOfArgumentsPassed.should.equal(4); 
     ga.getCalls()[0].args[0].should.equal("send");
     ga.getCalls()[0].args[1].should.equal("event");
-    ga.getCalls()[0].args[2].should.equal("Search Result Index");
+    ga.getCalls()[0].args[2].should.equal("SEARCH_INDEX");
     ga.getCalls()[0].args[3].should.equal(index);
     ga.calledOnce.should.be.true; 
 

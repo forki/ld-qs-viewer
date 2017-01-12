@@ -82,6 +82,9 @@ var googleAnalytics = (function googleAnalytics() {
         ga('send', 'event', 'Results provided', 'With results', resultCountText);
       };
     },
+    sendSearchIndex : function(ga, searchIndex) {
+      ga('send', 'event', 'SEARCH_INDEX', searchIndex);
+    },
     sendScrollDepth : function send(ga, label, value){
       ga('send', 'event', 'Scroll depth', 'Percentage of scroll', label, value);
     },

@@ -21,14 +21,15 @@
       jQuery.withArgs("#old-standards").returns(sinon.stub({click:function(){}}));
       jQuery.withArgs("#mailFeedback").returns(sinon.stub({click:function(){}}));
       jQuery.withArgs(".card-list-wrapper").returns(sinon.stub({on:function(){}}));
+      jQuery.withArgs("div.card").returns(sinon.stub({click:function(){}}));
     </script>
     <script src="../../../src/viewer/components/sidebar/client/checkboxesFromUrlFilter.js"></script>
     <script src="../../../src/viewer/components/sidebar/client/googleAnalytics.js"></script>
     <script src="../../../src/viewer/components/main/client/script.js"></script>
 
     <script>mocha.setup('bdd')</script>
-    <script src="googleAnalytics.js"></script>
-    <script src="checkboxes.js"></script>
+    <script src="tests/googleAnalytics.js"></script>
+    <script src="tests/checkboxes.js"></script>
     <script src="main.js"></script>
     <script>mocha.run();</script>
   </body>

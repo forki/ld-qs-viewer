@@ -45,6 +45,11 @@
     jQuery("#mailFeedback").click(function() {
         googleAnalytics.sendOutboundLink(ga, "Feedback");
     });
+    jQuery('div.card').click(function(){
+      var cards = $("div.card");
+      var index = cards.index(this) + 1;
+      googleAnalytics.sendSearchIndex(ga, index);
+    });
 
     sidebar.selectCheckboxes(document.location.search);
   }

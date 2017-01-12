@@ -71,6 +71,25 @@ describe("Given there has been a filter selected and I click the apply filter bu
   });
 });
 
+describe("Given I have searched and retrieved some results, When I select a result", function() {
+  it("should send the index of the result to GA", function(done) {
+    var ga = sinon.spy();
+    var index = 1;
+    
+    googleAnalytics.sendSearchIndex(ga, index); 
+
+    var noOfArgumentsPassed = ga.getCalls()[0].args.length;
+    noOfArgumentsPassed.should.equal(4); 
+    ga.getCalls()[0].args[0].should.equal("send");
+    ga.getCalls()[0].args[1].should.equal("event");
+    ga.getCalls()[0].args[2].should.equal("SEARCH_INDEX");
+    ga.getCalls()[0].args[3].should.equal(index);
+    ga.calledOnce.should.be.true; 
+
+    done(); 
+  })
+})
+
 describe("Scroll index, page height to percentage value function", function() {
     var tests = [
         { args: [0,4], expected: { text: "Baseline", value: 0 } },

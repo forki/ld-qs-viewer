@@ -83,7 +83,7 @@ var googleAnalytics = (function googleAnalytics() {
       };
     },
     sendSearchIndex : function(ga, searchIndex) {
-      ga('send', 'event', 'SEARCH_INDEX', searchIndex);
+      ga('send', 'event', 'Search results', 'Search index', searchIndex);
     },
     sendScrollDepth : function send(ga, label, value){
       ga('send', 'event', 'Scroll depth', 'Percentage of scroll', label, value);

@@ -79,11 +79,12 @@ describe("Given I have searched and retrieved some results, When I select a resu
     googleAnalytics.sendSearchIndex(ga, index); 
 
     var noOfArgumentsPassed = ga.getCalls()[0].args.length;
-    noOfArgumentsPassed.should.equal(4); 
+    noOfArgumentsPassed.should.equal(5); 
     ga.getCalls()[0].args[0].should.equal("send");
     ga.getCalls()[0].args[1].should.equal("event");
-    ga.getCalls()[0].args[2].should.equal("SEARCH_INDEX");
-    ga.getCalls()[0].args[3].should.equal(index);
+    ga.getCalls()[0].args[2].should.equal("Search results");
+    ga.getCalls()[0].args[3].should.equal("Search index");
+    ga.getCalls()[0].args[4].should.equal(index);
     ga.calledOnce.should.be.true; 
 
     done(); 

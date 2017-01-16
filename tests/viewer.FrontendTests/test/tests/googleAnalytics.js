@@ -111,7 +111,7 @@ describe("Scroll index, page height to percentage value function", function() {
     ];
 
     tests.forEach(function(test) {
-        it(test.args[0] + " and " + test.args[1] + " should return the " + test.expected, function() {
+        it(test.args[0] + " and " + test.args[1] + " should return the text " + test.expected.text + " and value " + test.expected.value, function() {
             var result = "";
             var arg1 = test.args[0];
             var arg2 = test.args[1];

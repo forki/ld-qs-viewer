@@ -82,8 +82,8 @@ var googleAnalytics = (function googleAnalytics() {
         ga('send', 'event', 'Results provided', 'With results', resultCountText);
       };
     },
-    sendSearchIndex : function(ga, searchIndex) {
-      ga('send', 'event', 'Search results', 'Search index', searchIndex);
+    sendSearchIndex : function(ga, searchIndex, callback) {
+      ga('send', 'event', 'Search results', 'Search index', searchIndex, callback);
     },
     sendScrollDepth : function send(ga, label, value){
       ga('send', 'event', 'Scroll depth', 'Percentage of scroll', label, value);

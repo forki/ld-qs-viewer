@@ -75,16 +75,21 @@ describe("Given I have searched and retrieved some results, When I select a resu
   it("should send the index of the result to GA", function(done) {
     var ga = sinon.spy();
     var index = 1;
-    
-    googleAnalytics.sendSearchIndex(ga, index); 
+    var callback =  { hitCallback: function() {
+        window.location.href = "test";
+      }
+    };
+   
+    googleAnalytics.sendSearchIndex(ga, index, callback); 
 
     var noOfArgumentsPassed = ga.getCalls()[0].args.length;
-    noOfArgumentsPassed.should.equal(5); 
+    noOfArgumentsPassed.should.equal(6); 
     ga.getCalls()[0].args[0].should.equal("send");
     ga.getCalls()[0].args[1].should.equal("event");
     ga.getCalls()[0].args[2].should.equal("Search results");
     ga.getCalls()[0].args[3].should.equal("Search index");
     ga.getCalls()[0].args[4].should.equal(index);
+    ga.getCalls()[0].args[5].should.equal(callback);
     ga.calledOnce.should.be.true; 
 
     done(); 
@@ -106,7 +111,7 @@ describe("Scroll index, page height to percentage value function", function() {
     ];
 
     tests.forEach(function(test) {
-        it(test.args[0] + " and " + test.args[1] + " should return the " + test.expected, function() {
+        it(test.args[0] + " and " + test.args[1] + " should return the text " + test.expected.text + " and value " + test.expected.value, function() {
             var result = "";
             var arg1 = test.args[0];
             var arg2 = test.args[1];

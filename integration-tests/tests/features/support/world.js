@@ -60,8 +60,18 @@ function CustomWorld() {
           esStatement.body["qualitystandard:62496684_7027_4f37_bd0e_264c9ff727fd"] = Setting;
         },
 
-        addconditionDiseaese : function(conditionDisease) {
-          esStatement.body["qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9"] = conditionDisease;
+        addconditionDiseaese : function(value, explicitAndImplicit) {
+          var conditionOrDisease = "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9";
+          esStatement.body[conditionOrDisease] = value;
+          if (explicitAndImplicit) {
+            explicitAndImplicit.explicit.map(function(i) {
+              esStatement.body[conditionOrDisease + ':explicit'] = i;
+            });
+
+            explicitAndImplicit.implicit.map(function(i) {
+              esStatement.body[conditionOrDisease+ ':implicit'] = i;
+            });
+          }
         },
 
         addfactorsAffectingHealthOrWellbeing : function(factorsAffectingHealthOrWellbeing) {

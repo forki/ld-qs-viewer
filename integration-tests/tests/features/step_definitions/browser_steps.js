@@ -33,14 +33,38 @@ module.exports = function () {
     var createStatement = new this.createStatement();
     createStatement.addqsidentifier("1");
     createStatement.addstidentifier("1");
-    createStatement.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195");
+    createStatement.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d8819", {
+      explicit :
+      [
+       "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d8819"
+      ],
+      implicit :
+      [
+       "https://nice.org.uk/ontologies/conditionordisease/1a11dc2e_5fa1_4529_93b6_a511dfc00490",
+       "https://nice.org.uk/ontologies/conditionordisease/ccebc6dc_4125_4296_bbe7_18268131101b",
+       "https://nice.org.uk/ontologies/conditionordisease/9e2120c2_223a_49bd_adc8_b0597e2da9ec",
+       "https://nice.org.uk/ontologies/conditionordisease/f8143836_5188_455d_9b03_9f055d4450b3"
+      ]
+    });
     // createStatement.addSetting("https://nice.org.uk/ontologies/setting/e517e9af_3c12_4f8b_a320_9323dfdf2510");
     var esStatement = createStatement.build();
 
     var createStatement2 = new this.createStatement();
     createStatement2.addqsidentifier("1");
     createStatement2.addstidentifier("2");
-    createStatement2.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/1a11dc2e_5fa1_4529_93b6_a511dfc00490");
+    createStatement2.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/1a11dc2e_5fa1_4529_93b6_a511dfc00490", {
+      explicit :
+      [
+       "https://nice.org.uk/ontologies/conditionordisease/1a11dc2e_5fa1_4529_93b6_a511dfc00490"
+      ],
+      implicit :
+      [
+       "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d8819",
+       "https://nice.org.uk/ontologies/conditionordisease/ccebc6dc_4125_4296_bbe7_18268131101b",
+       "https://nice.org.uk/ontologies/conditionordisease/9e2120c2_223a_49bd_adc8_b0597e2da9ec",
+       "https://nice.org.uk/ontologies/conditionordisease/f8143836_5188_455d_9b03_9f055d4450b3"
+      ]
+    });
     var esStatement2 = createStatement2.build();
 
    console.log("STATEMENTS:",esStatement, esStatement2);

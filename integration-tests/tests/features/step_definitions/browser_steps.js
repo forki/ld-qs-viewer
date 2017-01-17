@@ -28,6 +28,29 @@ module.exports = function () {
       .then(done());
   });
 
+  this.Given(/^I have published some Quality Statements with explicit and inferred annotations/, function (done) {
+
+    var createStatement = new this.createStatement();
+    createStatement.addqsidentifier("1");
+    createStatement.addstidentifier("1");
+    createStatement.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195");
+    // createStatement.addSetting("https://nice.org.uk/ontologies/setting/e517e9af_3c12_4f8b_a320_9323dfdf2510");
+    var esStatement = createStatement.build();
+
+    var createStatement2 = new this.createStatement();
+    createStatement2.addqsidentifier("1");
+    createStatement2.addstidentifier("2");
+    createStatement2.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/1a11dc2e_5fa1_4529_93b6_a511dfc00490");
+    var esStatement2 = createStatement2.build();
+
+   console.log("STATEMENTS:",esStatement, esStatement2);
+
+    es.createStatement(esStatement)
+      .then(es.createStatement(esStatement2))
+      .then(es.refreshIndex())
+      .then(done());
+  });
+
   this.Given(/^I have published a quality statement annotated with vocabulary term Critical care$/, function (done) {
     var createStatement = new this.createStatement();
     createStatement.addqsidentifier("1");
@@ -112,15 +135,16 @@ this.Given(/^I have published some Quality Statements with different Standard an
     return es.refreshIndex().then(done());
   });
 
-  this.When(/^I select the vocabulary Service Area$/, function () {
-    var vocab = this.driver.findElement(By.xpath('//h4[contains(text(),"Service area")]'));
+  this.When(/^I select the vocabulary "([^"]*)"$/, function (text) {
+    this.debug(this.driver.findElement(By.css('.counter')));
+    var vocab = this.driver.findElement(By.xpath('//h4[contains(text(),"Condition or disease")]'));
     vocab.click();
   });
 
-  this.When(/^I select the vocabulary Setting$/, function () {
-    var vocab = this.driver.findElement(By.xpath('//h4[contains(text(),"Setting")]'));
-    vocab.click();
-  });
+ this.Then(/^I should see the results ordered by explicitly annotated terms first$/, function (callback) {
+         // Write code here that turns the phrase above into concrete actions
+         callback(null, 'pending');
+       });
 
   this.When(/^I select this single vocabulary term from the Service Area filters$/, function (done) {
     var checkbox1 = this.driver.findElement(By.xpath('//label[contains(text(),"Community health care")]'));
@@ -133,6 +157,15 @@ this.Given(/^I have published some Quality Statements with different Standard an
 
   this.When(/^I select this single vocabulary term from the Setting filters$/, function (done) {
     var checkbox1 = this.driver.findElement(By.xpath('//label[contains(text(),"Community")]'));
+    var condition = until.elementIsVisible(checkbox1, 5000);
+    this.driver.wait(condition, 25000).then(function() {
+      checkbox1.click();
+      done();
+    });
+  });
+
+  this.When(/^I select this "([^"]*)" from the Condition or disease filter$/, function (done, text) {
+    var checkbox1 = this.driver.findElement(By.xpath('//label[contains(text(),' + text + ')]'));
     var condition = until.elementIsVisible(checkbox1, 5000);
     this.driver.wait(condition, 25000).then(function() {
       checkbox1.click();

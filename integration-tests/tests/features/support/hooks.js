@@ -12,9 +12,9 @@ module.exports = function () {
       console.log("ERRROR INITIALISING", err) ;
       });
   });
-  this.After(function() {
-    return es.deleteIndex();
-  });
+  // this.After(function() {
+  //   return es.deleteIndex();
+  // });
   this.After(function() {
     return this.driver.quit();
   });

@@ -33,6 +33,7 @@ module.exports = function () {
     var createStatement = new this.createStatement();
     createStatement.addqsidentifier("1");
     createStatement.addstidentifier("1");
+    createStatement.addAbstract("Statement one")
     createStatement.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d8819", {
       explicit :
       [
@@ -46,12 +47,13 @@ module.exports = function () {
        "https://nice.org.uk/ontologies/conditionordisease/f8143836_5188_455d_9b03_9f055d4450b3"
       ]
     });
-    // createStatement.addSetting("https://nice.org.uk/ontologies/setting/e517e9af_3c12_4f8b_a320_9323dfdf2510");
+
     var esStatement = createStatement.build();
 
     var createStatement2 = new this.createStatement();
     createStatement2.addqsidentifier("1");
     createStatement2.addstidentifier("2");
+    createStatement2.addAbstract("Statement two")
     createStatement2.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/1a11dc2e_5fa1_4529_93b6_a511dfc00490", {
       explicit :
       [
@@ -66,8 +68,6 @@ module.exports = function () {
       ]
     });
     var esStatement2 = createStatement2.build();
-
-   console.log("STATEMENTS:",esStatement, esStatement2);
 
     es.createStatement(esStatement)
       .then(es.createStatement(esStatement2))
@@ -160,15 +160,21 @@ this.Given(/^I have published some Quality Statements with different Standard an
   });
 
   this.When(/^I select the vocabulary "([^"]*)"$/, function (text) {
-    this.debug(this.driver.findElement(By.css('.counter')));
     var vocab = this.driver.findElement(By.xpath('//h4[contains(text(),"Condition or disease")]'));
     vocab.click();
   });
 
- this.Then(/^I should see the results ordered by explicitly annotated terms first$/, function (callback) {
-         // Write code here that turns the phrase above into concrete actions
-         callback(null, 'pending');
-       });
+  this.Then(/^I should see the results ordered by explicitly annotated terms first$/, function (done) {
+    var expectedText = ["Statement one", "Statement two"];
+
+    this.driver.findElements(By.className("abstract")).then(function(elements) {
+        elements[0].getText().then(function(text){
+           "Statement one".should.equal(text);
+        });
+    });
+    done();
+
+  });
 
   this.When(/^I select this single vocabulary term from the Service Area filters$/, function (done) {
     var checkbox1 = this.driver.findElement(By.xpath('//label[contains(text(),"Community health care")]'));
@@ -188,8 +194,8 @@ this.Given(/^I have published some Quality Statements with different Standard an
     });
   });
 
-  this.When(/^I select this "([^"]*)" from the Condition or disease filter$/, function (done, text) {
-    var checkbox1 = this.driver.findElement(By.xpath('//label[contains(text(),' + text + ')]'));
+  this.When(/^I select this "([^"]*)" from the Condition or disease filter$/, function (text, done) {
+    var checkbox1 = this.driver.findElement(By.xpath('//label[contains(text(),"' + text + '")]'));
     var condition = until.elementIsVisible(checkbox1, 5000);
     this.driver.wait(condition, 25000).then(function() {
       checkbox1.click();
@@ -235,7 +241,7 @@ this.Given(/^I have published some Quality Statements with different Standard an
     });
   });
 
-  this.Then(/^I should see the results ordered by Standard number then Statement number$/, function (callback) {
+  this.Then(/^I should see the results ordered by Standard number then Statement number$/, function (done) {
     var expectedText = ["First", "Second", "Third"];
 
     this.driver.findElements(By.className("abstract")).then(function(elements) {
@@ -245,7 +251,7 @@ this.Given(/^I have published some Quality Statements with different Standard an
             });
         });
     });
-    callback();
-    });
+    done();
+  });
 
 };

@@ -24,14 +24,13 @@ function CustomWorld() {
           "@id": "http://ld.nice.org.uk/things/0646b769-f791-4fc4-b6df-1fa421452e79",
           "@type": "qualitystandard:QualityStatement",
           "https://nice.org.uk/ontologies/qualitystandard/1efaaa6a_c81a_4bd6_b598_c626b21c71fd": "<p>This is an abstract.</p>",
-          "qualitystandard:7ae8413a_2811_4a09_a655_eff8d276ec87":  "https://nice.org.uk/ontologies/servicearea/488b1a36_ab26_4752_bc2e_1f988aae2da5",
+          "qualitystandard:7ae8413a_2811_4a09_a655_eff8d276ec87": "https://nice.org.uk/ontologies/servicearea/488b1a36_ab26_4752_bc2e_1f988aae2da5",
           "https://nice.org.uk/ontologies/qualitystandard/bc8e0db0_5d8a_4100_98f6_774ac0eb1758": "qs1-st1",
           "https://nice.org.uk/ontologies/qualitystandard/c2cb17d6_238e_437d_af64_1b6f1003bc36": "yes",
           "https://nice.org.uk/ontologies/qualitystandard/3ff270e4_655a_4884_b186_e033f58759de": "0",
           "https://nice.org.uk/ontologies/qualitystandard/9fcb3758_a4d3_49d7_ab10_6591243caa67": "0",
           "https://nice.org.uk/ontologies/qualitystandard/bc8e0db0_5d8a_4100_98f6_774ac0eb1758": "This is a title",
           "https://nice.org.uk/ontologies/qualitystandard/0886da59_2c5f_4124_9f46_6be4537a4099": "2016-04-01"
-
         }
       };
 
@@ -44,8 +43,8 @@ function CustomWorld() {
           esStatement.body["https://nice.org.uk/ontologies/qualitystandard/9fcb3758_a4d3_49d7_ab10_6591243caa67"] = stidentifier;
         },
 
-        addAbstract : function(Abstract) {
-          esStatement.body["https://nice.org.uk/ontologies/qualitystandard/1efaaa6a_c81a_4bd6_b598_c626b21c71fd"] = Abstract;
+        addAbstract : function(abstract) {
+          esStatement.body["https://nice.org.uk/ontologies/qualitystandard/1efaaa6a_c81a_4bd6_b598_c626b21c71fd"] = abstract;
         },
 
         addserviceArea : function(serviceArea) {
@@ -56,8 +55,8 @@ function CustomWorld() {
           esStatement.body["qualitystandard:4e7a368e_eae6_411a_8167_97127b490f99"] = ageGroup;
         },
 
-        addSetting : function(Setting) {
-          esStatement.body["qualitystandard:62496684_7027_4f37_bd0e_264c9ff727fd"] = Setting;
+        addSetting : function(setting) {
+          esStatement.body["qualitystandard:62496684_7027_4f37_bd0e_264c9ff727fd"] = setting;
         },
 
         addconditionDiseaese : function(value, explicitAndImplicit) {
@@ -65,11 +64,17 @@ function CustomWorld() {
           esStatement.body[conditionOrDisease] = value;
           if (explicitAndImplicit) {
             explicitAndImplicit.explicit.map(function(i) {
-              esStatement.body[conditionOrDisease + ':explicit'] = i;
+              if (typeof(esStatement.body[conditionOrDisease + ':explicit'])==='undefined') {
+                esStatement.body[conditionOrDisease + ':explicit'] = [];
+              }
+              esStatement.body[conditionOrDisease + ':explicit'].push(i);
             });
 
             explicitAndImplicit.implicit.map(function(i) {
-              esStatement.body[conditionOrDisease+ ':implicit'] = i;
+              if (typeof(esStatement.body[conditionOrDisease + ':implicit'])==='undefined') {
+                esStatement.body[conditionOrDisease + ':implicit'] = [];
+              }
+              esStatement.body[conditionOrDisease+ ':implicit'].push(i);
             });
           }
         },

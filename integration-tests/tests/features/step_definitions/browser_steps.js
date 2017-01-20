@@ -160,7 +160,7 @@ this.Given(/^I have published some Quality Statements with different Standard an
   });
 
   this.When(/^I select the vocabulary "([^"]*)"$/, function (text) {
-    var vocab = this.driver.findElement(By.xpath('//h4[contains(text(),"Condition or disease")]'));
+    var vocab = this.driver.findElement(By.xpath('//h4[contains(text(),"' + text + '")]'));
     vocab.click();
   });
 

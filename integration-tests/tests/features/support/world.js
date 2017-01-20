@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 var webdriver = require("selenium-webdriver"),
     By = webdriver.By;
 var elasticsearch = require('./elasticsearch.js');
@@ -68,14 +70,14 @@ function CustomWorld() {
             R.prepend(explicitAndImplicit.implicit),
             R.flatten,
             R.uniq
-          )
+          );
 
           esStatement.body[conditionOrDisease] = allUniqueItems([ value ]);
           esStatement.body[conditionOrDisease + ':explicit'] = explicitAndImplicit.explicit;
           esStatement.body[conditionOrDisease + ':implicit'] = explicitAndImplicit.implicit;
 
           // console.log(esStatement.body);
-          
+
           // var conditionOrDisease = "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9";
           // if (value) {
           //   if (typeof(esStatement.body[conditionOrDisease])==='undefined') {

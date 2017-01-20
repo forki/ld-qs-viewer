@@ -33,10 +33,10 @@ module.exports = function () {
     var createStatement = new this.createStatement();
     createStatement.addqsidentifier("1");
     createStatement.addstidentifier("1");
-    createStatement.addAbstract("Statement one")
+    createStatement.addAbstract("Statement one");
     createStatement.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195", {
       explicit : [
-       "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195" 
+       "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195"
       ],
       implicit :
       [
@@ -50,9 +50,9 @@ module.exports = function () {
     var esStatement = createStatement.build();
 
     var createStatement2 = new this.createStatement();
-    createStatement2.addqsidentifier("1");
-    createStatement2.addstidentifier("2");
-    createStatement2.addAbstract("Statement two")
+    createStatement2.addqsidentifier("2");
+    createStatement2.addstidentifier("1");
+    createStatement2.addAbstract("Statement two");
     createStatement2.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/1a11dc2e_5fa1_4529_93b6_a511dfc00490", {
       explicit :
       [

@@ -20,6 +20,7 @@ let BuildQuery filters =
     |> concatToStringWithDelimiter ","
 
   let fullQuery = insertItemInto mustQuery shouldQuery
+  printf "Query-> %s" fullQuery
 
   fullQuery
 
@@ -28,7 +29,7 @@ let GetKBCount testing =
     match testing with
     | true -> "kb_test"
     | false -> "kb"
-  let url = sprintf "http://elastic:9200/%s/_count?" indexName
+  let url = sprintf "http://dev:9200/%s/_count?" indexName
   try
     Http.RequestString(url)
   with

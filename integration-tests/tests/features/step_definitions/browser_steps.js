@@ -34,10 +34,9 @@ module.exports = function () {
     createStatement.addqsidentifier("1");
     createStatement.addstidentifier("1");
     createStatement.addAbstract("Statement one")
-    createStatement.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d8819", {
-      explicit :
-      [
-       "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d8819"
+    createStatement.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195", {
+      explicit : [
+       "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195" 
       ],
       implicit :
       [
@@ -61,7 +60,7 @@ module.exports = function () {
       ],
       implicit :
       [
-       "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d8819",
+       "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195",
        "https://nice.org.uk/ontologies/conditionordisease/ccebc6dc_4125_4296_bbe7_18268131101b",
        "https://nice.org.uk/ontologies/conditionordisease/9e2120c2_223a_49bd_adc8_b0597e2da9ec",
        "https://nice.org.uk/ontologies/conditionordisease/f8143836_5188_455d_9b03_9f055d4450b3"
@@ -171,6 +170,9 @@ this.Given(/^I have published some Quality Statements with different Standard an
         elements[0].getText().then(function(text){
            "Statement one".should.equal(text);
         });
+        // elements[1].getText().then(function(text){
+        //    "Statement two".should.equal(text);
+        // });
     });
     done();
 

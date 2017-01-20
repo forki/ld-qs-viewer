@@ -2,6 +2,8 @@ var webdriver = require("selenium-webdriver"),
     By = webdriver.By;
 var elasticsearch = require('./elasticsearch.js');
 var config = require('../config.json');
+var R = require('ramda');
+var Maybe = R.Maybe;
 
 function CustomWorld() {
     this.driver = new webdriver.Builder()
@@ -61,22 +63,42 @@ function CustomWorld() {
 
         addconditionDiseaese : function(value, explicitAndImplicit) {
           var conditionOrDisease = "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9";
-          esStatement.body[conditionOrDisease] = value;
-          if (explicitAndImplicit) {
-            explicitAndImplicit.explicit.map(function(i) {
-              if (typeof(esStatement.body[conditionOrDisease + ':explicit'])==='undefined') {
-                esStatement.body[conditionOrDisease + ':explicit'] = [];
-              }
-              esStatement.body[conditionOrDisease + ':explicit'].push(i);
-            });
+          const allUniqueItems = R.pipe(
+            R.prepend(explicitAndImplicit.explicit),
+            R.prepend(explicitAndImplicit.implicit),
+            R.flatten,
+            R.uniq
+          )
 
-            explicitAndImplicit.implicit.map(function(i) {
-              if (typeof(esStatement.body[conditionOrDisease + ':implicit'])==='undefined') {
-                esStatement.body[conditionOrDisease + ':implicit'] = [];
-              }
-              esStatement.body[conditionOrDisease+ ':implicit'].push(i);
-            });
-          }
+          esStatement.body[conditionOrDisease] = allUniqueItems([ value ]);
+          esStatement.body[conditionOrDisease + ':explicit'] = explicitAndImplicit.explicit;
+          esStatement.body[conditionOrDisease + ':implicit'] = explicitAndImplicit.implicit;
+
+          // console.log(esStatement.body);
+          
+          // var conditionOrDisease = "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9";
+          // if (value) {
+          //   if (typeof(esStatement.body[conditionOrDisease])==='undefined') {
+          //     esStatement.body[conditionOrDisease] = [];
+          //   }
+          //   esStatement.body[conditionOrDisease] = value;
+          // }
+
+          // if (explicitAndImplicit) {
+          //   explicitAndImplicit.explicit.map(function(i) {
+          //     if (typeof(esStatement.body[conditionOrDisease + ':explicit'])==='undefined') {
+          //       esStatement.body[conditionOrDisease + ':explicit'] = [];
+          //     }
+          //     esStatement.body[conditionOrDisease + ':explicit'].push(i);
+          //   });
+
+          //   explicitAndImplicit.implicit.map(function(i) {
+          //     if (typeof(esStatement.body[conditionOrDisease + ':implicit'])==='undefined') {
+          //       esStatement.body[conditionOrDisease + ':implicit'] = [];
+          //     }
+          //     esStatement.body[conditionOrDisease+ ':implicit'].push(i);
+          //   });
+          // }
         },
 
         addfactorsAffectingHealthOrWellbeing : function(factorsAffectingHealthOrWellbeing) {

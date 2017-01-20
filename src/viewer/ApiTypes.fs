@@ -91,7 +91,7 @@ type OntologyConfig =
     let getProperties =
       d.Coreontology.Dataproperties
       |> Array.toList
-      |> List.map (fun x -> { PropertyId=(sprintf "%s%s%s" d.Baseontologyuri d.Coreontology.Ontology x.Property)
+      |> List.map (fun x -> { PropertyId=(sprintf "%s%s%s" "http://dev:20002/ontologies/" d.Coreontology.Ontology x.Property)
                               Detail= match x.Validation with
                                       | None -> None
                                       | Some y -> Some { Mandatory=(getboolvalue y.Mandatory)
@@ -101,6 +101,7 @@ type OntologyConfig =
                                                                    | _ -> None }
                             })
 
+    printf "%A" getProperties
     {
       CoreTtl = Uri (sprintf "%s%s" d.Basettluri d.Coreontology.Ttl)
       Contexts = getContexts

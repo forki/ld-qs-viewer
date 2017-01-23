@@ -33,7 +33,7 @@ module.exports = function () {
     var createStatement = new this.createStatement();
     createStatement.addqsidentifier("1");
     createStatement.addstidentifier("1");
-    createStatement.addAbstract("Statement one");
+    createStatement.addAbstract("Statement with explicit");
     createStatement.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195", {
       explicit : [
        "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195"
@@ -52,7 +52,7 @@ module.exports = function () {
     var createStatement2 = new this.createStatement();
     createStatement2.addqsidentifier("2");
     createStatement2.addstidentifier("1");
-    createStatement2.addAbstract("Statement two");
+    createStatement2.addAbstract("Statement with implicit");
     createStatement2.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/1a11dc2e_5fa1_4529_93b6_a511dfc00490", {
       explicit :
       [
@@ -164,15 +164,15 @@ this.Given(/^I have published some Quality Statements with different Standard an
   });
 
   this.Then(/^I should see the results ordered by explicitly annotated terms first$/, function (done) {
-    var expectedText = ["Statement one", "Statement two"];
+    var expectedText = ["Statement with explicit", "Statement with implicit"];
 
     this.driver.findElements(By.className("abstract")).then(function(elements) {
         elements[0].getText().then(function(text){
-           "Statement one".should.equal(text);
+          expectedText[0].should.equal(text);
         });
-        // elements[1].getText().then(function(text){
-        //    "Statement two".should.equal(text);
-        // });
+        elements[1].getText().then(function(text){
+          expectedText[1].should.equal(text);
+        });
     });
     done();
 

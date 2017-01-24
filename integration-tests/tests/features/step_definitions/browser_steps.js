@@ -68,8 +68,93 @@ module.exports = function () {
     });
     var esStatement2 = createStatement2.build();
 
+    var createStatement3 = new this.createStatement();
+    createStatement3.addqsidentifier("3");
+    createStatement3.addstidentifier("1");
+    createStatement3.addAbstract("Statement with 3 explicit terms");
+    createStatement3.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/01368400_f3a4_424b_955d_8dc2b1aeebfb", {
+      explicit :
+      [
+        "https://nice.org.uk/ontologies/conditionordisease/01368400_f3a4_424b_955d_8dc2b1aeebfb"
+      ],
+      implicit :
+      [
+        "https://nice.org.uk/ontologies/conditionordisease/f8143836_5188_455d_9b03_9f055d4450b3",
+        "https://nice.org.uk/ontologies/conditionordisease/99e4e4a0_3d6d_4329_984b_d021583993b4"
+      ]
+    });
+
+    createStatement3.addSetting("https://nice.org.uk/ontologies/setting/6369f927_a7b7_42ba_bf68_39482e32d7ab", {
+      explicit :
+      [
+        "https://nice.org.uk/ontologies/setting/6369f927_a7b7_42ba_bf68_39482e32d7ab"
+      ]
+    });
+
+    createStatement3.addageGroup("https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8", {
+      explicit :
+      [
+        "https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8"
+      ],
+      implicit :
+      [
+        "https://nice.org.uk/ontologies/agegroup/d3326f46_c734_4ab7_9e41_923256bd7d0b",
+        "https://nice.org.uk/ontologies/agegroup/aa4da4d7_b934_4d03_b556_f7b97381953f"
+      ]
+    });
+    var esStatement3 = createStatement3.build();
+
+    var createStatement4 = new this.createStatement();
+    createStatement4.addqsidentifier("4");
+    createStatement4.addstidentifier("1");
+    createStatement4.addAbstract("Statement with 2 explicit terms");
+    createStatement4.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/01368400_f3a4_424b_955d_8dc2b1aeebfb", {
+      explicit :
+      [
+        "https://nice.org.uk/ontologies/conditionordisease/01368400_f3a4_424b_955d_8dc2b1aeebfb"
+      ],
+      implicit :
+      [
+        "https://nice.org.uk/ontologies/conditionordisease/f8143836_5188_455d_9b03_9f055d4450b3",
+        "https://nice.org.uk/ontologies/conditionordisease/99e4e4a0_3d6d_4329_984b_d021583993b4"
+      ]
+    });
+
+    createStatement4.addageGroup("https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8", {
+      explicit :
+      [
+        "https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8"
+      ],
+      implicit :
+      [
+        "https://nice.org.uk/ontologies/agegroup/d3326f46_c734_4ab7_9e41_923256bd7d0b",
+        "https://nice.org.uk/ontologies/agegroup/aa4da4d7_b934_4d03_b556_f7b97381953f"
+      ]
+    });
+    // var esStatement4 = createStatement4.build();
+
+    var createStatement5 = new this.createStatement();
+    createStatement5.addqsidentifier("5");
+    createStatement5.addstidentifier("1");
+    createStatement5.addAbstract("Statement with 1 explicit terms");
+    createStatement3.addageGroup("https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8", {
+      explicit :
+      [
+        "https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8"
+      ],
+      implicit :
+      [
+        "https://nice.org.uk/ontologies/agegroup/d3326f46_c734_4ab7_9e41_923256bd7d0b",
+        "https://nice.org.uk/ontologies/agegroup/aa4da4d7_b934_4d03_b556_f7b97381953f"
+      ]
+    });
+    // var esStatement5 = createStatement5.build();
+
     es.createStatement(esStatement)
       .then(es.createStatement(esStatement2))
+      .then(es.createStatement(esStatement3))
+      // .then(es.createStatement(esStatement4))
+      // .then(es.createStatement(esStatement5))
       .then(es.refreshIndex())
       .then(done());
   });
@@ -196,7 +281,7 @@ this.Given(/^I have published some Quality Statements with different Standard an
     });
   });
 
-  this.When(/^I select this "([^"]*)" from the Condition or disease filter$/, function (text, done) {
+  this.When(/^I select this "([^"]*)" from the filters$/, function (text, done) {
     var checkbox1 = this.driver.findElement(By.xpath('//label[contains(text(),"' + text + '")]'));
     var condition = until.elementIsVisible(checkbox1, 5000);
     this.driver.wait(condition, 25000).then(function() {

@@ -8,24 +8,24 @@ And I select this single vocabulary term from the Service Area filters
 And I perform a search
 Then I should see the results ordered by Standard number then Statement number
 
-@runonly
 Scenario: Statements with explicit matches appear ahead of Statements with inferred matches
 Given I have published some Quality Statements with explicit and inferred annotations
 When I visit the statement finder homepage
 And I select the vocabulary "Condition or disease"
-And I select this "Acute myocardial infarction" from the Condition or disease filter
+And I select this "Acute myocardial infarction" from the filters
 And I perform a search
 Then I should see the results ordered by explicitly annotated terms first
 
+@runonly
 Scenario: Statements with explicit matches High to low
 Given I have published some Quality Statements with explicit and inferred annotations
 When I visit the statement finder homepage
 And I select the vocabulary "Condition or disease"
-And I select this "Acute myocardial infarction" from the Condition or disease filter
+And I select this "Deep vein thrombosis" from the filters
 And I select the vocabulary "Age group"
-And I select this "Adults 65+ years" from the Age group filter
+And I select this "Adults 65+ years" from the filters
 And I select the vocabulary "Setting"
-And I select this "Hospital" from the Setting filter
+And I select this "Hospital" from the filters
 And I perform a search
 Then I should see the results ordered by the most explicit matches to the least
 

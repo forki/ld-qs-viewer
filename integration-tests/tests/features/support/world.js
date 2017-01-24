@@ -5,10 +5,10 @@ var webdriver = require("selenium-webdriver"),
 var elasticsearch = require('./elasticsearch.js');
 var config = require('../config.json');
 
-var R = require('ramda')
-var M = require('ramda-fantasy').Maybe
-var Nothing = M.Nothing
-var Just = M.Just
+var R = require('ramda');
+var M = require('ramda-fantasy').Maybe;
+var Nothing = M.Nothing;
+var Just = M.Just;
 
 function CustomWorld() {
     this.driver = new webdriver.Builder()
@@ -58,12 +58,50 @@ function CustomWorld() {
           esStatement.body["qualitystandard:7ae8413a_2811_4a09_a655_eff8d276ec87"] = serviceArea;
         },
 
-        addageGroup : function(ageGroup) {
-          esStatement.body["qualitystandard:4e7a368e_eae6_411a_8167_97127b490f99"] = ageGroup;
+        addageGroup : function(value, explicitAndImplicit) {
+          const lookup = R.curry((k, obj) => k in obj ? just(obj[k]) : Nothing());
+          const just = R.chain(M.maybe([], R.of));
+
+          const ageGroup = "qualitystandard:4e7a368e_eae6_411a_8167_97127b490f99";
+          const root = R.defaultTo(Nothing(), explicitAndImplicit);
+          const resultExplicit = lookup('explicit', root);
+          const resultImplicit = lookup('implicit', root);
+
+          const allUniqueItems = R.pipe(
+            R.prepend(resultExplicit),
+            R.prepend(resultImplicit),
+            R.flatten,
+            justs,
+            R.flatten,
+            R.uniq
+          );
+
+          esStatement.body[ageGroup] = allUniqueItems([ Just( value ) ]);
+          esStatement.body[ageGroup + ':explicit'] = resultExplicit.getOrElse([]);
+          esStatement.body[ageGroup + ':implicit'] = resultImplicit.getOrElse([]);
         },
 
-        addSetting : function(setting) {
-          esStatement.body["qualitystandard:62496684_7027_4f37_bd0e_264c9ff727fd"] = setting;
+        addSetting : function(value, explicitAndImplicit) {
+          const lookup = R.curry((k, obj) => k in obj ? just(obj[k]) : Nothing());
+          const just = R.chain(M.maybe([], R.of));
+
+          const setting = "qualitystandard:62496684_7027_4f37_bd0e_264c9ff727fd";
+          const root = R.defaultTo(Nothing(), explicitAndImplicit);
+          const resultExplicit = lookup('explicit', root);
+          const resultImplicit = lookup('implicit', root);
+
+          const allUniqueItems = R.pipe(
+            R.prepend(resultExplicit),
+            R.prepend(resultImplicit),
+            R.flatten,
+            justs,
+            R.flatten,
+            R.uniq
+          );
+
+          esStatement.body[setting] = allUniqueItems([ Just( value ) ]);
+          esStatement.body[setting + ':explicit'] = resultExplicit.getOrElse([]);
+          esStatement.body[setting + ':implicit'] = resultImplicit.getOrElse([]);
         },
 
         addconditionDiseaese : function(value, explicitAndImplicit) {
@@ -71,9 +109,9 @@ function CustomWorld() {
           const justs = R.chain(M.maybe([], R.of));
 
           const conditionOrDisease = "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9";
-          const root = R.defaultTo(Nothing(), explicitAndImplicit)
-          const resultExplicit = lookup('explicit', root)
-          const resultImplicit = lookup('implicit', root)
+          const root = R.defaultTo(Nothing(), explicitAndImplicit);
+          const resultExplicit = lookup('explicit', root);
+          const resultImplicit = lookup('implicit', root);
 
           const allUniqueItems = R.pipe(
             R.prepend(resultExplicit),
@@ -85,8 +123,8 @@ function CustomWorld() {
           );
 
           esStatement.body[conditionOrDisease] = allUniqueItems([ Just( value ) ]);
-          esStatement.body[conditionOrDisease + ':explicit'] = resultExplicit.getOrElse([])
-          esStatement.body[conditionOrDisease + ':implicit'] = resultImplicit.getOrElse([])
+          esStatement.body[conditionOrDisease + ':explicit'] = resultExplicit.getOrElse([]);
+          esStatement.body[conditionOrDisease + ':implicit'] = resultImplicit.getOrElse([]);
 
         },
 

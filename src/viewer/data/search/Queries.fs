@@ -1,8 +1,23 @@
 module Viewer.Data.Search.Queries
+open System
 
 // Elasticsearch query fragments go here
 
 let termQuery = """{"term" : {"%s" : "%s"}}"""
+let relevancyTermQuery = """
+{"match" : {
+    "%s:explicit" : { 
+        "query": "%s" 
+      }
+    }
+},
+{"match":{
+    "%s":{
+      "query" : "%s"
+    }
+  }
+}
+"""
 
 let shouldQuery = """{"bool" : {
             "should" : [
@@ -11,7 +26,8 @@ let shouldQuery = """{"bool" : {
           }}"""
 
 let relevancyQuery = """{
-"from": 0, "size": 1500,
+"from": 0, 
+"size": 1500,
 "query": {
   "bool" : {
     "must" : [

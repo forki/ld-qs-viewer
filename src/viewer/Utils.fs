@@ -68,6 +68,9 @@ let aggregateFiltersByVocab (filters:Filter list) =
   |> Seq.map getTerms
   |> Seq.toList
 
+let insertItemsMultipleInto query item1 item2 =
+  sprintf (Printf.StringFormat<string->string->string->string->string>(query)) item1 item2 item1 item2
+
 let insertItemsInto query item1 item2 =
   sprintf (Printf.StringFormat<string->string->string>(query)) item1 item2
 

@@ -5,6 +5,7 @@ open FsUnit
 open Viewer.Data.Search.Elastic
 open Viewer.Types
 open Viewer.Components.SearchResults
+open FSharp.Data
 
 [<Test>]
 let ``Should build query correctly for a single vocab and term term`` () =
@@ -176,37 +177,57 @@ let ``Should prefix key with defined url`` () =
 
     [{Vocab = "vocab"; TermUri = prefix+"uri"}] |> should equal results
     
-(* [<Test>]*)
-(* let ``Given I have searched for an explicit term`` () =*)
-(*   let filters = [{Vocab="vocab"; TermUris=["term1";"term2"]}*)
-(*                  {Vocab="vocab2"; TermUris=["term3";"term4"]}]*)
+[<Test>]
+let ``Should build query with boosted terms`` () =
+  let filters = [{Vocab="vocab"; TermUris=["term1";]}]
 
-(*   let query = BuildQuery filters*)
-(*   let expectedQuery = """{*)
-(* "from": 0, "size": 1500,*)
-(* "query": {*)
-(*   "filtered": {*)
-(*     "filter" : {*)
-(*       "bool" : {*)
-(*         "must" : [*)
-(*           {"bool" : {*)
-(*             "should" : [*)
-(*               {"term" : {"vocab" : "term1"}}*)
-(*             ]*)
-(*           }},{"bool" : {*)
-(*             "should" : [*)
-(*               {"term" : {"vocab2" : "term3"}},{"term" : {"vocab2" : "term4"}}*)
-(*             ]*)
-(*           }}*)
-(*         ]*)
-(*       }*)
-(*     }*)
-(*   }*)
-(* },*)
-(* "sort": [*)
-(*   { "https://nice.org.uk/ontologies/qualitystandard/3ff270e4_655a_4884_b186_e033f58759de" : { "order": "desc" }},*)
-(*   { "https://nice.org.uk/ontologies/qualitystandard/9fcb3758_a4d3_49d7_ab10_6591243caa67" : { "order": "asc" }}*)
-(* ]*)
-(* }"""*)
+  let query = BuildQueryWithRelevancy filters
+  let expectedQuery = """{
+"from": 0,
+  "size": 1500,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "bool": {
+            "should": [
+              {
+                "match": {
+                  "vocab:explicit": {
+                    "query": "term1"
+                  }
+                }
+              },
+              {
+                "match": {
+                  "vocab": {
+                    "query": "term1"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "sort": [
+    {
+      "https://nice.org.uk/ontologies/qualitystandard/3ff270e4_655a_4884_b186_e033f58759de": {
+        "order": "desc"
+      }
+    },
+    {
+      "https://nice.org.uk/ontologies/qualitystandard/9fcb3758_a4d3_49d7_ab10_6591243caa67": {
+        "order": "asc"
+      }
+    }
+  ]
+}
+"""
 
-(*   query |> should equal expectedQuery*)
+  let expectedJson = JsonValue.Parse expectedQuery
+  let resultedJson = JsonValue.Parse query
+
+  resultedJson |> should equal expectedJson
+

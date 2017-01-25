@@ -25,54 +25,18 @@ let BuildQuery filters =
 
 let BuildQueryWithRelevancy filters =
   
-  printf "bah ahah %A" filters
-  (* let shouldQuery = *)
-  (*   filters*)
-  (*   |> Seq.map (fun {Vocab=v; TermUris=terms} -> *)
-  (*                   terms*)
-  (*                   |> Seq.map (fun t -> insertItemsInto termQuery (Uri.UnescapeDataString v) t)*)
-  (*                   |> concatToStringWithDelimiter ",")*)
-  (*   |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)*)
-  (*   |> concatToStringWithDelimiter ","*)
+  let shouldQuery =
+    filters
+    |> Seq.map (fun {Vocab=v; TermUris=terms} ->
+                    terms
+                    |> Seq.map (fun t -> insertItemsMultipleInto relevancyTermQuery (Uri.UnescapeDataString v) t)
+                    |> concatToStringWithDelimiter ",")
+    |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)
+    |> concatToStringWithDelimiter ","
 
-  (* let fullQuery = insertItemInto relevancyQuery shouldQuery*)
-  let fullQuery = """
-{
-  "from": 0,
-  "size": 1500,
-  "query": {
-        "bool": {
-          "must": [
-            {
-              "bool": {
-                "should": [
-                  {
-                    "match": {
-                      "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9:explicit": {
-                        "query": "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195"
-                      }
-                    }
-                  },
-                  {
-                    "match": {
-           "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9" : {
-           	"query" :
-           "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195"
-                    	}
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-  }
-}
-
-"""
+  let fullQuery = insertItemInto relevancyQuery shouldQuery
+  printf "Query->%s" fullQuery 
   
-  printf "Query-> %s" fullQuery
-
   fullQuery
 
 let GetKBCount testing =
@@ -80,7 +44,7 @@ let GetKBCount testing =
     match testing with
     | true -> "kb_test"
     | false -> "kb"
-  let url = sprintf "http://dev:9200/%s/_count?" indexName
+  let url = sprintf "http://elastic:9200/%s/_count?" indexName
   try
     Http.RequestString(url)
   with

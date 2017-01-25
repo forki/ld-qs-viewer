@@ -88,7 +88,8 @@ module.exports = function () {
       explicit :
       [
         "https://nice.org.uk/ontologies/setting/6369f927_a7b7_42ba_bf68_39482e32d7ab"
-      ]
+      ], 
+      implicit : []
     });
 
     createStatement3.addageGroup("https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8", {
@@ -131,7 +132,7 @@ module.exports = function () {
         "https://nice.org.uk/ontologies/agegroup/aa4da4d7_b934_4d03_b556_f7b97381953f"
       ]
     });
-    // var esStatement4 = createStatement4.build();
+    var esStatement4 = createStatement4.build();
 
     var createStatement5 = new this.createStatement();
     createStatement5.addqsidentifier("5");
@@ -148,13 +149,13 @@ module.exports = function () {
         "https://nice.org.uk/ontologies/agegroup/aa4da4d7_b934_4d03_b556_f7b97381953f"
       ]
     });
-    // var esStatement5 = createStatement5.build();
+    var esStatement5 = createStatement5.build();
 
     es.createStatement(esStatement)
       .then(es.createStatement(esStatement2))
       .then(es.createStatement(esStatement3))
-      // .then(es.createStatement(esStatement4))
-      // .then(es.createStatement(esStatement5))
+      .then(es.createStatement(esStatement4))
+      .then(es.createStatement(esStatement5))
       .then(es.refreshIndex())
       .then(done());
   });

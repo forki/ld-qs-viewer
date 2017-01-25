@@ -59,8 +59,8 @@ function CustomWorld() {
         },
 
         addageGroup : function(value, explicitAndImplicit) {
-          const lookup = R.curry((k, obj) => k in obj ? just(obj[k]) : Nothing());
-          const just = R.chain(M.maybe([], R.of));
+          const lookup = R.curry((k, obj) => k in obj ? Just(obj[k]) : Nothing());
+          const justs = R.chain(M.maybe([], R.of));
 
           const ageGroup = "qualitystandard:4e7a368e_eae6_411a_8167_97127b490f99";
           const root = R.defaultTo(Nothing(), explicitAndImplicit);
@@ -82,8 +82,8 @@ function CustomWorld() {
         },
 
         addSetting : function(value, explicitAndImplicit) {
-          const lookup = R.curry((k, obj) => k in obj ? just(obj[k]) : Nothing());
-          const just = R.chain(M.maybe([], R.of));
+          const lookup = R.curry((k, obj) => k in obj ? Just(obj[k]) : Nothing());
+          const justs = R.chain(M.maybe([], R.of));
 
           const setting = "qualitystandard:62496684_7027_4f37_bd0e_264c9ff727fd";
           const root = R.defaultTo(Nothing(), explicitAndImplicit);

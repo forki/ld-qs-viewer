@@ -20,6 +20,7 @@ type AppConfiguration = {
   Vocabs : Vocabulary list
   RenderedVocabs : string
   PerformSearch : AggregatedFilter list -> SearchResult list
+  PerformSearchWithOrder : AggregatedFilter list -> SearchResult list
   GetKBCount : bool -> int
   HotjarId : string
   GAId : string
@@ -34,6 +35,7 @@ let getAppConfig mode =
     {Vocabs = Stubs.vocabs
      RenderedVocabs = renderVocabs Stubs.vocabs
      PerformSearch = performSearchWithProvider Stubs.search
+     PerformSearchWithOrder = performSearchWithProvider Stubs.searchWithOrder
      GetKBCount = Stubs.getKBCount
      HotjarId = "whoisjaridanyway"
      GAId = "whoisjaridanyway"
@@ -46,6 +48,7 @@ let getAppConfig mode =
     {Vocabs = vocabs
      RenderedVocabs = renderVocabs vocabs
      PerformSearch = performSearchWithProvider Viewer.Data.Search.Elastic.search 
+     PerformSearchWithOrder = performSearchWithProvider Viewer.Data.Search.Elastic.searchWithRelevancy
      GetKBCount = KnowledgeBaseCount
      HotjarId = Environment.GetEnvironmentVariable "HOTJARID"
      GAId = Environment.GetEnvironmentVariable "GAID"

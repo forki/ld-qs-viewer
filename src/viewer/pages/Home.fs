@@ -29,10 +29,17 @@ let private buildContent (req:HttpRequest) config showOverview =
     match testing with
     | true -> {config with RenderedVocabs = renderVocabs Stubs.vocabs}
     | false -> config
+ 
+  let relevancyTest args = 
+    match args |> List.contains(("relevancyTest", Some "A")) with
+    | false ->
+      config.PerformSearch
+    | true ->
+      config.PerformSearchWithOrder
 
   [Sidebar.render config.RenderedVocabs 
    SearchResults.render {Qs=qs
-                         PerformSearch = config.PerformSearch
+                         PerformSearch = relevancyTest qs
                          GetKBCount = config.GetKBCount
                          Vocabs = config.Vocabs
                          ShowOverview = showOverview

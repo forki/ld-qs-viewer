@@ -20,6 +20,57 @@ let BuildQuery filters =
     |> concatToStringWithDelimiter ","
 
   let fullQuery = insertItemInto mustQuery shouldQuery
+
+  fullQuery
+
+let BuildQueryWithRelevancy filters =
+  
+  printf "bah ahah %A" filters
+  (* let shouldQuery = *)
+  (*   filters*)
+  (*   |> Seq.map (fun {Vocab=v; TermUris=terms} -> *)
+  (*                   terms*)
+  (*                   |> Seq.map (fun t -> insertItemsInto termQuery (Uri.UnescapeDataString v) t)*)
+  (*                   |> concatToStringWithDelimiter ",")*)
+  (*   |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)*)
+  (*   |> concatToStringWithDelimiter ","*)
+
+  (* let fullQuery = insertItemInto relevancyQuery shouldQuery*)
+  let fullQuery = """
+{
+  "from": 0,
+  "size": 1500,
+  "query": {
+        "bool": {
+          "must": [
+            {
+              "bool": {
+                "should": [
+                  {
+                    "match": {
+                      "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9:explicit": {
+                        "query": "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195"
+                      }
+                    }
+                  },
+                  {
+                    "match": {
+           "qualitystandard:28745bc0_6538_46ee_8b71_f0cf107563d9" : {
+           	"query" :
+           "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195"
+                    	}
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+  }
+}
+
+"""
+  
   printf "Query-> %s" fullQuery
 
   fullQuery
@@ -43,7 +94,7 @@ let RunElasticQuery testing (query: string) =
     | true -> "kb_test"
     | false -> "kb"
 
-  let url = sprintf "http://elastic:9200/%s/qualitystatement/_search?" indexName
+  let url = sprintf "http://dev:9200/%s/qualitystatement/_search?" indexName
   try
     Http.RequestString(url,
                        body = TextRequest query,
@@ -89,5 +140,8 @@ let ParseResponse response =
 let KnowledgeBaseCount testing =
   GetKBCount testing |> ParseCountResponse
 
+let searchWithRelevancy : (AggregatedFilter list -> SearchResult list) =
+  BuildQueryWithRelevancy >> RunElasticQuery false >> ParseResponse
+  
 let search : (AggregatedFilter list -> SearchResult list) =
   BuildQuery >> RunElasticQuery false >> ParseResponse

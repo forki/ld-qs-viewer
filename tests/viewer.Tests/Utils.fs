@@ -28,6 +28,7 @@ let baseConfig = {
   Vocabs = []
   RenderedVocabs = ""
   PerformSearch = (fun _ -> [])
+  PerformSearchWithOrder = (fun _ -> [])
   GetKBCount = (fun _ -> 0)
   HotjarId = ""
   GAId = ""

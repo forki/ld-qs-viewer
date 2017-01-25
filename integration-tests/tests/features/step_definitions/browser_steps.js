@@ -88,7 +88,7 @@ module.exports = function () {
       explicit :
       [
         "https://nice.org.uk/ontologies/setting/6369f927_a7b7_42ba_bf68_39482e32d7ab"
-      ], 
+      ],
       implicit : []
     });
 
@@ -138,7 +138,7 @@ module.exports = function () {
     createStatement5.addqsidentifier("5");
     createStatement5.addstidentifier("1");
     createStatement5.addAbstract("Statement with 1 explicit terms");
-    createStatement3.addageGroup("https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8", {
+    createStatement5.addageGroup("https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8", {
       explicit :
       [
         "https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8"

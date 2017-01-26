@@ -33,7 +33,7 @@ module.exports = function () {
     var createStatement = new this.createStatement();
     createStatement.addqsidentifier("1");
     createStatement.addstidentifier("1");
-    createStatement.addAbstract("Statement with explicit");
+    createStatement.addAbstract("Statement annotated explicitly with Acute Myocardial Infarction");
     createStatement.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195", {
       explicit : [
        "https://nice.org.uk/ontologies/conditionordisease/378d3779_f11d_4e1f_b211_6e77a1d88195"
@@ -52,7 +52,7 @@ module.exports = function () {
     var createStatement2 = new this.createStatement();
     createStatement2.addqsidentifier("2");
     createStatement2.addstidentifier("1");
-    createStatement2.addAbstract("Statement with implicit");
+    createStatement2.addAbstract("Statement annotated explicitly with NSTEMI");
     createStatement2.addconditionDiseaese("https://nice.org.uk/ontologies/conditionordisease/1a11dc2e_5fa1_4529_93b6_a511dfc00490", {
       explicit :
       [
@@ -88,8 +88,7 @@ module.exports = function () {
       explicit :
       [
         "https://nice.org.uk/ontologies/setting/6369f927_a7b7_42ba_bf68_39482e32d7ab"
-      ],
-      implicit : []
+      ]
     });
 
     createStatement3.addageGroup("https://nice.org.uk/ontologies/agegroup/7cd6067c_4af1_411e_ba3c_39abac7633c8", {
@@ -250,7 +249,7 @@ this.Given(/^I have published some Quality Statements with different Standard an
   });
 
   this.Then(/^I should see the results ordered by explicitly annotated terms first$/, function (done) {
-    var expectedText = ["Statement with explicit", "Statement with implicit"];
+    var expectedText = ["Statement annotated explicitly with NSTEMI", "Statement annotated explicitly with Acute Myocardial Infarction"];
 
     this.driver.findElements(By.className("abstract")).then(function(elements) {
         elements[0].getText().then(function(text){

@@ -31,7 +31,7 @@ let private buildContent (req:HttpRequest) config showOverview =
     | false -> config
  
   let relevancyTest args = 
-    match args |> List.contains(("relevancyTest", Some "A")) with
+    match args |> List.contains(("relevancyTest", Some "1")) with
     | false ->
       config.PerformSearch
     | true ->

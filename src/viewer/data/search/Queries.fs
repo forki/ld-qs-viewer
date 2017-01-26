@@ -7,13 +7,15 @@ let termQuery = """{"term" : {"%s" : "%s"}}"""
 let relevancyTermQuery = """
 {"match" : {
     "%s:explicit" : { 
-        "query": "%s" 
+        "query": "%s",
+        "boost" : 10
       }
     }
 },
 {"match":{
-    "%s":{
-      "query" : "%s"
+    "%s:implicit" :{
+      "query" : "%s",
+      "boost" : 1
     }
   }
 }
@@ -35,10 +37,7 @@ let relevancyQuery = """{
     ]
   }
 },
-"sort": [
-  { "https://nice.org.uk/ontologies/qualitystandard/3ff270e4_655a_4884_b186_e033f58759de" : { "order": "desc" }},
-  { "https://nice.org.uk/ontologies/qualitystandard/9fcb3758_a4d3_49d7_ab10_6591243caa67" : { "order": "asc" }}
-]
+"sort" : ["_score"]
 }"""
 
 let mustQuery = """{

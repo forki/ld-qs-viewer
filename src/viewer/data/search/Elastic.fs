@@ -27,6 +27,7 @@ let BuildQueryWithRelevancy filters =
   
   let shouldQuery =
     filters
+    |> Seq.filter(fun (x) -> not(x.Vocab.Equals("relevancyTest"))) 
     |> Seq.map (fun {Vocab=v; TermUris=terms} ->
                     terms
                     |> Seq.map (fun t -> insertItemsMultipleInto relevancyTermQuery (Uri.UnescapeDataString v) t)
@@ -35,7 +36,7 @@ let BuildQueryWithRelevancy filters =
     |> concatToStringWithDelimiter ","
 
   let fullQuery = insertItemInto relevancyQuery shouldQuery
-  printf "Query->%s" fullQuery 
+  printf "\n\nfull query->\n\n%A" fullQuery
   
   fullQuery
 
@@ -44,7 +45,7 @@ let GetKBCount testing =
     match testing with
     | true -> "kb_test"
     | false -> "kb"
-  let url = sprintf "http://elastic:9200/%s/_count?" indexName
+  let url = sprintf "http://dev:9200/%s/_count?" indexName
   try
     Http.RequestString(url)
   with

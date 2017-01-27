@@ -45,7 +45,8 @@ let GetKBCount testing =
     match testing with
     | true -> "kb_test"
     | false -> "kb"
-  let url = sprintf "http://dev:9200/%s/_count?" indexName
+  printf "INDEX NAME-> %s" indexName
+  let url = sprintf "http://elastic:9200/%s/_count?" indexName
   try
     Http.RequestString(url)
   with
@@ -59,7 +60,7 @@ let RunElasticQuery testing (query: string) =
     | true -> "kb_test"
     | false -> "kb"
 
-  let url = sprintf "http://dev:9200/%s/qualitystatement/_search?" indexName
+  let url = sprintf "http://elastic:9200/%s/qualitystatement/_search?" indexName
   try
     Http.RequestString(url,
                        body = TextRequest query,

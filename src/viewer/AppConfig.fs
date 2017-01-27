@@ -41,7 +41,7 @@ let getAppConfig mode =
      GAId = "whoisjaridanyway"
      OntologyConfig = config}
   | Prod ->
-    let config = try Http.RequestString "http://dev:20002/ontologies/annotationconfig.json" |> OntologyConfig.build
+    let config = try Http.RequestString "http://schema/ontologies/annotationconfig.json" |> OntologyConfig.build
                  with ex -> Log.Error(sprintf "Exception encountered reading configFile\n%s" ( ex.ToString() ) )
                             { CoreTtl = Uri ""; Contexts = []; Ontologies = []; Properties = []}
     let vocabs = config |> readVocabsFromFiles

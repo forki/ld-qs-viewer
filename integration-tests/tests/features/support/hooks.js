@@ -3,9 +3,9 @@ var es = require('./elasticsearch.js');
 module.exports = function () {
   this.Before(function() {
     this.driver.manage().window().setSize(1280, 1024);
-    return es.indexExists().then(function (exists) {
+     es.indexExists().then(function (exists) {
       if (exists) {
-        // return es.deleteIndex();
+        return es.deleteIndex();
       }
     }).then(es.initIndex())
       .catch(function(err) {

@@ -1,5 +1,5 @@
 (function() {
-    var qs ="";
+  var qs ="";
   if (jQuery) {
       jQuery(document).ready(function() {
         //track result count 
@@ -57,5 +57,26 @@
     });
 
     sidebar.selectCheckboxes(document.location.search);
+
+    //display a piece of text based on whether the relevancy test is passed in the query string
+    //also manipulate the hidden field value
+    var relevancyTest = "relevancyTest";
+    var qs = document.location.search;
+    var testVariableValue = qs[qs.indexOf(relevancyTest) + relevancyTest.length+1]
+    function setHiddenField(val) {
+      jQuery('input[name="'+ relevancyTest +'"]').val(val);
+    }
+
+    if (qs.indexOf(relevancyTest)>0) {
+      var testVariableValue = qs[qs.indexOf(relevancyTest) + relevancyTest.length+1]
+      if (testVariableValue === "1") {
+        setHiddenField(1)
+        jQuery('.tool-brand').text(jQuery('.tool-brand').text() + " - Test 1");
+      }
+      if (testVariableValue === "2") {
+        setHiddenField(1)
+        jQuery('.tool-brand').text(jQuery('.tool-brand').text() + " - Test 2");
+      }
+    };
   }
 })(jQuery);

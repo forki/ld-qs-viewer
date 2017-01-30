@@ -62,15 +62,12 @@ let private buildContent (req:HttpRequest) config showOverview =
 
   let relevancyFlag = relevancyTest qs
 
-  printf "Rel bool flag => %A\n\n\n" (qs |> relevancyFlagExists)
-  printf "Rel flag => %A\n\n\n" relevancyFlag
-
   [Sidebar.render config.RenderedVocabs (relevancyValueFromQueryString qs) 
    SearchResults.render {Qs=qs
                          PerformSearch = relevancyTest qs
                          GetKBCount = config.GetKBCount
                          Vocabs = config.Vocabs
-                         ShowOverview = showOverview
+                         ShowOverview = showOverview 
                          Testing = testing}
    Hotjar.render config.HotjarId
    GoogleAnalytics.render config.GAId]

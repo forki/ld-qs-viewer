@@ -22,6 +22,29 @@ let private decode qs =
   | (key,Some v) -> (Uri.UnescapeDataString key, Some v)
   | _ | (_,None) -> qs
 
+let private matchRelevancyTest qs = 
+  match qs with
+  | ("relevancyTest",Some ("1")) ->  1
+  | ("relevancyTest",Some ("2")) ->  2
+  | ("relevancyTest",Some _) ->  0
+  | (_,_) -> 0
+
+let relevancyValueFromQueryString qs =
+  match qs with
+  | [] -> 0 
+  | _ ->
+    qs 
+    |> List.map matchRelevancyTest 
+    |> List.head
+
+let relevancyFlagExists qs =
+  qs
+  |> List.map(fun x -> match x with
+                        | ("relevancyTest",Some x) -> x.Equals("1")
+                        | _ -> false)
+  |> List.head
+  
+
 let private buildContent (req:HttpRequest) config showOverview =
   let qs = req.query |> List.map decode
   let testing = req.cookies |> Map.containsKey "test"
@@ -31,13 +54,18 @@ let private buildContent (req:HttpRequest) config showOverview =
     | false -> config
  
   let relevancyTest args = 
-    match args |> List.contains(("relevancyTest", Some "1")) with
+    match args |> relevancyFlagExists with
     | false ->
       config.PerformSearch
     | true ->
       config.PerformSearchWithOrder
 
-  [Sidebar.render config.RenderedVocabs 
+  let relevancyFlag = relevancyTest qs
+
+  printf "Rel bool flag => %A\n\n\n" (qs |> relevancyFlagExists)
+  printf "Rel flag => %A\n\n\n" relevancyFlag
+
+  [Sidebar.render config.RenderedVocabs (relevancyValueFromQueryString qs) 
    SearchResults.render {Qs=qs
                          PerformSearch = relevancyTest qs
                          GetKBCount = config.GetKBCount
@@ -54,7 +82,7 @@ let private buildScripts =
      <script src="/qs/components/nojs/client/script.js?version=2"></script>
      <script src="/qs/components/jquery/client/script.js?version=2"></script>
      <script src="/qs/components/nestedcheckboxes/client/script.js?version=2"></script>
-     <script src="/qs/components/main/client/script.js?version=2"></script>
+     <script src="/qs/components/main/client/script.js?version=3"></script>
      <script src="//cdn.nice.org.uk/V3/Scripts/nice/NICE.TopHat.dev.js" data-environment="live" async=""></script>
      <script src="//cdn.nice.org.uk/V2/Scripts/twitter.bootstrap.min.js" type="text/javascript"></script>
      <script src="//cdn.nice.org.uk/V2/Scripts/NICE.bootstrap.min.js" type="text/javascript"></script>

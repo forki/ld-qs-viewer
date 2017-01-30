@@ -12,6 +12,7 @@ let BuildQuery filters =
   
   let shouldQuery = 
     filters
+    |> Seq.filter(fun (x) -> not(x.Vocab.Equals("relevancyTest"))) 
     |> Seq.map (fun {Vocab=v; TermUris=terms} -> 
                     terms
                     |> Seq.map (fun t -> insertItemsInto termQuery (Uri.UnescapeDataString v) t)
@@ -20,6 +21,7 @@ let BuildQuery filters =
     |> concatToStringWithDelimiter ","
 
   let fullQuery = insertItemInto mustQuery shouldQuery
+  printf "\n\nFull query without relevancy ->\n\n%A" fullQuery
 
   fullQuery
 

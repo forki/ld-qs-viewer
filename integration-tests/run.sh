@@ -8,6 +8,6 @@ sleep 60
 #docker exec kbendtoendtests_tests bash /tests/run_docker.sh
 result=$?
 docker logs integrationtests_tests_1
-  # docker-compose stop
-  # docker-compose rm -vf
+docker-compose stop
+docker-compose rm -vf
 exit $result

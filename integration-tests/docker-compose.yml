@@ -21,7 +21,7 @@ services:
     build: tests/
     depends_on:
       - elastic
-    entrypoint: ./wait-for-it.sh elastic:9200 -- ./node_modules/.bin/cucumber.js  --tags=@runonly
+    entrypoint: ./wait-for-it.sh elastic:9200 -- ./node_modules/.bin/cucumber.js  --tags=~@wip
     links:
       - elastic:elastic
       - discoverytool:discoverytool

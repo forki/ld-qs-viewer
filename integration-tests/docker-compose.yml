@@ -11,7 +11,7 @@ services:
     ports:
       - "9200:9200"
   discoverytool:
-    image: nice/ld-suave-viewer:dev
+    image: nice/ld-suave-viewer:test
     ports:
       - "8083:8083"
     links:

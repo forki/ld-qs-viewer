@@ -21,7 +21,6 @@ let BuildQuery filters =
     |> concatToStringWithDelimiter ","
 
   let fullQuery = insertItemInto mustQuery shouldQuery
-  printf "\n\nFull query without relevancy ->\n\n%A" fullQuery
 
   fullQuery
 
@@ -38,7 +37,6 @@ let BuildQueryWithRelevancy filters =
     |> concatToStringWithDelimiter ","
 
   let fullQuery = insertItemInto relevancyQuery shouldQuery
-  printf "\n\nfull query->\n\n%A" fullQuery
   
   fullQuery
 
@@ -47,7 +45,7 @@ let GetKBCount testing =
     match testing with
     | true -> "kb_test"
     | false -> "kb"
-  printf "INDEX NAME-> %s" indexName
+  
   let url = sprintf "http://elastic:9200/%s/_count?" indexName
   try
     Http.RequestString(url)

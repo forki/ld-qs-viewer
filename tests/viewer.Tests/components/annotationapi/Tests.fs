@@ -15,11 +15,11 @@ open Stubs
 open Viewer.Data.Vocabs.VocabGeneration
 open Viewer.AnnotationApi
 
-[<Test>]
-let ``AnnotationApi: Should serialize the config json`` () =
-  let response = Stubs.dummyConfigFile |> OntologyConfig.build
+(* [<Test>]*)
+(* let ``AnnotationApi: Should serialize the config json`` () =*)
+(*   let response = Stubs.dummyConfigFile |> OntologyConfig.build*)
 
-  response |> should equal Stubs.dummyOntologyConfigUri
+(*   response |> should equal  typeof<OntologyConfig>*)
 
 [<Test>]
 let ``AnnotationApi: When I call getVocabList with an Ontology config I am returned the expected termd structure`` () = 

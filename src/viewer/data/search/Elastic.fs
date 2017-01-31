@@ -12,6 +12,7 @@ let BuildQuery filters =
   
   let shouldQuery = 
     filters
+    |> Seq.filter(fun (x) -> not(x.Vocab.Equals("relevancyTest"))) 
     |> Seq.map (fun {Vocab=v; TermUris=terms} -> 
                     terms
                     |> Seq.map (fun t -> insertItemsInto termQuery (Uri.UnescapeDataString v) t)
@@ -23,11 +24,28 @@ let BuildQuery filters =
 
   fullQuery
 
+let BuildQueryWithRelevancy filters =
+  
+  let shouldQuery =
+    filters
+    |> Seq.filter(fun (x) -> not(x.Vocab.Equals("relevancyTest"))) 
+    |> Seq.map (fun {Vocab=v; TermUris=terms} ->
+                    terms
+                    |> Seq.map (fun t -> insertItemsMultipleInto relevancyTermQuery (Uri.UnescapeDataString v) t)
+                    |> concatToStringWithDelimiter ",")
+    |> Seq.map (fun termQueriesStr -> insertItemInto shouldQuery termQueriesStr)
+    |> concatToStringWithDelimiter ","
+
+  let fullQuery = insertItemInto relevancyQuery shouldQuery
+  
+  fullQuery
+
 let GetKBCount testing =
   let indexName =
     match testing with
     | true -> "kb_test"
     | false -> "kb"
+  
   let url = sprintf "http://elastic:9200/%s/_count?" indexName
   try
     Http.RequestString(url)
@@ -88,5 +106,8 @@ let ParseResponse response =
 let KnowledgeBaseCount testing =
   GetKBCount testing |> ParseCountResponse
 
+let searchWithRelevancy : (AggregatedFilter list -> SearchResult list) =
+  BuildQueryWithRelevancy >> RunElasticQuery false >> ParseResponse
+  
 let search : (AggregatedFilter list -> SearchResult list) =
   BuildQuery >> RunElasticQuery false >> ParseResponse

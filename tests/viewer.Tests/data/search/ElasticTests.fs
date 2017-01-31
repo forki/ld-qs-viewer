@@ -5,6 +5,7 @@ open FsUnit
 open Viewer.Data.Search.Elastic
 open Viewer.Types
 open Viewer.Components.SearchResults
+open FSharp.Data
 
 [<Test>]
 let ``Should build query correctly for a single vocab and term term`` () =
@@ -166,14 +167,58 @@ let ``ParseResponse should map results`` () =
   results.Length |> should equal 2
 
 [<Test>]
-  let ``Should prefix key with defined url`` () =
-      let prefix = "http://something"
-      let extractedFilters = [{Vocab = "vocab"; TermUri = "uri"}]
+let ``Should prefix key with defined url`` () =
+    let prefix = "http://something"
+    let extractedFilters = [{Vocab = "vocab"; TermUri = "uri"}]
 
-      let putUrlBackIn = prefixFiltersWithBaseUrl prefix
+    let putUrlBackIn = prefixFiltersWithBaseUrl prefix
 
-      let results = putUrlBackIn extractedFilters
+    let results = putUrlBackIn extractedFilters
 
-      [{Vocab = "vocab"; TermUri = prefix+"uri"}] |> should equal results
+    [{Vocab = "vocab"; TermUri = prefix+"uri"}] |> should equal results
     
+[<Test>]
+let ``Should build query with boosted terms`` () =
+  let filters = [{Vocab="vocab"; TermUris=["term1";]}]
+
+  let query = BuildQueryWithRelevancy filters
+  let expectedQuery = """{
+"from": 0,
+  "size": 1500,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "bool": {
+            "should": [
+              {
+                "match": {
+                  "vocab:explicit": {
+                    "query": "term1",
+                    "boost": 10
+                  }
+                }
+              },
+              {
+                "match": {
+                  "vocab:implicit": {
+                    "query": "term1",
+                    "boost": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "sort" : ["_score"]
+}
+"""
+
+  let expectedJson = JsonValue.Parse expectedQuery
+  let resultedJson = JsonValue.Parse query
+
+  resultedJson |> should equal expectedJson
 

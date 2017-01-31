@@ -38,6 +38,11 @@ let prefixFiltersWithBaseUrl url filters =
 
 let createModel args = 
   match args.Qs with
+    | [("relevancyTest", _)] ->
+      {Results = []
+       Tags = []
+       totalCount = if args.ShowOverview then args.GetKBCount args.Testing else 0
+       ShowHelp = if args.ShowOverview then true else false}
     | [("", _)] ->
       {Results = []
        Tags = []

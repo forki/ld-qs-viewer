@@ -63,6 +63,7 @@
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
     <Compile Include="Utils.fs" />
+    <Compile Include="pages\HomeTests.fs" />
     <Compile Include="data\search\ElasticTests.fs" />
     <Compile Include="data\search\SearchTests.fs" />
     <Compile Include="data\vocabs\LoadVocabularyTests.fs" />

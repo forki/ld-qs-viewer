@@ -46,9 +46,6 @@ let main argv =
                                       logger = SuaveSerilogAdapter Log.Logger
                                       errorHandler = customErrorHandler}
 
-  
-  //printf "Running with server config:\n%A\n" defaultConfig
-
   let appConfig = getAppConfig mode
   startWebServer defaultConfig (createApp appConfig)
 

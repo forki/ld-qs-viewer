@@ -21,6 +21,7 @@ type CQ = | CQ of CsQuery.CQ
        static member last (CQ cq) = cq.Last() |> CQ
        static member length (CQ cq) = cq.Length
        static member cq (CQ cq) = cq
+       static member html (CQ cq) = cq.Render()
 
 let parseHtml (resp: string) = CQ.Create(resp) |> CQ
 
@@ -28,6 +29,7 @@ let baseConfig = {
   Vocabs = []
   RenderedVocabs = ""
   PerformSearch = (fun _ -> [])
+  PerformSearchWithOrder = (fun _ -> [])
   GetKBCount = (fun _ -> 0)
   HotjarId = ""
   GAId = ""

@@ -63,7 +63,12 @@ let getSearchResults _ _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of
                             
 let search _ = [{Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title"; FirstIssued = new System.DateTime()};
                 {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "Quality standard xxx from quality statement xxx"; FirstIssued = new System.DateTime()};]
-
+let searchWithOrder _ = [
+                        {Uri = "Uri1"; Abstract = "Unicorns under the age of 65..."; Title = "This is the title"; FirstIssued = new System.DateTime()};
+                        {Uri = "Uri2"; Abstract = "Goblins with arthritis..."; Title = "Quality standard xxx from quality statement xxx"; FirstIssued = new System.DateTime()};
+                        {Uri = "Uri2"; Abstract = "Demons with diabetes..."; Title = "Quality standard 123 from quality statement 456"; FirstIssued = new System.DateTime()};]
+                
+                
 let getKBCount _ = 0
 
 let private dummyCoreTtl = """@prefix : <https://nice.org.uk/ontologies/core/> .

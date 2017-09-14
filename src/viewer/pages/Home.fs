@@ -15,6 +15,7 @@ open Viewer.Components.GoogleAnalytics
 type HomeModel = {
   Content: string
   Scripts: string
+  CurrentYear: string
 }
 
 let private decode qs = 
@@ -88,7 +89,8 @@ let private buildScripts =
 let page (req:HttpRequest) config showOverview =
 
   {Content = buildContent req config showOverview 
-   Scripts = buildScripts}
+   Scripts = buildScripts
+   CurrentYear = DateTime.Now.Year.ToString()}
   |> DotLiquid.page "templates/home.html"
 
 

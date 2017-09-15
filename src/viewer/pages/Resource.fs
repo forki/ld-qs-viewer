@@ -12,6 +12,7 @@ open Viewer.Components.GoogleAnalytics
 type ResourceModel = {
   Content : string
   Scripts : string
+  CurrentYear: string
 }
 
 let private buildScripts config =
@@ -33,5 +34,5 @@ let page config resourceId =
       Http.RequestString(url)
     with
       | ex -> "Could not find resource."
-  DotLiquid.page "templates/resource.html" { Content = content; Scripts = buildScripts config }
+  DotLiquid.page "templates/resource.html" { Content = content; Scripts = buildScripts config; CurrentYear = DateTime.Now.Year.ToString()}
 

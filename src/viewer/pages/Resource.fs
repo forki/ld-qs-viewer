@@ -1,5 +1,6 @@
 module Viewer.Pages.Resource
 
+open System
 open Suave
 open System.IO
 open FSharp.Data

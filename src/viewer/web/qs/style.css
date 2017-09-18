@@ -2613,3 +2613,7 @@ body {
 		font-size:1.75rem
 	}
 }
+
+.legal-copyright a:hover {
+	text-decoration: underline;
+}
